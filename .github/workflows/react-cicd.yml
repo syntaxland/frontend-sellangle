@@ -9,10 +9,10 @@
         name: Build and Deploy
         runs-on: ubuntu-latest
         env:
-          BUCKET: mcdofshop.com
+          BUCKET: sellangle.com
           DIST: build
           REGION: us-east-1
-          DIST_ID: E3J8NH6TLFTEY8
+          DIST_ID: EA3O27QS71ZSY
     
         steps:
         - name: Checkout
