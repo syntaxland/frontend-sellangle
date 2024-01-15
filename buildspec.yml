@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  pre_build:
+  # install:
+  #   runtime-versions:
+  #     nodejs: 16.x
+    commands:
+      - echo "Installing dependencies..." 
+      - npm cache clean --force
+      - npm install --legacy-peer-deps 
+  build:
+    commands:
+      - echo "Building the React app..."
+      - npm run build
+      # - tar -czvf build.tar.gz build/ 
+  post_build:
+    commands:
+    - echo "Copying build to S3 bucket..."
+    - aws s3 cp --recursive ./build s3://mcdofshop.com/
+    - aws cloudfront create-invalidation --distribution-id EA3O27QS71ZSY --path /\*
