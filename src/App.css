@@ -1,0 +1,178 @@
+/* App.css */
+
+/* Modal --------------------------------------------------------------------------------- */
+.right-modal {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  background-color: #fff;
+  z-index: 9999;
+}
+
+/* Dashboard --------------------------------------------------------------------------------- */
+
+.sidebar-content .sidebar-link {
+  text-transform: none;
+}
+
+/* .sidebar-link {
+  text-decoration: none; 
+  color: #333; 
+  display: block;
+  padding: 10px;
+  transition: background-color 0.3s; 
+
+} */
+
+.sidebar-link {
+  border: none; /* Remove the border */
+  text-align: left; /* Align text to the left within the button */
+  width: 100%; /* Make the button take the full width */
+  padding: 10px; /* Add some padding for better spacing */
+  background-color: transparent; /* Remove the button background color */
+  color: #000; /* Set the text color to your preferred color */
+  text-decoration: none; /* Remove underlines or other decorations */
+  display: block; /* Ensure the button takes the full width as a block element */
+  transition: background-color 0.3s;
+  min-width: 115px;
+  max-width: 150px;
+}
+
+.sidebar-link:hover {
+  background-color: #f0f0f0; /* Add a background color on hover */
+}
+
+.main-content {
+  /* width: 100%; */
+  min-width: 130px;
+}
+
+.main-section {
+  /* width: 100%; */
+  min-width: 350px;
+}
+
+/* Style the active link */
+.active-link {
+  background-color: #007bff; /* Active link background color */
+  color: #fff; /* Active link text color */
+}
+
+.sidebar-content {
+  height: auto;
+  overflow-y: hidden;
+  transition: overflow-y 0.3s;
+}
+
+.sidebar:hover .sidebar-content {
+  overflow-y: auto;
+}
+
+.active-link {
+  background-color: #007bff; /* Active link background color */
+  color: #fff; /* Active link text color */
+}
+
+/* --------------------------------------------------------------------------------- */
+
+.sidebar {
+  /* ... (existing styles) */
+
+  &.open {
+    .sidebar-toggle-button {
+      transform: translateX(-100%);
+    }
+
+    .sidebar-content {
+      overflow-y: auto;
+      width: 100%; /* Show the full sidebar content when open */
+      transition: width 0.3s;
+    }
+  }
+
+  .sidebar-toggle-button {
+    /* ... (existing styles) */
+    transition: transform 0.3s;
+  }
+
+  .sidebar-content {
+    /* ... (existing styles) */
+    transition: width 0.3s, overflow-y 0.3s; /* Add transition for width */
+  }
+}
+
+/* footer --------------------------------------------------------------------------------- */
+
+body,
+html {
+  height: 100%;
+}
+
+/* .container-fliud {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+} */
+
+.Container {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+}
+
+main {
+  flex: 1;
+  min-height: 80vh;
+}
+
+.App {
+  text-align: center;
+  text-transform: none;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------------------- */
+
+.warning-icon {
+  color: yellow;
+}
+
+.testing {
+  color: #520712;
+}
