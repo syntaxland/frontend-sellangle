@@ -17,5 +17,5 @@ phases:
   post_build:
     commands:
     - echo "Copying build to S3 bucket..."
-    - aws s3 cp --recursive ./build s3://mcdofshop.com/
+    - aws s3 cp --recursive ./build s3://sellangle.com/
     - aws cloudfront create-invalidation --distribution-id EA3O27QS71ZSY --path /\*
