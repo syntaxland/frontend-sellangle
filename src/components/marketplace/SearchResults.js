@@ -216,7 +216,7 @@ function SearchResults() {
 
           <Row className="py-2 d-flex justify-content-center">
             <Col md={8}>
-              <Row className="py-2 d-flex justify-content-betwwen">
+              <Row className="py-2 d-flex justify-content-betwwen"> 
                 <Col md={10}>
                   <Form.Group>
                     <Form.Control

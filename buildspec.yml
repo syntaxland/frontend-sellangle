@@ -16,6 +16,6 @@ phases:
       # - tar -czvf build.tar.gz build/ 
   post_build:
     commands:
-    - echo "Copying build to S3 bucket..."
+    - echo "Copying build to S3 Bucket..."
     - aws s3 cp --recursive ./build s3://sellangle.com/
-    - aws cloudfront create-invalidation --distribution-id EA3O27QS71ZSY --path /\*
+    - aws cloudfront create-invalidation --distribution-id EA3O27QS71ZSY --path /\* 
