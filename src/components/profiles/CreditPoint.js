@@ -10,9 +10,9 @@ import {
 import Message from "../Message";
 import Loader from "../Loader";
 import CreditPointEarning from "./CreditPointEarning";
-// import GetBuyCreditPoint from "../CreditPoint/GetBuyCreditPoint"; 
-// import GetSellCreditPoint from "../CreditPoint/GetSellCreditPoint";
-// import GetBuyerCreditPoint from "../CreditPoint/GetBuyerCreditPoint";
+import GetBuyCreditPoint from "../CreditPoint/GetBuyCreditPoint"; 
+import GetSellCreditPoint from "../CreditPoint/GetSellCreditPoint";
+import GetBuyerCreditPoint from "../CreditPoint/GetBuyerCreditPoint";
 
 const CreditPoint = () => {
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ const CreditPoint = () => {
       <Row>
         <div className="justify-content-md-center">
           <Col>
-            {/* <div>
+            <div>
               <GetBuyCreditPoint />
             </div>
 
@@ -88,7 +88,7 @@ const CreditPoint = () => {
 
             <div>
               <GetBuyerCreditPoint />
-            </div> */}
+            </div>
 
             <div>
               <CreditPointEarning />

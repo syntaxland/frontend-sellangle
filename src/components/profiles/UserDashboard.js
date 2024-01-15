@@ -64,13 +64,13 @@ function UserDashboard({ history }) {
     history.push("/dashboard/admin");
   };
 
-  // const handleAddbusiness = () => {
-  //   history.push("/create-marketplace-seller");
-  // };
+  const handleAddbusiness = () => {
+    history.push("/create-marketplace-seller");
+  };
 
-  // const handleMarketplaceDashboard = () => {
-  //   history.push("/dashboard/marketplace/sellers");
-  // };
+  const handleMarketplaceDashboard = () => {
+    history.push("/dashboard/marketplace/sellers");
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -167,7 +167,8 @@ function UserDashboard({ history }) {
                   <i className="fas fa-user"></i> Profile
                 </Button>
               </div>
-              <div>
+
+              {/* <div>
                 <Button
                   variant={activeTab === "orders" ? "info" : "outline-info"}
                   className="sidebar-link"
@@ -215,7 +216,7 @@ function UserDashboard({ history }) {
                 >
                   <i className="fas fa-star"></i> Reviews
                 </Button>
-              </div>
+              </div> */}
 
               <div>
                 <Button
@@ -235,7 +236,7 @@ function UserDashboard({ history }) {
                   className="sidebar-link"
                   onClick={() => handleTabChange("credit-point")}
                 >
-                  <i className="fas fa-sack-dollar"></i> Bonus Point
+                  <i className="fas fa-sack-dollar"></i> Credit Point
                 </Button>
               </div>
 
@@ -360,7 +361,7 @@ function UserDashboard({ history }) {
                 )}
               </div>
 
-              {/* <div className="">
+              <div className="">
                 {!profile?.is_marketplace_seller ? (
                   <div className="mt-3">
                     
@@ -388,7 +389,7 @@ function UserDashboard({ history }) {
                     </div>
                   </>
                 )}
-              </div> */}
+              </div>
 
             </div>
           )}
