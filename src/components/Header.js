@@ -1,8 +1,9 @@
 // Headers.js
 import React, { useState, useEffect } from "react";
-import { Link, 
+import {
+  Link,
   // useHistory
- } from "react-router-dom";
+} from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -119,12 +120,14 @@ function Header() {
               {userInfo ? (
                 <NavDropdown
                   align="end"
-                  title={
-                    userInfo.first_name
-                      ? userInfo.first_name.charAt(0).toUpperCase() +
-                        userInfo.first_name.slice(1)
-                      : ""
-                  }
+                  // title={
+                  //   userInfo.first_name
+                  //     ? userInfo.first_name.charAt(0).toUpperCase() +
+                  //       userInfo.first_name.slice(1)
+                  //     : ""
+                  // }
+
+                  title={userInfo?.username}
                   id="username"
                   className="profile-dropdown"
                 >
