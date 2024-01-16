@@ -383,7 +383,7 @@ function UserDashboard({ history }) {
                         variant="outline-success"
                         onClick={handleMarketplaceDashboard}
                       >
-                        <i className="fa fa-user-alt"></i> Go to Marketplace
+                        <i className="fa fa-user-alt"></i> Go to Seller
                         Dashboard
                       </Button>
                     </div>
