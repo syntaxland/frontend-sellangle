@@ -261,9 +261,9 @@ function Marketplace() {
       <Row>
         <Col>
           <hr />
-          <h1 className="text-center py-3">
-            {/* <i className="fas fa-shopping-cart"></i> Marketplace */} 
-          </h1>
+          {/* <h1 className="text-center py-3">
+            <i className="fas fa-shopping-cart"></i> Marketplace 
+          </h1> */}
           {/* <hr /> */}
 
           <div className="py-2 d-flex justify-content-center text-center">
