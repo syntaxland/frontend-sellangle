@@ -133,7 +133,7 @@ function Header() {
                       className="fas fa-dashboard"
                       style={{ fontSize: "16px" }}
                     ></i>{" "}
-                    Dashboard
+                    Dashboard (User)
                   </Nav.Link>
                   <NavDropdown.Divider />
 
@@ -145,7 +145,7 @@ function Header() {
                             className="fas fa-dashboard"
                             style={{ fontSize: "16px" }}
                           ></i>{" "}
-                          Dashboard (Marketplace)
+                          Dashboard (Seller)
                         </Nav.Link>
                       </>
                     ) : (
