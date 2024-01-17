@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap"; 
 import { postFreeAd } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
@@ -35,13 +35,13 @@ function PostFreeAd() {
   const [adType, setAdType] = useState("");
   const [adTypeError, setAdTypeError] = useState("");
 
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({});
   const [countryError, setCountryError] = useState("");
 
-  const [stateProvince, setStateProvince] = useState("");
+  const [stateProvince, setStateProvince] = useState({});
   const [stateProvinceError, setStateProvinceError] = useState("");
 
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState({});
   const [cityError, setCityError] = useState("");
 
   const [condition, setCondition] = useState("");
@@ -513,14 +513,11 @@ function PostFreeAd() {
   sellerData.append("ad_name", adName);
   sellerData.append("ad_category", adCategory);
   sellerData.append("ad_type", adType);
-  // sellerData.append("country", country.name);
-  // sellerData.append("state_province", stateProvince.name);
   sellerData.append("country", country.isoCode);
   sellerData.append("state_province", stateProvince.isoCode);
   sellerData.append("city", city.name);
   sellerData.append("condition", condition);
   sellerData.append("price", price);
-  // sellerData.append("usd_price", usdPrice);
   sellerData.append("currency", currency);
   sellerData.append("brand", brand);
   sellerData.append("description", description);
@@ -809,20 +806,7 @@ function PostFreeAd() {
                */}
             </Form.Group>
 
-            {/* <Form.Group className="rounded py-2">
-              <p>Currency: {currency}</p> 
-              <CurrencyInput
-                name="currency"
-                placeholder="Select Currency"
-                value={currency}
-                defaultValue={1000}
-                decimalsLimit={2}
-                onValueChange={(value, name) => console.log(value, name)}
-                onChange={(e) => handleFieldChange("currency", e.target.value)}
-                currency="USD"
-              />
-              <Form.Text className="text-danger">{currencyError}</Form.Text>
-            </Form.Group> */}
+         
 
             <Form.Group>
               <Form.Label>Currency*</Form.Label>
@@ -856,16 +840,7 @@ function PostFreeAd() {
               <Form.Text className="text-danger">{priceError}</Form.Text>
             </Form.Group>
 
-            {/* <Form.Group>
-              <Form.Label>USD Price</Form.Label>
-              <Form.Control
-                type="number"
-                value={usdPrice}
-                onChange={(e) => handleFieldChange("usdPrice", e.target.value)}
-                placeholder="Enter USD price equivalent"
-                className="rounded py-2 mb-2"
-              />
-            </Form.Group> */}
+           
 
             <Form.Group>
               <Form.Label>Brand</Form.Label>

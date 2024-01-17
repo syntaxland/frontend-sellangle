@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import {
-  editPaidAd,
+  editPaidAd, 
   getPaidAdDetail,
 } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
@@ -12,6 +12,174 @@ import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+
+
+const MAIN_CURRENCY_CHOICES = [
+  ["NGN", "Nigerian Naira"],
+  ["USD", "United States Dollar"],
+];
+
+const CURRENCY_CHOICES = [
+  ["NGN", "Nigerian Naira"],
+  ["USD", "United States Dollar"],
+  ["CAD", "Canadian Dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "British Pound Sterling"],
+  ["INR", "Indian Rupee"],
+  ["ZAR", "South African Rand"],
+  ["GHS", "Ghanaian Cedi"],
+  ["CNY", "Chinese Yuan"],
+  ["AED", "United Arab Emirates Dirham"],
+  ["AUD", "Australian Dollar"],
+  ["BRL", "Brazilian Real"],
+  ["JPY", "Japanese Yen"],
+  ["KES", "Kenyan Shilling"],
+  ["SAR", "Saudi Riyal"],
+  // Additional currencies
+  ["AFN", "Afghan Afghani"],
+  ["ALL", "Albanian Lek"],
+  ["AMD", "Armenian Dram"],
+  ["ANG", "Netherlands Antillean Guilder"],
+  ["AOA", "Angolan Kwanza"],
+  ["ARS", "Argentine Peso"],
+  ["AWG", "Aruban Florin"],
+  ["AZN", "Azerbaijani Manat"],
+  ["BAM", "Bosnia-Herzegovina Convertible Mark"],
+  ["BBD", "Barbadian Dollar"],
+  ["BDT", "Bangladeshi Taka"],
+  ["BGN", "Bulgarian Lev"],
+  ["BHD", "Bahraini Dinar"],
+  ["BIF", "Burundian Franc"],
+  ["BMD", "Bermudian Dollar"],
+  ["BND", "Brunei Dollar"],
+  ["BOB", "Bolivian Boliviano"],
+  ["BSD", "Bahamian Dollar"],
+  ["BTN", "Bhutanese Ngultrum"],
+  ["BWP", "Botswanan Pula"],
+  ["BYN", "Belarusian Ruble"],
+  ["BZD", "Belize Dollar"],
+  ["CDF", "Congolese Franc"],
+  ["CHF", "Swiss Franc"],
+  ["CLP", "Chilean Peso"],
+  ["CNY", "Chinese Yuan"],
+  ["COP", "Colombian Peso"],
+  ["CRC", "Costa Rican Colón"],
+  ["CUP", "Cuban Peso"],
+  ["CVE", "Cape Verdean Escudo"],
+  ["CZK", "Czech Republic Koruna"],
+  ["DJF", "Djiboutian Franc"],
+  ["DKK", "Danish Krone"],
+  ["DOP", "Dominican Peso"],
+  ["DZD", "Algerian Dinar"],
+  ["EGP", "Egyptian Pound"],
+  ["ERN", "Eritrean Nakfa"],
+  ["ETB", "Ethiopian Birr"],
+  ["FJD", "Fijian Dollar"],
+  ["FKP", "Falkland Islands Pound"],
+  ["FOK", "Faroe Islands Króna"],
+  ["GEL", "Georgian Lari"],
+  ["GGP", "Guernsey Pound"],
+  ["GIP", "Gibraltar Pound"],
+  ["GMD", "Gambian Dalasi"],
+  ["GNF", "Guinean Franc"],
+  ["GTQ", "Guatemalan Quetzal"],
+  ["GYD", "Guyanaese Dollar"],
+  ["HKD", "Hong Kong Dollar"],
+  ["HNL", "Honduran Lempira"],
+  ["HRK", "Croatian Kuna"],
+  ["HTG", "Haitian Gourde"],
+  ["HUF", "Hungarian Forint"],
+  ["IDR", "Indonesian Rupiah"],
+  ["ILS", "Israeli New Shekel"],
+  ["IMP", "Isle of Man Pound"],
+  ["IQD", "Iraqi Dinar"],
+  ["IRR", "Iranian Rial"],
+  ["ISK", "Icelandic Króna"],
+  ["JEP", "Jersey Pound"],
+  ["JMD", "Jamaican Dollar"],
+  ["JOD", "Jordanian Dinar"],
+  ["KGS", "Kyrgystani Som"],
+  ["KHR", "Cambodian Riel"],
+  ["KID", "Kiribati Dollar"],
+  ["KWD", "Kuwaiti Dinar"],
+  ["KYD", "Cayman Islands Dollar"],
+  ["KZT", "Kazakhstani Tenge"],
+  ["LAK", "Laotian Kip"],
+  ["LBP", "Lebanese Pound"],
+  ["LKR", "Sri Lankan Rupee"],
+  ["LRD", "Liberian Dollar"],
+  ["LSL", "Lesotho Loti"],
+  ["LYD", "Libyan Dinar"],
+  ["MAD", "Moroccan Dirham"],
+  ["MDL", "Moldovan Leu"],
+  ["MGA", "Malagasy Ariary"],
+  ["MKD", "Macedonian Denar"],
+  ["MMK", "Myanma Kyat"],
+  ["MNT", "Mongolian Tugrik"],
+  ["MOP", "Macanese Pataca"],
+  ["MRU", "Mauritanian Ouguiya"],
+  ["MUR", "Mauritian Rupee"],
+  ["MVR", "Maldivian Rufiyaa"],
+  ["MWK", "Malawian Kwacha"],
+  ["MXN", "Mexican Peso"],
+  ["MYR", "Malaysian Ringgit"],
+  ["MZN", "Mozambican Metical"],
+  ["NAD", "Namibian Dollar"],
+  ["NIO", "Nicaraguan Córdoba"],
+  ["NOK", "Norwegian Krone"],
+  ["NPR", "Nepalese Rupee"],
+  ["NZD", "New Zealand Dollar"],
+  ["OMR", "Omani Rial"],
+  ["PAB", "Panamanian Balboa"],
+  ["PEN", "Peruvian Nuevo Sol"],
+  ["PGK", "Papua New Guinean Kina"],
+  ["PHP", "Philippine Peso"],
+  ["PKR", "Pakistani Rupee"],
+  ["PLN", "Polish Złoty"],
+  ["PYG", "Paraguayan Guarani"],
+  ["QAR", "Qatari Rial"],
+  ["RON", "Romanian Leu"],
+  ["RSD", "Serbian Dinar"],
+  ["RUB", "Russian Ruble"],
+  ["RWF", "Rwandan Franc"],
+  ["SBD", "Solomon Islands Dollar"],
+  ["SCR", "Seychellois Rupee"],
+  ["SDG", "Sudanese Pound"],
+  ["SEK", "Swedish Krona"],
+  ["SGD", "Singapore Dollar"],
+  ["SHP", "Saint Helena Pound"],
+  ["SLL", "Sierra Leonean Leone"],
+  ["SOS", "Somali Shilling"],
+  ["SRD", "Surinamese Dollar"],
+  ["SSP", "South Sudanese Pound"],
+  ["STN", "São Tomé and Príncipe Dobra"],
+  ["SYP", "Syrian Pound"],
+  ["SZL", "Swazi Lilangeni"],
+  ["TJS", "Tajikistani Somoni"],
+  ["TMT", "Turkmenistani Manat"],
+  ["TND", "Tunisian Dinar"],
+  ["TOP", "Tongan Paʻanga"],
+  ["TRY", "Turkish Lira"],
+  ["TTD", "Trinidad and Tobago Dollar"],
+  ["TVD", "Tuvaluan Dollar"],
+  ["TWD", "New Taiwan Dollar"],
+  ["TZS", "Tanzanian Shilling"],
+  ["UAH", "Ukrainian Hryvnia"],
+  ["UGX", "Ugandan Shilling"],
+  ["UYU", "Uruguayan Peso"],
+  ["UZS", "Uzbekistan Som"],
+  ["VES", "Venezuelan Bolívar"],
+  ["VND", "Vietnamese Đồng"],
+  ["VUV", "Vanuatu Vatu"],
+  ["WST", "Samoan Tala"],
+  ["XAF", "Central African CFA Franc"],
+  ["XCD", "Eastern Caribbean Dollar"],
+  ["XDR", "Special Drawing Rights"],
+  ["XOF", "West African CFA franc"],
+  ["XPF", "CFP Franc"],
+  ["YER", "Yemeni Rial"],
+  ["ZMW", "Zambian Kwacha"],
+];
 
 function EditPaidAd({ history, match }) {
   const dispatch = useDispatch();
@@ -36,172 +204,6 @@ function EditPaidAd({ history, match }) {
     dispatch(getPaidAdDetail(match.params.id));
   }, [dispatch, match]);
 
-  const MAIN_CURRENCY_CHOICES = [
-    ["NGN", "Nigerian Naira"],
-    ["USD", "United States Dollar"],
-  ];
-
-  const CURRENCY_CHOICES = [
-    ["NGN", "Nigerian Naira"],
-    ["USD", "United States Dollar"],
-    ["CAD", "Canadian Dollar"],
-    ["EUR", "Euro"],
-    ["GBP", "British Pound Sterling"],
-    ["INR", "Indian Rupee"],
-    ["ZAR", "South African Rand"],
-    ["GHS", "Ghanaian Cedi"],
-    ["CNY", "Chinese Yuan"],
-    ["AED", "United Arab Emirates Dirham"],
-    ["AUD", "Australian Dollar"],
-    ["BRL", "Brazilian Real"],
-    ["JPY", "Japanese Yen"],
-    ["KES", "Kenyan Shilling"],
-    ["SAR", "Saudi Riyal"],
-    // Additional currencies
-    ["AFN", "Afghan Afghani"],
-    ["ALL", "Albanian Lek"],
-    ["AMD", "Armenian Dram"],
-    ["ANG", "Netherlands Antillean Guilder"],
-    ["AOA", "Angolan Kwanza"],
-    ["ARS", "Argentine Peso"],
-    ["AWG", "Aruban Florin"],
-    ["AZN", "Azerbaijani Manat"],
-    ["BAM", "Bosnia-Herzegovina Convertible Mark"],
-    ["BBD", "Barbadian Dollar"],
-    ["BDT", "Bangladeshi Taka"],
-    ["BGN", "Bulgarian Lev"],
-    ["BHD", "Bahraini Dinar"],
-    ["BIF", "Burundian Franc"],
-    ["BMD", "Bermudian Dollar"],
-    ["BND", "Brunei Dollar"],
-    ["BOB", "Bolivian Boliviano"],
-    ["BSD", "Bahamian Dollar"],
-    ["BTN", "Bhutanese Ngultrum"],
-    ["BWP", "Botswanan Pula"],
-    ["BYN", "Belarusian Ruble"],
-    ["BZD", "Belize Dollar"],
-    ["CDF", "Congolese Franc"],
-    ["CHF", "Swiss Franc"],
-    ["CLP", "Chilean Peso"],
-    ["CNY", "Chinese Yuan"],
-    ["COP", "Colombian Peso"],
-    ["CRC", "Costa Rican Colón"],
-    ["CUP", "Cuban Peso"],
-    ["CVE", "Cape Verdean Escudo"],
-    ["CZK", "Czech Republic Koruna"],
-    ["DJF", "Djiboutian Franc"],
-    ["DKK", "Danish Krone"],
-    ["DOP", "Dominican Peso"],
-    ["DZD", "Algerian Dinar"],
-    ["EGP", "Egyptian Pound"],
-    ["ERN", "Eritrean Nakfa"],
-    ["ETB", "Ethiopian Birr"],
-    ["FJD", "Fijian Dollar"],
-    ["FKP", "Falkland Islands Pound"],
-    ["FOK", "Faroe Islands Króna"],
-    ["GEL", "Georgian Lari"],
-    ["GGP", "Guernsey Pound"],
-    ["GIP", "Gibraltar Pound"],
-    ["GMD", "Gambian Dalasi"],
-    ["GNF", "Guinean Franc"],
-    ["GTQ", "Guatemalan Quetzal"],
-    ["GYD", "Guyanaese Dollar"],
-    ["HKD", "Hong Kong Dollar"],
-    ["HNL", "Honduran Lempira"],
-    ["HRK", "Croatian Kuna"],
-    ["HTG", "Haitian Gourde"],
-    ["HUF", "Hungarian Forint"],
-    ["IDR", "Indonesian Rupiah"],
-    ["ILS", "Israeli New Shekel"],
-    ["IMP", "Isle of Man Pound"],
-    ["IQD", "Iraqi Dinar"],
-    ["IRR", "Iranian Rial"],
-    ["ISK", "Icelandic Króna"],
-    ["JEP", "Jersey Pound"],
-    ["JMD", "Jamaican Dollar"],
-    ["JOD", "Jordanian Dinar"],
-    ["KGS", "Kyrgystani Som"],
-    ["KHR", "Cambodian Riel"],
-    ["KID", "Kiribati Dollar"],
-    ["KWD", "Kuwaiti Dinar"],
-    ["KYD", "Cayman Islands Dollar"],
-    ["KZT", "Kazakhstani Tenge"],
-    ["LAK", "Laotian Kip"],
-    ["LBP", "Lebanese Pound"],
-    ["LKR", "Sri Lankan Rupee"],
-    ["LRD", "Liberian Dollar"],
-    ["LSL", "Lesotho Loti"],
-    ["LYD", "Libyan Dinar"],
-    ["MAD", "Moroccan Dirham"],
-    ["MDL", "Moldovan Leu"],
-    ["MGA", "Malagasy Ariary"],
-    ["MKD", "Macedonian Denar"],
-    ["MMK", "Myanma Kyat"],
-    ["MNT", "Mongolian Tugrik"],
-    ["MOP", "Macanese Pataca"],
-    ["MRU", "Mauritanian Ouguiya"],
-    ["MUR", "Mauritian Rupee"],
-    ["MVR", "Maldivian Rufiyaa"],
-    ["MWK", "Malawian Kwacha"],
-    ["MXN", "Mexican Peso"],
-    ["MYR", "Malaysian Ringgit"],
-    ["MZN", "Mozambican Metical"],
-    ["NAD", "Namibian Dollar"],
-    ["NIO", "Nicaraguan Córdoba"],
-    ["NOK", "Norwegian Krone"],
-    ["NPR", "Nepalese Rupee"],
-    ["NZD", "New Zealand Dollar"],
-    ["OMR", "Omani Rial"],
-    ["PAB", "Panamanian Balboa"],
-    ["PEN", "Peruvian Nuevo Sol"],
-    ["PGK", "Papua New Guinean Kina"],
-    ["PHP", "Philippine Peso"],
-    ["PKR", "Pakistani Rupee"],
-    ["PLN", "Polish Złoty"],
-    ["PYG", "Paraguayan Guarani"],
-    ["QAR", "Qatari Rial"],
-    ["RON", "Romanian Leu"],
-    ["RSD", "Serbian Dinar"],
-    ["RUB", "Russian Ruble"],
-    ["RWF", "Rwandan Franc"],
-    ["SBD", "Solomon Islands Dollar"],
-    ["SCR", "Seychellois Rupee"],
-    ["SDG", "Sudanese Pound"],
-    ["SEK", "Swedish Krona"],
-    ["SGD", "Singapore Dollar"],
-    ["SHP", "Saint Helena Pound"],
-    ["SLL", "Sierra Leonean Leone"],
-    ["SOS", "Somali Shilling"],
-    ["SRD", "Surinamese Dollar"],
-    ["SSP", "South Sudanese Pound"],
-    ["STN", "São Tomé and Príncipe Dobra"],
-    ["SYP", "Syrian Pound"],
-    ["SZL", "Swazi Lilangeni"],
-    ["TJS", "Tajikistani Somoni"],
-    ["TMT", "Turkmenistani Manat"],
-    ["TND", "Tunisian Dinar"],
-    ["TOP", "Tongan Paʻanga"],
-    ["TRY", "Turkish Lira"],
-    ["TTD", "Trinidad and Tobago Dollar"],
-    ["TVD", "Tuvaluan Dollar"],
-    ["TWD", "New Taiwan Dollar"],
-    ["TZS", "Tanzanian Shilling"],
-    ["UAH", "Ukrainian Hryvnia"],
-    ["UGX", "Ugandan Shilling"],
-    ["UYU", "Uruguayan Peso"],
-    ["UZS", "Uzbekistan Som"],
-    ["VES", "Venezuelan Bolívar"],
-    ["VND", "Vietnamese Đồng"],
-    ["VUV", "Vanuatu Vatu"],
-    ["WST", "Samoan Tala"],
-    ["XAF", "Central African CFA Franc"],
-    ["XCD", "Eastern Caribbean Dollar"],
-    ["XDR", "Special Drawing Rights"],
-    ["XOF", "West African CFA franc"],
-    ["XPF", "CFP Franc"],
-    ["YER", "Yemeni Rial"],
-    ["ZMW", "Zambian Kwacha"],
-  ];
 
   const editPaidAdState = useSelector((state) => state.editPaidAdState);
   const { success, error, loading } = editPaidAdState;
@@ -210,7 +212,7 @@ function EditPaidAd({ history, match }) {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
-  const [editAdChanges, setEditAdChanges] = useState(false);
+  // const [editAdChanges, setEditAdChanges] = useState(false);
   const [editAdData, setEditAdData] = useState({
     ad_name: "",
     ad_category: "",
@@ -266,7 +268,7 @@ function EditPaidAd({ history, match }) {
         is_price_negotiable: ads?.is_price_negotiable,
         is_auto_renewal: ads?.is_auto_renewal,
       });
-      setEditAdChanges(false);
+      // setEditAdChanges(false);
     }
   }, [ads]);
 
@@ -352,7 +354,7 @@ function EditPaidAd({ history, match }) {
       setEditAdData({ ...editAdData, [name]: value });
     }
 
-    setEditAdChanges(true);
+    // setEditAdChanges(true);
   };
 
   // console.log(
@@ -367,11 +369,9 @@ function EditPaidAd({ history, match }) {
     editAdFormData.append("ad_name", editAdData.ad_name);
     editAdFormData.append("ad_category", editAdData.ad_category);
     editAdFormData.append("ad_type", editAdData.ad_type);
-    // editAdFormData.append("country", editAdData.country.name);
-    // editAdFormData.append("state_province", editAdData.state_province.name);
-    editAdFormData.append("country", editAdData.country);
-    editAdFormData.append("state_province", editAdData.state_province);
-    editAdFormData.append("city", editAdData.city.name);
+    editAdFormData.append("country", editAdData?.country?.isoCode);
+    editAdFormData.append("state_province", editAdData?.state_province?.isoCode);
+    editAdFormData.append("city", editAdData?.city?.name);
     editAdFormData.append("condition", editAdData.condition);
     editAdFormData.append("currency", editAdData.currency);
     editAdFormData.append("price", editAdData.price);
@@ -546,7 +546,8 @@ function EditPaidAd({ history, match }) {
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        history.push("/dashboard/marketplace/sellers");
+        history.push("/current-ads");
+        // history.push("/dashboard/marketplace/sellers");
         window.location.reload();
       }, 5000);
       return () => clearTimeout(timer);
@@ -990,7 +991,8 @@ function EditPaidAd({ history, match }) {
               variant="success"
               onClick={handleEditAd}
               className="rounded py-2 mb-2 text-center w-100"
-              disabled={!editAdChanges || loading || success}
+              // disabled={!editAdChanges || loading || success}
+              disabled
             >
               <div className="d-flex justify-content-center">
                 <span className="py-1">Update Ad</span>

@@ -1,12 +1,12 @@
 // CurrentAds.js
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import FreeAdScreen from "./FreeAdScreen";
 import PaidAdScreen from "./PaidAdScreen";
  
 function CurrentAds({ history }) {
   return (
-    <div>
+    <Container>
       <Row>
         <Col>
           <div>
@@ -18,7 +18,7 @@ function CurrentAds({ history }) {
           </div>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 }
 

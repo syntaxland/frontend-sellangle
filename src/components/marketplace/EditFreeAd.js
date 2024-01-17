@@ -13,6 +13,300 @@ import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 
+const CURRENCY_CHOICES = [
+  ["NGN", "Nigerian Naira"],
+  ["USD", "United States Dollar"],
+  ["CAD", "Canadian Dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "British Pound Sterling"],
+  ["INR", "Indian Rupee"],
+  ["ZAR", "South African Rand"],
+  ["GHS", "Ghanaian Cedi"],
+  ["CNY", "Chinese Yuan"],
+  ["AED", "United Arab Emirates Dirham"],
+  ["AUD", "Australian Dollar"],
+  ["BRL", "Brazilian Real"],
+  ["JPY", "Japanese Yen"],
+  ["KES", "Kenyan Shilling"],
+  ["SAR", "Saudi Riyal"],
+  // Additional currencies
+  ["AFN", "Afghan Afghani"],
+  ["ALL", "Albanian Lek"],
+  ["AMD", "Armenian Dram"],
+  ["ANG", "Netherlands Antillean Guilder"],
+  ["AOA", "Angolan Kwanza"],
+  ["ARS", "Argentine Peso"],
+  ["AWG", "Aruban Florin"],
+  ["AZN", "Azerbaijani Manat"],
+  ["BAM", "Bosnia-Herzegovina Convertible Mark"],
+  ["BBD", "Barbadian Dollar"],
+  ["BDT", "Bangladeshi Taka"],
+  ["BGN", "Bulgarian Lev"],
+  ["BHD", "Bahraini Dinar"],
+  ["BIF", "Burundian Franc"],
+  ["BMD", "Bermudian Dollar"],
+  ["BND", "Brunei Dollar"],
+  ["BOB", "Bolivian Boliviano"],
+  ["BSD", "Bahamian Dollar"],
+  ["BTN", "Bhutanese Ngultrum"],
+  ["BWP", "Botswanan Pula"],
+  ["BYN", "Belarusian Ruble"],
+  ["BZD", "Belize Dollar"],
+  ["CDF", "Congolese Franc"],
+  ["CHF", "Swiss Franc"],
+  ["CLP", "Chilean Peso"],
+  ["CNY", "Chinese Yuan"],
+  ["COP", "Colombian Peso"],
+  ["CRC", "Costa Rican Colón"],
+  ["CUP", "Cuban Peso"],
+  ["CVE", "Cape Verdean Escudo"],
+  ["CZK", "Czech Republic Koruna"],
+  ["DJF", "Djiboutian Franc"],
+  ["DKK", "Danish Krone"],
+  ["DOP", "Dominican Peso"],
+  ["DZD", "Algerian Dinar"],
+  ["EGP", "Egyptian Pound"],
+  ["ERN", "Eritrean Nakfa"],
+  ["ETB", "Ethiopian Birr"],
+  ["FJD", "Fijian Dollar"],
+  ["FKP", "Falkland Islands Pound"],
+  ["FOK", "Faroe Islands Króna"],
+  ["GEL", "Georgian Lari"],
+  ["GGP", "Guernsey Pound"],
+  ["GIP", "Gibraltar Pound"],
+  ["GMD", "Gambian Dalasi"],
+  ["GNF", "Guinean Franc"],
+  ["GTQ", "Guatemalan Quetzal"],
+  ["GYD", "Guyanaese Dollar"],
+  ["HKD", "Hong Kong Dollar"],
+  ["HNL", "Honduran Lempira"],
+  ["HRK", "Croatian Kuna"],
+  ["HTG", "Haitian Gourde"],
+  ["HUF", "Hungarian Forint"],
+  ["IDR", "Indonesian Rupiah"],
+  ["ILS", "Israeli New Shekel"],
+  ["IMP", "Isle of Man Pound"],
+  ["IQD", "Iraqi Dinar"],
+  ["IRR", "Iranian Rial"],
+  ["ISK", "Icelandic Króna"],
+  ["JEP", "Jersey Pound"],
+  ["JMD", "Jamaican Dollar"],
+  ["JOD", "Jordanian Dinar"],
+  ["KGS", "Kyrgystani Som"],
+  ["KHR", "Cambodian Riel"],
+  ["KID", "Kiribati Dollar"],
+  ["KWD", "Kuwaiti Dinar"],
+  ["KYD", "Cayman Islands Dollar"],
+  ["KZT", "Kazakhstani Tenge"],
+  ["LAK", "Laotian Kip"],
+  ["LBP", "Lebanese Pound"],
+  ["LKR", "Sri Lankan Rupee"],
+  ["LRD", "Liberian Dollar"],
+  ["LSL", "Lesotho Loti"],
+  ["LYD", "Libyan Dinar"],
+  ["MAD", "Moroccan Dirham"],
+  ["MDL", "Moldovan Leu"],
+  ["MGA", "Malagasy Ariary"],
+  ["MKD", "Macedonian Denar"],
+  ["MMK", "Myanma Kyat"],
+  ["MNT", "Mongolian Tugrik"],
+  ["MOP", "Macanese Pataca"],
+  ["MRU", "Mauritanian Ouguiya"],
+  ["MUR", "Mauritian Rupee"],
+  ["MVR", "Maldivian Rufiyaa"],
+  ["MWK", "Malawian Kwacha"],
+  ["MXN", "Mexican Peso"],
+  ["MYR", "Malaysian Ringgit"],
+  ["MZN", "Mozambican Metical"],
+  ["NAD", "Namibian Dollar"],
+  ["NIO", "Nicaraguan Córdoba"],
+  ["NOK", "Norwegian Krone"],
+  ["NPR", "Nepalese Rupee"],
+  ["NZD", "New Zealand Dollar"],
+  ["OMR", "Omani Rial"],
+  ["PAB", "Panamanian Balboa"],
+  ["PEN", "Peruvian Nuevo Sol"],
+  ["PGK", "Papua New Guinean Kina"],
+  ["PHP", "Philippine Peso"],
+  ["PKR", "Pakistani Rupee"],
+  ["PLN", "Polish Złoty"],
+  ["PYG", "Paraguayan Guarani"],
+  ["QAR", "Qatari Rial"],
+  ["RON", "Romanian Leu"],
+  ["RSD", "Serbian Dinar"],
+  ["RUB", "Russian Ruble"],
+  ["RWF", "Rwandan Franc"],
+  ["SBD", "Solomon Islands Dollar"],
+  ["SCR", "Seychellois Rupee"],
+  ["SDG", "Sudanese Pound"],
+  ["SEK", "Swedish Krona"],
+  ["SGD", "Singapore Dollar"],
+  ["SHP", "Saint Helena Pound"],
+  ["SLL", "Sierra Leonean Leone"],
+  ["SOS", "Somali Shilling"],
+  ["SRD", "Surinamese Dollar"],
+  ["SSP", "South Sudanese Pound"],
+  ["STN", "São Tomé and Príncipe Dobra"],
+  ["SYP", "Syrian Pound"],
+  ["SZL", "Swazi Lilangeni"],
+  ["TJS", "Tajikistani Somoni"],
+  ["TMT", "Turkmenistani Manat"],
+  ["TND", "Tunisian Dinar"],
+  ["TOP", "Tongan Paʻanga"],
+  ["TRY", "Turkish Lira"],
+  ["TTD", "Trinidad and Tobago Dollar"],
+  ["TVD", "Tuvaluan Dollar"],
+  ["TWD", "New Taiwan Dollar"],
+  ["TZS", "Tanzanian Shilling"],
+  ["UAH", "Ukrainian Hryvnia"],
+  ["UGX", "Ugandan Shilling"],
+  ["UYU", "Uruguayan Peso"],
+  ["UZS", "Uzbekistan Som"],
+  ["VES", "Venezuelan Bolívar"],
+  ["VND", "Vietnamese Đồng"],
+  ["VUV", "Vanuatu Vatu"],
+  ["WST", "Samoan Tala"],
+  ["XAF", "Central African CFA Franc"],
+  ["XCD", "Eastern Caribbean Dollar"],
+  ["XDR", "Special Drawing Rights"],
+  ["XOF", "West African CFA franc"],
+  ["XPF", "CFP Franc"],
+  ["YER", "Yemeni Rial"],
+  ["ZMW", "Zambian Kwacha"],
+];
+
+const DURATION_CHOICES = [
+  ["1 day", "1 day (24 cps)"],
+  ["2 days", "2 days (48 cps)"],
+  ["3 days", "3 days (72 cps)"],
+  ["5 days", "5 days (120 cps)"],
+  ["1 week", "1 week (180 cps)"],
+  ["2 weeks", "2 weeks (360 cps)"],
+  ["1 month", "1 month (720 cps)"],
+];
+
+const AD_CONDITION_CHOICES = [
+  ["Brand New", "Brand New"],
+  ["Fairly Used", "Fairly Used"],
+];
+
+const AD_CATEGORY_CHOICES = [
+  ["Home Appliances", "Home Appliances"],
+  ["Properties", "Properties"],
+  ["Electronics", "Electronics"],
+  ["Fashion", "Fashion"],
+  ["Vehicles", "Vehicles"],
+  ["Services", "Services"],
+  ["Mobile Phones", "Mobile Phones"],
+  ["Health & Beauty", "Health & Beauty"],
+  ["Sports", "Sports"],
+  ["Jobs", "Jobs"],
+  ["Babies and Kids", "Babies and Kids"],
+  ["Agric & Food", "Agric & Food"],
+  ["Repairs", "Repairs"],
+  ["Equipment & Tools", "Equipment & Tools"],
+  ["CVs", "CVs"],
+  ["Pets", "Pets"],
+  ["Others", "Others"],
+];
+
+const AD_TYPE_CHOICES = {
+  "Home Appliances": [
+    ["Washing Machine", "Washing Machine"],
+    ["Refrigerator", "Refrigerator"],
+    ["Microwave", "Microwave"],
+    ["Coffee Machine", "Coffee Machine"],
+    ["Air Conditioner", "Air Conditioner"],
+  ],
+  Properties: [
+    ["House", "House"],
+    ["Apartment", "Apartment"],
+    ["Land", "Land"],
+    ["Commercial Property", "Commercial Property"],
+  ],
+  Electronics: [
+    ["Laptop", "Laptop"],
+    ["Smartphone", "Smartphone"],
+    ["Camera", "Camera"],
+    ["Headphones", "Headphones"],
+    ["Television", "Television"],
+  ],
+  Fashion: [
+    ["Clothing", "Clothing"],
+    ["Shoes", "Shoes"],
+    ["Accessories", "Accessories"],
+  ],
+  Vehicles: [
+    ["Car", "Car"],
+    ["Motorcycle", "Motorcycle"],
+    ["Bicycle", "Bicycle"],
+  ],
+  Services: [
+    ["Cleaning", "Cleaning"],
+    ["Plumbing", "Plumbing"],
+    ["Electrician", "Electrician"],
+    ["Catering", "Catering"],
+    ["Tutoring", "Tutoring"],
+  ],
+  "Mobile Phones": [
+    ["iPhone", "iPhone"],
+    ["Samsung", "Samsung"],
+    ["Google Pixel", "Google Pixel"],
+    ["OnePlus", "OnePlus"],
+  ],
+  "Health & Beauty": [
+    ["Skincare", "Skincare"],
+    ["Haircare", "Haircare"],
+    ["Makeup", "Makeup"],
+    ["Fitness Equipment", "Fitness Equipment"],
+  ],
+  Sports: [
+    ["Soccer", "Soccer"],
+    ["Basketball", "Basketball"],
+    ["Tennis", "Tennis"],
+    ["Golf", "Golf"],
+  ],
+  Jobs: [
+    ["IT", "IT"],
+    ["Sales", "Sales"],
+    ["Marketing", "Marketing"],
+    ["Administrative", "Administrative"],
+  ],
+  "Babies and Kids": [
+    ["Toys", "Toys"],
+    ["Clothing Kids", "Clothing"],
+    ["Strollers", "Strollers"],
+  ],
+  "Agric & Food": [
+    ["Farm Products", "Farm Products"],
+    ["Processed Food", "Processed Food"],
+    ["Beverages", "Beverages"],
+  ],
+  Repairs: [
+    ["Electronic Repair", "Electronic Repair"],
+    ["Appliance Repair", "Appliance Repair"],
+    ["Car Repair", "Car Repair"],
+  ],
+  "Equipment & Tools": [
+    ["Power Tools", "Power Tools"],
+    ["Hand Tools", "Hand Tools"],
+    ["Kitchen Tools", "Kitchen Tools"],
+  ],
+  CVs: [
+    ["Engineering", "Engineering"],
+    ["Marketing CVs", "Marketing"],
+    ["Design", "Design"],
+    ["Education", "Education"],
+  ],
+  Pets: [
+    ["Dog", "Dog"],
+    ["Cat", "Cat"],
+    ["Fish", "Fish"],
+    ["Bird", "Bird"],
+  ],
+  Others: [["Others", "Others"]],
+};
+
 function EditFreeAd({ history, match }) {
   const dispatch = useDispatch();
 
@@ -21,7 +315,7 @@ function EditFreeAd({ history, match }) {
     (state) => state.getFreeAdDetailState
   );
   const { ads } = getFreeAdDetailState;
-  console.log("Paid Ads:", ads);
+  console.log("Free Ads:", ads);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -36,168 +330,6 @@ function EditFreeAd({ history, match }) {
     dispatch(getFreeAdDetail(match.params.id));
   }, [dispatch, match]);
 
-  const CURRENCY_CHOICES = [
-    ["NGN", "Nigerian Naira"],
-    ["USD", "United States Dollar"],
-    ["CAD", "Canadian Dollar"],
-    ["EUR", "Euro"],
-    ["GBP", "British Pound Sterling"],
-    ["INR", "Indian Rupee"],
-    ["ZAR", "South African Rand"],
-    ["GHS", "Ghanaian Cedi"],
-    ["CNY", "Chinese Yuan"],
-    ["AED", "United Arab Emirates Dirham"],
-    ["AUD", "Australian Dollar"],
-    ["BRL", "Brazilian Real"],
-    ["JPY", "Japanese Yen"],
-    ["KES", "Kenyan Shilling"],
-    ["SAR", "Saudi Riyal"],
-    // Additional currencies
-    ["AFN", "Afghan Afghani"],
-    ["ALL", "Albanian Lek"],
-    ["AMD", "Armenian Dram"],
-    ["ANG", "Netherlands Antillean Guilder"],
-    ["AOA", "Angolan Kwanza"],
-    ["ARS", "Argentine Peso"],
-    ["AWG", "Aruban Florin"],
-    ["AZN", "Azerbaijani Manat"],
-    ["BAM", "Bosnia-Herzegovina Convertible Mark"],
-    ["BBD", "Barbadian Dollar"],
-    ["BDT", "Bangladeshi Taka"],
-    ["BGN", "Bulgarian Lev"],
-    ["BHD", "Bahraini Dinar"],
-    ["BIF", "Burundian Franc"],
-    ["BMD", "Bermudian Dollar"],
-    ["BND", "Brunei Dollar"],
-    ["BOB", "Bolivian Boliviano"],
-    ["BSD", "Bahamian Dollar"],
-    ["BTN", "Bhutanese Ngultrum"],
-    ["BWP", "Botswanan Pula"],
-    ["BYN", "Belarusian Ruble"],
-    ["BZD", "Belize Dollar"],
-    ["CDF", "Congolese Franc"],
-    ["CHF", "Swiss Franc"],
-    ["CLP", "Chilean Peso"],
-    ["CNY", "Chinese Yuan"],
-    ["COP", "Colombian Peso"],
-    ["CRC", "Costa Rican Colón"],
-    ["CUP", "Cuban Peso"],
-    ["CVE", "Cape Verdean Escudo"],
-    ["CZK", "Czech Republic Koruna"],
-    ["DJF", "Djiboutian Franc"],
-    ["DKK", "Danish Krone"],
-    ["DOP", "Dominican Peso"],
-    ["DZD", "Algerian Dinar"],
-    ["EGP", "Egyptian Pound"],
-    ["ERN", "Eritrean Nakfa"],
-    ["ETB", "Ethiopian Birr"],
-    ["FJD", "Fijian Dollar"],
-    ["FKP", "Falkland Islands Pound"],
-    ["FOK", "Faroe Islands Króna"],
-    ["GEL", "Georgian Lari"],
-    ["GGP", "Guernsey Pound"],
-    ["GIP", "Gibraltar Pound"],
-    ["GMD", "Gambian Dalasi"],
-    ["GNF", "Guinean Franc"],
-    ["GTQ", "Guatemalan Quetzal"],
-    ["GYD", "Guyanaese Dollar"],
-    ["HKD", "Hong Kong Dollar"],
-    ["HNL", "Honduran Lempira"],
-    ["HRK", "Croatian Kuna"],
-    ["HTG", "Haitian Gourde"],
-    ["HUF", "Hungarian Forint"],
-    ["IDR", "Indonesian Rupiah"],
-    ["ILS", "Israeli New Shekel"],
-    ["IMP", "Isle of Man Pound"],
-    ["IQD", "Iraqi Dinar"],
-    ["IRR", "Iranian Rial"],
-    ["ISK", "Icelandic Króna"],
-    ["JEP", "Jersey Pound"],
-    ["JMD", "Jamaican Dollar"],
-    ["JOD", "Jordanian Dinar"],
-    ["KGS", "Kyrgystani Som"],
-    ["KHR", "Cambodian Riel"],
-    ["KID", "Kiribati Dollar"],
-    ["KWD", "Kuwaiti Dinar"],
-    ["KYD", "Cayman Islands Dollar"],
-    ["KZT", "Kazakhstani Tenge"],
-    ["LAK", "Laotian Kip"],
-    ["LBP", "Lebanese Pound"],
-    ["LKR", "Sri Lankan Rupee"],
-    ["LRD", "Liberian Dollar"],
-    ["LSL", "Lesotho Loti"],
-    ["LYD", "Libyan Dinar"],
-    ["MAD", "Moroccan Dirham"],
-    ["MDL", "Moldovan Leu"],
-    ["MGA", "Malagasy Ariary"],
-    ["MKD", "Macedonian Denar"],
-    ["MMK", "Myanma Kyat"],
-    ["MNT", "Mongolian Tugrik"],
-    ["MOP", "Macanese Pataca"],
-    ["MRU", "Mauritanian Ouguiya"],
-    ["MUR", "Mauritian Rupee"],
-    ["MVR", "Maldivian Rufiyaa"],
-    ["MWK", "Malawian Kwacha"],
-    ["MXN", "Mexican Peso"],
-    ["MYR", "Malaysian Ringgit"],
-    ["MZN", "Mozambican Metical"],
-    ["NAD", "Namibian Dollar"],
-    ["NIO", "Nicaraguan Córdoba"],
-    ["NOK", "Norwegian Krone"],
-    ["NPR", "Nepalese Rupee"],
-    ["NZD", "New Zealand Dollar"],
-    ["OMR", "Omani Rial"],
-    ["PAB", "Panamanian Balboa"],
-    ["PEN", "Peruvian Nuevo Sol"],
-    ["PGK", "Papua New Guinean Kina"],
-    ["PHP", "Philippine Peso"],
-    ["PKR", "Pakistani Rupee"],
-    ["PLN", "Polish Złoty"],
-    ["PYG", "Paraguayan Guarani"],
-    ["QAR", "Qatari Rial"],
-    ["RON", "Romanian Leu"],
-    ["RSD", "Serbian Dinar"],
-    ["RUB", "Russian Ruble"],
-    ["RWF", "Rwandan Franc"],
-    ["SBD", "Solomon Islands Dollar"],
-    ["SCR", "Seychellois Rupee"],
-    ["SDG", "Sudanese Pound"],
-    ["SEK", "Swedish Krona"],
-    ["SGD", "Singapore Dollar"],
-    ["SHP", "Saint Helena Pound"],
-    ["SLL", "Sierra Leonean Leone"],
-    ["SOS", "Somali Shilling"],
-    ["SRD", "Surinamese Dollar"],
-    ["SSP", "South Sudanese Pound"],
-    ["STN", "São Tomé and Príncipe Dobra"],
-    ["SYP", "Syrian Pound"],
-    ["SZL", "Swazi Lilangeni"],
-    ["TJS", "Tajikistani Somoni"],
-    ["TMT", "Turkmenistani Manat"],
-    ["TND", "Tunisian Dinar"],
-    ["TOP", "Tongan Paʻanga"],
-    ["TRY", "Turkish Lira"],
-    ["TTD", "Trinidad and Tobago Dollar"],
-    ["TVD", "Tuvaluan Dollar"],
-    ["TWD", "New Taiwan Dollar"],
-    ["TZS", "Tanzanian Shilling"],
-    ["UAH", "Ukrainian Hryvnia"],
-    ["UGX", "Ugandan Shilling"],
-    ["UYU", "Uruguayan Peso"],
-    ["UZS", "Uzbekistan Som"],
-    ["VES", "Venezuelan Bolívar"],
-    ["VND", "Vietnamese Đồng"],
-    ["VUV", "Vanuatu Vatu"],
-    ["WST", "Samoan Tala"],
-    ["XAF", "Central African CFA Franc"],
-    ["XCD", "Eastern Caribbean Dollar"],
-    ["XDR", "Special Drawing Rights"],
-    ["XOF", "West African CFA franc"],
-    ["XPF", "CFP Franc"],
-    ["YER", "Yemeni Rial"],
-    ["ZMW", "Zambian Kwacha"],
-  ];
-
   const editFreeAdState = useSelector((state) => state.editFreeAdState);
   const { success, error, loading } = editFreeAdState;
 
@@ -205,19 +337,30 @@ function EditFreeAd({ history, match }) {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const [editAdChanges, setEditAdChanges] = useState(false);
   const [editAdData, setEditAdData] = useState({
     ad_name: "",
     ad_category: "",
     ad_type: "",
     location: "",
-    country: "",
-    state_province: "",
-    city: "",
+
+    // country: {},
+    // state_province: {},
+    // city: {},
+
+    // country: { isoCode: "", name: "" },
+    // state_province: { isoCode: "", name: "" },
+    // city: { name: "" },
+
+    country: ads?.country || {},
+    state_province: ads?.state_province || {},
+    city: ads?.city || {},
+
     condition: "",
     currency: "",
     price: "",
-    // usd_price: "",
     brand: "",
     description: "",
     youtube_link: "",
@@ -239,13 +382,30 @@ function EditFreeAd({ history, match }) {
         ad_category: ads?.ad_category,
         ad_type: ads?.ad_type,
         location: ads?.location,
+
         country: ads?.country,
         state_province: ads?.state_province,
         city: ads?.city,
+
+        // country: ads?.country?.isoCode || {},
+        // state_province: ads?.state_province?.isoCode || {},
+        // city: ads?.city || {},
+
+        // country: {
+        //   isoCode: ads?.country?.isoCode || "",
+        //   name: ads?.country?.name || "",
+        // },
+        // state_province: {
+        //   isoCode: ads?.state_province?.isoCode || "",
+        //   name: ads?.state_province?.name || "",
+        // },
+        // city: {
+        //   name: ads?.city?.name || "",
+        // },
+
         condition: ads?.condition,
         currency: ads?.currency,
         price: ads?.price,
-        // usd_price: ads?.usd_price,
         brand: ads?.brand,
         description: ads?.description,
         youtube_link: ads?.youtube_link,
@@ -263,27 +423,38 @@ function EditFreeAd({ history, match }) {
     }
   }, [ads]);
 
+  console.log("ad location:", ads?.city, ads?.state_province, ads?.country);
+  console.log(
+    "ad location edit:",
+    editAdData?.city,
+    editAdData?.state_province,
+    editAdData?.country
+  );
+
   useEffect(() => {
-    setCountries(Country?.getAllCountries());
+    setCountries(Country.getAllCountries());
   }, []);
 
   useEffect(() => {
-    if (editAdData?.country) {
-      setStates(State?.getStatesOfCountry(editAdData?.country));
+    if (editAdData.country) {
+      setStates(State.getStatesOfCountry(editAdData.country?.isoCode));
     } else {
       setStates([]);
     }
-  }, [editAdData?.country]);
+  }, [editAdData.country]);
 
   useEffect(() => {
-    if (editAdData?.state_province) {
+    if (editAdData.state_province) {
       setCities(
-        City?.getCitiesOfState(editAdData?.country, editAdData?.state_province)
+        City.getCitiesOfState(
+          editAdData.country?.isoCode,
+          editAdData.state_province?.isoCode
+        )
       );
     } else {
       setCities([]);
     }
-  }, [editAdData?.country, editAdData?.state_province]);
+  }, [editAdData.state_province, editAdData.country?.isoCode]);
 
   const handleEditAdChanges = (e) => {
     const { name, value, files, checked } = e.target;
@@ -292,51 +463,12 @@ function EditFreeAd({ history, match }) {
       setEditAdData({ ...editAdData, [name]: checked });
     } else if (files) {
       setEditAdData({ ...editAdData, [name]: files[0] });
-    } else if (name === "country") {
-      const selectedCountry = countries?.find(
-        (country) => country.name === value
-        // (country) => country.isoCode === value
-      );
-      setEditAdData({
-        ...editAdData,
-        country: selectedCountry,
-        state_province: "",
-        city: "",
-      });
-    } else if (name === "state_province") {
-      const selectedState = states?.find((state) => state.name === value);
-      // const selectedState = states?.find((state) => state.isoCode === value);
-      setEditAdData({
-        ...editAdData,
-        state_province: selectedState,
-        city: "",
-      });
-    } else if (name === "city") {
-      const selectedCity = cities?.find((city) => city.name === value);
-      setEditAdData({
-        ...editAdData,
-        city: selectedCity,
-      });
     } else {
       setEditAdData({ ...editAdData, [name]: value });
     }
 
     setEditAdChanges(true);
   };
-
-  // const handleEditAdChanges = (e) => {
-  //   const { name, value, files, checked } = e.target;
-
-  //   if (name === "is_price_negotiable" || name === "is_auto_renewal") {
-  //     setEditAdData({ ...editAdData, [name]: checked });
-  //   } else if (files) {
-  //     setEditAdData({ ...editAdData, [name]: files[0] });
-  //   } else {
-  //     setEditAdData({ ...editAdData, [name]: value });
-  //   }
-
-  //   setEditAdChanges(true);
-  // };
 
   const handleEditAd = () => {
     const editAdFormData = new FormData();
@@ -345,9 +477,9 @@ function EditFreeAd({ history, match }) {
     editAdFormData.append("ad_category", editAdData.ad_category);
     editAdFormData.append("ad_type", editAdData.ad_type);
     // editAdFormData.append("location", editAdData.location);
-    editAdFormData.append("country", editAdData.country.name);
-    editAdFormData.append("state_province", editAdData.state_province.name);
-    editAdFormData.append("city", editAdData.city.name);
+    editAdFormData.append("country", editAdData.country?.isoCode);
+    editAdFormData.append("state_province", editAdData.state_province?.isoCode);
+    editAdFormData.append("city", editAdData.city?.name);
     editAdFormData.append("condition", editAdData.condition);
     editAdFormData.append("currency", editAdData.currency);
     editAdFormData.append("price", editAdData.price);
@@ -366,7 +498,6 @@ function EditFreeAd({ history, match }) {
       "is_price_negotiable",
       editAdData.is_price_negotiable
     );
-    // editAdFormData.append("is_auto_renewal", editAdData.is_auto_renewal);
     editAdFormData.append("ad_id", id);
 
     if (editAdFormData.image1 instanceof File) {
@@ -383,145 +514,21 @@ function EditFreeAd({ history, match }) {
 
     console.log("editAdFormData:", editAdFormData);
 
+  
+    if (!editAdData.country || !editAdData.state_province) {
+      setErrorMessage("Please select country, state/province.");
+      return; 
+    }
+  
     dispatch(editFreeAd(editAdFormData));
-  };
+    setErrorMessage(null);
 
-  const DURATION_CHOICES = [
-    ["1 day", "1 day (24 cps)"],
-    ["2 days", "2 days (48 cps)"],
-    ["3 days", "3 days (72 cps)"],
-    ["5 days", "5 days (120 cps)"],
-    ["1 week", "1 week (180 cps)"],
-    ["2 weeks", "2 weeks (360 cps)"],
-    ["1 month", "1 month (720 cps)"],
-  ];
-
-  const AD_CONDITION_CHOICES = [
-    ["Brand New", "Brand New"],
-    ["Fairly Used", "Fairly Used"],
-  ];
-
-  const AD_CATEGORY_CHOICES = [
-    ["Home Appliances", "Home Appliances"],
-    ["Properties", "Properties"],
-    ["Electronics", "Electronics"],
-    ["Fashion", "Fashion"],
-    ["Vehicles", "Vehicles"],
-    ["Services", "Services"],
-    ["Mobile Phones", "Mobile Phones"],
-    ["Health & Beauty", "Health & Beauty"],
-    ["Sports", "Sports"],
-    ["Jobs", "Jobs"],
-    ["Babies and Kids", "Babies and Kids"],
-    ["Agric & Food", "Agric & Food"],
-    ["Repairs", "Repairs"],
-    ["Equipment & Tools", "Equipment & Tools"],
-    ["CVs", "CVs"],
-    ["Pets", "Pets"],
-    ["Others", "Others"],
-  ];
-
-  const AD_TYPE_CHOICES = {
-    "Home Appliances": [
-      ["Washing Machine", "Washing Machine"],
-      ["Refrigerator", "Refrigerator"],
-      ["Microwave", "Microwave"],
-      ["Coffee Machine", "Coffee Machine"],
-      ["Air Conditioner", "Air Conditioner"],
-    ],
-    Properties: [
-      ["House", "House"],
-      ["Apartment", "Apartment"],
-      ["Land", "Land"],
-      ["Commercial Property", "Commercial Property"],
-    ],
-    Electronics: [
-      ["Laptop", "Laptop"],
-      ["Smartphone", "Smartphone"],
-      ["Camera", "Camera"],
-      ["Headphones", "Headphones"],
-      ["Television", "Television"],
-    ],
-    Fashion: [
-      ["Clothing", "Clothing"],
-      ["Shoes", "Shoes"],
-      ["Accessories", "Accessories"],
-    ],
-    Vehicles: [
-      ["Car", "Car"],
-      ["Motorcycle", "Motorcycle"],
-      ["Bicycle", "Bicycle"],
-    ],
-    Services: [
-      ["Cleaning", "Cleaning"],
-      ["Plumbing", "Plumbing"],
-      ["Electrician", "Electrician"],
-      ["Catering", "Catering"],
-      ["Tutoring", "Tutoring"],
-    ],
-    "Mobile Phones": [
-      ["iPhone", "iPhone"],
-      ["Samsung", "Samsung"],
-      ["Google Pixel", "Google Pixel"],
-      ["OnePlus", "OnePlus"],
-    ],
-    "Health & Beauty": [
-      ["Skincare", "Skincare"],
-      ["Haircare", "Haircare"],
-      ["Makeup", "Makeup"],
-      ["Fitness Equipment", "Fitness Equipment"],
-    ],
-    Sports: [
-      ["Soccer", "Soccer"],
-      ["Basketball", "Basketball"],
-      ["Tennis", "Tennis"],
-      ["Golf", "Golf"],
-    ],
-    Jobs: [
-      ["IT", "IT"],
-      ["Sales", "Sales"],
-      ["Marketing", "Marketing"],
-      ["Administrative", "Administrative"],
-    ],
-    "Babies and Kids": [
-      ["Toys", "Toys"],
-      ["Clothing Kids", "Clothing"],
-      ["Strollers", "Strollers"],
-    ],
-    "Agric & Food": [
-      ["Farm Products", "Farm Products"],
-      ["Processed Food", "Processed Food"],
-      ["Beverages", "Beverages"],
-    ],
-    Repairs: [
-      ["Electronic Repair", "Electronic Repair"],
-      ["Appliance Repair", "Appliance Repair"],
-      ["Car Repair", "Car Repair"],
-    ],
-    "Equipment & Tools": [
-      ["Power Tools", "Power Tools"],
-      ["Hand Tools", "Hand Tools"],
-      ["Kitchen Tools", "Kitchen Tools"],
-    ],
-    CVs: [
-      ["Engineering", "Engineering"],
-      ["Marketing CVs", "Marketing"],
-      ["Design", "Design"],
-      ["Education", "Education"],
-    ],
-    Pets: [
-      ["Dog", "Dog"],
-      ["Cat", "Cat"],
-      ["Fish", "Fish"],
-      ["Bird", "Bird"],
-    ],
-    Others: [["Others", "Others"]],
   };
 
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        history.push("/dashboard/marketplace/sellers");
+        history.push("/current-ads");
         window.location.reload();
       }, 5000);
       return () => clearTimeout(timer);
@@ -543,6 +550,12 @@ function EditFreeAd({ history, match }) {
           {error && (
             <Message variant="danger" fixed>
               {error}
+            </Message>
+          )}
+
+          {error && (
+            <Message variant="danger" fixed>
+              {errorMessage}
             </Message>
           )}
 
@@ -603,91 +616,81 @@ function EditFreeAd({ history, match }) {
 
             <Form.Group>
               <Form.Label>Ad Country</Form.Label>
+
               <Select
-                options={countries?.map((country) => ({
-                  value: country.name,
-                  label: country.name,
-                  // value: country?.isoCode,
-                  // label: country?.name,
+                options={countries.map((country) => ({
+                  value: country?.isoCode,
+                  label: country?.name,
                 }))}
                 value={{
-                  value: editAdData?.country,
-                  label: editAdData?.country,
-                  // value: editAdData?.country?.isoCode,
-                  // label: editAdData?.country?.name,
+                  value: editAdData?.country?.isoCode,
+                  label: editAdData?.country?.name,
                 }}
                 onChange={(selectedOption) => {
-                  handleEditAdChanges({
-                    target: {
-                      name: "country",
-                      value: {
-                        isoCode: selectedOption.value,
-                        name: selectedOption.label,
-                      },
+                  setEditAdData({
+                    ...editAdData,
+                    country: {
+                      isoCode: selectedOption.value,
+                      name: selectedOption.label,
                     },
                   });
                 }}
                 placeholder="Select Country"
                 className="rounded py-2 mb-2"
                 required
-                isDisabled
               />
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Ad State/Province</Form.Label>
+
               <Select
-                options={states?.map((state) => ({
-                  // value: state?.isoCode,
-                  value: state.name,
-                  label: state.name,
+                options={states.map((state) => ({
+                  value: state?.isoCode,
+                  label: state?.name,
                 }))}
                 value={{
-                  value: editAdData?.state_province,
-                  // value: editAdData?.state_province?.isoCode,
-                  label: editAdData?.state_province,
+                  value: editAdData?.state_province?.isoCode,
+                  label: editAdData?.state_province?.name,
                 }}
                 onChange={(selectedOption) => {
-                  handleEditAdChanges({
-                    target: {
-                      name: "state_province",
-                      value: {
-                        isoCode: selectedOption.value,
-                        name: selectedOption.label,
-                      },
+                  setEditAdData({
+                    ...editAdData,
+                    state_province: {
+                      isoCode: selectedOption.value,
+                      name: selectedOption.label,
                     },
                   });
                 }}
                 placeholder="Select State/Province"
                 className="rounded py-2 mb-2"
                 required
-                isDisabled
               />
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Ad City</Form.Label>
+
               <Select
-                options={cities?.map((city) => ({
+                options={cities.map((city) => ({
                   value: city.name,
                   label: city.name,
                 }))}
                 value={{
-                  value: editAdData?.city,
-                  label: editAdData?.city,
+                  value: editAdData?.city?.name,
+                  label: editAdData?.city?.name,
                 }}
                 onChange={(selectedOption) => {
-                  handleEditAdChanges({
-                    target: {
-                      name: "city",
-                      value: { name: selectedOption.label },
+                  setEditAdData({
+                    ...editAdData,
+                    city: {
+                      name: selectedOption.label,
                     },
                   });
                 }}
                 placeholder="Select City"
                 className="rounded py-2 mb-2"
                 required
-                isDisabled
               />
             </Form.Group>
 
@@ -845,7 +848,7 @@ function EditFreeAd({ history, match }) {
                 type="file"
                 name="image1"
                 onChange={handleEditAdChanges}
-                placeholder="Upload the ID Card Photoname"
+                placeholder="Upload image"
                 className="rounded py-2 mb-2"
               />
             </Form.Group>
@@ -865,9 +868,8 @@ function EditFreeAd({ history, match }) {
                 type="file"
                 name="image2"
                 onChange={handleEditAdChanges}
-                placeholder="Upload the ID Card Photo"
+                placeholder="Upload image"
                 className="rounded py-2 mb-2"
-                maxLength={100}
               />
             </Form.Group>
 
@@ -886,9 +888,8 @@ function EditFreeAd({ history, match }) {
                 type="file"
                 name="image3"
                 onChange={handleEditAdChanges}
-                placeholder="Upload proof of address"
+                placeholder="Upload image"
                 className="rounded py-2 mb-2"
-                maxLength={100}
               />
             </Form.Group>
 

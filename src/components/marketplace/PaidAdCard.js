@@ -215,7 +215,7 @@ function PaidAdCard({ product }) {
         <div className="d-flex justify-content-between py-2">
           <span className="py-2">
             <Button
-            disabled
+            // disabled
               variant="primary"
               size="sm"
               className="py-2 rounded"

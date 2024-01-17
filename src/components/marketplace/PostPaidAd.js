@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
 import { postPaidAd } from "../../actions/marketplaceSellerActions";
-import Message from "../Message";
+import Message from "../Message"; 
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";

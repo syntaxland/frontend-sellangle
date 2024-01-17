@@ -268,7 +268,7 @@ function AllPaidAdCard({ product }) {
                     className="rounded"
                     disabled
                   >
-                    <i className="fas fa-user"></i> <i>Verified ID</i>{" "}
+                    <i className="fas fa-user-check"></i> <i>Verified ID</i>{" "}
                     <i
                       className="fas fa-check-circle"
                       style={{ fontSize: "18px", color: "blue" }}
@@ -438,7 +438,7 @@ function AllPaidAdCard({ product }) {
               // onClick={handleReportAd}
               disabled
             >
-              <i className="fa fa-exclamation-circle"></i> Report Ad
+              <i className="fa fa-flag"></i> Report Ad
             </Button>
           </span>
         </div>

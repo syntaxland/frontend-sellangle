@@ -221,8 +221,6 @@ function AllFreeAdCard({ product }) {
               <strong>{product.ad_name}</strong>
             </Card.Title>
           </Link>
-
-          
         </div>
 
         <div className="d-flex justify-content-end">
@@ -236,7 +234,7 @@ function AllFreeAdCard({ product }) {
                     className="rounded"
                     disabled
                   >
-                    <i>Verified ID</i>{" "}
+                    <i className="fas fa-user-check"></i> <i>Verified ID</i>{" "}
                     <i
                       className="fas fa-check-circle"
                       style={{ fontSize: "18px", color: "blue" }}
@@ -356,7 +354,10 @@ function AllFreeAdCard({ product }) {
               className="py-2 rounded"
               disabled
             >
-              <i className="fas fa-map-marker-alt"></i>  {product?.city} {product?.state_province}, {product?.country}.
+              <i className="fas fa-map-marker-alt"></i>{" "}
+              {product?.city ? product?.city : ""}{" "}
+              {product?.state_province ? product?.state_province : ""},{" "}
+              {product?.country ? product?.country : ""}. 
             </Button>
           </span>
 
@@ -368,7 +369,7 @@ function AllFreeAdCard({ product }) {
               // onClick={handleReportAd}
               disabled
             >
-              <i className="fa fa-exclamation-circle"></i> Report Ad
+              <i className="fa fa-flag"></i> Report Ad
             </Button>
           </span>
         </div>
