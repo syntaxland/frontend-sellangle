@@ -14,6 +14,138 @@ import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 
 
+const DURATION_CHOICES = [
+  ["1 day", "1 day (24 cps)"],
+  ["2 days", "2 days (48 cps)"],
+  ["3 days", "3 days (72 cps)"],
+  ["5 days", "5 days (120 cps)"],
+  ["1 week", "1 week (180 cps)"],
+  ["2 weeks", "2 weeks (360 cps)"],
+  ["1 month", "1 month (720 cps)"],
+];
+
+const AD_CONDITION_CHOICES = [
+  ["Brand New", "Brand New"],
+  ["Fairly Used", "Fairly Used"],
+];
+
+const AD_CATEGORY_CHOICES = [
+  ["Home Appliances", "Home Appliances"],
+  ["Properties", "Properties"],
+  ["Electronics", "Electronics"],
+  ["Fashion", "Fashion"],
+  ["Vehicles", "Vehicles"],
+  ["Services", "Services"],
+  ["Mobile Phones", "Mobile Phones"],
+  ["Health & Beauty", "Health & Beauty"],
+  ["Sports", "Sports"],
+  ["Jobs", "Jobs"],
+  ["Babies and Kids", "Babies and Kids"],
+  ["Agric & Food", "Agric & Food"],
+  ["Repairs", "Repairs"],
+  ["Equipment & Tools", "Equipment & Tools"],
+  ["CVs", "CVs"],
+  ["Pets", "Pets"],
+  ["Others", "Others"],
+];
+
+const AD_TYPE_CHOICES = {
+  "Home Appliances": [
+    ["Washing Machine", "Washing Machine"],
+    ["Refrigerator", "Refrigerator"],
+    ["Microwave", "Microwave"],
+    ["Coffee Machine", "Coffee Machine"],
+    ["Air Conditioner", "Air Conditioner"],
+  ],
+  Properties: [
+    ["House", "House"],
+    ["Apartment", "Apartment"],
+    ["Land", "Land"],
+    ["Commercial Property", "Commercial Property"],
+  ],
+  Electronics: [
+    ["Laptop", "Laptop"],
+    ["Smartphone", "Smartphone"],
+    ["Camera", "Camera"],
+    ["Headphones", "Headphones"],
+    ["Television", "Television"],
+  ],
+  Fashion: [
+    ["Clothing", "Clothing"],
+    ["Shoes", "Shoes"],
+    ["Accessories", "Accessories"],
+  ],
+  Vehicles: [
+    ["Car", "Car"],
+    ["Motorcycle", "Motorcycle"],
+    ["Bicycle", "Bicycle"],
+  ],
+  Services: [
+    ["Cleaning", "Cleaning"],
+    ["Plumbing", "Plumbing"],
+    ["Electrician", "Electrician"],
+    ["Catering", "Catering"],
+    ["Tutoring", "Tutoring"],
+  ],
+  "Mobile Phones": [
+    ["iPhone", "iPhone"],
+    ["Samsung", "Samsung"],
+    ["Google Pixel", "Google Pixel"],
+    ["OnePlus", "OnePlus"],
+  ],
+  "Health & Beauty": [
+    ["Skincare", "Skincare"],
+    ["Haircare", "Haircare"],
+    ["Makeup", "Makeup"],
+    ["Fitness Equipment", "Fitness Equipment"],
+  ],
+  Sports: [
+    ["Soccer", "Soccer"],
+    ["Basketball", "Basketball"],
+    ["Tennis", "Tennis"],
+    ["Golf", "Golf"],
+  ],
+  Jobs: [
+    ["IT", "IT"],
+    ["Sales", "Sales"],
+    ["Marketing", "Marketing"],
+    ["Administrative", "Administrative"],
+  ],
+  "Babies and Kids": [
+    ["Toys", "Toys"],
+    ["Clothing Kids", "Clothing"],
+    ["Strollers", "Strollers"],
+  ],
+  "Agric & Food": [
+    ["Farm Products", "Farm Products"],
+    ["Processed Food", "Processed Food"],
+    ["Beverages", "Beverages"],
+  ],
+  Repairs: [
+    ["Electronic Repair", "Electronic Repair"],
+    ["Appliance Repair", "Appliance Repair"],
+    ["Car Repair", "Car Repair"],
+  ],
+  "Equipment & Tools": [
+    ["Power Tools", "Power Tools"],
+    ["Hand Tools", "Hand Tools"],
+    ["Kitchen Tools", "Kitchen Tools"],
+  ],
+  CVs: [
+    ["Engineering", "Engineering"],
+    ["Marketing CVs", "Marketing"],
+    ["Design", "Design"],
+    ["Education", "Education"],
+  ],
+  Pets: [
+    ["Dog", "Dog"],
+    ["Cat", "Cat"],
+    ["Fish", "Fish"],
+    ["Bird", "Bird"],
+  ],
+  Others: [["Others", "Others"]],
+};
+
 const MAIN_CURRENCY_CHOICES = [
   ["NGN", "Nigerian Naira"],
   ["USD", "United States Dollar"],
@@ -212,7 +344,7 @@ function EditPaidAd({ history, match }) {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
-  // const [editAdChanges, setEditAdChanges] = useState(false);
+  const [editAdChanges, setEditAdChanges] = useState(false);
   const [editAdData, setEditAdData] = useState({
     ad_name: "",
     ad_category: "",
@@ -268,13 +400,52 @@ function EditPaidAd({ history, match }) {
         is_price_negotiable: ads?.is_price_negotiable,
         is_auto_renewal: ads?.is_auto_renewal,
       });
-      // setEditAdChanges(false);
+      setEditAdChanges(false);
     }
   }, [ads]);
 
   useEffect(() => {
-    setCountries(Country?.getAllCountries());
+    setCountries(Country.getAllCountries());
   }, []);
+
+  useEffect(() => {
+    if (editAdData.country) {
+      setStates(State.getStatesOfCountry(editAdData.country?.isoCode));
+    } else {
+      setStates([]);
+    }
+  }, [editAdData.country]);
+
+  useEffect(() => {
+    if (editAdData.state_province) {
+      setCities(
+        City.getCitiesOfState(
+          editAdData.country?.isoCode,
+          editAdData.state_province?.isoCode
+        )
+      );
+    } else {
+      setCities([]);
+    }
+  }, [editAdData.state_province, editAdData.country?.isoCode]);
+
+  const handleEditAdChanges = (e) => {
+    const { name, value, files, checked } = e.target;
+
+    if (name === "is_price_negotiable" || name === "is_auto_renewal") {
+      setEditAdData({ ...editAdData, [name]: checked });
+    } else if (files) {
+      setEditAdData({ ...editAdData, [name]: files[0] });
+    } else {
+      setEditAdData({ ...editAdData, [name]: value });
+    }
+
+    setEditAdChanges(true);
+  };
+
+  // useEffect(() => {
+  //   setCountries(Country?.getAllCountries());
+  // }, []);
 
   // useEffect(() => {
   //   if (editAdData?.country && editAdData?.country?.isoCode) {
@@ -297,65 +468,65 @@ function EditPaidAd({ history, match }) {
   //   }
   // }, [editAdData?.state_province, editAdData?.country?.isoCode]);
 
-  useEffect(() => {
-    if (editAdData?.country) {
-      setStates(State?.getStatesOfCountry(editAdData?.country));
-    } else {
-      setStates([]);
-    }
-  }, [editAdData?.country]);
+  // useEffect(() => {
+  //   if (editAdData?.country) {
+  //     setStates(State?.getStatesOfCountry(editAdData?.country));
+  //   } else {
+  //     setStates([]);
+  //   }
+  // }, [editAdData?.country]);
 
-  useEffect(() => {
-    if (editAdData?.state_province) {
-      setCities(
-        City?.getCitiesOfState(
-          editAdData?.country,
-          editAdData?.state_province
-        )
-      );
-    } else {
-      setCities([]);
-    }
-  }, [editAdData?.country, editAdData?.state_province]);
+  // useEffect(() => {
+  //   if (editAdData?.state_province) {
+  //     setCities(
+  //       City?.getCitiesOfState(
+  //         editAdData?.country,
+  //         editAdData?.state_province
+  //       )
+  //     );
+  //   } else {
+  //     setCities([]);
+  //   }
+  // }, [editAdData?.country, editAdData?.state_province]);
 
-  const handleEditAdChanges = (e) => {
-    const { name, value, files, checked } = e.target;
+  // const handleEditAdChanges = (e) => {
+  //   const { name, value, files, checked } = e.target;
 
-    if (name === "is_price_negotiable" || name === "is_auto_renewal") {
-      setEditAdData({ ...editAdData, [name]: checked });
-    } else if (files) {
-      setEditAdData({ ...editAdData, [name]: files[0] });
-    } else if (name === "country") {
-      const selectedCountry = countries?.find(
-        (country) => country.name === value
-        // (country) => country.isoCode === value
-      );
-      setEditAdData({
-        ...editAdData,
-        country: selectedCountry,
-        state_province: "",
-        city: "",
-      });
-    } else if (name === "state_province") {
-      const selectedState = states?.find((state) => state.name === value);
-      // const selectedState = states?.find((state) => state.isoCode === value);
-      setEditAdData({
-        ...editAdData,
-        state_province: selectedState,
-        city: "",
-      });
-    } else if (name === "city") {
-      const selectedCity = cities?.find((city) => city.name === value);
-      setEditAdData({
-        ...editAdData,
-        city: selectedCity,
-      });
-    } else {
-      setEditAdData({ ...editAdData, [name]: value });
-    }
+  //   if (name === "is_price_negotiable" || name === "is_auto_renewal") {
+  //     setEditAdData({ ...editAdData, [name]: checked });
+  //   } else if (files) {
+  //     setEditAdData({ ...editAdData, [name]: files[0] });
+  //   } else if (name === "country") {
+  //     const selectedCountry = countries?.find(
+  //       (country) => country.name === value
+  //       // (country) => country.isoCode === value
+  //     );
+  //     setEditAdData({
+  //       ...editAdData,
+  //       country: selectedCountry,
+  //       state_province: "",
+  //       city: "",
+  //     });
+  //   } else if (name === "state_province") {
+  //     const selectedState = states?.find((state) => state.name === value);
+  //     // const selectedState = states?.find((state) => state.isoCode === value);
+  //     setEditAdData({
+  //       ...editAdData,
+  //       state_province: selectedState,
+  //       city: "",
+  //     });
+  //   } else if (name === "city") {
+  //     const selectedCity = cities?.find((city) => city.name === value);
+  //     setEditAdData({
+  //       ...editAdData,
+  //       city: selectedCity,
+  //     });
+  //   } else {
+  //     setEditAdData({ ...editAdData, [name]: value });
+  //   }
 
-    // setEditAdChanges(true);
-  };
+  //   setEditAdChanges(true);
+  // };
 
   // console.log(
   //   "country.name,  country.isoCode",
@@ -411,137 +582,6 @@ function EditPaidAd({ history, match }) {
     dispatch(editPaidAd(editAdFormData));
   };
 
-  const DURATION_CHOICES = [
-    ["1 day", "1 day (24 cps)"],
-    ["2 days", "2 days (48 cps)"],
-    ["3 days", "3 days (72 cps)"],
-    ["5 days", "5 days (120 cps)"],
-    ["1 week", "1 week (180 cps)"],
-    ["2 weeks", "2 weeks (360 cps)"],
-    ["1 month", "1 month (720 cps)"],
-  ];
-
-  const AD_CONDITION_CHOICES = [
-    ["Brand New", "Brand New"],
-    ["Fairly Used", "Fairly Used"],
-  ];
-
-  const AD_CATEGORY_CHOICES = [
-    ["Home Appliances", "Home Appliances"],
-    ["Properties", "Properties"],
-    ["Electronics", "Electronics"],
-    ["Fashion", "Fashion"],
-    ["Vehicles", "Vehicles"],
-    ["Services", "Services"],
-    ["Mobile Phones", "Mobile Phones"],
-    ["Health & Beauty", "Health & Beauty"],
-    ["Sports", "Sports"],
-    ["Jobs", "Jobs"],
-    ["Babies and Kids", "Babies and Kids"],
-    ["Agric & Food", "Agric & Food"],
-    ["Repairs", "Repairs"],
-    ["Equipment & Tools", "Equipment & Tools"],
-    ["CVs", "CVs"],
-    ["Pets", "Pets"],
-    ["Others", "Others"],
-  ];
-
-  const AD_TYPE_CHOICES = {
-    "Home Appliances": [
-      ["Washing Machine", "Washing Machine"],
-      ["Refrigerator", "Refrigerator"],
-      ["Microwave", "Microwave"],
-      ["Coffee Machine", "Coffee Machine"],
-      ["Air Conditioner", "Air Conditioner"],
-    ],
-    Properties: [
-      ["House", "House"],
-      ["Apartment", "Apartment"],
-      ["Land", "Land"],
-      ["Commercial Property", "Commercial Property"],
-    ],
-    Electronics: [
-      ["Laptop", "Laptop"],
-      ["Smartphone", "Smartphone"],
-      ["Camera", "Camera"],
-      ["Headphones", "Headphones"],
-      ["Television", "Television"],
-    ],
-    Fashion: [
-      ["Clothing", "Clothing"],
-      ["Shoes", "Shoes"],
-      ["Accessories", "Accessories"],
-    ],
-    Vehicles: [
-      ["Car", "Car"],
-      ["Motorcycle", "Motorcycle"],
-      ["Bicycle", "Bicycle"],
-    ],
-    Services: [
-      ["Cleaning", "Cleaning"],
-      ["Plumbing", "Plumbing"],
-      ["Electrician", "Electrician"],
-      ["Catering", "Catering"],
-      ["Tutoring", "Tutoring"],
-    ],
-    "Mobile Phones": [
-      ["iPhone", "iPhone"],
-      ["Samsung", "Samsung"],
-      ["Google Pixel", "Google Pixel"],
-      ["OnePlus", "OnePlus"],
-    ],
-    "Health & Beauty": [
-      ["Skincare", "Skincare"],
-      ["Haircare", "Haircare"],
-      ["Makeup", "Makeup"],
-      ["Fitness Equipment", "Fitness Equipment"],
-    ],
-    Sports: [
-      ["Soccer", "Soccer"],
-      ["Basketball", "Basketball"],
-      ["Tennis", "Tennis"],
-      ["Golf", "Golf"],
-    ],
-    Jobs: [
-      ["IT", "IT"],
-      ["Sales", "Sales"],
-      ["Marketing", "Marketing"],
-      ["Administrative", "Administrative"],
-    ],
-    "Babies and Kids": [
-      ["Toys", "Toys"],
-      ["Clothing Kids", "Clothing"],
-      ["Strollers", "Strollers"],
-    ],
-    "Agric & Food": [
-      ["Farm Products", "Farm Products"],
-      ["Processed Food", "Processed Food"],
-      ["Beverages", "Beverages"],
-    ],
-    Repairs: [
-      ["Electronic Repair", "Electronic Repair"],
-      ["Appliance Repair", "Appliance Repair"],
-      ["Car Repair", "Car Repair"],
-    ],
-    "Equipment & Tools": [
-      ["Power Tools", "Power Tools"],
-      ["Hand Tools", "Hand Tools"],
-      ["Kitchen Tools", "Kitchen Tools"],
-    ],
-    CVs: [
-      ["Engineering", "Engineering"],
-      ["Marketing CVs", "Marketing"],
-      ["Design", "Design"],
-      ["Education", "Education"],
-    ],
-    Pets: [
-      ["Dog", "Dog"],
-      ["Cat", "Cat"],
-      ["Fish", "Fish"],
-      ["Bird", "Bird"],
-    ],
-    Others: [["Others", "Others"]],
-  };
 
   useEffect(() => {
     if (success) {
@@ -629,6 +669,86 @@ function EditPaidAd({ history, match }) {
 
             <Form.Group>
               <Form.Label>Ad Country</Form.Label>
+
+              <Select
+                options={countries.map((country) => ({
+                  value: country?.isoCode,
+                  label: country?.name,
+                }))}
+                value={{
+                  value: editAdData?.country?.isoCode,
+                  label: editAdData?.country?.name,
+                }}
+                onChange={(selectedOption) => {
+                  setEditAdData({
+                    ...editAdData,
+                    country: {
+                      isoCode: selectedOption.value,
+                      name: selectedOption.label,
+                    },
+                  });
+                }}
+                placeholder="Select Country"
+                className="rounded py-2 mb-2"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Ad State/Province</Form.Label>
+
+              <Select
+                options={states.map((state) => ({
+                  value: state?.isoCode,
+                  label: state?.name,
+                }))}
+                value={{
+                  value: editAdData?.state_province?.isoCode,
+                  label: editAdData?.state_province?.name,
+                }}
+                onChange={(selectedOption) => {
+                  setEditAdData({
+                    ...editAdData,
+                    state_province: {
+                      isoCode: selectedOption.value,
+                      name: selectedOption.label,
+                    },
+                  });
+                }}
+                placeholder="Select State/Province"
+                className="rounded py-2 mb-2"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Ad City</Form.Label>
+
+              <Select
+                options={cities.map((city) => ({
+                  value: city.name,
+                  label: city.name,
+                }))}
+                value={{
+                  value: editAdData?.city?.name,
+                  label: editAdData?.city?.name,
+                }}
+                onChange={(selectedOption) => {
+                  setEditAdData({
+                    ...editAdData,
+                    city: {
+                      name: selectedOption.label,
+                    },
+                  });
+                }}
+                placeholder="Select City"
+                className="rounded py-2 mb-2"
+                required
+              />
+            </Form.Group>
+ 
+            {/* <Form.Group>
+              <Form.Label>Ad Country</Form.Label>
               <Select
                 options={countries?.map((country) => ({
                   value: country.name,
@@ -715,7 +835,7 @@ function EditPaidAd({ history, match }) {
                 required
                 isDisabled
               />
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group>
               <Form.Label>Ad Condition</Form.Label>
@@ -991,8 +1111,7 @@ function EditPaidAd({ history, match }) {
               variant="success"
               onClick={handleEditAd}
               className="rounded py-2 mb-2 text-center w-100"
-              // disabled={!editAdChanges || loading || success}
-              disabled
+              disabled={!editAdChanges || loading || success}
             >
               <div className="d-flex justify-content-center">
                 <span className="py-1">Update Ad</span>
