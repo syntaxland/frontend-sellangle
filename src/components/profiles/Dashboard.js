@@ -6,9 +6,9 @@ import { Col, Row, Modal, Button } from "react-bootstrap";
 import Message from "../Message";
 import Loader from "../Loader";
 import { getCreditPointBalance } from "../../actions/creditPointActions";
-import { listPayments } from "../../actions/paymentActions";
-import { getOrders } from "../../actions/orderActions";
-import { Line, Pie } from "react-chartjs-2";
+// import { listPayments } from "../../actions/paymentActions";
+// import { getOrders } from "../../actions/orderActions";
+// import { Line, Pie } from "react-chartjs-2";
 import SellCreditPoint from "../CreditPoint/SellCreditPoint";
 import SelectCurrency from "../CreditPoint/SelectCurrency";
 
@@ -75,44 +75,44 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(getCreditPointBalance());
-    dispatch(listPayments());
-    dispatch(getOrders());
+    // dispatch(listPayments());
+    // dispatch(getOrders());
   }, [dispatch]);
 
-  const lineGraphData = {
-    labels: payments.map((payment) =>
-      new Date(payment.created_at).toLocaleString()
-    ),
-    datasets: [
-      {
-        label: "Amount Paid (NGN)",
-        fill: false,
-        borderColor: "rgba(75,192,192,1)",
-        borderWidth: 2,
-        data: payments.map((payment) => payment.amount),
-        orderIds: payments.map((payment) => payment.order_id),
-      },
-    ],
-  };
+  // const lineGraphData = {
+  //   labels: payments.map((payment) =>
+  //     new Date(payment.created_at).toLocaleString()
+  //   ),
+  //   datasets: [
+  //     {
+  //       label: "Amount Paid (NGN)",
+  //       fill: false,
+  //       borderColor: "rgba(75,192,192,1)",
+  //       borderWidth: 2,
+  //       data: payments.map((payment) => payment.amount),
+  //       orderIds: payments.map((payment) => payment.order_id),
+  //     },
+  //   ],
+  // };
 
-  const lineChartOptions = {
-    // ...
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            const label = context.dataset.label || "";
-            if (label) {
-              const index = context.dataIndex;
-              const orderId = context.dataset.orderIds[index];
-              return `${label}: NGN ${context.formattedValue} (${orderId})`;
-            }
-            return null;
-          },
-        },
-      },
-    },
-  };
+  // const lineChartOptions = {
+  //   // ...
+  //   plugins: {
+  //     tooltip: {
+  //       callbacks: {
+  //         label: (context) => {
+  //           const label = context.dataset.label || "";
+  //           if (label) {
+  //             const index = context.dataIndex;
+  //             const orderId = context.dataset.orderIds[index];
+  //             return `${label}: NGN ${context.formattedValue} (${orderId})`;
+  //           }
+  //           return null;
+  //         },
+  //       },
+  //     },
+  //   },
+  // };
 
   // const lineGraphData = {
   //   labels: payments.map((payment) =>
@@ -129,14 +129,14 @@ function Dashboard() {
   //   ],
   // };
 
-  const getTotalPayment = () => {
-    let totalPayment = 0;
+  // const getTotalPayment = () => {
+  //   let totalPayment = 0;
 
-    payments.forEach((payment) => {
-      totalPayment += parseFloat(payment.amount);
-    });
-    return totalPayment;
-  };
+  //   payments.forEach((payment) => {
+  //     totalPayment += parseFloat(payment.amount);
+  //   });
+  //   return totalPayment;
+  // };
 
   const creditPoints = creditPointBalance.balance;
   const creditPointsFormatted = creditPoints ? creditPoints : [];
@@ -161,56 +161,56 @@ function Dashboard() {
   //     </p>
   //   );
 
-  const paidOrderRateData = {
-    labels: [
-      `Paid Orders (${(
-        (orders?.filter((order) => order.isPaid).length / orders?.length) *
-        100
-      ).toFixed(1)}%)`,
-      `Unpaid Orders (${(
-        (orders?.filter((order) => !order.isPaid).length / orders?.length) *
-        100
-      ).toFixed(1)}%)`,
-    ],
-    datasets: [
-      {
-        data: [
-          orders?.filter((order) => order.isPaid).length,
-          orders?.filter((order) => !order.isPaid).length,
-        ],
-        backgroundColor: ["#1F77B4", "#FF6384"],
-      },
-    ],
-  };
+  // const paidOrderRateData = {
+  //   labels: [
+  //     `Paid Orders (${(
+  //       (orders?.filter((order) => order.isPaid).length / orders?.length) *
+  //       100
+  //     ).toFixed(1)}%)`,
+  //     `Unpaid Orders (${(
+  //       (orders?.filter((order) => !order.isPaid).length / orders?.length) *
+  //       100
+  //     ).toFixed(1)}%)`,
+  //   ],
+  //   datasets: [
+  //     {
+  //       data: [
+  //         orders?.filter((order) => order.isPaid).length,
+  //         orders?.filter((order) => !order.isPaid).length,
+  //       ],
+  //       backgroundColor: ["#1F77B4", "#FF6384"],
+  //     },
+  //   ],
+  // };
 
-  const unfulfilledOrderRateData = {
-    labels: [
-      `Delivered Orders (${(
-        (orders?.filter((order) => order.is_delivered).length /
-          orders?.length) *
-        100
-      ).toFixed(1)}%)`,
-      `Undelivered Orders (${(
-        (orders?.filter((order) => !order.is_delivered).length /
-          orders?.length) *
-        100
-      ).toFixed(1)}%)`,
-    ],
-    datasets: [
-      {
-        data: [
-          orders?.filter((order) => order.is_delivered).length,
-          orders?.filter((order) => !order.is_delivered).length,
-        ],
-        backgroundColor: ["#008000", "#FFA500"],
-      },
-    ],
-  };
+  // const unfulfilledOrderRateData = {
+  //   labels: [
+  //     `Delivered Orders (${(
+  //       (orders?.filter((order) => order.is_delivered).length /
+  //         orders?.length) *
+  //       100
+  //     ).toFixed(1)}%)`,
+  //     `Undelivered Orders (${(
+  //       (orders?.filter((order) => !order.is_delivered).length /
+  //         orders?.length) *
+  //       100
+  //     ).toFixed(1)}%)`,
+  //   ],
+  //   datasets: [
+  //     {
+  //       data: [
+  //         orders?.filter((order) => order.is_delivered).length,
+  //         orders?.filter((order) => !order.is_delivered).length,
+  //       ],
+  //       backgroundColor: ["#008000", "#FFA500"],
+  //     },
+  //   ],
+  // };
 
-  const pieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-  };
+  // const pieChartOptions = {
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  // };
 
   return (
     <div className="justify-content-center text-center">
@@ -225,6 +225,13 @@ function Dashboard() {
           <div>
             <Row>
               <Col>
+                <hr />
+
+                <h2 className="py-3">
+                  <i className="fas fa-dashboard"></i> Dashboard
+                </h2>
+
+                {/*               
                 <div>
                   <div className="bar-chart">
                     <h2 className="pt-4">Total Payment</h2>
@@ -244,7 +251,7 @@ function Dashboard() {
                       })}
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 <hr />
                 <Col className="d-flex justify-content-center">
@@ -289,13 +296,14 @@ function Dashboard() {
                   </Row>
                 </Col>
 
-                <hr />
+                {/* <hr />
                 <div className="line-graph mt-4">
                   <h2 className="py-3">Payments</h2>
                   <Line data={lineGraphData} options={lineChartOptions} />
-                </div>
+                </div> */}
               </Col>
-              <hr />
+
+              {/* <hr />
               <div className="mt-4 py-3">
                 <h2 className="py-3">
                   Orders <i className="fas fa-luggage-cart"></i>
@@ -324,7 +332,7 @@ function Dashboard() {
                     </div>
                   </Col>
                 </Row>
-              </div>
+              </div> */}
 
               <hr />
             </Row>
