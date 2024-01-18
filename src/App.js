@@ -155,7 +155,7 @@ function App() {
             component={SellerShopFront}
           />
           <Route path="/current-ads" component={CurrentAds} />
-          <Route path="/ad-search-results" component={SearchResults} />
+          <Route path="/search-ad/" component={SearchResults} />
           <Route
             path="/create-marketplace-seller"
             component={CreateMarketplaceSeller}

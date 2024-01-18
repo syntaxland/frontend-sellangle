@@ -266,7 +266,7 @@ function Marketplace() {
   };
 
   const handleSearchAds = () => {
-    history.push("/ad-search-results");
+    history.push("/search-ad/");
   };
 
   const handleSellerUsernameSearch = (e) => {

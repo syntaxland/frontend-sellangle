@@ -62,7 +62,7 @@ function Header() {
   }, []);
 
   const handleSearchAds = () => {
-    history.push("/ad-search-results");
+    history.push("/search-ad/");
   };
 
   return (
