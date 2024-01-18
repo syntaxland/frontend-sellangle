@@ -8,7 +8,13 @@ import AllPaidAdCard from "./AllPaidAdCard";
 import Message from "../Message";
 import Loader from "../Loader";
 
-function AllPaidAdScreen({ selectedCountry, selectedState, selectedCity }) {
+function AllPaidAdScreen({
+  selectedCountry,
+  selectedState,
+  selectedCity,
+  selectedCategory,
+  selectedType,
+}) {
   const dispatch = useDispatch();
 
   const getAllPaidAdState = useSelector((state) => state.getAllPaidAdState);
@@ -16,7 +22,7 @@ function AllPaidAdScreen({ selectedCountry, selectedState, selectedCity }) {
   console.log("PaidAds:", paidAds);
   console.log("paid ad location", selectedCountry, selectedState, selectedCity);
 
-  const paidAdLength =  paidAds?.length;
+  const paidAdLength = paidAds?.length;
   console.log("paidAdLength:", paidAdLength);
 
   useEffect(() => {
@@ -24,6 +30,8 @@ function AllPaidAdScreen({ selectedCountry, selectedState, selectedCity }) {
       selected_country: selectedCountry,
       selected_state: selectedState,
       selected_city: selectedCity,
+      selected_category: selectedCategory,
+      selected_type: selectedType,
     };
     dispatch(getAllPaidAd(adData));
     // eslint-disable-next-line

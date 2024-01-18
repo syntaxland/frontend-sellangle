@@ -8,14 +8,20 @@ import AllFreeAdCard from "./AllFreeAdCard";
 import Message from "../Message";
 import Loader from "../Loader";
 
-function AllFreeAdScreen({ selectedCountry, selectedState, selectedCity }) {
+function AllFreeAdScreen({
+  selectedCountry,
+  selectedState,
+  selectedCity,
+  selectedCategory,
+  selectedType,
+}) {
   const dispatch = useDispatch();
 
   const getAllFreeAdState = useSelector((state) => state.getAllFreeAdState);
   const { loading, error, freeAds } = getAllFreeAdState;
   console.log("All Free Ads:", freeAds);
-  
-  const freeAdLength =  freeAds?.length;
+
+  const freeAdLength = freeAds?.length;
   console.log("freeAdLength:", freeAdLength);
 
   useEffect(() => {
@@ -23,6 +29,8 @@ function AllFreeAdScreen({ selectedCountry, selectedState, selectedCity }) {
       selected_country: selectedCountry,
       selected_state: selectedState,
       selected_city: selectedCity,
+      selected_category: selectedCategory,
+      selected_type: selectedType,
     };
     dispatch(getAllFreeAd(adData));
     // eslint-disable-next-line

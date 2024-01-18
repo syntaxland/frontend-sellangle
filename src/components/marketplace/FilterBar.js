@@ -11,7 +11,7 @@ const AD_CATEGORY_CHOICES = [
   ["Properties", "Properties"],
   ["Electronics", "Electronics"],
   ["Fashion", "Fashion"],
-  ["Vehicles", "Vehicles"],
+  ["Vehicles", "Vehicles"], 
   ["Services", "Services"],
   ["Mobile Phones", "Mobile Phones"],
   ["Health & Beauty", "Health & Beauty"],
@@ -130,9 +130,9 @@ function FilterBar({
   setSelectedType,
   totalAdsCategoryCount,
   totalAdsTypeCount,
+  onCategoryChange,
+  onTypeChange,
 }) {
-  // const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [selectedType, setSelectedType] = useState(null);
 
   useEffect(() => {
     const storedCategory = localStorage.getItem("selectedCategory");
@@ -144,15 +144,29 @@ function FilterBar({
     }
   }, [setSelectedCategory, setSelectedType]);
 
+  // const handleCategoryChange = (category) => {
+  //   setSelectedCategory(category);
+  //   setSelectedType(null);
+  //   localStorage.setItem("selectedCategory", category);
+  //   localStorage.removeItem("selectedType");
+  // };
+
+  // const handleTypeChange = (type) => {
+  //   setSelectedType(type);
+  //   localStorage.setItem("selectedType", type.value);
+  // };
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setSelectedType(null);
+    onCategoryChange(category); 
     localStorage.setItem("selectedCategory", category);
     localStorage.removeItem("selectedType");
   };
 
   const handleTypeChange = (type) => {
     setSelectedType(type);
+    onTypeChange(type); 
     localStorage.setItem("selectedType", type.value);
   };
 
@@ -174,7 +188,12 @@ function FilterBar({
                     className={`rounded ${
                       selectedCategory === value ? "active" : ""
                     }`}
-                    onClick={() => handleCategoryChange(value)}
+                    // onClick={() => handleCategoryChange(value)}
+                    onClick={() => {
+                      handleCategoryChange(value);
+                      onCategoryChange(value); 
+                    }}
+
                   >
                     {label} ({value === selectedCategory ? totalAdsCategoryCount : 0}) 
                   </Button>
@@ -196,7 +215,11 @@ function FilterBar({
                         })
                       )}
                       value={selectedType}
-                      onChange={handleTypeChange}
+                      // onChange={handleTypeChange}
+                      onChange={(type) => {
+                        handleTypeChange(type);
+                        onTypeChange(type.value); 
+                      }}
                       placeholder="Select Type"
                       className="rounded py-2 mb-2"
                       required

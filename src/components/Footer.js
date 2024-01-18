@@ -8,7 +8,7 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-dark text-light footer">
+    <footer className="bg-primary text-light footer"> 
       <Container fluid>
         {/* <Row className="py-3">
           <Col className="text-center">

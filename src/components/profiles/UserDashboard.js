@@ -164,7 +164,7 @@ function UserDashboard({ history }) {
                   className="sidebar-link"
                   onClick={() => handleTabChange("profile")}
                 >
-                  <i className="fas fa-user"></i> Profile
+                  <i className="fas fa-user"></i> User Profile
                 </Button>
               </div>
 
@@ -248,7 +248,7 @@ function UserDashboard({ history }) {
                   className="sidebar-link"
                   onClick={() => handleTabChange("message-inbox")}
                 >
-                  <i className="fa fa-message"></i> Inbox
+                  <i className="fa fa-message"></i> Message Inbox
                 </Button>
               </div>
 
@@ -258,7 +258,7 @@ function UserDashboard({ history }) {
                   className="sidebar-link"
                   onClick={() => handleTabChange("favorites")}
                 >
-                  <i className="fa fa-heart"></i> Saved Items
+                  <i className="fa fa-heart"></i> Saved Ads
                 </Button>
               </div>
 
@@ -270,7 +270,7 @@ function UserDashboard({ history }) {
                   className="sidebar-link"
                   onClick={() => handleTabChange("viewed-products")}
                 >
-                  <i className="fa fa-eye"></i> Viewed Items
+                  <i className="fa fa-eye"></i> Viewed Ads
                 </Button>
               </div>
 
@@ -284,11 +284,11 @@ function UserDashboard({ history }) {
                   className="sidebar-link"
                   onClick={() => handleTabChange("recommended-products")}
                 >
-                  <i className="fa fa-thumbs-up"></i> Recommended
+                  <i className="fa fa-thumbs-up"></i> Recommended Ads
                 </Button>
               </div>
 
-              <div>
+              {/* <div>
                 <Button
                   variant={activeTab === "offers" ? "info" : "outline-info"}
                   className="sidebar-link"
@@ -296,7 +296,7 @@ function UserDashboard({ history }) {
                 >
                   <i className="fa fa-gift"></i> Offers
                 </Button>
-              </div>
+              </div> */}
 
               <div>
                 <Button

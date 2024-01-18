@@ -94,28 +94,56 @@ function Marketplace() {
   const paidAdsTypeCount = paidAds ? paidAds.length : 0;
   const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
 
-  const filterAds = useCallback(() => {
-    if (selectedCategory && selectedType) {
-      const filteredFree = freeAds?.filter(
-        (ad) =>
-          ad.category === selectedCategory && ad.type === selectedType.value
-      );
-      setFilteredFreeAds(filteredFree);
+  // const handleCategoryChange = (category) => {
+  //   setSelectedCategory(category);
+  // };
 
-      const filteredPaid = paidAds?.filter(
-        (ad) =>
-          ad.category === selectedCategory && ad.type === selectedType.value
-      );
-      setFilteredPaidAds(filteredPaid);
-    } else {
-      setFilteredFreeAds([]);
-      setFilteredPaidAds([]);
-    }
-  }, [selectedCategory, selectedType, freeAds, paidAds]);
+  // const handleTypeChange = (type) => {
+  //   setSelectedType(type);
+  // };
 
-  useEffect(() => {
-    filterAds();
-  }, [filterAds]);
+  const handleCategoryChange = useCallback((category) => {
+    // Filter freeAds and paidAds based on the selected category
+    const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
+    const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
+
+    // Set the filtered ads in the state
+    setFilteredFreeAds(filteredFreeAds);
+    setFilteredPaidAds(filteredPaidAds);
+  }, [freeAds, paidAds]);
+
+  const handleTypeChange = useCallback((type) => {
+    // Filter freeAds and paidAds based on the selected type
+    const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
+    const filteredPaidAds = paidAds.filter((ad) => ad.type === type);
+
+    // Set the filtered ads in the state
+    setFilteredFreeAds(filteredFreeAds);
+    setFilteredPaidAds(filteredPaidAds);
+  }, [freeAds, paidAds]);
+
+  // const filterAds = useCallback(() => {
+  //   if (selectedCategory && selectedType) {
+  //     const filteredFree = freeAds?.filter(
+  //       (ad) =>
+  //         ad.category === selectedCategory && ad.type === selectedType.value
+  //     );
+  //     setFilteredFreeAds(filteredFree);
+
+  //     const filteredPaid = paidAds?.filter(
+  //       (ad) =>
+  //         ad.category === selectedCategory && ad.type === selectedType.value
+  //     );
+  //     setFilteredPaidAds(filteredPaid);
+  //   } else {
+  //     setFilteredFreeAds([]);
+  //     setFilteredPaidAds([]);
+  //   }
+  // }, [selectedCategory, selectedType, freeAds, paidAds]);
+
+  // useEffect(() => {
+  //   filterAds();
+  // }, [filterAds]);
 
   // const filterAds = () => {
   //   if (selectedCategory && selectedType) {
@@ -229,20 +257,7 @@ function Marketplace() {
   };
 
   const handleSearchAds = () => {
-    // if (searchTerm.trim() !== "") {
-    //   const searchData = {
-    //     search_term: searchTerm.trim(),
-    //     selected_country: selectedCountry,
-    //     selected_state: selectedState,
-    //     selected_city: selectedCity,
-    //   };
-    //   const result = dispatch(searchAds(searchData));
-      // setSearchAdResult(result);
       history.push("/ad-search-results");
-      // if (!result) {
-      //   console.log("Ad not found.");
-      // }
-    // }
   };
 
   const handleSellerUsernameSearch = () => {
@@ -446,6 +461,10 @@ function Marketplace() {
               totalAdsTypeCount={totalAdsTypeCount}
               setSelectedType={setSelectedType}
               setSelectedCategory={setSelectedCategory}
+
+              onCategoryChange={handleCategoryChange}
+              onTypeChange={handleTypeChange}
+
             />
           </div>
 
@@ -531,6 +550,9 @@ function Marketplace() {
               selectedCountry={selectedCountry}
               selectedState={selectedState}
               selectedCity={selectedCity}
+              selectedCategory={selectedCategory}
+              selectedType={selectedType}
+
             />
           </div>
 
@@ -539,6 +561,9 @@ function Marketplace() {
               selectedCountry={selectedCountry}
               selectedState={selectedState}
               selectedCity={selectedCity}
+              selectedCategory={selectedCategory}
+              selectedType={selectedType}
+
             />
           </div>
         </Col>
