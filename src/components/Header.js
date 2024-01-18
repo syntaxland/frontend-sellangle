@@ -67,7 +67,11 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="primary" variant="dark" expand="md" sticky="top">
+      <Navbar bg="primary" 
+      variant="dark" 
+      expand="md" 
+      sticky="top"
+      >
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
             <i className="fas fa-home" style={{ fontSize: "16px" }}></i> Sell
@@ -163,6 +167,7 @@ function Header() {
 
                 {userInfo ? (
                   <NavDropdown
+                  className="profile-dropdown custom-dropdown"
                     align="end"
                     // title={
                     //   userInfo.first_name
@@ -173,7 +178,6 @@ function Header() {
 
                     title={userInfo?.username}
                     id="username"
-                    className="profile-dropdown"
                   >
                     {/* <Nav.Link as={Link} to="/dashboard/users">
                       <i
