@@ -228,7 +228,7 @@ function Dashboard() {
                 <hr />
 
                 <h2 className="py-3">
-                  <i className="fas fa-dashboard"></i> Dashboard
+                  <i className="fas fa-dashboard"></i> Dashboard (User)
                 </h2>
 
                 {/*               
@@ -266,7 +266,7 @@ function Dashboard() {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}{" "}
-                        NGN
+                        CPS
                       </p>
 
                       <div className="d-flex justify-content-between py-2">

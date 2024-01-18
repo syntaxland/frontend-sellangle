@@ -1,17 +1,17 @@
 // Dashboard.js
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux"; 
+import { useSelector, useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import Message from "../Message";
 import Loader from "../Loader";
-import { getCreditPointBalance } from "../../actions/creditPointActions"; 
+import { getCreditPointBalance } from "../../actions/creditPointActions";
 import { listPayments } from "../../actions/paymentActions";
 import { getOrders } from "../../actions/orderActions";
 import { Line, Pie } from "react-chartjs-2";
 
 import {
-  Chart as ChartJS, 
+  Chart as ChartJS,
   ArcElement,
   Tooltip,
   Legend,
@@ -61,8 +61,6 @@ function Dashboard() {
     dispatch(getOrders());
   }, [dispatch]);
 
- 
-  
   const lineGraphData = {
     labels: payments.map((payment) =>
       new Date(payment.created_at).toLocaleString()
@@ -78,7 +76,7 @@ function Dashboard() {
       },
     ],
   };
-  
+
   const lineChartOptions = {
     // ...
     plugins: {
@@ -97,7 +95,6 @@ function Dashboard() {
       },
     },
   };
-  
 
   // const lineGraphData = {
   //   labels: payments.map((payment) =>
@@ -125,7 +122,6 @@ function Dashboard() {
 
   // const creditPoints = creditPointBalance.balance;
   // const creditPointsFormatted = creditPoints ? creditPoints : [];
-
 
   // const withdrawCreditPoints =
   //   creditPoints >= 5000 ? (
@@ -172,11 +168,13 @@ function Dashboard() {
   const unfulfilledOrderRateData = {
     labels: [
       `Delivered Orders (${(
-        (orders?.filter((order) => order.is_delivered).length / orders?.length) *
+        (orders?.filter((order) => order.is_delivered).length /
+          orders?.length) *
         100
       ).toFixed(1)}%)`,
       `Undelivered Orders (${(
-        (orders?.filter((order) => !order.is_delivered).length / orders?.length) *
+        (orders?.filter((order) => !order.is_delivered).length /
+          orders?.length) *
         100
       ).toFixed(1)}%)`,
     ],
@@ -209,6 +207,9 @@ function Dashboard() {
           <div>
             <Row>
               <Col>
+                <h2 className="py-3">
+                  <i className="fas fa-dashboard"></i> Dashboard (Seller)
+                </h2>
                 <div>
                   <div className="bar-chart">
                     <h2 className="pt-4">Total Transaction</h2>
@@ -232,12 +233,14 @@ function Dashboard() {
                 <hr />
                 <div className="line-graph mt-4">
                   <h2 className="py-3">Payments</h2>
-                  <Line data={lineGraphData} options={lineChartOptions}/>
+                  <Line data={lineGraphData} options={lineChartOptions} />
                 </div>
               </Col>
               <hr />
               <div className="mt-4 py-3">
-                <h2 className="py-3">Orders <i className="fas fa-luggage-cart"></i></h2>
+                <h2 className="py-3">
+                  Orders <i className="fas fa-luggage-cart"></i>
+                </h2>
                 <Row>
                   <Col>
                     <h5 className="py-3">Paid Order Rate</h5>

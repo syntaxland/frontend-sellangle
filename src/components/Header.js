@@ -139,7 +139,13 @@ function Header() {
                   </span>
                 )}
                 <Nav.Link as={Link} to="#">
-                  {greeting}
+                <>
+                    <i
+                      className="fas fa-handshake"
+                      style={{ fontSize: "16px" }}
+                    ></i>{" "}
+                    <i>{greeting}</i>
+                  </>
                   {userInfo && userInfo.avatar && (
                     <img
                       src={userInfo.avatar}
@@ -176,7 +182,8 @@ function Header() {
                       ></i>{" "}
                       Dashboard (User)
                     </Nav.Link>
-                    <NavDropdown.Divider /> */}
+                     */}
+                    <NavDropdown.Divider />
 
                     <div>
                       {profile.is_marketplace_seller ? (
@@ -265,9 +272,9 @@ function Header() {
                   </NavDropdown>
                 ) : (
                   <>
-                    <Nav.Link as={Link} to="/login">
+                    {/* <Nav.Link as={Link} to="/login">
                       Sign in
-                    </Nav.Link>
+                    </Nav.Link> */}
                   </>
                 )}
 
