@@ -46,6 +46,7 @@ function SearchResults() {
   const searchAdsState = useSelector((state) => state.searchAdsState);
   const {
     loading: searchAdLoading,
+    // success: searchAdSuccess,
     error: searchAdError,
     freeSearchAds,
     paidSearchAds,
@@ -58,6 +59,7 @@ function SearchResults() {
   );
   const {
     loading: sellerUsernameSearchLoading,
+    // success: sellerUsernameSearchSuccess,
     error: sellerUsernameSearchError,
     serachResults,
     sellerAvatarUrl,
@@ -163,7 +165,9 @@ function SearchResults() {
     }
   }, [dispatch, userInfo]);
 
-  const handleSearchAds = () => {
+  const handleSearchAds = (e) => {
+    e.preventDefault();
+
     if (searchTerm.trim() !== "") {
       const searchData = {
         search_term: searchTerm.trim(),
@@ -179,7 +183,17 @@ function SearchResults() {
     }
   };
 
-  const handleSellerUsernameSearch = () => {
+  // useEffect(() => {
+  //   if (searchAdSuccess) {
+  //     const timer = setTimeout(() => {
+  //       window.location.reload();
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [searchAdSuccess]);
+
+  const handleSellerUsernameSearch = (e) => {
+    e.preventDefault();
     if (sellerUsername.trim() !== "") {
       const lowerCaseUsername = sellerUsername.toLowerCase().trim();
       const result = dispatch(getSellerUsernameSearch(lowerCaseUsername));
@@ -196,16 +210,28 @@ function SearchResults() {
         <Col>
           <hr />
           <h1 className="text-center py-3">
-            <i className="fas fa-list"></i> Search Results
+            <i className="fas fa-search"></i> Search Ads
           </h1>
           <hr />
 
           <div className="py-2 d-flex justify-content-center text-center">
+            {/* {searchAdSuccess && (
+              <Message variant="success" fixed>
+                Ad(s) found!
+              </Message>
+            )} */}
+
             {searchAdError && (
               <Message fixed variant="danger">
                 {searchAdError}
               </Message>
             )}
+
+            {/* {sellerUsernameSearchSuccess && (
+              <Message variant="success" fixed>
+                Seller found!
+              </Message>
+            )} */}
 
             {sellerUsernameSearchError && (
               <Message fixed variant="danger">
@@ -214,39 +240,42 @@ function SearchResults() {
             )}
           </div>
 
-          <Row className="py-2 d-flex justify-content-center">
-            <Col md={8}>
-              <Row className="py-2 d-flex justify-content-betwwen"> 
-                <Col md={10}>
-                  <Form.Group>
-                    <Form.Control
-                      type="search"
-                      placeholder="Search ads"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={2} className="d-flex justify-content-end">
-                  <Button
-                    variant="primary"
-                    className="rounded"
-                    size="sm"
-                    onClick={handleSearchAds}
-                  >
-                    <div className="d-flex justify-content-center">
-                      <span className="py-1">
-                        <i className="fas fa-search"></i>
-                        {/* Search */}
-                        {/* Ads */}
-                      </span>
-                      {searchAdLoading && <LoaderButton />}
-                    </div>
-                  </Button>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
+          <Form onSubmit={handleSearchAds}>
+            <Row className="py-2 d-flex justify-content-center">
+              <Col md={8}>
+                <Row className="py-2 d-flex justify-content-betwwen">
+                  <Col md={10}>
+                    <Form.Group>
+                      <Form.Control
+                        type="search"
+                        placeholder="Search ads"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={2} className="d-flex justify-content-end">
+                    <Button
+                      variant="primary"
+                      className="rounded"
+                      size="sm"
+                      type="submit"
+                      // onClick={handleSearchAds}
+                    >
+                      <div className="d-flex justify-content-center">
+                        <span className="py-1">
+                          <i className="fas fa-search"></i>
+                          {/* Search */}
+                          {/* Ads */}
+                        </span>
+                        {searchAdLoading && <LoaderButton />}
+                      </div>
+                    </Button>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Form>
 
           <hr />
           <Col md={6}>
@@ -317,37 +346,41 @@ function SearchResults() {
                 />
               </Col>
             </Col>
+
             <Col md={4} xs={12} sm={6} lg={4} xl={4} className="py-2">
-              <Row className="d-flex justify-content-betwwen">
-                <Col md={10}>
-                  <Form.Group>
-                    <Form.Control
-                      type="search"
-                      placeholder="Search seller by username"
-                      value={sellerUsername}
-                      onChange={(e) => setSellerUsername(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={2} className="d-flex justify-content-end">
-                  <Button
-                    variant="primary"
-                    className="rounded"
-                    size="sm"
-                    onClick={handleSellerUsernameSearch}
-                    required
-                  >
-                    <div className="d-flex justify-content-center">
-                      <span className="py-1">
-                        <i className="fas fa-search"></i>
-                        {/* Search */}
-                        {/* Seller */}
-                      </span>
-                      {sellerUsernameSearchLoading && <LoaderButton />}
-                    </div>
-                  </Button>
-                </Col>
-              </Row>
+              <Form onSubmit={handleSellerUsernameSearch}>
+                <Row className="d-flex justify-content-betwwen">
+                  <Col md={10}>
+                    <Form.Group>
+                      <Form.Control
+                        type="search"
+                        placeholder="Search seller by username"
+                        value={sellerUsername}
+                        onChange={(e) => setSellerUsername(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={2} className="d-flex justify-content-end">
+                    <Button
+                      variant="primary"
+                      className="rounded"
+                      size="sm"
+                      type="submit"
+                      // onClick={handleSellerUsernameSearch}
+                      required
+                    >
+                      <div className="d-flex justify-content-center">
+                        <span className="py-1">
+                          <i className="fas fa-search"></i>
+                          {/* Search */}
+                          {/* Seller */}
+                        </span>
+                        {sellerUsernameSearchLoading && <LoaderButton />}
+                      </div>
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
             </Col>
           </Row>
 
@@ -390,7 +423,7 @@ function SearchResults() {
 
           <div className="py-2">
             <h3 className="text-center">
-              <i className="fas fa-th-list"></i> Search Found (
+              <i className="fas fa-list"></i> Search Found (
               {freeAdSearchLength + paidAdSearchLength})
             </h3>
             {searchAdResult && (

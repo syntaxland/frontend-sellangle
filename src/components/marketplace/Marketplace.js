@@ -48,6 +48,8 @@ function Marketplace() {
   const searchAdsState = useSelector((state) => state.searchAdsState);
   const {
     loading: searchAdLoading,
+    // success: searchAdSuccess,
+
     error: searchAdError,
     freeSearchAds,
     paidSearchAds,
@@ -60,6 +62,7 @@ function Marketplace() {
   );
   const {
     loading: sellerUsernameSearchLoading,
+    // success: sellerUsernameSearchSuccess,
     error: sellerUsernameSearchError,
     serachResults,
     sellerAvatarUrl,
@@ -102,25 +105,31 @@ function Marketplace() {
   //   setSelectedType(type);
   // };
 
-  const handleCategoryChange = useCallback((category) => {
-    // Filter freeAds and paidAds based on the selected category
-    const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
-    const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
+  const handleCategoryChange = useCallback(
+    (category) => {
+      // Filter freeAds and paidAds based on the selected category
+      const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
+      const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
 
-    // Set the filtered ads in the state
-    setFilteredFreeAds(filteredFreeAds);
-    setFilteredPaidAds(filteredPaidAds);
-  }, [freeAds, paidAds]);
+      // Set the filtered ads in the state
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
+    },
+    [freeAds, paidAds]
+  );
 
-  const handleTypeChange = useCallback((type) => {
-    // Filter freeAds and paidAds based on the selected type
-    const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
-    const filteredPaidAds = paidAds.filter((ad) => ad.type === type);
+  const handleTypeChange = useCallback(
+    (type) => {
+      // Filter freeAds and paidAds based on the selected type
+      const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
+      const filteredPaidAds = paidAds.filter((ad) => ad.type === type);
 
-    // Set the filtered ads in the state
-    setFilteredFreeAds(filteredFreeAds);
-    setFilteredPaidAds(filteredPaidAds);
-  }, [freeAds, paidAds]);
+      // Set the filtered ads in the state
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
+    },
+    [freeAds, paidAds]
+  );
 
   // const filterAds = useCallback(() => {
   //   if (selectedCategory && selectedType) {
@@ -257,10 +266,11 @@ function Marketplace() {
   };
 
   const handleSearchAds = () => {
-      history.push("/ad-search-results");
+    history.push("/ad-search-results");
   };
 
-  const handleSellerUsernameSearch = () => {
+  const handleSellerUsernameSearch = (e) => {
+    e.preventDefault();
     if (sellerUsername.trim() !== "") {
       const lowerCaseUsername = sellerUsername.toLowerCase().trim();
       const result = dispatch(getSellerUsernameSearch(lowerCaseUsername));
@@ -277,7 +287,7 @@ function Marketplace() {
         <Col>
           <hr />
           <h1 className="text-center py-3">
-            <i className="fas fa-shopping-cart"></i> Sell Angle  
+            <i className="fas fa-shopping-cart"></i> Sell Angle
           </h1>
           <hr />
 
@@ -287,6 +297,12 @@ function Marketplace() {
                 {searchAdError}
               </Message>
             )}
+
+            {/* {sellerUsernameSearchSuccess && (
+              <Message variant="success" fixed> 
+                Seller found!
+              </Message>
+            )} */}
 
             {sellerUsernameSearchError && (
               <Message fixed variant="danger">
@@ -299,7 +315,7 @@ function Marketplace() {
             <Col md={8}>
               <Row className="py-2 d-flex justify-content-betwwen">
                 {/* <Col md={10}> */}
-                  {/* <Form.Group>
+                {/* <Form.Group>
                     <Form.Control
                       type="text"
                       placeholder="Search ads"
@@ -308,12 +324,12 @@ function Marketplace() {
                     />
                   </Form.Group> */}
                 {/* </Col> */}
-                <Col  className="d-flex justify-content-center">
+                <Col className="d-flex justify-content-center">
                   <Button
                     variant="primary"
                     className="rounded"
                     size="sm"
-                    onClick={handleSearchAds} 
+                    onClick={handleSearchAds}
                   >
                     <div className="d-flex justify-content-center">
                       <span className="py-1">
@@ -413,37 +429,41 @@ function Marketplace() {
                 />
               </Col>
             </Col>
+
             <Col md={4} xs={12} sm={6} lg={4} xl={4} className="py-2">
-              <Row className="d-flex justify-content-betwwen">
-                <Col md={10}>
-                  <Form.Group>
-                    <Form.Control
-                      type="search"
-                      placeholder="Search seller by username"
-                      value={sellerUsername}
-                      onChange={(e) => setSellerUsername(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={2} className="d-flex justify-content-end">
-                  <Button
-                    variant="primary"
-                    className="rounded"
-                    size="sm"
-                    onClick={handleSellerUsernameSearch}
-                    required
-                  >
-                    <div className="d-flex justify-content-center">
-                      <span className="py-1">
-                        <i className="fas fa-search"></i>
-                        {/* Search */}
-                        {/* Seller */}
-                      </span>
-                      {sellerUsernameSearchLoading && <LoaderButton />}
-                    </div>
-                  </Button>
-                </Col>
-              </Row>
+              <Form onSubmit={handleSellerUsernameSearch}>
+                <Row className="d-flex justify-content-betwwen">
+                  <Col md={10}>
+                    <Form.Group>
+                      <Form.Control
+                        type="search"
+                        placeholder="Search seller by username"
+                        value={sellerUsername}
+                        onChange={(e) => setSellerUsername(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={2} className="d-flex justify-content-end">
+                    <Button
+                      variant="primary"
+                      className="rounded"
+                      size="sm"
+                      type="submit"
+                      // onClick={handleSellerUsernameSearch}
+                      required
+                    >
+                      <div className="d-flex justify-content-center">
+                        <span className="py-1">
+                          <i className="fas fa-search"></i>
+                          {/* Search */}
+                          {/* Seller */}
+                        </span>
+                        {sellerUsernameSearchLoading && <LoaderButton />}
+                      </div>
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
             </Col>
           </Row>
 
@@ -461,10 +481,8 @@ function Marketplace() {
               totalAdsTypeCount={totalAdsTypeCount}
               setSelectedType={setSelectedType}
               setSelectedCategory={setSelectedCategory}
-
               onCategoryChange={handleCategoryChange}
               onTypeChange={handleTypeChange}
-
             />
           </div>
 
@@ -552,7 +570,6 @@ function Marketplace() {
               selectedCity={selectedCity}
               selectedCategory={selectedCategory}
               selectedType={selectedType}
-
             />
           </div>
 
@@ -563,7 +580,6 @@ function Marketplace() {
               selectedCity={selectedCity}
               selectedCategory={selectedCategory}
               selectedType={selectedType}
-
             />
           </div>
         </Col>

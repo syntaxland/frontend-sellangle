@@ -657,6 +657,7 @@ function PostFreeAd() {
               Ad created successfully.
             </Message>
           )}
+          
           {error && (
             <Message variant="danger" fixed>
               {error}
