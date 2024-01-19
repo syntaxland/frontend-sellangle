@@ -422,12 +422,12 @@ function SearchResults() {
           <hr />
 
           <div className="py-2">
-            <h3 className="text-center">
-              <i className="fas fa-list"></i> Search Found (
-              {freeAdSearchLength + paidAdSearchLength})
-            </h3>
             {searchAdResult && (
               <Row className="py-2 d-flex justify-content-center">
+                <h1 className="text-center">
+                  <i className="fas fa-search"></i> Search Found (
+                  {freeAdSearchLength + paidAdSearchLength})
+                </h1>
                 <Col>
                   <div>
                     {freeSearchAds || paidSearchAds ? (

@@ -11,7 +11,7 @@ const AD_CATEGORY_CHOICES = [
   ["Properties", "Properties"],
   ["Electronics", "Electronics"],
   ["Fashion", "Fashion"],
-  ["Vehicles", "Vehicles"], 
+  ["Vehicles", "Vehicles"],
   ["Services", "Services"],
   ["Mobile Phones", "Mobile Phones"],
   ["Health & Beauty", "Health & Beauty"],
@@ -133,7 +133,6 @@ function FilterBar({
   onCategoryChange,
   onTypeChange,
 }) {
-
   useEffect(() => {
     const storedCategory = localStorage.getItem("selectedCategory");
     const storedType = localStorage.getItem("selectedType");
@@ -159,14 +158,14 @@ function FilterBar({
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setSelectedType(null);
-    onCategoryChange(category); 
+    onCategoryChange(category);
     localStorage.setItem("selectedCategory", category);
     localStorage.removeItem("selectedType");
   };
 
   const handleTypeChange = (type) => {
     setSelectedType(type);
-    onTypeChange(type); 
+    onTypeChange(type);
     localStorage.setItem("selectedType", type.value);
   };
 
@@ -191,11 +190,11 @@ function FilterBar({
                     // onClick={() => handleCategoryChange(value)}
                     onClick={() => {
                       handleCategoryChange(value);
-                      onCategoryChange(value); 
+                      onCategoryChange(value);
                     }}
-
                   >
-                    {label} ({value === selectedCategory ? totalAdsCategoryCount : 0}) 
+                    {label} (
+                    {value === selectedCategory ? totalAdsCategoryCount : 0})
                   </Button>
                 </div>
               ))}
@@ -211,14 +210,16 @@ function FilterBar({
                       options={AD_TYPE_CHOICES[selectedCategory].map(
                         ([value, label]) => ({
                           value,
-                          label: `${label} (${value === selectedType ? totalAdsTypeCount : 0})`,
+                          label: `${label} (${
+                            value === selectedType ? totalAdsTypeCount : 0
+                          })`,
                         })
                       )}
                       value={selectedType}
                       // onChange={handleTypeChange}
                       onChange={(type) => {
                         handleTypeChange(type);
-                        onTypeChange(type.value); 
+                        onTypeChange(type.value);
                       }}
                       placeholder="Select Type"
                       className="rounded py-2 mb-2"

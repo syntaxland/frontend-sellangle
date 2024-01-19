@@ -42,17 +42,15 @@ function Footer() {
           <Col className="text-center py-3">
             {/* <p>&copy; Mcdof Shop Inc, {currentYear}.{" "} </p> */}
             <p>&copy; Sellangle Inc, {currentYear}.{" "} | Angle for quick sells... </p>
-            Powered by
             <Button
               variant="outline-transparent"
               className="rounded"
               onClick={softGlobalLink}
             >
-              SoftGlobal
+             <i style={{ fontSize: "12px", color: "white" }}>Powered by SoftGlobal</i>
             </Button>{" "}
-            | +2349066167293
           </Col>
-        </Row>
+        </Row> 
       </Container>
     </footer>
   );
