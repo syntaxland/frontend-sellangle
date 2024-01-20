@@ -122,7 +122,7 @@ function Marketplace() {
     (type) => {
       // Filter freeAds and paidAds based on the selected type
       const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
-      const filteredPaidAds = paidAds.filter((ad) => ad.type === type);
+      const filteredPaidAds = paidAds.filter((ad) => ad.type === type); 
 
       // Set the filtered ads in the state
       setFilteredFreeAds(filteredFreeAds);

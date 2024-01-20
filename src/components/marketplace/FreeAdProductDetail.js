@@ -15,14 +15,12 @@ import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
 import Message from "../Message";
 import { useDispatch, useSelector } from "react-redux";
-// import { listProductDetails } from "../../actions/adsAction";
-
 import { getSellerAccount } from "../../actions/marketplaceSellerActions";
 import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
 import PromoTimer from "../PromoTimer";
+import DOMPurify from "dompurify";
 
 function FreeAdProductDetail({ match, history }) {
   const [qty, setQty] = useState(1);
@@ -52,6 +50,12 @@ function FreeAdProductDetail({ match, history }) {
 
   const handleShowPhoneNumber = () => {
     setShowPhoneNumber(!showPhoneNumber);
+  };
+
+  const [expanded, setExpanded] = useState(false);
+
+  const handleClickMore = () => {
+    setExpanded(!expanded);
   };
 
   useEffect(() => {
@@ -241,9 +245,27 @@ function FreeAdProductDetail({ match, history }) {
                   </ListGroup>
                 </Card>
               </Col>
+
               <ListGroup className="py-2">
                 <ListGroup.Item>
-                  Ad Description: {ads?.description}
+                  Ad Description:
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        expanded
+                          ? ads?.description
+                          : ads?.description
+                              .split(" ")
+                              .slice(0, 10)
+                              .join(" ") + " ..."
+                      ),
+                    }}
+                  />
+                  {ads?.description.split(" ").length > 10 && (
+                    <Button variant="link" onClick={handleClickMore}>
+                      {expanded ? "Less" : "More"}
+                    </Button>
+                  )}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -376,7 +398,8 @@ function FreeAdProductDetail({ match, history }) {
                         className="py-2 rounded"
                         onClick={handleSellerShopFront}
                       >
-                        <i className="fa fa-shopping-cart"></i> Go to Seller Shopfront
+                        <i className="fa fa-shopping-cart"></i> Go to Seller
+                        Shopfront
                       </Button>
                     </span>
                   </ListGroup.Item>

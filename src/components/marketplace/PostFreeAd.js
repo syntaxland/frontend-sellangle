@@ -2,13 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Button, Container, Row, Col } from "react-bootstrap"; 
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { postFreeAd } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function PostFreeAd() {
   const dispatch = useDispatch();
@@ -114,6 +116,29 @@ function PostFreeAd() {
     setAdType(selectedOption.value);
     setAdTypeError("");
   };
+
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["bold", "italic", "underline"],
+      [{ align: [] }],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "list",
+    "bold",
+    "italic",
+    "underline",
+    "align",
+    "link",
+    "image",
+  ];
 
   const handleFieldChange = (fieldName, value) => {
     switch (fieldName) {
@@ -257,6 +282,8 @@ function PostFreeAd() {
       ["Microwave", "Microwave"],
       ["Coffee Machine", "Coffee Machine"],
       ["Air Conditioner", "Air Conditioner"],
+      ["Solar", "Solar"],
+      ["Kitchen Appliances", "Kitchen Appliances"],
     ],
     Properties: [
       ["House", "House"],
@@ -657,7 +684,7 @@ function PostFreeAd() {
               Ad created successfully.
             </Message>
           )}
-          
+
           {error && (
             <Message variant="danger" fixed>
               {error}
@@ -807,8 +834,6 @@ function PostFreeAd() {
                */}
             </Form.Group>
 
-         
-
             <Form.Group>
               <Form.Label>Currency*</Form.Label>
               <Form.Control
@@ -840,8 +865,6 @@ function PostFreeAd() {
               />
               <Form.Text className="text-danger">{priceError}</Form.Text>
             </Form.Group>
-
-           
 
             <Form.Group>
               <Form.Label>Brand</Form.Label>
@@ -938,7 +961,7 @@ function PostFreeAd() {
 
             <Form.Group>
               <Form.Label>Description</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 // type="text"
                 as="textarea"
                 rows={2}
@@ -949,8 +972,20 @@ function PostFreeAd() {
                 placeholder="Enter ad description"
                 className="rounded py-2 mb-2"
                 required
-                maxLength={100}
+                maxLength={2000}
+              /> */}
+
+              <ReactQuill
+                value={description}
+                onChange={(value) => handleFieldChange("description", value)}
+                placeholder="Enter ad description"
+                className="rounded py-2 mb-2"
+                modules={modules}
+                formats={formats}
+                maxLength={4000}
+                required
               />
+
               <Form.Text className="text-danger">{descriptionError}</Form.Text>
             </Form.Group>
           </Form>

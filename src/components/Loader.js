@@ -4,8 +4,8 @@ import {
   //   BeatLoader,
   //   CircleLoader,
   //   BounceLoader,
-  //   ClipLoader,
-  FadeLoader,
+    ClipLoader,
+  // FadeLoader,
   //   GridLoader,
   //   HashLoader, 
   //   PropagateLoader,
@@ -26,7 +26,7 @@ function Loader() {
         {/* <Spinner annimation='border' variant='primary' size='lg' />  */}
 
         {/* from react-spinners */}
-        <FadeLoader color="blue" size={50} />
+        <ClipLoader color="blue" size={50} />
 
         {/* 
       <p>BeatLoader...<BeatLoader color="#ff0000" size={20} /></p><br />

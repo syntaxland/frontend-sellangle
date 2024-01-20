@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
 import { postPaidAd } from "../../actions/marketplaceSellerActions";
-import Message from "../Message"; 
+import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function PostPaidAd({ history }) {
   const dispatch = useDispatch();
@@ -141,6 +143,29 @@ function PostPaidAd({ history }) {
   const handleAltCurrencyInfoModalClose = () => {
     setShowAltCurrencyInfoModal(false);
   };
+
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["bold", "italic", "underline"],
+      [{ align: [] }],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "list",
+    "bold",
+    "italic",
+    "underline",
+    "align",
+    "link",
+    "image",
+  ];
 
   const handleFieldChange = (fieldName, value) => {
     switch (fieldName) {
@@ -300,6 +325,8 @@ function PostPaidAd({ history }) {
       ["Microwave", "Microwave"],
       ["Coffee Machine", "Coffee Machine"],
       ["Air Conditioner", "Air Conditioner"],
+      ["Solar", "Solar"],
+      ["Kitchen Appliances", "Kitchen Appliances"],
     ],
     Properties: [
       ["House", "House"],
@@ -1112,7 +1139,7 @@ function PostPaidAd({ history }) {
 
             <Form.Group>
               <Form.Label>Description*</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 // type="text"
                 as="textarea"
                 rows={2}
@@ -1123,8 +1150,32 @@ function PostPaidAd({ history }) {
                 placeholder="Enter ad description"
                 className="rounded py-2 mb-2"
                 required
-                maxLength={100}
+                maxLength={2000}
+              /> */}
+
+              <ReactQuill
+                value={description}
+                onChange={(value) => handleFieldChange("description", value)}
+                placeholder="Enter ad description"
+                className="rounded py-2 mb-2"
+                modules={modules}
+                formats={formats}
+                maxLength={4000}
+                required
               />
+
+              {/* <ReactQuill
+                value={description}
+                // onChange={setMessage}
+                onChange={(e) =>
+                  handleFieldChange("description", e.target.value)
+                }
+                modules={modules} 
+                formats={formats}
+                placeholder="Enter ad description"
+                maxLength={2000}
+                required
+              /> */}
               <Form.Text className="text-danger">{descriptionError}</Form.Text>
             </Form.Group>
           </Form>

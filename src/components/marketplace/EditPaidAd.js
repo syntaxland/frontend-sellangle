@@ -12,7 +12,8 @@ import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
-
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 
 const DURATION_CHOICES = [
   ["1 day", "1 day (24 cps)"],
@@ -56,6 +57,8 @@ const AD_TYPE_CHOICES = {
     ["Microwave", "Microwave"],
     ["Coffee Machine", "Coffee Machine"],
     ["Air Conditioner", "Air Conditioner"],
+    ["Solar", "Solar"],
+    ["Kitchen Appliances", "Kitchen Appliances"],
   ],
   Properties: [
     ["House", "House"],
@@ -372,6 +375,29 @@ function EditPaidAd({ history, match }) {
     is_auto_renewal: "",
   });
 
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: "1" }, { header: "2" }, { font: [] }],
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     ["bold", "italic", "underline"],
+  //     [{ align: [] }],
+  //     ["link", "image"],
+  //     ["clean"],
+  //   ],
+  // };
+
+  // const formats = [
+  //   "header",
+  //   "font",
+  //   "list",
+  //   "bold",
+  //   "italic",
+  //   "underline",
+  //   "align",
+  //   "link",
+  //   "image",
+  // ];
+
   useEffect(() => {
     if (ads) {
       setEditAdData({
@@ -428,6 +454,11 @@ function EditPaidAd({ history, match }) {
       setCities([]);
     }
   }, [editAdData.state_province, editAdData.country?.isoCode]);
+
+  // const handleDesEditAdChanges = (value, name) => {
+  //   setEditAdData({ ...editAdData, [name]: value });
+  //   setEditAdChanges(true);
+  // };
 
   const handleEditAdChanges = (e) => {
     const { name, value, files, checked } = e.target;
@@ -1095,15 +1126,26 @@ function EditPaidAd({ history, match }) {
               <Form.Control
                 // type="text"
                 as="textarea"
-                rows={2}
+                rows={4}
                 name="description"
                 value={editAdData.description}
                 onChange={handleEditAdChanges}
                 placeholder="Enter ad description"
                 className="rounded py-2 mb-2"
                 required
-                maxLength={100}
+                maxLength={4000}
               />
+              {/* <ReactQuill
+                name="description"
+                value={editAdData.description}
+                onChange={(value) => handleDesEditAdChanges(value, "description")}
+                // onChange={handleDesEditAdChanges}
+                modules={modules}
+                formats={formats}
+                placeholder="Enter ad description"
+                maxLength={2000}
+                required
+              /> */}
             </Form.Group>
           </Form>
           <div className="py-2">

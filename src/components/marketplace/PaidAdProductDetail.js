@@ -31,6 +31,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Paysofter from "../MarketplacePayment/Paysofter";
 import PromoTimer from "../PromoTimer";
+import DOMPurify from "dompurify";
 
 function PaidAdProductDetail({ match, history }) {
   const dispatch = useDispatch();
@@ -60,17 +61,6 @@ function PaidAdProductDetail({ match, history }) {
     setShowPhoneNumber(!showPhoneNumber);
   };
 
-  //   getFreeAdState
-  // updateFreeAdState
-  // getAllFreeAdState
-  // getPaidAdState
-  // updatePaidAdState
-  // getAllPaidAdState
-  // deleteFreeAdState
-  // deletePaidAdState
-  // getFreeAdDetailState
-  // getPaidAdDetailState
-
   const getPaidAdDetailState = useSelector(
     (state) => state.getPaidAdDetailState
   );
@@ -82,6 +72,12 @@ function PaidAdProductDetail({ match, history }) {
     sellerAvatarUrl,
   } = getPaidAdDetailState;
   console.log("sellerAvatarUrl", sellerAvatarUrl);
+
+  const [expanded, setExpanded] = useState(false);
+
+  const handleClickMore = () => {
+    setExpanded(!expanded);
+  };
 
   useEffect(() => {
     dispatch(getPaidAdDetail(match.params.id));
@@ -238,13 +234,13 @@ function PaidAdProductDetail({ match, history }) {
                         <Col>Price:</Col>
                         <Col>
                           <strong>
-                             {ads?.price} {ads?.currency}
+                            {ads?.price} {ads?.currency}
                           </strong>
                           <strong>
                             {ads?.usd_price ? (
                               <span>
                                 {" "}
-                                / {ads?.usd_price} {ads?.usd_currency}{" "} 
+                                / {ads?.usd_price} {ads?.usd_currency}{" "}
                               </span>
                             ) : (
                               <></>
@@ -276,7 +272,24 @@ function PaidAdProductDetail({ match, history }) {
               </Col>
               <ListGroup className="py-2">
                 <ListGroup.Item>
-                  Ad Description: {ads?.description}
+                  Ad Description:
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        expanded
+                          ? ads?.description
+                          : ads?.description
+                              .split(" ")
+                              .slice(0, 10)
+                              .join(" ") + " ..."
+                      ),
+                    }}
+                  />
+                  {ads?.description.split(" ").length > 10 && (
+                    <Button variant="link" onClick={handleClickMore}>
+                      {expanded ? "Less" : "More"}
+                    </Button>
+                  )}
                 </ListGroup.Item>
 
                 <ListGroup.Item>

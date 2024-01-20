@@ -49,6 +49,11 @@ function MarketplaceDashboard({ history }) {
     setSidebarOpen(!sidebarOpen);
   };
 
+const handleCurrentAds = () => {
+    history.push("/current-ads");
+  };
+
+
   // const handleAdminDashboard = () => {
   //   history.push("/admin-dashboard");
   // };
@@ -276,7 +281,8 @@ function MarketplaceDashboard({ history }) {
                 <Button
                   variant={activeTab === "ads" ? "info" : "outline-info"}
                   className="sidebar-link"
-                  onClick={() => handleTabChange("ads")}
+                  onClick={handleCurrentAds}
+                  // onClick={() => handleTabChange("ads")}
                 >
                   <i className="fas fa-ad"></i> Current Ads
                 </Button>

@@ -12,6 +12,8 @@ import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 
 const CURRENCY_CHOICES = [
   ["NGN", "Nigerian Naira"],
@@ -217,6 +219,8 @@ const AD_TYPE_CHOICES = {
     ["Microwave", "Microwave"],
     ["Coffee Machine", "Coffee Machine"],
     ["Air Conditioner", "Air Conditioner"],
+    ["Solar", "Solar"],
+    ["Kitchen Appliances", "Kitchen Appliances"],
   ],
   Properties: [
     ["House", "House"],
@@ -375,6 +379,29 @@ function EditFreeAd({ history, match }) {
     is_auto_renewal: "",
   });
 
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: "1" }, { header: "2" }, { font: [] }],
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     ["bold", "italic", "underline"],
+  //     [{ align: [] }],
+  //     ["link", "image"],
+  //     ["clean"],
+  //   ],
+  // };
+
+  // const formats = [
+  //   "header",
+  //   "font",
+  //   "list",
+  //   "bold",
+  //   "italic",
+  //   "underline",
+  //   "align",
+  //   "link",
+  //   "image",
+  // ];
+
   useEffect(() => {
     if (ads) {
       setEditAdData({
@@ -456,6 +483,8 @@ function EditFreeAd({ history, match }) {
     }
   }, [editAdData.state_province, editAdData.country?.isoCode]);
 
+  
+
   const handleEditAdChanges = (e) => {
     const { name, value, files, checked } = e.target;
 
@@ -469,6 +498,13 @@ function EditFreeAd({ history, match }) {
 
     setEditAdChanges(true);
   };
+
+  // const handleDesEditAdChanges = (value, name) => {
+  //   if (name === "description" ) {
+  //     setEditAdData({ ...editAdData, [name]: value });
+  //   } 
+  //   setEditAdChanges(true);
+  // };
 
   const handleEditAd = () => {
     const editAdFormData = new FormData();
@@ -514,15 +550,13 @@ function EditFreeAd({ history, match }) {
 
     console.log("editAdFormData:", editAdFormData);
 
-  
     if (!editAdData.country || !editAdData.state_province) {
       setErrorMessage("Please select country, state/province.");
-      return; 
+      return;
     }
-  
+
     dispatch(editFreeAd(editAdFormData));
     setErrorMessage(null);
-
   };
 
   useEffect(() => {
@@ -926,17 +960,28 @@ function EditFreeAd({ history, match }) {
             <Form.Group>
               <Form.Label>Description</Form.Label>
               <Form.Control
-                // type="text"
                 as="textarea"
-                rows={2}
+                rows={4}
                 name="description"
                 value={editAdData.description}
                 onChange={handleEditAdChanges}
                 placeholder="Enter ad description"
                 className="rounded py-2 mb-2"
                 required
-                maxLength={100}
+                maxLength={4000}
               />
+
+              {/* <ReactQuill
+              theme="snow"
+                value={editAdData.description}
+                onChange={(value) => handleEditAdChanges({ target: { name: 'description', value } })}
+                modules={modules}
+                formats={formats}
+                placeholder="Enter ad description"
+                maxLength={4000}
+              /> */}
+
+              
             </Form.Group>
           </Form>
           <div className="py-2">
