@@ -301,7 +301,7 @@ function SearchResults() {
               disabled
             >
               <i className="fas fa-map-marker-alt"></i> Ad Location (
-              {freeAdSearchLength + paidAdSearchLength})
+              {freeAdSearchLength + paidAdSearchLength} ads)
             </Button>
           </Col>
           <Row className="py-2 d-flex justify-content-end">

@@ -269,7 +269,7 @@ function Marketplace() {
               disabled
             >
               <i className="fas fa-map-marker-alt"></i> Ad Location (
-              {freeAdLength + paidAdLength})
+              {freeAdLength + paidAdLength} ads)
             </Button>
           </Col>
           <Row className="py-2 d-flex justify-content-end">
