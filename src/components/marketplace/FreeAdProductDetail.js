@@ -137,7 +137,7 @@ function FreeAdProductDetail({ match, history }) {
     <Container>
       <Row>
         <Col>
-          <Link to="/marketplace" className="btn btn-dark my-3">
+          <Link to="/" className="btn btn-dark my-3">
             {" "}
             Go Back
           </Link>
