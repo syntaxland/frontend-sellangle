@@ -1,41 +1,42 @@
 // AllPaidAdScreen.js
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { getAllPaidAd } from "../../actions/marketplaceSellerActions";
+// import { getAllPaidAd } from "../../actions/marketplaceSellerActions"; 
 
 import AllPaidAdCard from "./AllPaidAdCard";
 import Message from "../Message";
 import Loader from "../Loader";
 
 function AllPaidAdScreen({
-  selectedCountry,
-  selectedState,
-  selectedCity,
-  selectedCategory,
-  selectedType,
+  paidAds,
+  // selectedCountry,
+  // selectedState,
+  // selectedCity,
+  // selectedCategory,
+  // selectedType,
 }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const getAllPaidAdState = useSelector((state) => state.getAllPaidAdState);
-  const { loading, error, paidAds } = getAllPaidAdState;
-  console.log("PaidAds:", paidAds);
-  console.log("paid ad location", selectedCountry, selectedState, selectedCity);
+  const { loading, error } = getAllPaidAdState;
+  // console.log("PaidAds:", paidAds);
+  // console.log("paid ad location", selectedCountry, selectedState, selectedCity);
 
-  const paidAdLength = paidAds?.length;
-  console.log("paidAdLength:", paidAdLength);
+  // const paidAdLength = paidAds?.length;
+  // console.log("paidAdLength:", paidAdLength);
 
-  useEffect(() => {
-    const adData = {
-      selected_country: selectedCountry,
-      selected_state: selectedState,
-      selected_city: selectedCity,
-      selected_category: selectedCategory,
-      selected_type: selectedType,
-    };
-    dispatch(getAllPaidAd(adData));
-    // eslint-disable-next-line
-  }, [dispatch, selectedCountry, selectedState, selectedCity]);
+  // useEffect(() => {
+  //   const adData = {
+  //     selected_country: selectedCountry, 
+  //     selected_state: selectedState,
+  //     selected_city: selectedCity,
+  //     // selected_category: selectedCategory,
+  //     // selected_type: selectedType,
+  //   };
+  //   dispatch(getAllPaidAd(adData));
+  //   // eslint-disable-next-line
+  // }, [dispatch, selectedCountry, selectedState, selectedCity]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;

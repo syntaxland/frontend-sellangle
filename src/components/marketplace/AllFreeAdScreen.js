@@ -1,40 +1,41 @@
 // AllFreeAdScreen.js
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { getAllFreeAd } from "../../actions/marketplaceSellerActions";
+// import { getAllFreeAd } from "../../actions/marketplaceSellerActions";
 
 import AllFreeAdCard from "./AllFreeAdCard";
 import Message from "../Message";
 import Loader from "../Loader";
 
 function AllFreeAdScreen({
-  selectedCountry,
-  selectedState,
-  selectedCity,
-  selectedCategory,
-  selectedType,
+  freeAds,
+  // selectedCountry,
+  // selectedState,
+  // selectedCity,
+  // selectedCategory,
+  // selectedType,
 }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const getAllFreeAdState = useSelector((state) => state.getAllFreeAdState);
-  const { loading, error, freeAds } = getAllFreeAdState;
-  console.log("All Free Ads:", freeAds);
+  const { loading, error } = getAllFreeAdState;
+  // console.log("All Free Ads:", freeAds);
 
-  const freeAdLength = freeAds?.length;
-  console.log("freeAdLength:", freeAdLength);
+  // const freeAdLength = freeAds?.length;
+  // console.log("freeAdLength:", freeAdLength);
 
-  useEffect(() => {
-    const adData = {
-      selected_country: selectedCountry,
-      selected_state: selectedState,
-      selected_city: selectedCity,
-      selected_category: selectedCategory,
-      selected_type: selectedType,
-    };
-    dispatch(getAllFreeAd(adData));
-    // eslint-disable-next-line
-  }, [dispatch, selectedCountry, selectedState, selectedCity]);
+  // useEffect(() => {
+  //   const adData = {
+  //     selected_country: selectedCountry,
+  //     selected_state: selectedState,
+  //     selected_city: selectedCity,
+  //     // selected_category: selectedCategory,
+  //     // selected_type: selectedType,
+  //   };
+  //   dispatch(getAllFreeAd(adData)); 
+  //   // eslint-disable-next-line
+  // }, [dispatch, selectedCountry, selectedState, selectedCity]); 
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -57,7 +58,7 @@ function AllFreeAdScreen({
           <hr />
           <h1 className="text-center">Running Ads</h1>
           <hr />
-          {loading ? (
+          {loading ? ( 
             <Loader />
           ) : error ? (
             <Message variant="danger">{error}</Message>

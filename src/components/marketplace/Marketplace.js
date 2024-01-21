@@ -89,13 +89,101 @@ function Marketplace() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
 
-  const freeAdsCategoryCount = freeAds ? freeAds.length : 0;
-  const paidAdsCategoryCount = paidAds ? paidAds.length : 0;
-  const totalAdsCategoryCount = freeAdsCategoryCount + paidAdsCategoryCount;
+  // const [totalFreeAdsByCategory, setTotalFreeAdsByCategory] = useState({});
+  // const [totalPaidAdsByCategory, setTotalPaidAdsByCategory] = useState({});
+  // const [totalFreeAdsByType, setTotalFreeAdsByType] = useState({});
+  // const [totalPaidAdsByType, setTotalPaidAdsByType] = useState({});
 
-  const freeAdsTypeCount = freeAds ? freeAds.length : 0;
-  const paidAdsTypeCount = paidAds ? paidAds.length : 0;
-  const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
+  
+
+  const handleCategoryChange = useCallback(
+    (category) => {
+      setSelectedCategory(category);
+      setSelectedType(null);
+
+      const filteredFreeAds = freeAds?.filter((ad) => ad.ad_category === category);
+      const filteredPaidAds = paidAds?.filter((ad) => ad.ad_category === category);
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
+
+      localStorage.setItem("selectedCategory", category);
+      localStorage.removeItem("selectedType");
+    },
+    [freeAds, paidAds]
+  );
+
+  const handleTypeChange = useCallback(
+    (type) => {
+      setSelectedType(type);
+
+      const filteredFreeAds = freeAds?.filter(
+        (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
+      );
+      const filteredPaidAds = paidAds?.filter(
+        (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
+      );
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
+
+      localStorage.setItem("selectedType", type.value);
+    },
+    [freeAds, paidAds, selectedCategory]
+  );
+
+  useEffect(() => {
+    const storedCategory = localStorage.getItem("selectedCategory");
+    const storedType = localStorage.getItem("selectedType");
+
+    if (storedCategory && storedType) {
+      setSelectedCategory(storedCategory);
+      setSelectedType(storedType);
+
+      const filteredFreeAds = freeAds?.filter(
+        (ad) => ad.ad_category === storedCategory
+      );
+      const filteredPaidAds = paidAds?.filter(
+        (ad) => ad.ad_category === storedCategory && ad.ad_type === storedType
+      );
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
+    }
+  }, [freeAds, paidAds]);
+
+  // const handleCategoryChange = useCallback(
+  //   (category) => {
+  //     const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
+  //     const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
+
+  //     setFilteredFreeAds(filteredFreeAds);
+  //     setFilteredPaidAds(filteredPaidAds);
+
+  //     setTotalFreeAdsByCategory((prev) => ({ ...prev, [category]: filteredFreeAds.length }));
+  //     setTotalPaidAdsByCategory((prev) => ({ ...prev, [category]: filteredPaidAds.length }));
+  //   },
+  //   [freeAds, paidAds]
+  // );
+
+  // const handleTypeChange = useCallback(
+  //   (type) => {
+  //     const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
+  //     const filteredPaidAds = paidAds.filter((ad) => ad.type === type);
+
+  //     setFilteredFreeAds(filteredFreeAds);
+  //     setFilteredPaidAds(filteredPaidAds);
+
+  //     setTotalFreeAdsByType((prev) => ({ ...prev, [type]: filteredFreeAds.length }));
+  //     setTotalPaidAdsByType((prev) => ({ ...prev, [type]: filteredPaidAds.length }));
+  //   },
+  //   [freeAds, paidAds]
+  // );
+
+  // const freeAdsCategoryCount = freeAds ? freeAds.length : 0;
+  // const paidAdsCategoryCount = paidAds ? paidAds.length : 0;
+  // const totalAdsCategoryCount = freeAdsCategoryCount + paidAdsCategoryCount;
+
+  // const freeAdsTypeCount = freeAds ? freeAds.length : 0;
+  // const paidAdsTypeCount = paidAds ? paidAds.length : 0;
+  // const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
 
   // const handleCategoryChange = (category) => {
   //   setSelectedCategory(category);
@@ -105,31 +193,31 @@ function Marketplace() {
   //   setSelectedType(type);
   // };
 
-  const handleCategoryChange = useCallback(
-    (category) => {
-      // Filter freeAds and paidAds based on the selected category
-      const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
-      const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
+  // const handleCategoryChange = useCallback(
+  //   (category) => {
+  //     // Filter freeAds and paidAds based on the selected category
+  //     const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
+  //     const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
 
-      // Set the filtered ads in the state
-      setFilteredFreeAds(filteredFreeAds);
-      setFilteredPaidAds(filteredPaidAds);
-    },
-    [freeAds, paidAds]
-  );
+  //     // Set the filtered ads in the state
+  //     setFilteredFreeAds(filteredFreeAds);
+  //     setFilteredPaidAds(filteredPaidAds);
+  //   },
+  //   [freeAds, paidAds]
+  // );
 
-  const handleTypeChange = useCallback(
-    (type) => {
-      // Filter freeAds and paidAds based on the selected type
-      const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
-      const filteredPaidAds = paidAds.filter((ad) => ad.type === type); 
+  // const handleTypeChange = useCallback(
+  //   (type) => {
+  //     // Filter freeAds and paidAds based on the selected type
+  //     const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
+  //     const filteredPaidAds = paidAds.filter((ad) => ad.type === type); 
 
-      // Set the filtered ads in the state
-      setFilteredFreeAds(filteredFreeAds);
-      setFilteredPaidAds(filteredPaidAds);
-    },
-    [freeAds, paidAds]
-  );
+  //     // Set the filtered ads in the state
+  //     setFilteredFreeAds(filteredFreeAds);
+  //     setFilteredPaidAds(filteredPaidAds);
+  //   },
+  //   [freeAds, paidAds]
+  // );
 
   // const filterAds = useCallback(() => {
   //   if (selectedCategory && selectedType) {
@@ -471,16 +559,18 @@ function Marketplace() {
             <FilterBar
               selectedCategory={selectedCategory}
               selectedType={selectedType}
-              filteredFreeAds={filteredFreeAds}
-              filteredPaidAds={filteredPaidAds}
-              paidAdsCategoryCount={paidAdsCategoryCount}
-              freeAdsCategoryCount={freeAdsCategoryCount}
-              totalAdsCategoryCount={totalAdsCategoryCount}
-              freeAdsTypeCount={freeAdsTypeCount}
-              paidAdsTypeCount={paidAdsTypeCount}
-              totalAdsTypeCount={totalAdsTypeCount}
               setSelectedType={setSelectedType}
               setSelectedCategory={setSelectedCategory}
+
+              filteredFreeAds={filteredFreeAds}
+              filteredPaidAds={filteredPaidAds} 
+
+              // totalFreeAdsByCategory={totalFreeAdsByCategory}
+              // totalPaidAdsByCategory={totalPaidAdsByCategory}
+              // totalFreeAdsByType={totalFreeAdsByType}
+              // totalPaidAdsByType={totalPaidAdsByType}
+              freeAds={freeAds}
+              paidAds={paidAds}
               onCategoryChange={handleCategoryChange}
               onTypeChange={handleTypeChange}
             />
@@ -568,8 +658,8 @@ function Marketplace() {
               selectedCountry={selectedCountry}
               selectedState={selectedState}
               selectedCity={selectedCity}
-              selectedCategory={selectedCategory}
-              selectedType={selectedType}
+              paidAds={paidAds}
+              // selectedType={selectedType}
             />
           </div>
 
@@ -578,8 +668,8 @@ function Marketplace() {
               selectedCountry={selectedCountry}
               selectedState={selectedState}
               selectedCity={selectedCity}
-              selectedCategory={selectedCategory}
-              selectedType={selectedType}
+              freeAds={freeAds}
+              // selectedType={selectedType}
             />
           </div>
         </Col>

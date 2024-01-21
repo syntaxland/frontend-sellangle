@@ -1,5 +1,5 @@
 // FilterBar.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Select from "react-select";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
@@ -126,15 +126,51 @@ const AD_TYPE_CHOICES = {
 };
 
 function FilterBar({
+  freeAds,
+  paidAds,
   selectedCategory,
   selectedType,
   setSelectedCategory,
   setSelectedType,
-  totalAdsCategoryCount,
-  totalAdsTypeCount,
   onCategoryChange,
   onTypeChange,
 }) {
+  console.log("paidAds length:", paidAds?.length);
+  console.log("freeAds length:", freeAds?.length);
+
+  const [categoryCounts, setCategoryCounts] = useState({});
+  const [typeCounts, setTypeCounts] = useState({});
+
+  useEffect(() => {
+    const categoryCountsObj = {};
+    AD_CATEGORY_CHOICES.forEach(([value]) => {
+      const filteredFreeAds = freeAds?.filter((ad) => ad.ad_category === value);
+      const filteredPaidAds = paidAds?.filter((ad) => ad.ad_category === value);
+      categoryCountsObj[value] = {
+        freeAdsCount: filteredFreeAds?.length,
+        paidAdsCount: filteredPaidAds?.length,
+      };
+    });
+    setCategoryCounts(categoryCountsObj);
+
+    const typeCountsObj = {};
+    Object.keys(AD_TYPE_CHOICES).forEach((category) => {
+      AD_TYPE_CHOICES[category].forEach(([value]) => {
+        const filteredFreeAds = freeAds?.filter(
+          (ad) => ad.ad_category === category && ad.ad_type === value
+        );
+        const filteredPaidAds = paidAds?.filter(
+          (ad) => ad.ad_category === category && ad.ad_type === value
+        );
+        typeCountsObj[value] = {
+          freeAdsCount: filteredFreeAds?.length,
+          paidAdsCount: filteredPaidAds?.length,
+        };
+      });
+    });
+    setTypeCounts(typeCountsObj);
+  }, [freeAds, paidAds]);
+
   useEffect(() => {
     const storedCategory = localStorage.getItem("selectedCategory");
     const storedType = localStorage.getItem("selectedType");
@@ -145,29 +181,33 @@ function FilterBar({
     }
   }, [setSelectedCategory, setSelectedType]);
 
-  // const handleCategoryChange = (category) => {
-  //   setSelectedCategory(category);
-  //   setSelectedType(null);
-  //   localStorage.setItem("selectedCategory", category);
-  //   localStorage.removeItem("selectedType");
-  // };
-
-  // const handleTypeChange = (type) => {
-  //   setSelectedType(type);
-  //   localStorage.setItem("selectedType", type.value);
-  // };
-
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setSelectedType(null);
-    onCategoryChange(category);
+
+    const filteredFreeAds = freeAds?.filter(
+      (ad) => ad.ad_category === category
+    );
+    const filteredPaidAds = paidAds?.filter(
+      (ad) => ad.ad_category === category
+    );
+    onCategoryChange(category, filteredFreeAds, filteredPaidAds);
+
     localStorage.setItem("selectedCategory", category);
     localStorage.removeItem("selectedType");
   };
 
   const handleTypeChange = (type) => {
     setSelectedType(type);
-    onTypeChange(type);
+
+    const filteredFreeAds = freeAds?.filter(
+      (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
+    );
+    const filteredPaidAds = paidAds?.filter(
+      (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
+    );
+    onTypeChange(type.value, filteredFreeAds, filteredPaidAds);
+
     localStorage.setItem("selectedType", type.value);
   };
 
@@ -189,14 +229,13 @@ function FilterBar({
                     className={`rounded ${
                       selectedCategory === value ? "active" : ""
                     }`}
-                    // onClick={() => handleCategoryChange(value)}
-                    onClick={() => {
-                      handleCategoryChange(value);
-                      onCategoryChange(value);
-                    }}
+                    onClick={() => handleCategoryChange(value)}
                   >
                     {label} (
-                    {value === selectedCategory ? totalAdsCategoryCount : 0})
+                    {categoryCounts[value] &&
+                      categoryCounts[value].freeAdsCount +
+                        categoryCounts[value].paidAdsCount}
+                    )
                   </Button>
                 </div>
               ))}
@@ -212,16 +251,14 @@ function FilterBar({
                       options={AD_TYPE_CHOICES[selectedCategory].map(
                         ([value, label]) => ({
                           value,
-                          label: `${label} (${
-                            value === selectedType ? totalAdsTypeCount : 0
-                          })`,
+                          label: `${label} (${typeCounts[value] &&
+                            typeCounts[value].freeAdsCount +
+                              typeCounts[value].paidAdsCount})`,
                         })
                       )}
                       value={selectedType}
-                      // onChange={handleTypeChange}
                       onChange={(type) => {
                         handleTypeChange(type);
-                        onTypeChange(type.value);
                       }}
                       placeholder="Select Type"
                       className="rounded py-2 mb-2"
