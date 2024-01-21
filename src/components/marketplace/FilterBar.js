@@ -140,6 +140,7 @@ function FilterBar({
 
   const [categoryCounts, setCategoryCounts] = useState({});
   const [typeCounts, setTypeCounts] = useState({});
+  const [selectedTypeLabel, setSelectedTypeLabel] = useState("");
 
   useEffect(() => {
     const categoryCountsObj = {};
@@ -199,6 +200,7 @@ function FilterBar({
 
   const handleTypeChange = (type) => {
     setSelectedType(type);
+    setSelectedTypeLabel(type.label);
 
     const filteredFreeAds = freeAds?.filter(
       (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
@@ -206,6 +208,10 @@ function FilterBar({
     const filteredPaidAds = paidAds?.filter(
       (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
     );
+
+    console.log("filteredFreeAds after type change:", filteredFreeAds);
+    console.log("filteredPaidAds after type change:", filteredPaidAds);
+
     onTypeChange(type.value, filteredFreeAds, filteredPaidAds);
 
     localStorage.setItem("selectedType", type.value);
@@ -260,7 +266,7 @@ function FilterBar({
                       onChange={(type) => {
                         handleTypeChange(type);
                       }}
-                      placeholder="Select Type"
+                      placeholder={`Select Type (${selectedTypeLabel})`}
                       className="rounded py-2 mb-2"
                       required
                     />{" "}

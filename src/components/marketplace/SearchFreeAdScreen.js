@@ -8,12 +8,17 @@ import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 
-function SearchFreeAdScreen({ selectedCountry, selectedState, selectedCity }) {
+function SearchFreeAdScreen({
+  selectedCountry,
+  selectedState,
+  selectedCity,
+  // freeSearchAds
+}) {
   const dispatch = useDispatch();
 
   const searchAdsState = useSelector((state) => state.searchAdsState);
   const { loading, error, freeSearchAds } = searchAdsState;
-  console.log("freeSearchAds", freeSearchAds?.length);
+  // console.log("freeSearchAds", freeSearchAds?.length);
 
   useEffect(() => {
     // const adData = {
@@ -21,7 +26,6 @@ function SearchFreeAdScreen({ selectedCountry, selectedState, selectedCity }) {
     //   selected_state: selectedState,
     //   selected_city: selectedCity,
     // };
-
     // dispatch(searchAds(result));
     // eslint-disable-next-line
   }, [dispatch, selectedCountry, selectedState, selectedCity]);

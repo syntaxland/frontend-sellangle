@@ -6,13 +6,10 @@ import { Row, Col, Button, Form, Container } from "react-bootstrap";
 import { getUserProfile } from "../../actions/userProfileActions";
 import AllPaidAdScreen from "./AllPaidAdScreen";
 import AllFreeAdScreen from "./AllFreeAdScreen";
-// import SearchFreeAdScreen from "./SearchFreeAdScreen";
-// import SearchPaidAdScreen from "./SearchPaidAdScreen";
 import SellerSearchCard from "./SellerSearchCard";
 import FilterBar from "./FilterBar";
 import {
   getSellerUsernameSearch,
-  // searchAds,
   getAllPaidAd,
   getAllFreeAd,
 } from "../../actions/marketplaceSellerActions";
@@ -25,11 +22,8 @@ function Marketplace() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // const [searchTerm, setSearchTerm] = useState("");
   const [sellerUsername, setSellerUsername] = useState("");
-
   const [searchSellerUsername, setSearchSellerUsername] = useState(null);
-  // const [searchAdResult, setSearchAdResult] = useState(null);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -49,7 +43,6 @@ function Marketplace() {
   const {
     loading: searchAdLoading,
     // success: searchAdSuccess,
-
     error: searchAdError,
     freeSearchAds,
     paidSearchAds,
@@ -67,10 +60,8 @@ function Marketplace() {
     serachResults,
     sellerAvatarUrl,
   } = getSellerUsernameSearchState;
-  console.log("serachResults", serachResults);
+  // console.log("serachResults", serachResults);
 
-  // const [freeAdSearchLength, setFreeAdSearchLength] = useState(0);
-  // const [paidAdSearchLength, setPaidAdSearchLength] = useState(0);
   const [freeAdLength, setFreeAdLength] = useState(0);
   const [paidAdLength, setPaidAdLength] = useState(0);
 
@@ -79,30 +70,24 @@ function Marketplace() {
     setPaidAdLength(paidAds ? paidAds.length : 0);
   }, [freeAds, paidAds]);
 
-  // useEffect(() => {
-  //   setFreeAdSearchLength(freeSearchAds ? freeSearchAds.length : 0);
-  //   setPaidAdSearchLength(paidSearchAds ? paidSearchAds.length : 0);
-  // }, [freeSearchAds, paidSearchAds]);
-
   const [filteredFreeAds, setFilteredFreeAds] = useState([]);
   const [filteredPaidAds, setFilteredPaidAds] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
-
-  // const [totalFreeAdsByCategory, setTotalFreeAdsByCategory] = useState({});
-  // const [totalPaidAdsByCategory, setTotalPaidAdsByCategory] = useState({});
-  // const [totalFreeAdsByType, setTotalFreeAdsByType] = useState({});
-  // const [totalPaidAdsByType, setTotalPaidAdsByType] = useState({});
-
-  
+  // console.log("filteredFreeAds", filteredFreeAds?.length);
+  // console.log("filteredPaidAds", filteredPaidAds?.length);
 
   const handleCategoryChange = useCallback(
     (category) => {
       setSelectedCategory(category);
       setSelectedType(null);
 
-      const filteredFreeAds = freeAds?.filter((ad) => ad.ad_category === category);
-      const filteredPaidAds = paidAds?.filter((ad) => ad.ad_category === category);
+      const filteredFreeAds = freeAds?.filter(
+        (ad) => ad.ad_category === category
+      );
+      const filteredPaidAds = paidAds?.filter(
+        (ad) => ad.ad_category === category
+      );
       setFilteredFreeAds(filteredFreeAds);
       setFilteredPaidAds(filteredPaidAds);
 
@@ -113,21 +98,14 @@ function Marketplace() {
   );
 
   const handleTypeChange = useCallback(
-    (type) => {
+    (type, filteredFreeAds, filteredPaidAds) => {
       setSelectedType(type);
-
-      const filteredFreeAds = freeAds?.filter(
-        (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
-      );
-      const filteredPaidAds = paidAds?.filter(
-        (ad) => ad.ad_category === selectedCategory && ad.ad_type === type.value
-      );
       setFilteredFreeAds(filteredFreeAds);
       setFilteredPaidAds(filteredPaidAds);
 
-      localStorage.setItem("selectedType", type.value);
+      localStorage.setItem("selectedType", type);
     },
-    [freeAds, paidAds, selectedCategory]
+    []
   );
 
   useEffect(() => {
@@ -149,141 +127,6 @@ function Marketplace() {
     }
   }, [freeAds, paidAds]);
 
-  // const handleCategoryChange = useCallback(
-  //   (category) => {
-  //     const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
-  //     const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
-
-  //     setFilteredFreeAds(filteredFreeAds);
-  //     setFilteredPaidAds(filteredPaidAds);
-
-  //     setTotalFreeAdsByCategory((prev) => ({ ...prev, [category]: filteredFreeAds.length }));
-  //     setTotalPaidAdsByCategory((prev) => ({ ...prev, [category]: filteredPaidAds.length }));
-  //   },
-  //   [freeAds, paidAds]
-  // );
-
-  // const handleTypeChange = useCallback(
-  //   (type) => {
-  //     const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
-  //     const filteredPaidAds = paidAds.filter((ad) => ad.type === type);
-
-  //     setFilteredFreeAds(filteredFreeAds);
-  //     setFilteredPaidAds(filteredPaidAds);
-
-  //     setTotalFreeAdsByType((prev) => ({ ...prev, [type]: filteredFreeAds.length }));
-  //     setTotalPaidAdsByType((prev) => ({ ...prev, [type]: filteredPaidAds.length }));
-  //   },
-  //   [freeAds, paidAds]
-  // );
-
-  // const freeAdsCategoryCount = freeAds ? freeAds.length : 0;
-  // const paidAdsCategoryCount = paidAds ? paidAds.length : 0;
-  // const totalAdsCategoryCount = freeAdsCategoryCount + paidAdsCategoryCount;
-
-  // const freeAdsTypeCount = freeAds ? freeAds.length : 0;
-  // const paidAdsTypeCount = paidAds ? paidAds.length : 0;
-  // const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
-
-  // const handleCategoryChange = (category) => {
-  //   setSelectedCategory(category);
-  // };
-
-  // const handleTypeChange = (type) => {
-  //   setSelectedType(type);
-  // };
-
-  // const handleCategoryChange = useCallback(
-  //   (category) => {
-  //     // Filter freeAds and paidAds based on the selected category
-  //     const filteredFreeAds = freeAds.filter((ad) => ad.category === category);
-  //     const filteredPaidAds = paidAds.filter((ad) => ad.category === category);
-
-  //     // Set the filtered ads in the state
-  //     setFilteredFreeAds(filteredFreeAds);
-  //     setFilteredPaidAds(filteredPaidAds);
-  //   },
-  //   [freeAds, paidAds]
-  // );
-
-  // const handleTypeChange = useCallback(
-  //   (type) => {
-  //     // Filter freeAds and paidAds based on the selected type
-  //     const filteredFreeAds = freeAds.filter((ad) => ad.type === type);
-  //     const filteredPaidAds = paidAds.filter((ad) => ad.type === type); 
-
-  //     // Set the filtered ads in the state
-  //     setFilteredFreeAds(filteredFreeAds);
-  //     setFilteredPaidAds(filteredPaidAds);
-  //   },
-  //   [freeAds, paidAds]
-  // );
-
-  // const filterAds = useCallback(() => {
-  //   if (selectedCategory && selectedType) {
-  //     const filteredFree = freeAds?.filter(
-  //       (ad) =>
-  //         ad.category === selectedCategory && ad.type === selectedType.value
-  //     );
-  //     setFilteredFreeAds(filteredFree);
-
-  //     const filteredPaid = paidAds?.filter(
-  //       (ad) =>
-  //         ad.category === selectedCategory && ad.type === selectedType.value
-  //     );
-  //     setFilteredPaidAds(filteredPaid);
-  //   } else {
-  //     setFilteredFreeAds([]);
-  //     setFilteredPaidAds([]);
-  //   }
-  // }, [selectedCategory, selectedType, freeAds, paidAds]);
-
-  // useEffect(() => {
-  //   filterAds();
-  // }, [filterAds]);
-
-  // const filterAds = () => {
-  //   if (selectedCategory && selectedType) {
-  //     const filteredFree = freeAds.filter(
-  //       (ad) =>
-  //         ad.category === selectedCategory && ad.type === selectedType.value
-  //     );
-  //     setFilteredFreeAds(filteredFree);
-
-  //     const filteredPaid = paidAds.filter(
-  //       (ad) =>
-  //         ad.category === selectedCategory && ad.type === selectedType.value
-  //     );
-  //     setFilteredPaidAds(filteredPaid);
-  //   } else {
-  //     setFilteredFreeAds([]);
-  //     setFilteredPaidAds([]);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   filterAds();
-  // }, [filterAds]);
-
-  // console.log("Country:", Country.getAllCountries());
-  // console.log("State:", State.getAllStates());
-  // console.log("City:", City.getAllCities());
-
-  // const [defaultCountry] = useState({
-  //   value: "US",
-  //   label: "United States",
-  // });
-
-  // const [defaultState] = useState({
-  //   value: "CA",
-  //   label: "California",
-  // });
-
-  // const [defaultCity] = useState({
-  //   value: "SanFrancisco",
-  //   label: "San Francisco",
-  // });
-
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -302,10 +145,6 @@ function Marketplace() {
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption.value);
   };
-
-  // const savedCountry = localStorage.getItem("selectedCountry");
-  // const savedState = localStorage.getItem("selectedState");
-  // const savedCity = localStorage.getItem("selectedCity");
 
   useEffect(() => {
     const savedCountry = localStorage.getItem("selectedCountry");
@@ -402,16 +241,6 @@ function Marketplace() {
           <Row className="py-2 d-flex justify-content-center">
             <Col md={8}>
               <Row className="py-2 d-flex justify-content-betwwen">
-                {/* <Col md={10}> */}
-                {/* <Form.Group>
-                    <Form.Control
-                      type="text"
-                      placeholder="Search ads"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)} 
-                    />
-                  </Form.Group> */}
-                {/* </Col> */}
                 <Col className="d-flex justify-content-center">
                   <Button
                     variant="primary"
@@ -422,8 +251,6 @@ function Marketplace() {
                     <div className="d-flex justify-content-center">
                       <span className="py-1">
                         Search Ads <i className="fas fa-search"></i>
-                        {/* Search */}
-                        {/* Ads */}
                       </span>
                       {searchAdLoading && <LoaderButton />}
                     </div>
@@ -561,14 +388,6 @@ function Marketplace() {
               selectedType={selectedType}
               setSelectedType={setSelectedType}
               setSelectedCategory={setSelectedCategory}
-
-              filteredFreeAds={filteredFreeAds}
-              filteredPaidAds={filteredPaidAds} 
-
-              // totalFreeAdsByCategory={totalFreeAdsByCategory}
-              // totalPaidAdsByCategory={totalPaidAdsByCategory}
-              // totalFreeAdsByType={totalFreeAdsByType}
-              // totalPaidAdsByType={totalPaidAdsByType}
               freeAds={freeAds}
               paidAds={paidAds}
               onCategoryChange={handleCategoryChange}
@@ -608,58 +427,14 @@ function Marketplace() {
             </Button>
           </div>
 
-          {/* <div className="py-2">
-            {searchAdResult && (
-              <Row className="py-2 d-flex justify-content-center">
-                <h3 className="text-center">
-                  <i className="fas fa-list"></i> Search Results (
-                  {freeAdSearchLength + paidAdSearchLength})
-                </h3>
-                <Col>
-                  <div>
-                    {freeSearchAds || paidSearchAds ? (
-                      <>
-                        {freeSearchAds?.map((freeSearchAds) => (
-                          <Col>
-                            {freeSearchAds && (
-                              <SearchFreeAdScreen
-                                selectedCountry={selectedCountry}
-                                selectedState={selectedState}
-                                selectedCity={selectedCity}
-                                freeSearchAds={freeSearchAds}
-                              />
-                            )}
-                          </Col>
-                        ))}
-
-                        {paidSearchAds?.map((paidSearchAds) => (
-                          <Col>
-                            {paidSearchAds && (
-                              <SearchPaidAdScreen
-                                selectedCountry={selectedCountry}
-                                selectedState={selectedState}
-                                selectedCity={selectedCity}
-                              />
-                            )}
-                          </Col>
-                        ))}
-                      </>
-                    ) : (
-                      <p></p>
-                    )}
-                  </div>
-                </Col>
-              </Row>
-            )}
-          </div> */}
-
           <div>
             <AllPaidAdScreen
               selectedCountry={selectedCountry}
               selectedState={selectedState}
               selectedCity={selectedCity}
-              paidAds={paidAds}
-              // selectedType={selectedType}
+              // paidAds={filteredPaidAds}
+              // paidAds={selectedType ? filteredPaidAds : paidAds}
+              paidAds={filteredPaidAds || paidAds}
             />
           </div>
 
@@ -668,8 +443,9 @@ function Marketplace() {
               selectedCountry={selectedCountry}
               selectedState={selectedState}
               selectedCity={selectedCity}
-              freeAds={freeAds}
-              // selectedType={selectedType}
+              // freeAds={filteredFreeAds}
+              // freeAds={selectedType ? filteredFreeAds : freeAds}
+              freeAds={filteredFreeAds || freeAds}
             />
           </div>
         </Col>

@@ -8,12 +8,18 @@ import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 
-function SearchPaidAdScreen({ selectedCountry, selectedState, selectedCity }) {
+function SearchPaidAdScreen({
+  selectedCountry,
+  selectedState,
+  selectedCity,
+
+  // paidSearchAds
+}) {
   const dispatch = useDispatch();
 
   const searchAdsState = useSelector((state) => state.searchAdsState);
   const { loading, error, paidSearchAds } = searchAdsState;
-  console.log("paidSearchAds", paidSearchAds?.length);
+  // console.log("paidSearchAds", paidSearchAds?.length);
 
   useEffect(() => {
     // const adData = {
@@ -21,7 +27,6 @@ function SearchPaidAdScreen({ selectedCountry, selectedState, selectedCity }) {
     //   selected_state: selectedState,
     //   selected_city: selectedCity,
     // };
-
     // dispatch(searchAds(result));
     // eslint-disable-next-line
   }, [dispatch, selectedCountry, selectedState, selectedCity]);

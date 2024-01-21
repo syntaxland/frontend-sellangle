@@ -79,36 +79,51 @@ function SearchResults() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
 
-  const freeAdsCategoryCount = freeAds ? freeAds.length : 0;
-  const paidAdsCategoryCount = paidAds ? paidAds.length : 0;
-  const totalAdsCategoryCount = freeAdsCategoryCount + paidAdsCategoryCount;
+  // const freeAdsCategoryCount = freeAds ? freeAds.length : 0;
+  // const paidAdsCategoryCount = paidAds ? paidAds.length : 0;
+  // const totalAdsCategoryCount = freeAdsCategoryCount + paidAdsCategoryCount;
 
-  const freeAdsTypeCount = freeAds ? freeAds.length : 0;
-  const paidAdsTypeCount = paidAds ? paidAds.length : 0;
-  const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
+  // const freeAdsTypeCount = freeAds ? freeAds.length : 0;
+  // const paidAdsTypeCount = paidAds ? paidAds.length : 0;
+  // const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
 
-  const filterAds = useCallback(() => {
-    if (selectedCategory && selectedType) {
-      const filteredFree = freeAds?.filter(
-        (ad) =>
-          ad.category === selectedCategory && ad.type === selectedType.value
+  // const [filteredFreeAds, setFilteredFreeAds] = useState([]);
+  // const [filteredPaidAds, setFilteredPaidAds] = useState([]);
+  // const [selectedCategory, setSelectedCategory] = useState(null);
+  // const [selectedType, setSelectedType] = useState(null);
+  // // console.log("filteredFreeAds", filteredFreeAds?.length);
+  // // console.log("filteredPaidAds", filteredPaidAds?.length);
+
+  const handleCategoryChange = useCallback(
+    (category) => {
+      setSelectedCategory(category);
+      setSelectedType(null);
+
+      const filteredFreeAds = freeSearchAds?.filter(
+        (ad) => ad.ad_category === category
       );
-      setFilteredFreeAds(filteredFree);
-
-      const filteredPaid = paidAds?.filter(
-        (ad) =>
-          ad.category === selectedCategory && ad.type === selectedType.value
+      const filteredPaidAds = paidSearchAds?.filter(
+        (ad) => ad.ad_category === category
       );
-      setFilteredPaidAds(filteredPaid);
-    } else {
-      setFilteredFreeAds([]);
-      setFilteredPaidAds([]);
-    }
-  }, [selectedCategory, selectedType, freeAds, paidAds]);
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
 
-  useEffect(() => {
-    filterAds();
-  }, [filterAds]);
+      localStorage.setItem("selectedCategory", category);
+      localStorage.removeItem("selectedType");
+    },
+    [freeSearchAds, paidSearchAds]
+  );
+
+  const handleTypeChange = useCallback(
+    (type, filteredFreeAds, filteredPaidAds) => {
+      setSelectedType(type);
+      setFilteredFreeAds(filteredFreeAds);
+      setFilteredPaidAds(filteredPaidAds);
+
+      localStorage.setItem("selectedType", type);
+    },
+    []
+  );
 
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
@@ -388,16 +403,12 @@ function SearchResults() {
             <SearchFilterBar
               selectedCategory={selectedCategory}
               selectedType={selectedType}
-              filteredFreeAds={filteredFreeAds}
-              filteredPaidAds={filteredPaidAds}
-              paidAdsCategoryCount={paidAdsCategoryCount}
-              freeAdsCategoryCount={freeAdsCategoryCount}
-              totalAdsCategoryCount={totalAdsCategoryCount}
-              freeAdsTypeCount={freeAdsTypeCount}
-              paidAdsTypeCount={paidAdsTypeCount}
-              totalAdsTypeCount={totalAdsTypeCount}
               setSelectedType={setSelectedType}
               setSelectedCategory={setSelectedCategory}
+              paidSearchAds={paidSearchAds}
+              freeSearchAds={freeSearchAds}
+              onCategoryChange={handleCategoryChange}
+              onTypeChange={handleTypeChange}
             />
           </div>
 
@@ -439,6 +450,7 @@ function SearchResults() {
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
+                                paidSearchAds={filteredPaidAds || paidSearchAds}
                               />
                             )}
                           </Col>
@@ -451,7 +463,7 @@ function SearchResults() {
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
-                                freeSearchAds={freeSearchAds}
+                                freeSearchAds={filteredFreeAds || freeSearchAds}
                               />
                             )}
                           </Col>
