@@ -148,7 +148,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "user-dashboard" ? "info" : "outline-info"
+                    activeTab === "user-dashboard" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   // activeClassName="active-link"
@@ -160,7 +160,7 @@ function UserDashboard({ history }) {
 
               <div>
                 <Button
-                  variant={activeTab === "profile" ? "info" : "outline-info"}
+                  variant={activeTab === "profile" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("profile")}
                 >
@@ -170,7 +170,7 @@ function UserDashboard({ history }) {
 
               {/* <div>
                 <Button
-                  variant={activeTab === "orders" ? "info" : "outline-info"}
+                  variant={activeTab === "orders" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("orders")}
                 >
@@ -180,7 +180,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "order-items" ? "info" : "outline-info"
+                    activeTab === "order-items" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("order-items")}
@@ -190,7 +190,7 @@ function UserDashboard({ history }) {
               </div>
               <div>
                 <Button
-                  variant={activeTab === "payments" ? "info" : "outline-info"}
+                  variant={activeTab === "payments" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("payments")}
                 >
@@ -200,7 +200,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "order-shipment" ? "info" : "outline-info"
+                    activeTab === "order-shipment" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("order-shipment")}
@@ -210,7 +210,7 @@ function UserDashboard({ history }) {
               </div>
               <div>
                 <Button
-                  variant={activeTab === "reviews" ? "info" : "outline-info"}
+                  variant={activeTab === "reviews" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("reviews")}
                 >
@@ -220,7 +220,7 @@ function UserDashboard({ history }) {
 
               <div>
                 <Button
-                  variant={activeTab === "referrals" ? "info" : "outline-info"}
+                  variant={activeTab === "referrals" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("referrals")}
                 >
@@ -231,7 +231,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "credit-point" ? "info" : "outline-info"
+                    activeTab === "credit-point" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("credit-point")}
@@ -243,7 +243,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "message-inbox" ? "info" : "outline-info"
+                    activeTab === "message-inbox" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("message-inbox")}
@@ -254,7 +254,7 @@ function UserDashboard({ history }) {
 
               <div>
                 <Button
-                  variant={activeTab === "favorites" ? "info" : "outline-info"}
+                  variant={activeTab === "favorites" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("favorites")}
                 >
@@ -265,7 +265,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "viewed-products" ? "info" : "outline-info"
+                    activeTab === "viewed-products" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("viewed-products")}
@@ -278,8 +278,8 @@ function UserDashboard({ history }) {
                 <Button
                   variant={
                     activeTab === "recommended-products"
-                      ? "info"
-                      : "outline-info"
+                      ? "primary"
+                      : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("recommended-products")}
@@ -290,7 +290,7 @@ function UserDashboard({ history }) {
 
               {/* <div>
                 <Button
-                  variant={activeTab === "offers" ? "info" : "outline-info"}
+                  variant={activeTab === "offers" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("offers")}
                 >
@@ -300,7 +300,7 @@ function UserDashboard({ history }) {
 
               <div>
                 <Button
-                  variant={activeTab === "feedback" ? "info" : "outline-info"}
+                  variant={activeTab === "feedback" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("feedback")}
                 >
@@ -311,7 +311,7 @@ function UserDashboard({ history }) {
               <div>
                 <Button
                   variant={
-                    activeTab === "support-ticket" ? "info" : "outline-info"
+                    activeTab === "support-ticket" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("support-ticket")}
@@ -322,7 +322,7 @@ function UserDashboard({ history }) {
 
               {/* <div>
                 <Button
-                  variant={activeTab === "live-chat" ? "info" : "outline-info"}
+                  variant={activeTab === "live-chat" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("live-chat")}
                 >
@@ -332,7 +332,7 @@ function UserDashboard({ history }) {
 
               <div>
                 <Button
-                  variant={activeTab === "settings" ? "info" : "outline-info"}
+                  variant={activeTab === "settings" ? "primary" : "outline-primary"}
                   className="sidebar-link"
                   onClick={() => handleTabChange("settings")}
                 >
@@ -346,8 +346,8 @@ function UserDashboard({ history }) {
                     <Button
                       variant={
                         activeTab === "admin-dashboard"
-                          ? "info"
-                          : "outline-info"
+                          ? "primary"
+                          : "outline-primary"
                       }
                       className="sidebar-link"
                       onClick={() => handleAdminDashboard()}
@@ -368,7 +368,7 @@ function UserDashboard({ history }) {
                     <Button
                       size="sm"
                       className="sidebar-link py-2"
-                      variant="outline-success"
+                      variant="outline-primary"
                       onClick={handleAddbusiness}
                     >
                       <i className="fa fa-user-alt"></i> Create Seller Account
@@ -380,7 +380,7 @@ function UserDashboard({ history }) {
                       <Button
                         size="sm"
                         className="sidebar-link py-2"
-                        variant="outline-success"
+                        variant="outline-primary"
                         onClick={handleMarketplaceDashboard}
                       >
                         <i className="fa fa-user-alt"></i> Go to Seller

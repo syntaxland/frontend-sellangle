@@ -162,6 +162,13 @@ const PaysofterAccountFundPromise = ({
     // eslint-disable-next-line
   }, [dispatch, success]);
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+  
   return (
     <>
       {showVerifyAccountFundPromiseOtp ? (
@@ -418,10 +425,14 @@ const PaysofterAccountFundPromise = ({
                   Pay{" "}
                   <span>
                     (
-                    {amount?.toLocaleString(undefined, {
+                    {formatNumber(amount)
+                    
+                    ?.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    })}{" "}{currency}
+                    })
+                    
+                    }{" "}{currency}
                     )
                   </span>
                 </Button>

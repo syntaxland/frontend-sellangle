@@ -201,6 +201,13 @@ function AllFreeAdCard({ product }) {
     }
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Row>
       <Col>
@@ -308,9 +315,9 @@ function AllFreeAdCard({ product }) {
             <div className="d-flex justify-content-between py-2">
               <Card.Text as="h5" className="py-2">
                 <span>
-                  {product?.price} {product?.currency}{" "}
+                  {formatNumber(product?.price)} {product?.currency}{" "}
                   {/* {product?.usd_price ? (
-                <span> / {product?.usd_price} USD </span>
+                <span> / {product?.usd_price} USD </span> 
               ) : (
                 <></>
               )} */}
@@ -403,7 +410,9 @@ function AllFreeAdCard({ product }) {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {reportAdModal && <ReportFreeAd adId={product?.id} />}
+              <span className="d-flex justify-content-center py-2">
+                {reportAdModal && <ReportFreeAd adId={product?.id} />}
+              </span>
             </Modal.Body>
           </Modal>
         </div>

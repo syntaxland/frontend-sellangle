@@ -48,6 +48,15 @@ function PaysofterButton({
     setShowMoreOptions(!showMoreOptions);
   };
 
+
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
+
   return (
     <div>
       <div className="text-center">
@@ -67,10 +76,13 @@ function PaysofterButton({
             <div>{userEmail}</div>
             <div>
               NGN{" "}
-              {promoTotalPrice.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              {formatNumber(promoTotalPrice)
+              
+              // .toLocaleString(undefined, {
+              //   minimumFractionDigits: 2,
+              //   maximumFractionDigits: 2,
+              // })
+              }
             </div>
           </div>
         </Modal.Header>

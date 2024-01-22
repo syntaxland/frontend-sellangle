@@ -203,6 +203,13 @@ function SearchPaidAdCard({ paidSearchAd }) {
     }
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Row>
       <Col>
@@ -313,7 +320,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
         <div className="d-flex justify-content-between">
           <Card.Text as="h5" className="py-2">
             <span>
-               {paidSearchAd?.price} {paidSearchAd?.currency}{" "}
+               {formatNumber(paidSearchAd?.price)} {paidSearchAd?.currency}{" "}
              {paidSearchAd?.usd_price ? <span> / {paidSearchAd?.usd_price} USD </span> : <></>}{" "}
               {paidSearchAd?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
             </span>

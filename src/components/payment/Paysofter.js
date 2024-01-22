@@ -202,6 +202,13 @@ function Paysofter({
     final_total_amount: promoTotalPrice,
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <>
       <Row>
@@ -252,10 +259,14 @@ function Paysofter({
               </ListGroup.Item>
               <ListGroup.Item>
                 Total Amount: NGN{" "}
-                {totalPrice.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                {formatNumber(totalPrice)
+                
+                // .toLocaleString(undefined, {
+                //   minimumFractionDigits: 2,
+                //   maximumFractionDigits: 2,
+                // })
+                
+                }
               </ListGroup.Item>
 
               <ListGroup.Item>
@@ -276,10 +287,14 @@ function Paysofter({
                 Final Total Amount: NGN{" "}
                 {promoTotalPrice ? (
                   <span>
-                    {promoTotalPrice.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    {formatNumber(promoTotalPrice)
+                    
+                    // .toLocaleString(undefined, {
+                    //   minimumFractionDigits: 2,
+                    //   maximumFractionDigits: 2,
+                    // })
+                    
+                    }
                   </span>
                 ) : (
                   <span>

@@ -202,6 +202,13 @@ function SearchFreeAdCard({ freeSearchAd }) {
     }
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Row>
       <Col>
@@ -300,7 +307,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
         <div className="d-flex justify-content-between py-2">
           <Card.Text as="h5" className="py-2">
             <span>
-               {freeSearchAd?.price} {freeSearchAd?.currency}{" "}
+               {formatNumber(freeSearchAd?.price)} {freeSearchAd?.currency}{" "}
              {/* {freeSearchAd?.usd_price ? <span> / {freeSearchAd?.usd_price} USD </span> : <></>}{" "} */}
               {freeSearchAd?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
             </span>

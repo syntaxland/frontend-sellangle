@@ -223,6 +223,13 @@ const [reportAdModal, setReportAdModal] = useState(false);
     }
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Row>
       <Col>
@@ -341,11 +348,11 @@ const [reportAdModal, setReportAdModal] = useState(false);
             <div className="d-flex justify-content-between">
               <Card.Text as="h5" className="py-2">
                 <span>
-                  {product?.price} {product?.currency}{" "}
+                  {formatNumber(product?.price)} {product?.currency}{" "}
                   {product?.usd_price ? (
                     <span>
                       {" "}
-                      / {product?.usd_price} {product?.usd_currency}{" "}
+                      / {formatNumber(product?.usd_price)} {product?.usd_currency}{" "}
                     </span>
                   ) : (
                     <></>

@@ -65,6 +65,13 @@ function Paysofter({
     final_total_amount: promoTotalPrice,
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <>
       <Row>
@@ -107,20 +114,28 @@ function Paysofter({
 
               <ListGroup.Item>
                 Total Amount:{" "}
-                {ads?.price?.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}{" "}{currency}
+                {formatNumber(ads?.price)
+                
+                // ?.toLocaleString(undefined, {
+                //   minimumFractionDigits: 2, 
+                //   maximumFractionDigits: 2,
+                // })
+                
+                }{" "}{currency}
               </ListGroup.Item>
 
               <ListGroup.Item>
                 Promo Discount: {" "}
                 {promoDiscount ? (
                   <span>
-                    {promoDiscount?.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}{" "}{currency}
+                    {formatNumber(promoDiscount)
+                    
+                    // ?.toLocaleString(undefined, {
+                    //   minimumFractionDigits: 2,
+                    //   maximumFractionDigits: 2,
+                    // })
+                    
+                    }{" "}{currency}
                     ({discountPercentage}%)
                   </span>
                 ) : (
@@ -132,17 +147,25 @@ function Paysofter({
                 Final Total Amount: {currency}{" "}
                 {promoTotalPrice ? (
                   <span>
-                    {promoTotalPrice?.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}{" "}{currency}
+                    {formatNumber(promoTotalPrice)
+                    
+                    // ?.toLocaleString(undefined, {
+                    //   minimumFractionDigits: 2,
+                    //   maximumFractionDigits: 2,
+                    // })
+                    
+                    }{" "}{currency}
                   </span>
                 ) : (
                   <span>
-                    {totalPrice?.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    {formatNumber(totalPrice)
+                    
+                    // ?.toLocaleString(undefined, {
+                    //   minimumFractionDigits: 2,
+                    //   maximumFractionDigits: 2,
+                    // })
+                    
+                    }
                   </span>
                 )}
               </ListGroup.Item>

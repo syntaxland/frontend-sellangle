@@ -164,6 +164,13 @@ function PaidAdProductDetail({ match, history }) {
     history.push(`/seller-shop-front/${ads?.seller_username}/`);
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Container>
       <Row>
@@ -245,13 +252,13 @@ function PaidAdProductDetail({ match, history }) {
                         <Col>Price:</Col>
                         <Col>
                           <strong>
-                            {ads?.price} {ads?.currency}
+                            {formatNumber(ads?.price)} {ads?.currency}
                           </strong>
                           <strong>
                             {ads?.usd_price ? (
                               <span>
                                 {" "}
-                                / {ads?.usd_price} {ads?.usd_currency}{" "}
+                                / {formatNumber(ads?.usd_price)} {ads?.usd_currency}{" "}
                               </span>
                             ) : (
                               <></>

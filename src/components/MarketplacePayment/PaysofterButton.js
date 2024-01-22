@@ -48,6 +48,13 @@ function PaysofterButton({
     setShowMoreOptions(!showMoreOptions);
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <div>
       <div className="text-center">
@@ -66,10 +73,13 @@ function PaysofterButton({
             <Modal.Title>Mock Payment (Test)</Modal.Title>
             <div>{buyerEmail}</div>
             <div>
-              {amount?.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}{" "}
+              {formatNumber(amount)
+              
+              // ?.toLocaleString(undefined, {
+              //   minimumFractionDigits: 2,
+              //   maximumFractionDigits: 2,
+              // })
+              }{" "}
               {currency}
             </div>
           </div>

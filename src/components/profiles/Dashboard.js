@@ -73,6 +73,14 @@ function Dashboard() {
   const { loading: orderLoading, error: orderError, orders } = orderList;
   console.log("Orders from state:", orders);
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+  
+
   useEffect(() => {
     dispatch(getCreditPointBalance());
     // dispatch(listPayments());
@@ -149,7 +157,7 @@ function Dashboard() {
   //         search: `?creditPoints=${creditPoints}`,
   //       }}
   //     >
-  //       <Button variant="success" className="rounded" size="sm">
+  //       <Button variant="primary" className="rounded" size="sm">
   //         Withdraw Points
   //       </Button>
   //     </Link>
@@ -262,17 +270,21 @@ function Dashboard() {
                       </h2>
                       <p>
                         Balance:{" "}
-                        {creditPointsFormatted.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}{" "}
+                        {formatNumber(creditPointsFormatted)
+                        
+                        // .toLocaleString(undefined, {
+                        //   minimumFractionDigits: 2,
+                        //   maximumFractionDigits: 2,
+                        // })
+
+                        }{" "}
                         CPS
                       </p>
 
                       <div className="d-flex justify-content-between py-2">
                         <span className="py-2">
                           <Button
-                            variant="outline-success"
+                            variant="outline-primary"
                             size="sm"
                             className="py-2 rounded"
                             onClick={handleBuyCreditPointOpen}
@@ -283,7 +295,7 @@ function Dashboard() {
 
                         <span className="py-2">
                           <Button
-                            variant="outline-success"
+                            variant="outline-primary"
                             size="sm"
                             className="py-2 rounded"
                             onClick={handleSellCreditPointOpen}

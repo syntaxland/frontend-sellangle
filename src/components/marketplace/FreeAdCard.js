@@ -193,6 +193,13 @@ function FreeAdCard({ product }) {
     }
   }
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Card className="my-3 p-3 rounded">
       {productMessages.productSaveSuccess && (
@@ -254,7 +261,7 @@ function FreeAdCard({ product }) {
         <div className="d-flex justify-content-between py-2">
           <Card.Text as="h5" className="py-2">
             <span>
-               {product?.price} {product?.currency}{" "}
+               {formatNumber(product?.price)} {product?.currency}{" "}
              {/* {product?.usd_price ? <span> / {product?.usd_price} USD </span> : <></>}{" "} */}
               {product?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
             </span>

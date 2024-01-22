@@ -8,7 +8,7 @@ import {
   ListGroup,
   Button,
   Card,
-  Form,
+  // Form,
   Container,
   Modal,
 } from "react-bootstrap";
@@ -25,7 +25,7 @@ import DOMPurify from "dompurify";
 import ReportFreeAd from "./ReportFreeAd";
 
 function FreeAdProductDetail({ match, history }) {
-  const [qty, setQty] = useState(1);
+  // const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -143,6 +143,13 @@ function FreeAdProductDetail({ match, history }) {
     history.push(`/seller-shop-front/${ads?.seller_username}/`);
   };
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
   return (
     <Container>
       <Row>
@@ -211,21 +218,21 @@ function FreeAdProductDetail({ match, history }) {
                       <Row>
                         <Col>Price:</Col>
                         <Col>
-                          <strong>NGN {ads.price}</strong>
+                          <strong>NGN {formatNumber(ads.price)}</strong>
                         </Col>
                       </Row>
                     </ListGroup.Item>
                     <ListGroup.Item></ListGroup.Item>
 
-                    {ads?.count_in_stock > 0 && (
+                    {/* {ads?.count_in_stock > 0 && (
                       <ListGroup.Item>
                         <Row>
                           <Col>Qty</Col>
                           <Col xs="auto" className="my-1">
                             <Form.Control
                               as="select"
-                              value={qty}
-                              onChange={(e) => setQty(e.target.value)}
+                              // value={qty}
+                              // onChange={(e) => setQty(e.target.value)}
                             >
                               {[...Array(ads?.count_in_stock).keys()].map(
                                 (x) => (
@@ -238,7 +245,7 @@ function FreeAdProductDetail({ match, history }) {
                           </Col>
                         </Row>
                       </ListGroup.Item>
-                    )}
+                    )} */}
 
                     {/* <ListGroup.Item>
                   <Button

@@ -162,6 +162,14 @@ const PaysofterAccountFundPromise = ({
     // eslint-disable-next-line
   }, [dispatch, success]);
 
+  function formatNumber(number, decimalPlaces = 2) {
+    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
+    const parts = formattedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
+  
   return (
     <>
       {showVerifyAccountFundPromiseOtp ? (
@@ -419,10 +427,14 @@ const PaysofterAccountFundPromise = ({
                   Pay{" "}
                   <span>
                     (NGN{" "}
-                    {promoTotalPrice?.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    {formatNumber(promoTotalPrice)
+                    
+                    // .toLocaleString(undefined, {
+                    //   minimumFractionDigits: 2,
+                    //   maximumFractionDigits: 2,
+                    // })
+                    
+                    }
                     )
                   </span>
                 </Button>
