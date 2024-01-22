@@ -301,7 +301,7 @@ function FreeAdCard({ product }) {
               className="py-2 rounded"
               onClick={handleEditAd}
             >
-              Edit
+              Edit 
             </Button>
           </span>
 

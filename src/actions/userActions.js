@@ -13,7 +13,7 @@ import axiosInstance from "../store";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (loginData) => async (dispatch) => { 
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -25,12 +25,11 @@ export const login = (email, password) => async (dispatch) => {
       },
     };
 
-  const lowerCaseEmail = email.toLowerCase();
-
+  // const lowerCaseEmail = identifier.toLowerCase();
 
     const { data } = await axios.post(
       `${API_URL}/api/users/login/`,
-      { email: lowerCaseEmail, password: password },
+      loginData,
       config
     );
 
@@ -61,6 +60,54 @@ export const login = (email, password) => async (dispatch) => {
     });
   }
 };
+
+// export const login = (identifier, password) => async (dispatch) => {
+//   try {
+//     dispatch({
+//       type: USER_LOGIN_REQUEST,
+//     });
+
+//     const config = {
+//       headers: {
+//         "Content-type": "application/json",
+//       },
+//     };
+
+//   const lowerCaseEmail = identifier.toLowerCase();
+
+//     const { data } = await axios.post(
+//       `${API_URL}/api/users/login/`,
+//       { identifier: lowerCaseEmail, password: password },
+//       config
+//     );
+
+//     dispatch({
+//       type: USER_LOGIN_SUCCESS,
+//       payload: data,
+//     });
+
+//     // Set access token in Axios headers
+//     axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
+//     localStorage.setItem("userInfo", JSON.stringify(data));
+
+//     // Set timer to refresh the access token after refreshTokenTime minutes (ms)
+//     // let refreshTokenTime = 1000 * 60 * 900; // ms * hr * mins
+//     let refreshTokenTime = 1000 * 60 * 60*24*7; // ms * hr * mins
+//     setTimeout(() => {
+//       dispatch(refreshToken(data.refresh));
+//     }, refreshTokenTime);
+
+//     // window.location.href = "/dashboard/users";
+//   } catch (error) {
+//     dispatch({
+//       type: USER_LOGIN_FAIL,
+//       payload:
+//         error.response && error.response.data.detail
+//           ? error.response.data.detail
+//           : error.message,
+//     });
+//   }
+// };
 
 export const loginWithGoogle =
   (email, googleId, tokenId) => async (dispatch) => {

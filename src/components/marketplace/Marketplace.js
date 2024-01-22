@@ -17,6 +17,8 @@ import Message from "../Message";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+// import Slider, { Range } from 'rc-slider';
+// import 'rc-slider/assets/index.css';
 
 function Marketplace() {
   const dispatch = useDispatch();
@@ -394,6 +396,11 @@ function Marketplace() {
               onTypeChange={handleTypeChange}
             />
           </div>
+
+          {/* <div className="py-2 d-flex justify-content-center">
+          <Slider range />
+          </div> */}
+
 
           <div className="py-2 d-flex justify-content-center">
             {searchSellerUsername && (

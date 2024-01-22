@@ -55,6 +55,8 @@ getSellerDetailReducer,
   listPaidAdMessageReducer,
   createFreeAdMessageReducer,
   listFreeAdMessageReducer,
+  reportFreeAdReducer,
+reportPaidAdReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 import {
@@ -313,6 +315,9 @@ getSellerDetailState: getSellerDetailReducer,
   listPaidAdMessageState: listPaidAdMessageReducer,
   createFreeAdMessageState: createFreeAdMessageReducer,
   listFreeAdMessageState: listFreeAdMessageReducer,
+
+  reportFreeAdState: reportFreeAdReducer,
+reportPaidAdState: reportPaidAdReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")

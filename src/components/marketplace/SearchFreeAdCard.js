@@ -1,6 +1,6 @@
 // SearchFreeAdCard.js
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Modal, Row, Col  } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
@@ -16,6 +16,7 @@ import Message from "../Message";
 import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
 
+import ReportFreeAd from "./ReportFreeAd";
 function SearchFreeAdCard({ freeSearchAd }) { 
   console.log("free Ads Card", freeSearchAd);
 
@@ -52,6 +53,13 @@ function SearchFreeAdCard({ freeSearchAd }) {
   const { sellerAccount } = getSellerAccountState;
   console.log("is_seller_verified", sellerAccount?.is_seller_verified);
   
+  const [reportAdModal, setReportAdModal] = useState(false);
+  const handleReportAdOpen = () => {
+    setReportAdModal(true);
+  };
+  const handleReportAdClose = () => {
+    setReportAdModal(false);
+  };
   useEffect(() => {
     const pk = freeSearchAd.id;
     if (userInfo) {
@@ -195,6 +203,8 @@ function SearchFreeAdCard({ freeSearchAd }) {
   };
 
   return (
+    <Row>
+      <Col>
     <Card className="my-3 p-3 rounded">
       {freeSearchAdMessages.freeSearchAdSaveSuccess && (
         <Message variant="success">Item added to favorites.</Message>
@@ -306,7 +316,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
               disabled
             >
               <i className="fas fa-clock"></i> Expires in:{" "}
-              <PromoTimer expirationDate={freeSearchAd?.expiration_date} />
+              <PromoTimer expirationDate={freeSearchAd?.expiration_date} /> 
             </Button>
           </span>
         </div>
@@ -357,15 +367,29 @@ function SearchFreeAdCard({ freeSearchAd }) {
               variant="danger"
               size="sm"
               className="rounded py-2"
-              // onClick={handleReportAd}
-              disabled
+              onClick={handleReportAdOpen}
+              // disabled
             >
-              <i className="fa fa-flag"></i> Report Ad
+              <i className="fa fa-flag"></i> Report Ad 
             </Button>
           </span>
         </div>
       </Card.Body>
     </Card>
+    <div className="d-flex justify-content-center py-2">
+          <Modal show={reportAdModal} onHide={handleReportAdClose}>
+            <Modal.Header closeButton>
+              <Modal.Title className="text-center w-100 py-2">
+                Report Ad
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {reportAdModal && <ReportFreeAd adId={freeSearchAd?.id} />}
+            </Modal.Body>
+          </Modal>
+        </div>
+    </Col>
+    </Row>
   );
 }
 

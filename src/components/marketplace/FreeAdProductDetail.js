@@ -10,6 +10,7 @@ import {
   Card,
   Form,
   Container,
+  Modal,
 } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
@@ -21,6 +22,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
+import ReportFreeAd from "./ReportFreeAd";
 
 function FreeAdProductDetail({ match, history }) {
   const [qty, setQty] = useState(1);
@@ -63,6 +65,14 @@ function FreeAdProductDetail({ match, history }) {
 
     dispatch(getSellerAccount());
   }, [dispatch, match]);
+
+  const [reportAdModal, setReportAdModal] = useState(false);
+  const handleReportAdOpen = () => {
+    setReportAdModal(true);
+  };
+  const handleReportAdClose = () => {
+    setReportAdModal(false);
+  };
 
   function formatCount(viewCount) {
     if (viewCount >= 1000000) {
@@ -418,6 +428,31 @@ function FreeAdProductDetail({ match, history }) {
               sellers. Ensure the authenticity of both the product and the
               seller before proceeding with any transactions.
             </p>
+          </div>
+
+          <div className="d-flex justify-content-end py-2">
+            <Button
+              variant="danger"
+              size="sm"
+              className="rounded py-2"
+              onClick={handleReportAdOpen}
+              // disabled
+            >
+              <i className="fa fa-flag"></i> Report Ad
+            </Button>
+          </div>
+
+          <div className="d-flex justify-content-center py-2">
+            <Modal show={reportAdModal} onHide={handleReportAdClose}>
+              <Modal.Header closeButton>
+                <Modal.Title className="text-center w-100 py-2">
+                  Report Ad
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {reportAdModal && <ReportFreeAd adId={ads?.id} />}
+              </Modal.Body>
+            </Modal>
           </div>
         </Col>
       </Row>

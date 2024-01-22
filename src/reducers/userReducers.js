@@ -9,14 +9,23 @@ import {
   USER_REGISTER_FAIL,
 } from "../constants/userConstants";
 
-export const userLoginReducers = (state = {}, action) => {
+const initialState = {
+  loading: false,
+  success: false,
+  error: null,
+  userInfo: [],
+  registerData: [],
+  registrationData: [],
+};
+
+export const userLoginReducers = (state = initialState, action) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST: 
-      return { laoding: true };
+      return { loading: true };
     case USER_LOGIN_SUCCESS:
-      return { laoding: false, userInfo: action.payload }; 
+      return { loading: false, userInfo: action.payload }; 
     case USER_LOGIN_FAIL:
-      return { laoding: false, error: action.payload };
+      return { loading: false, error: action.payload };
 
     case USER_LOGOUT:
       return {};
@@ -26,7 +35,7 @@ export const userLoginReducers = (state = {}, action) => {
   }
 };
 
-export const userRegisterReducers = (state = {}, action) => {
+export const userRegisterReducers = (state = initialState, action) => {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
       return { loading: true, success: false, };
@@ -41,7 +50,7 @@ export const userRegisterReducers = (state = {}, action) => {
       registrationData: action.payload,
     };
 
-    case USER_LOGOUT: 
+    case USER_LOGOUT:  
       return {};
 
     default:

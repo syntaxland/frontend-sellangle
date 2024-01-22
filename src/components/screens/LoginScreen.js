@@ -9,19 +9,20 @@ import FormContainer from "../FormContainer";
 import { login } from "../../actions/userActions";
 // import GoogleLoginScreen from "./GoogleLoginScreen";
 
-function LoginScreen({ location }) {
+function LoginScreen() {
   const [email, setEmail] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   const dispatch = useDispatch();
-  const history = useHistory(); 
+  const history = useHistory();
 
   // const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { error, userInfo } = userLogin;
+  const {loading, error, userInfo } = userLogin;
 
   // const handleGoogleLoginClick = () => {
   //   setShowGoogleLogin(true);
@@ -31,13 +32,9 @@ function LoginScreen({ location }) {
     if (userInfo) {
       try {
         if (userInfo.is_verified) {
-          // If the email is verified, clear the userInfo and proceed with login
           history.push("/");
-          // history.push(redirect);
-          setSuccessMessage("Login successful."); 
+          setSuccessMessage("Login successful.");
         } else {
-          // If the email is not verified, log out the user and redirect to the email verification page
-          // dispatch(logout());
           history.push("/verify-email-otp");
           setSuccessMessage("Please verify your email.");
         }
@@ -47,25 +44,15 @@ function LoginScreen({ location }) {
     }
   }, [userInfo, history, dispatch]);
 
-  const submitHandler = async (e) => {
+  const loginData = {
+    email : email.toLowerCase(),
+    password,
+  };
+  console.log("loginData:", loginData);
+
+  const submitHandler = (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true before making the request
-
-    try {
-      await dispatch(login(email, password)); // Wait for the login request to complete
-      setLoading(false); // Set loading back to false after the request is completed
-
-      // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-      // if (userInfo && userInfo.access) {
-      //   let refreshTokenTime = 1000 * 60 * 0.1; // ms * hr * mins
-      //   setTimeout(() => {
-      //     dispatch(refreshToken(userInfo.refresh));
-      //   }, refreshTokenTime);
-      // }
-    } catch (error) {
-      setLoading(false);
-    }
+    dispatch(login(loginData));
   };
 
   return (
@@ -79,16 +66,23 @@ function LoginScreen({ location }) {
         )}
         <Form onSubmit={submitHandler}>
           {loading && <Loader />}
-          <Form.Group controlId="email">
+          <Form.Group controlId="identifier">
             <Form.Label>
-              <i className="fas fa-envelope"></i> Email Address
+              <i className="fas fa-envelope"></i> Email 
             </Form.Label>
             <Form.Control
               required
+              // type="text"
               type="email"
-              placeholder="Enter Email"
+              placeholder="Enter email "
               className="rounded w-100"
+              // value={isEmail ? email : username}
+              // onChange={(e) =>
+              //   isEmail ? setEmail(e.target.value) : setUsername(e.target.value)
+              // }
               value={email}
+              // value={identifier}
+              // onChange={(e) => setIdentifier(e.target.value)}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
@@ -100,7 +94,7 @@ function LoginScreen({ location }) {
             <Form.Control
               required
               type="password"
-              placeholder="Enter Password"
+              placeholder="Enter password"
               className="rounded w-100"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -114,7 +108,10 @@ function LoginScreen({ location }) {
                 type="submit"
                 variant="success"
                 block
-                disabled={password === "" || email === ""}
+                disabled={
+                  password === ""
+                  || email === ""
+                }
               >
                 Login <i className="fa fa-sign-in"></i>
               </Button>

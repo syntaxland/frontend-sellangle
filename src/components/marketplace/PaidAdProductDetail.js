@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   Container,
+  Modal,
 } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
@@ -32,6 +33,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Paysofter from "../MarketplacePayment/Paysofter";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
+
+import ReportPaidAd from "./ReportPaidAd";
 
 function PaidAdProductDetail({ match, history }) {
   const dispatch = useDispatch();
@@ -97,6 +100,14 @@ function PaidAdProductDetail({ match, history }) {
       return viewCount?.toString();
     }
   }
+
+  const [reportAdModal, setReportAdModal] = useState(false);
+  const handleReportAdOpen = () => {
+    setReportAdModal(true);
+  };
+  const handleReportAdClose = () => {
+    setReportAdModal(false);
+  };
 
   function calculateDuration(joinedTimestamp) {
     const now = new Date();
@@ -456,6 +467,31 @@ function PaidAdProductDetail({ match, history }) {
               sellers. Ensure the authenticity of both the product and the
               seller before proceeding with any transactions.
             </p>
+          </div>
+
+          <div className="d-flex justify-content-end py-2">
+            <Button
+              variant="danger"
+              size="sm"
+              className="rounded py-2"
+              onClick={handleReportAdOpen}
+              // disabled
+            >
+              <i className="fa fa-flag"></i> Report Ad
+            </Button>
+          </div>
+
+          <div className="d-flex justify-content-center py-2">
+            <Modal show={reportAdModal} onHide={handleReportAdClose}>
+              <Modal.Header closeButton>
+                <Modal.Title className="text-center w-100 py-2">
+                  Report Ad
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {reportAdModal && <ReportPaidAd adId={ads?.id} />}
+              </Modal.Body>
+            </Modal>
           </div>
         </Col>
       </Row>

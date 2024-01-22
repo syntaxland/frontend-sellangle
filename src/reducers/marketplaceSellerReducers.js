@@ -8,8 +8,8 @@ import {
   MARKETPLACE_SELLER_PHOTO_FAIL,
   POST_FREE_AD_REQUEST,
   POST_FREE_AD_SUCCESS,
-  POST_FREE_AD_FAIL,
-  POST_PAID_AD_REQUEST,
+  POST_FREE_AD_FAIL, 
+  POST_PAID_AD_REQUEST, 
   POST_PAID_AD_SUCCESS,
   POST_PAID_AD_FAIL,
   GET_SELLER_ACCOUNT_REQUEST,
@@ -109,6 +109,14 @@ import {
   GET_SELLER_SHOPFRONT_LINK_REQUEST,
 GET_SELLER_SHOPFRONT_LINK_SUCCESS,
 GET_SELLER_SHOPFRONT_LINK_FAIL,
+
+
+REPORT_FREE_AD_REQUEST,
+REPORT_FREE_AD_SUCCESS,
+REPORT_FREE_AD_FAIL,
+REPORT_PAID_AD_REQUEST,
+REPORT_PAID_AD_SUCCESS,
+REPORT_PAID_AD_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -129,6 +137,38 @@ const initialState = {
   sellerDetail: [],
   shopfrontLink: [],
 
+};
+
+export const reportFreeAdReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case REPORT_FREE_AD_REQUEST:
+      return { loading: true };
+    case REPORT_FREE_AD_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case REPORT_FREE_AD_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const reportPaidAdReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case REPORT_PAID_AD_REQUEST:
+      return { loading: true };
+    case REPORT_PAID_AD_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case REPORT_PAID_AD_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const getSellerShopfrontLinkReducer = (state = initialState, action) => {

@@ -1,6 +1,6 @@
 // SearchPaidAdCard.js
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Modal, Row, Col  } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
@@ -18,6 +18,7 @@ import Loader from "../Loader";
 // import ProductPrice from "../ProductPrice";
 import PromoTimer from "../PromoTimer";
 
+import ReportPaidAd from "./ReportPaidAd";
 function SearchPaidAdCard({ paidSearchAd }) { 
   console.log("paidSearchAd Card", paidSearchAd);
   const dispatch = useDispatch(); 
@@ -53,6 +54,13 @@ function SearchPaidAdCard({ paidSearchAd }) {
   const { sellerAvatarUrl } = getPaidAdDetailState;
   // console.log("sellerAvatarUrl:", sellerAvatarUrl);
 
+  const [reportAdModal, setReportAdModal] = useState(false);
+  const handleReportAdOpen = () => {
+    setReportAdModal(true);
+  };
+  const handleReportAdClose = () => {
+    setReportAdModal(false);
+  };
   useEffect(() => {
     if (
       userInfo &&
@@ -196,6 +204,8 @@ function SearchPaidAdCard({ paidSearchAd }) {
   };
 
   return (
+    <Row>
+      <Col>
     <Card className="my-3 p-3 rounded">
       {paidSearchAdMessages.paidSearchAdSaveSuccess && (
         <Message variant="success">Item added to favorites.</Message>
@@ -390,15 +400,29 @@ function SearchPaidAdCard({ paidSearchAd }) {
               variant="danger"
               size="sm"
               className="rounded py-2"
-              // onClick={handleReportAd}
-              disabled
+              onClick={handleReportAdOpen}
+              // disabled
             >
-              <i className="fa fa-flag"></i> Report Ad
+              <i className="fa fa-flag"></i> Report Ad 
             </Button>
           </span>
         </div>
       </Card.Body>
     </Card>
+    <div className="d-flex justify-content-center py-2">
+          <Modal show={reportAdModal} onHide={handleReportAdClose}>
+            <Modal.Header closeButton>
+              <Modal.Title className="text-center w-100 py-2">
+                Report Ad
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {reportAdModal && <ReportPaidAd adId={paidSearchAd?.id} />}
+            </Modal.Body>
+          </Modal>
+        </div>
+    </Col>
+    </Row>
   );
 }
 

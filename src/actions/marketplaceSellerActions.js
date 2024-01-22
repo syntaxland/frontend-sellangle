@@ -109,9 +109,87 @@ import {
   GET_SELLER_SHOPFRONT_LINK_REQUEST,
   GET_SELLER_SHOPFRONT_LINK_SUCCESS,
   GET_SELLER_SHOPFRONT_LINK_FAIL,
+  REPORT_FREE_AD_REQUEST,
+  REPORT_FREE_AD_SUCCESS,
+  REPORT_FREE_AD_FAIL,
+  REPORT_PAID_AD_REQUEST,
+  REPORT_PAID_AD_SUCCESS,
+  REPORT_PAID_AD_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export const reportFreeAd = (adReportData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: REPORT_FREE_AD_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/report-free-ad/`,
+      adReportData,
+      config
+    );
+
+    dispatch({
+      type: REPORT_FREE_AD_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REPORT_FREE_AD_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const reportPaidAd = (adReportData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: REPORT_PAID_AD_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/report-paid-ad/`,
+      adReportData,
+      config
+    );
+
+    dispatch({
+      type: REPORT_PAID_AD_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REPORT_PAID_AD_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const getSellerShopfrontLink = () => async (dispatch, getState) => {
   try {
@@ -163,7 +241,12 @@ export const searchAds = (searchData) => async (dispatch, getState) => {
       },
     };
 
-    const {search_term, selected_country, selected_state, selected_city } = searchData; 
+    const {
+      search_term,
+      selected_country,
+      selected_state,
+      selected_city,
+    } = searchData;
     const url = `${API_URL}/api/search-ads/?search_term=${search_term}&country=${selected_country}&state=${selected_state}&city=${selected_city}`;
     const { data } = await axios.get(url, config);
 

@@ -18,6 +18,8 @@ import Message from "../Message";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+// import Slider, { Range } from 'rc-slider';
+// import 'rc-slider/assets/index.css';
 
 function SearchResults() {
   const dispatch = useDispatch();
@@ -78,21 +80,6 @@ function SearchResults() {
   const [filteredPaidAds, setFilteredPaidAds] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
-
-  // const freeAdsCategoryCount = freeAds ? freeAds.length : 0;
-  // const paidAdsCategoryCount = paidAds ? paidAds.length : 0;
-  // const totalAdsCategoryCount = freeAdsCategoryCount + paidAdsCategoryCount;
-
-  // const freeAdsTypeCount = freeAds ? freeAds.length : 0;
-  // const paidAdsTypeCount = paidAds ? paidAds.length : 0;
-  // const totalAdsTypeCount = freeAdsTypeCount + paidAdsTypeCount;
-
-  // const [filteredFreeAds, setFilteredFreeAds] = useState([]);
-  // const [filteredPaidAds, setFilteredPaidAds] = useState([]);
-  // const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [selectedType, setSelectedType] = useState(null);
-  // // console.log("filteredFreeAds", filteredFreeAds?.length);
-  // // console.log("filteredPaidAds", filteredPaidAds?.length);
 
   const handleCategoryChange = useCallback(
     (category) => {
@@ -218,6 +205,10 @@ function SearchResults() {
       }
     }
   };
+
+//   const Slider = require('rc-slider');
+// const createSliderWithTooltip = Slider.createSliderWithTooltip;
+// const Range = createSliderWithTooltip(Slider.Range);
 
   return (
     <Container>
@@ -411,6 +402,10 @@ function SearchResults() {
               onTypeChange={handleTypeChange}
             />
           </div>
+
+          {/* <div className="py-2 d-flex justify-content-center">
+          <Slider range />
+          </div> */}
 
           <div className="py-2 d-flex justify-content-center">
             {searchSellerUsername && (
