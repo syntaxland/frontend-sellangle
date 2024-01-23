@@ -732,7 +732,7 @@ function SellerProfile() {
                     <Form.Control
                       type="text"
                       name="business_description"
-                      value={businessData.business_description}
+                      value={businessData?.business_description}
                       onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
@@ -747,6 +747,7 @@ function SellerProfile() {
                         })
                       }
                       placeholder="Enter phone number"
+                      maxLength={18}
                     />
                   </Form.Group>
 
@@ -823,7 +824,7 @@ function SellerProfile() {
                     <Form.Control
                       as="select"
                       name="id_type"
-                      value={businessData.id_type}
+                      value={businessData?.id_type}
                       onChange={handleBusinessDataChanges}
                     >
                       <option value="">ID Type</option>
@@ -840,7 +841,7 @@ function SellerProfile() {
                     <Form.Control
                       type="text"
                       name="id_number"
-                      value={businessData.id_number}
+                      value={businessData?.id_number}
                       onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
