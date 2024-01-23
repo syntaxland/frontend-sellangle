@@ -871,7 +871,7 @@ function SellerProfile() {
                     <div>
                       <DatePicker
                         selected={
-                          businessData.dob ? new Date(businessData.dob) : null
+                          businessData.dob ? new Date(businessData?.dob) : null
                         }
                         onChange={(date) =>
                           handleBusinessDataChanges({
@@ -894,7 +894,7 @@ function SellerProfile() {
                     <Form.Control
                       type="text"
                       name="home_address"
-                      value={businessData.home_address}
+                      value={businessData?.home_address}
                       onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
@@ -929,7 +929,7 @@ function SellerProfile() {
                     <div className="py-2">
                       {sellerPhoto?.photo && (
                         <img
-                          src={sellerPhoto.photo}
+                          src={sellerPhoto?.photo}
                           alt="Seller"
                           style={{ maxWidth: "100%", maxHeight: "100px" }}
                         />
@@ -973,7 +973,7 @@ function SellerProfile() {
                     <Form.Control
                       type="text"
                       name="live_api_key"
-                      value={apiKeyData.live_api_key}
+                      value={apiKeyData?.live_api_key}
                       onChange={handleSellerApiKeyDataChanges}
                     />
                   </Form.Group>
