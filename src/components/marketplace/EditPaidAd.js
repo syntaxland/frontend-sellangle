@@ -56,7 +56,7 @@ const AD_TYPE_CHOICES = {
     ["Refrigerator", "Refrigerator"],
     ["Microwave", "Microwave"],
     ["Coffee Machine", "Coffee Machine"],
-    ["Air Conditioner", "Air Conditioner"],
+    ["Air Conditioner", "Air Conditioner"], 
     ["Solar", "Solar"],
     ["Kitchen Appliances", "Kitchen Appliances"],
   ],
