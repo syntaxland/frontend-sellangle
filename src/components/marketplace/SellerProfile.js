@@ -740,7 +740,7 @@ function SellerProfile() {
                   <Form.Group>
                     <Form.Label>Business Phone</Form.Label>
                     <PhoneInput
-                      value={businessData.business_phone}
+                      value={businessData?.business_phone}
                       onChange={(value) =>
                         handleBusinessDataChanges({
                           target: { name: "business_phone", value },
@@ -774,7 +774,7 @@ function SellerProfile() {
                     <Form.Control
                       type="text"
                       name="business_website"
-                      value={businessData.business_website}
+                      value={businessData?.business_website}
                       onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
@@ -784,7 +784,7 @@ function SellerProfile() {
                     <Form.Control
                       type="text"
                       name="business_address"
-                      value={businessData.business_address}
+                      value={businessData?.business_address}
                       onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
@@ -800,8 +800,8 @@ function SellerProfile() {
 
                     <Select
                       value={{
-                        value: businessData.country,
-                        label: businessData.country,
+                        value: businessData?.country,
+                        label: businessData?.country,
                       }}
                       onChange={(selectedOption) =>
                         handleBusinessDataChanges({
@@ -811,7 +811,7 @@ function SellerProfile() {
                           },
                         })
                       }
-                      options={COUNTRY_CHOICES.map((type) => ({
+                      options={COUNTRY_CHOICES?.map((type) => ({
                         value: type[0],
                         label: type[1],
                       }))}
