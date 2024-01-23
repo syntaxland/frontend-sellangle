@@ -10,8 +10,8 @@ import TransferPayment from "./TransferPayment";
 import PaysofterAccountFund from "./PaysofterAccountFund";
 import PaysofterPromise from "./PaysofterPromise";
 import QrPayment from "./QrPayment";
-
 import "./Paysofter.css";
+import {formatAmount} from "../FormatAmount";
 
 function PaysofterButton({
   showPaymentModal,
@@ -48,13 +48,6 @@ function PaysofterButton({
     setShowMoreOptions(!showMoreOptions);
   };
 
-  function formatNumber(number, decimalPlaces = 2) {
-    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
-    const parts = formattedNumber.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   return (
     <div>
       <div className="text-center">
@@ -73,7 +66,7 @@ function PaysofterButton({
             <Modal.Title>Mock Payment (Test)</Modal.Title>
             <div>{buyerEmail}</div>
             <div>
-              {formatNumber(amount)
+              {formatAmount(amount)
               
               // ?.toLocaleString(undefined, {
               //   minimumFractionDigits: 2,

@@ -13,6 +13,7 @@ import ApplyPromoCode from "../ApplyPromoCode";
 import LoaderPaysofter from "../LoaderPaysofter"; 
 import Message from "../Message";
 import "./Paysofter.css";
+import {formatAmount} from "../FormatAmount";
 
 function Paysofter({
   reference,
@@ -202,13 +203,6 @@ function Paysofter({
     final_total_amount: promoTotalPrice,
   };
 
-  function formatNumber(number, decimalPlaces = 2) {
-    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
-    const parts = formattedNumber.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   return (
     <>
       <Row>
@@ -259,7 +253,7 @@ function Paysofter({
               </ListGroup.Item>
               <ListGroup.Item>
                 Total Amount: NGN{" "}
-                {formatNumber(totalPrice)
+                {formatAmount(totalPrice)
                 
                 // .toLocaleString(undefined, {
                 //   minimumFractionDigits: 2,
@@ -287,7 +281,7 @@ function Paysofter({
                 Final Total Amount: NGN{" "}
                 {promoTotalPrice ? (
                   <span>
-                    {formatNumber(promoTotalPrice)
+                    {formatAmount(promoTotalPrice)
                     
                     // .toLocaleString(undefined, {
                     //   minimumFractionDigits: 2,

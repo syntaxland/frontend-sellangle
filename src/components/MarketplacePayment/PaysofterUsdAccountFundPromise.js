@@ -6,6 +6,7 @@ import { debitPaysofterUsdAccountFund } from "../../actions/paymentActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import VerifyUsdAccountFundPromiseOtp from "./VerifyUsdAccountFundPromiseOtp";
+import {formatAmount} from "../FormatAmount";
 
 const PaysofterUsdAccountFundPromise = ({
   buyerEmail,
@@ -150,13 +151,6 @@ const PaysofterUsdAccountFundPromise = ({
     }
     // eslint-disable-next-line
   }, [dispatch, success]);
-
-  function formatNumber(number, decimalPlaces = 2) {
-    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
-    const parts = formattedNumber.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
 
   return (
     <>
@@ -414,7 +408,7 @@ const PaysofterUsdAccountFundPromise = ({
                   Pay{" "}
                   <span>
                     (
-                    {formatNumber(amount)
+                    {formatAmount(amount)
                     
                     // ?.toLocaleString(undefined, {
                     //   minimumFractionDigits: 2,

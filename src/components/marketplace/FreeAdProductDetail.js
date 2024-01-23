@@ -23,6 +23,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
 import ReportFreeAd from "./ReportFreeAd";
+import {formatAmount} from "../FormatAmount";
 
 function FreeAdProductDetail({ match, history }) {
   // const [qty, setQty] = useState(1);
@@ -143,13 +144,6 @@ function FreeAdProductDetail({ match, history }) {
     history.push(`/seller-shop-front/${ads?.seller_username}/`);
   };
 
-  function formatNumber(number, decimalPlaces = 2) {
-    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
-    const parts = formattedNumber.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   return (
     <Container>
       <Row>
@@ -218,7 +212,7 @@ function FreeAdProductDetail({ match, history }) {
                       <Row>
                         <Col>Price:</Col>
                         <Col>
-                          <strong>NGN {formatNumber(ads.price)}</strong>
+                          <strong>NGN {formatAmount(ads.price)}</strong>
                         </Col>
                       </Row>
                     </ListGroup.Item>

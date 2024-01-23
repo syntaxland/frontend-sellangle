@@ -17,15 +17,6 @@ import Message from "../Message";
 import { useDispatch, useSelector } from "react-redux";
 import { getSellerAccount } from "../../actions/marketplaceSellerActions";
 import {
-  //  getFreeAd,
-  //  deleteFreeAd,
-  //  updateFreeAd,
-  //  getAllFreeAd,
-  //  getPaidAd,
-  //  updatePaidAd,
-  //  deletePaidAd,
-  //  getAllPaidAd,
-  // getFreeAdDetail
   getPaidAdDetail,
 } from "../../actions/marketplaceSellerActions";
 import { Carousel } from "react-responsive-carousel";
@@ -33,8 +24,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Paysofter from "../MarketplacePayment/Paysofter";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
-
 import ReportPaidAd from "./ReportPaidAd";
+import {formatAmount} from "../FormatAmount";
 
 function PaidAdProductDetail({ match, history }) {
   const dispatch = useDispatch();
@@ -164,13 +155,6 @@ function PaidAdProductDetail({ match, history }) {
     history.push(`/seller-shop-front/${ads?.seller_username}/`);
   };
 
-  function formatNumber(number, decimalPlaces = 2) {
-    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
-    const parts = formattedNumber.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   return (
     <Container>
       <Row>
@@ -252,13 +236,13 @@ function PaidAdProductDetail({ match, history }) {
                         <Col>Price:</Col>
                         <Col>
                           <strong>
-                            {formatNumber(ads?.price)} {ads?.currency}
+                            {formatAmount(ads?.price)} {ads?.currency}
                           </strong>
                           <strong>
                             {ads?.usd_price ? (
                               <span>
                                 {" "}
-                                / {formatNumber(ads?.usd_price)} {ads?.usd_currency}{" "}
+                                / {formatAmount(ads?.usd_price)} {ads?.usd_currency}{" "}
                               </span>
                             ) : (
                               <></>

@@ -8,6 +8,7 @@ import ApplyPromoCode from "../ApplyPromoCode";
 import LoaderPaysofter from "../LoaderPaysofter";
 import Message from "../Message";
 import "./Paysofter.css"; 
+import {formatAmount} from "../FormatAmount";
 
 function Paysofter({
   // ads,
@@ -65,12 +66,6 @@ function Paysofter({
     final_total_amount: promoTotalPrice,
   };
 
-  function formatNumber(number, decimalPlaces = 2) {
-    const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
-    const parts = formattedNumber.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
 
   return (
     <>
@@ -114,7 +109,7 @@ function Paysofter({
 
               <ListGroup.Item>
                 Total Amount:{" "}
-                {formatNumber(ads?.price)
+                {formatAmount(ads?.price)
                 
                 // ?.toLocaleString(undefined, {
                 //   minimumFractionDigits: 2, 
@@ -128,7 +123,7 @@ function Paysofter({
                 Promo Discount: {" "}
                 {promoDiscount ? (
                   <span>
-                    {formatNumber(promoDiscount)
+                    {formatAmount(promoDiscount)
                     
                     // ?.toLocaleString(undefined, {
                     //   minimumFractionDigits: 2,
@@ -147,7 +142,7 @@ function Paysofter({
                 Final Total Amount: {currency}{" "}
                 {promoTotalPrice ? (
                   <span>
-                    {formatNumber(promoTotalPrice)
+                    {formatAmount(promoTotalPrice)
                     
                     // ?.toLocaleString(undefined, {
                     //   minimumFractionDigits: 2,
@@ -158,7 +153,7 @@ function Paysofter({
                   </span>
                 ) : (
                   <span>
-                    {formatNumber(totalPrice)
+                    {formatAmount(totalPrice)
                     
                     // ?.toLocaleString(undefined, {
                     //   minimumFractionDigits: 2,
