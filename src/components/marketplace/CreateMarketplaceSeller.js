@@ -28,7 +28,7 @@ function CreateMarketplaceSeller({ history }) {
   );
   const { success, error, loading } = marketplaceSellerState;
 
-  // const [selectedCountry] = useState("US");
+  const [selectedCountry] = useState("US");
   const [businessName, setBusinessName] = useState("");
   const [businessRegNum, setBusinessRegNum] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
@@ -675,7 +675,7 @@ function CreateMarketplaceSeller({ history }) {
               /> */}
 
               <PhoneInput
-                // country={selectedCountry}
+                country={selectedCountry}
                 value={businessPhone}
                 maxLength={18}
                 onChange={(value) => {

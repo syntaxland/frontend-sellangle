@@ -740,6 +740,8 @@ function SellerProfile() {
                   <Form.Group>
                     <Form.Label>Business Phone</Form.Label>
                     <PhoneInput
+                      // country={businessData?.country}
+                      country="US"
                       value={businessData?.business_phone}
                       onChange={(value) =>
                         handleBusinessDataChanges({
