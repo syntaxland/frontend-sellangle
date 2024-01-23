@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { register } from "../../actions/userActions";
 import { sendEmailOtp } from "../../actions/emailOtpActions";
-// import FormContainer from "../FormContainer";
+// import FormContainer from "../FormContainer"; 
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 // import GoogleLoginScreen from "./GoogleLoginScreen";

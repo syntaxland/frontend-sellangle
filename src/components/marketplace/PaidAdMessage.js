@@ -6,7 +6,7 @@ import { Form, Button, Row, Col, ListGroup, Container } from "react-bootstrap";
 import {
   createPaidAdMessage,
   listPaidAdMessages,
-} from "../../actions/marketplaceSellerActions";
+} from "../../actions/marketplaceSellerActions"; 
 import Loader from "../Loader";
 import Message from "../Message";
 import RatingSeller from "../RatingSeller";

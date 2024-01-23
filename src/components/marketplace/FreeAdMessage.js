@@ -7,7 +7,7 @@ import {
   createFreeAdMessage,
   listFreeAdMessages,
 } from "../../actions/marketplaceSellerActions";
-import Loader from "../Loader";
+import Loader from "../Loader"; 
 import Message from "../Message";
 import RatingSeller from "../RatingSeller";
 import PromoTimer from "../PromoTimer";

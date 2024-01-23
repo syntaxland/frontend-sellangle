@@ -18,6 +18,8 @@ import LoaderButton from "../LoaderButton";
 import DatePicker from "react-datepicker";
 import { parseISO } from "date-fns";
 import Select from "react-select";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 function SellerProfile() {
   const dispatch = useDispatch();
@@ -737,13 +739,35 @@ function SellerProfile() {
 
                   <Form.Group>
                     <Form.Label>Business Phone</Form.Label>
+                    <PhoneInput
+                      value={businessData.business_phone}
+                      onChange={(value) =>
+                        handleBusinessDataChanges({
+                          target: { name: "business_phone", value },
+                        })
+                      }
+                      placeholder="Enter phone number"
+                    />
+                  </Form.Group>
+
+                  {/* <Form.Group>
+                    <Form.Label>Business Phone</Form.Label>
                     <Form.Control
                       type="text"
                       name="business_phone"
                       value={businessData.business_phone}
                       onChange={handleBusinessDataChanges}
                     />
-                  </Form.Group>
+
+                    <PhoneInput
+                      // value={businessData.business_phone}
+                      // maxLength={18}
+                      // onChange={(value) => {
+                      //   // setBusinessPhone(value);
+                      //   // handleBusinessDataChanges("businessPhone", value);
+                      // }}
+                    />
+                  </Form.Group> */}
 
                   <Form.Group>
                     <Form.Label>Business Website</Form.Label>

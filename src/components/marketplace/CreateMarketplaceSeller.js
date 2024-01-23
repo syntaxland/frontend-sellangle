@@ -8,6 +8,8 @@ import Loader from "../Loader";
 import DatePicker from "react-datepicker";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 function CreateMarketplaceSeller({ history }) {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ function CreateMarketplaceSeller({ history }) {
   );
   const { success, error, loading } = marketplaceSellerState;
 
+  // const [selectedCountry] = useState("US");
   const [businessName, setBusinessName] = useState("");
   const [businessRegNum, setBusinessRegNum] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
@@ -398,7 +401,7 @@ function CreateMarketplaceSeller({ history }) {
     ["Yemen", "Yemen"],
     ["Zambia", "Zambia"],
     ["Zimbabwe", "Zimbabwe"],
-  ];  
+  ];
 
   const sellerData = new FormData();
   sellerData.append("business_name", businessName);
@@ -527,7 +530,7 @@ function CreateMarketplaceSeller({ history }) {
     <Container>
       <Row className="justify-content-center py-2">
         <Col xs={12} md={6}>
-          <h2 className="text-center py-2">Marketplace Seller Registration</h2>
+          <h2 className="text-center py-2">Seller Registration</h2>
           {loading && <Loader />}
 
           {success && (
@@ -661,7 +664,7 @@ function CreateMarketplaceSeller({ history }) {
 
             <Form.Group>
               <Form.Label>Business Phone</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 type="text"
                 value={businessPhone}
                 onChange={(e) => setBusinessPhone(e.target.value)}
@@ -669,6 +672,16 @@ function CreateMarketplaceSeller({ history }) {
                 className="rounded py-2 mb-2"
                 maxLength={100}
                 required
+              /> */}
+
+              <PhoneInput
+                // country={selectedCountry}
+                value={businessPhone}
+                maxLength={18}
+                onChange={(value) => {
+                  setBusinessPhone(value);
+                  handleFieldChange("businessPhone", value);
+                }}
               />
             </Form.Group>
 
