@@ -32,7 +32,7 @@ function SellerProfile() {
     error: getSellerAccountError,
     sellerAccount,
   } = getSellerAccountState;
-  console.log("sellerAccount:", sellerAccount);
+  // console.log("sellerAccount:", sellerAccount);
 
   const updateSellerAccountState = useSelector(
     (state) => state.updateSellerAccountState
@@ -45,7 +45,7 @@ function SellerProfile() {
 
   const getSellerPhotoState = useSelector((state) => state.getSellerPhotoState);
   const { sellerPhoto } = getSellerPhotoState;
-  console.log("sellerPhoto:", sellerPhoto);
+  // console.log("sellerPhoto:", sellerPhoto);
 
   const updateSellerPhotoState = useSelector(
     (state) => state.updateSellerPhotoState
@@ -60,7 +60,7 @@ function SellerProfile() {
     (state) => state.getSellerApiKeyState
   );
   const { sellerApiKey } = getSellerApiKeyState;
-  console.log("sellerApiKey:", sellerApiKey);
+  // console.log("sellerApiKey:", sellerApiKey);
 
   const updateSellerApiKeyState = useSelector(
     (state) => state.updateSellerApiKeyState
@@ -409,9 +409,26 @@ function SellerProfile() {
     }
   }, [sellerAccount]);
 
+  // const handleBusinessDataChanges = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   if (name === "dob" && typeof value === "string") {
+  //     const parsedDate = parseISO(value);
+  //     setBusinessData({ ...businessData, [name]: parsedDate });
+  //   } else {
+  //     if (files) {
+  //       setBusinessData({ ...businessData, [name]: files[0] });
+  //     } else {
+  //       setBusinessData({ ...businessData, [name]: value });
+  //     }
+  //   }
+
+  //   setBusinessDataChanges(true);
+  // };
+
   const handleBusinessDataChanges = (e) => {
     const { name, value, files } = e.target;
-
+  
     if (name === "dob" && typeof value === "string") {
       const parsedDate = parseISO(value);
       setBusinessData({ ...businessData, [name]: parsedDate });
@@ -419,12 +436,19 @@ function SellerProfile() {
       if (files) {
         setBusinessData({ ...businessData, [name]: files[0] });
       } else {
-        setBusinessData({ ...businessData, [name]: value });
+        setBusinessData({
+          ...businessData,
+          [name]: name === "country" ? value || "US" : value,
+        });
       }
     }
-
-    setBusinessDataChanges(true);
+  
+    if (name !== "country") {
+      setBusinessDataChanges(true);
+    }
   };
+  
+  
 
   const handleUpdateBusinessAccount = () => {
     const businessFormData = new FormData();
@@ -465,8 +489,8 @@ function SellerProfile() {
       businessFormData.append("id_card_image", businessData.id_card_image);
     }
 
-    console.log("business_reg_cert:", businessData.business_reg_cert);
-    console.log("businessFormData:", businessFormData);
+    // console.log("business_reg_cert:", businessData.business_reg_cert);
+    // console.log("businessFormData:", businessFormData);
 
     dispatch(updateSellerAccount(businessFormData));
   };
@@ -493,9 +517,9 @@ function SellerProfile() {
       photoFormData.append("photo", photoData.photo);
     }
 
-    console.log("photoFormData:", photoFormData);
-    console.log("photoData.photo:", photoData.photo);
-    console.log("photoData:", photoData);
+    // console.log("photoFormData:", photoFormData);
+    // console.log("photoData.photo:", photoData.photo);
+    // console.log("photoData:", photoData);
 
     dispatch(updateSellerPhoto(photoFormData));
   };
