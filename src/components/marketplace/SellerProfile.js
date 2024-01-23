@@ -681,7 +681,7 @@ function SellerProfile() {
                     <Form.Control
                       as="select"
                       name="staff_size"
-                      value={businessData.staff_size}
+                      value={businessData?.staff_size}
                       onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Staff Size</option>
@@ -698,7 +698,7 @@ function SellerProfile() {
                     <Form.Control
                       as="select"
                       name="business_industry"
-                      value={businessData.business_industry}
+                      value={businessData?.business_industry}
                       onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Business Industry</option>
@@ -715,7 +715,7 @@ function SellerProfile() {
                     <Form.Control
                       as="select"
                       name="business_category"
-                      value={businessData.business_category}
+                      value={businessData?.business_category}
                       onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Business Category</option>
