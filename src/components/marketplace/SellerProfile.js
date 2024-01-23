@@ -436,6 +436,7 @@ function SellerProfile() {
       if (files) {
         setBusinessData({ ...businessData, [name]: files[0] });
       } else {
+        // Check if the field is 'country', if yes, provide a default value ('US' in this case)
         setBusinessData({
           ...businessData,
           [name]: name === "country" ? value || "US" : value,
@@ -447,6 +448,7 @@ function SellerProfile() {
       setBusinessDataChanges(true);
     }
   };
+  
   
   
 
@@ -764,8 +766,8 @@ function SellerProfile() {
                   <Form.Group>
                     <Form.Label>Business Phone</Form.Label>
                     <PhoneInput
-                      // country={businessData?.country}
-                      country="US"
+                      country={businessData?.country}
+                      // country="US"
                       value={businessData?.business_phone}
                       onChange={(value) =>
                         handleBusinessDataChanges({
