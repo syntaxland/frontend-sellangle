@@ -1,6 +1,6 @@
 // FreeAdProductDetail.js
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Row,
   Col,
@@ -25,10 +25,11 @@ import DOMPurify from "dompurify";
 import ReportFreeAd from "./ReportFreeAd";
 import {formatAmount} from "../FormatAmount";
 
-function FreeAdProductDetail({ match, history }) {
+function FreeAdProductDetail({ match }) {
   // const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
-
+  const history = useHistory();
+  
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -128,6 +129,7 @@ function FreeAdProductDetail({ match, history }) {
       image1: ads.image1,
       ad_name: ads.ad_name,
       price: ads.price,
+      currency: ads?.currency,
       sellerAvatarUrl,
       seller_username: ads.seller_username,
       expiration_date: ads.expiration_date,

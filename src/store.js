@@ -55,8 +55,16 @@ getSellerDetailReducer,
   listPaidAdMessageReducer,
   createFreeAdMessageReducer,
   listFreeAdMessageReducer,
-  reportFreeAdReducer,
-reportPaidAdReducer,
+
+  sellerReplyFreeAdMessageReducer,
+sellerReplyPaidAdMessageReducer,
+listSellerFreeAdMessagesReducer,
+listSellerPaidAdMessagesReducer,
+listBuyerFreeAdMessagesReducer,
+listBuyerPaidAdMessagesReducer,
+
+reportFreeAdReducer,
+reportPaidAdReducer, 
 } from "./reducers/marketplaceSellerReducers";
 
 import {
@@ -315,6 +323,13 @@ getSellerDetailState: getSellerDetailReducer,
   listPaidAdMessageState: listPaidAdMessageReducer,
   createFreeAdMessageState: createFreeAdMessageReducer,
   listFreeAdMessageState: listFreeAdMessageReducer,
+
+  sellerReplyFreeAdMessageState: sellerReplyFreeAdMessageReducer, 
+sellerReplyPaidAdMessageState: sellerReplyPaidAdMessageReducer, 
+listSellerFreeAdMessagesState: listSellerFreeAdMessagesReducer, 
+listSellerPaidAdMessagesState: listSellerPaidAdMessagesReducer, 
+listBuyerFreeAdMessagesState: listBuyerFreeAdMessagesReducer, 
+listBuyerPaidAdMessagesState: listBuyerPaidAdMessagesReducer, 
 
   reportFreeAdState: reportFreeAdReducer,
 reportPaidAdState: reportPaidAdReducer,

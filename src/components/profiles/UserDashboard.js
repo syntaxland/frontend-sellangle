@@ -20,7 +20,7 @@ import CreditPoint from "./CreditPoint";
 import PromoProduct from "./Offers";
 import RecommendedProducts from "./RecommendedProducts";
 import ViewedItems from "./ViewedItems";
-// import LiveChat from "./LiveChat";
+// import SellerInbox from "./SellerInbox";
 import Referrals from "./Referrals";
 import SupportTicket from "./SupportTicket";
 import Feedback from "./Feedback";
@@ -114,7 +114,7 @@ function UserDashboard({ history }) {
         return <Referrals />;
 
       // case "live-chat":
-      //   return <LiveChat />;
+      //   return <SellerInbox />;
 
       case "support-ticket":
         return <SupportTicket />;

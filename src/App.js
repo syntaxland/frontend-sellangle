@@ -67,6 +67,7 @@ import SellerShopFront from "./components/marketplace/SellerShopFront";
 import EditFreeAd from "./components/marketplace/EditFreeAd";
 import SearchResults from "./components/marketplace/SearchResults";
 import CurrentAds from "./components/marketplace/CurrentAds";
+import SellerInbox from "./components/marketplace/SellerInbox";
 
 function App() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -155,6 +156,7 @@ function App() {
             component={SellerShopFront}
           />
           <Route path="/current-ads" component={CurrentAds} />
+          <Route path="/seller-inbox" component={SellerInbox} />
           <Route path="/search-ad/" component={SearchResults} />
           <Route
             path="/create-marketplace-seller"

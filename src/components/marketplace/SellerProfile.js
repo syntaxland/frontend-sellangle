@@ -18,11 +18,12 @@ import LoaderButton from "../LoaderButton";
 import DatePicker from "react-datepicker";
 import { parseISO } from "date-fns";
 import Select from "react-select";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+// import PhoneInput from "react-phone-number-input";
+// import "react-phone-number-input/style.css";
 
 function SellerProfile() {
   const dispatch = useDispatch();
+  // const [selectedCountry] = useState("US");
 
   const getSellerAccountState = useSelector(
     (state) => state.getSellerAccountState
@@ -409,6 +410,23 @@ function SellerProfile() {
     }
   }, [sellerAccount]);
 
+  const handleBusinessDataChanges = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "dob" && typeof value === "string") {
+      const parsedDate = parseISO(value);
+      setBusinessData({ ...businessData, [name]: parsedDate });
+    } else {
+      if (files) {
+        setBusinessData({ ...businessData, [name]: files[0] });
+      } else {
+        setBusinessData({ ...businessData, [name]: value });
+      }
+    }
+
+    setBusinessDataChanges(true);
+  };
+
   // const handleBusinessDataChanges = (e) => {
   //   const { name, value, files } = e.target;
 
@@ -419,38 +437,18 @@ function SellerProfile() {
   //     if (files) {
   //       setBusinessData({ ...businessData, [name]: files[0] });
   //     } else {
-  //       setBusinessData({ ...businessData, [name]: value });
+  //       // Check if the field is 'country', if yes, provide a default value ('US' in this case)
+  //       setBusinessData({
+  //         ...businessData,
+  //         [name]: name === "country" ? value || "US" : value,
+  //       });
   //     }
   //   }
 
-  //   setBusinessDataChanges(true);
+  //   if (name !== "country") {
+  //     setBusinessDataChanges(true);
+  //   }
   // };
-
-  const handleBusinessDataChanges = (e) => {
-    const { name, value, files } = e.target;
-  
-    if (name === "dob" && typeof value === "string") {
-      const parsedDate = parseISO(value);
-      setBusinessData({ ...businessData, [name]: parsedDate });
-    } else {
-      if (files) {
-        setBusinessData({ ...businessData, [name]: files[0] });
-      } else {
-        // Check if the field is 'country', if yes, provide a default value ('US' in this case)
-        setBusinessData({
-          ...businessData,
-          [name]: name === "country" ? value || "US" : value,
-        });
-      }
-    }
-  
-    if (name !== "country") {
-      setBusinessDataChanges(true);
-    }
-  };
-  
-  
-  
 
   const handleUpdateBusinessAccount = () => {
     const businessFormData = new FormData();
@@ -476,7 +474,7 @@ function SellerProfile() {
       "business_description",
       businessData.business_description
     );
-    businessFormData.append("business_phone", businessData.business_phone);
+    businessFormData.append("business_phone", businessData?.business_phone);
     businessFormData.append("business_website", businessData.business_website);
     businessFormData.append("country", businessData.country);
 
@@ -763,23 +761,24 @@ function SellerProfile() {
                     />
                   </Form.Group>
 
-                  <Form.Group>
+                  {/* <Form.Group>
                     <Form.Label>Business Phone</Form.Label>
                     <PhoneInput
-                      country={businessData?.country}
+                      // country={businessData?.country}
                       // country="US"
+                      // country={selectedCountry}
                       value={businessData?.business_phone}
                       onChange={(value) =>
                         handleBusinessDataChanges({
                           target: { name: "business_phone", value },
                         })
                       }
-                      placeholder="Enter phone number"
+                      placeholder="Enter phone number" 
                       maxLength={18}
                     />
-                  </Form.Group>
+                  </Form.Group> */}
 
-                  {/* <Form.Group>
+                  <Form.Group>
                     <Form.Label>Business Phone</Form.Label>
                     <Form.Control
                       type="text"
@@ -787,16 +786,7 @@ function SellerProfile() {
                       value={businessData.business_phone}
                       onChange={handleBusinessDataChanges}
                     />
-
-                    <PhoneInput
-                      // value={businessData.business_phone}
-                      // maxLength={18}
-                      // onChange={(value) => {
-                      //   // setBusinessPhone(value);
-                      //   // handleBusinessDataChanges("businessPhone", value);
-                      // }}
-                    />
-                  </Form.Group> */}
+                  </Form.Group>
 
                   <Form.Group>
                     <Form.Label>Business Website</Form.Label>

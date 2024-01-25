@@ -4,7 +4,7 @@ import { Row, Col, Container, Button } from "react-bootstrap";
 // import { Link} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons"; 
 import Dashboard from "./Dashboard";
 // import { login } from "../../actions/userActions";
 import SellerProfile from "./SellerProfile";
@@ -25,6 +25,7 @@ import ShopFrontLink from "./ShopFrontLink";
 // import SupportTicket from "./SupportTicket";
 // import Feedback from "./Feedback";
 // import Settings from "./Settings";
+import SellerInbox from "./SellerInbox";
 
 function MarketplaceDashboard({ history }) {
   // const dispatch = useDispatch();
@@ -53,7 +54,9 @@ const handleCurrentAds = () => {
     history.push("/current-ads");
   };
 
-
+  const handleSellerInbox = () => {
+    history.push("/seller-inbox");
+  };
   // const handleAdminDashboard = () => {
   //   history.push("/admin-dashboard");
   // };
@@ -112,6 +115,9 @@ const handleCurrentAds = () => {
 
       // case "settings":
       //   return <Settings />;
+
+      case "seller-inbox":
+        return <SellerInbox />; 
 
       default:
         return <Dashboard />;
@@ -318,7 +324,8 @@ const handleCurrentAds = () => {
                     activeTab === "seller-inbox" ? "info" : "outline-info"
                   }
                   className="sidebar-link"
-                  onClick={() => handleTabChange("seller-inbox")}
+                  onClick={handleSellerInbox}
+                  // onClick={() => handleTabChange("seller-inbox")}
                 >
                   <i className="fa fa-message"></i> Seller Inbox
                 </Button>

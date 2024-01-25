@@ -8,8 +8,8 @@ import {
   MARKETPLACE_SELLER_PHOTO_FAIL,
   POST_FREE_AD_REQUEST,
   POST_FREE_AD_SUCCESS,
-  POST_FREE_AD_FAIL, 
-  POST_PAID_AD_REQUEST, 
+  POST_FREE_AD_FAIL,
+  POST_PAID_AD_REQUEST,
   POST_PAID_AD_SUCCESS,
   POST_PAID_AD_FAIL,
   GET_SELLER_ACCOUNT_REQUEST,
@@ -105,18 +105,33 @@ import {
   SEARCH_ADS_REQUEST,
   SEARCH_ADS_SUCCESS,
   SEARCH_ADS_FAIL,
-
   GET_SELLER_SHOPFRONT_LINK_REQUEST,
-GET_SELLER_SHOPFRONT_LINK_SUCCESS,
-GET_SELLER_SHOPFRONT_LINK_FAIL,
-
-
-REPORT_FREE_AD_REQUEST,
-REPORT_FREE_AD_SUCCESS,
-REPORT_FREE_AD_FAIL,
-REPORT_PAID_AD_REQUEST,
-REPORT_PAID_AD_SUCCESS,
-REPORT_PAID_AD_FAIL,
+  GET_SELLER_SHOPFRONT_LINK_SUCCESS,
+  GET_SELLER_SHOPFRONT_LINK_FAIL,
+  REPORT_FREE_AD_REQUEST,
+  REPORT_FREE_AD_SUCCESS,
+  REPORT_FREE_AD_FAIL,
+  REPORT_PAID_AD_REQUEST,
+  REPORT_PAID_AD_SUCCESS,
+  REPORT_PAID_AD_FAIL,
+  SELLER_REPLY_FREE_AD_MESSAGE_REQUEST,
+  SELLER_REPLY_FREE_AD_MESSAGE_SUCCESS,
+  SELLER_REPLY_FREE_AD_MESSAGE_FAIL,
+  SELLER_REPLY_PAID_AD_MESSAGE_REQUEST,
+  SELLER_REPLY_PAID_AD_MESSAGE_SUCCESS,
+  SELLER_REPLY_PAID_AD_MESSAGE_FAIL,
+  LIST_SELLER_FREE_AD_MESSAGES_REQUEST,
+  LIST_SELLER_FREE_AD_MESSAGES_SUCCESS,
+  LIST_SELLER_FREE_AD_MESSAGES_FAIL,
+  LIST_SELLER_PAID_AD_MESSAGES_REQUEST,
+  LIST_SELLER_PAID_AD_MESSAGES_SUCCESS,
+  LIST_SELLER_PAID_AD_MESSAGES_FAIL,
+  GET_BUYER_FREE_AD_MESSAGES_REQUEST,
+  GET_BUYER_FREE_AD_MESSAGES_SUCCESS,
+  GET_BUYER_FREE_AD_MESSAGES_FAIL,
+  GET_BUYER_PAID_AD_MESSAGES_REQUEST,
+  GET_BUYER_PAID_AD_MESSAGES_SUCCESS,
+  GET_BUYER_PAID_AD_MESSAGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -126,6 +141,9 @@ const initialState = {
   sellerAccount: [],
   sellerPhoto: [],
   adMessages: [],
+  sellerAdMessages: [],
+  freeAdMessages: [],
+  paidAdMessages: [],
   sellerApiKey: [],
   sellerAvatarUrl: [],
   serachResults: [],
@@ -136,7 +154,128 @@ const initialState = {
   paidAds: [],
   sellerDetail: [],
   shopfrontLink: [],
+};
 
+export const sellerReplyFreeAdMessageReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case SELLER_REPLY_FREE_AD_MESSAGE_REQUEST:
+      return { loading: true };
+    case SELLER_REPLY_FREE_AD_MESSAGE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case SELLER_REPLY_FREE_AD_MESSAGE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const sellerReplyPaidAdMessageReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case SELLER_REPLY_PAID_AD_MESSAGE_REQUEST:
+      return { loading: true };
+    case SELLER_REPLY_PAID_AD_MESSAGE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case SELLER_REPLY_PAID_AD_MESSAGE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const listSellerFreeAdMessagesReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case LIST_SELLER_FREE_AD_MESSAGES_REQUEST:
+      return { loading: true };
+    case LIST_SELLER_FREE_AD_MESSAGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        sellerAdMessages: action.payload,
+      };
+
+    case LIST_SELLER_FREE_AD_MESSAGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const listSellerPaidAdMessagesReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case LIST_SELLER_PAID_AD_MESSAGES_REQUEST:
+      return { loading: true };
+    case LIST_SELLER_PAID_AD_MESSAGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        sellerAdMessages: action.payload,
+      };
+
+    case LIST_SELLER_PAID_AD_MESSAGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const listBuyerFreeAdMessagesReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_BUYER_FREE_AD_MESSAGES_REQUEST:
+      return { loading: true };
+    case GET_BUYER_FREE_AD_MESSAGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        freeAdMessages: action.payload,
+      };
+
+    case GET_BUYER_FREE_AD_MESSAGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const listBuyerPaidAdMessagesReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_BUYER_PAID_AD_MESSAGES_REQUEST:
+      return { loading: true };
+    case GET_BUYER_PAID_AD_MESSAGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        paidAdMessages: action.payload,
+      };
+
+    case GET_BUYER_PAID_AD_MESSAGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const reportFreeAdReducer = (state = initialState, action) => {

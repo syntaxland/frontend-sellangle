@@ -24,6 +24,7 @@ function PaidAdMessage(match) {
   const image1 = queryParams.get("image1");
   const ad_name = queryParams.get("ad_name");
   const price = queryParams.get("price");
+  const currency = queryParams.get("currency");
   const sellerAvatarUrl = queryParams.get("sellerAvatarUrl");
   const seller_username = queryParams.get("seller_username");
   const expiration_date = queryParams.get("expiration_date");
@@ -112,7 +113,7 @@ function PaidAdMessage(match) {
                         </Col>
                         <Col md={12} className="py-2">
                           <ListGroup.Item>
-                            <p>NGN {price}</p>
+                            <p>{currency} {price}</p>
                           </ListGroup.Item>
                         </Col>
                         <Col md={12} className="py-2">

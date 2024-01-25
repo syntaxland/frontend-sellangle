@@ -8,8 +8,8 @@ import Loader from "../Loader";
 import DatePicker from "react-datepicker";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+// import PhoneInput from "react-phone-number-input";
+// import "react-phone-number-input/style.css";
 
 function CreateMarketplaceSeller({ history }) {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function CreateMarketplaceSeller({ history }) {
   );
   const { success, error, loading } = marketplaceSellerState;
 
-  const [selectedCountry] = useState("US");
+  // const [selectedCountry] = useState("US");
   const [businessName, setBusinessName] = useState("");
   const [businessRegNum, setBusinessRegNum] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
@@ -39,6 +39,7 @@ function CreateMarketplaceSeller({ history }) {
   const [businessDescription, setBusinessDescription] = useState("");
 
   const [businessPhone, setBusinessPhone] = useState("");
+  const [businessPhoneError, setBusinessPhoneError] = useState("");
 
   const [businessWebsite, setBusinessWebsite] = useState("");
   const [country, setCountry] = useState("");
@@ -100,6 +101,12 @@ function CreateMarketplaceSeller({ history }) {
         setBusinessCategory(value);
         setBusinessCategoryError("");
         break;
+
+      case "businessPhone":
+        setBusinessPhone(value);
+        setBusinessPhoneError("");
+        break;
+
       case "country":
         setCountry(value);
         setCountryError("");
@@ -413,12 +420,15 @@ function CreateMarketplaceSeller({ history }) {
   sellerData.append("business_category", businessCategory);
   sellerData.append("business_description", businessDescription);
   sellerData.append("business_website", businessWebsite);
+  sellerData.append("business_phone", businessPhone);
   sellerData.append("country", country);
   sellerData.append("id_type", idType);
   sellerData.append("id_number", idNumber);
   sellerData.append("id_card_image", idCardImage);
   sellerData.append("dob", dob);
   sellerData.append("home_address", address);
+
+  console.log("businessPhone:", businessPhone);
 
   useEffect(() => {
     if (success) {
@@ -469,6 +479,20 @@ function CreateMarketplaceSeller({ history }) {
       setBusinessCategoryError("");
     }
 
+    // if (!businessPhone) {
+    //   setBusinessPhoneError("Please enter the business phone.");
+    // } else {
+    //   setBusinessPhoneError("");
+    // }
+
+    if (!businessPhone) {
+      setBusinessPhoneError("Please enter your phone number.");
+    } else if (businessPhone.length < 9) {
+      setBusinessPhoneError("Phone number must be at least 9 digits.");
+    } else {
+      setBusinessPhoneError("");
+    }
+
     if (!country) {
       setCountryError("Please enter the country.");
     } else {
@@ -517,11 +541,13 @@ function CreateMarketplaceSeller({ history }) {
       !staffSize ||
       !businessIndustry ||
       !businessCategory ||
+      !businessPhone ||
       !country
     ) {
       setFormError("Please fix the errors in the form.");
       return;
     } else {
+      setDobError("");
       dispatch(createMarketplaceSeller(sellerData));
     }
   };
@@ -664,17 +690,20 @@ function CreateMarketplaceSeller({ history }) {
 
             <Form.Group>
               <Form.Label>Business Phone</Form.Label>
-              {/* <Form.Control
+              <Form.Control
                 type="text"
                 value={businessPhone}
-                onChange={(e) => setBusinessPhone(e.target.value)}
+                onChange={(e) =>
+                  handleFieldChange("businessPhone", e.target.value)
+                }
+                // onChange={(e) => setBusinessPhone(e.target.value)}
                 placeholder="Enter business phone"
                 className="rounded py-2 mb-2"
-                maxLength={100}
+                maxLength={18}
                 required
-              /> */}
+              />
 
-              <PhoneInput
+              {/* <PhoneInput
                 country={selectedCountry}
                 value={businessPhone}
                 maxLength={18}
@@ -682,7 +711,10 @@ function CreateMarketplaceSeller({ history }) {
                   setBusinessPhone(value);
                   handleFieldChange("businessPhone", value);
                 }}
-              />
+              />               */}
+              <Form.Text className="text-danger">
+                {businessPhoneError}
+              </Form.Text>
             </Form.Group>
 
             <Form.Group>
@@ -830,7 +862,11 @@ function CreateMarketplaceSeller({ history }) {
               <div>
                 <DatePicker
                   selected={dob ? new Date(dob) : null}
-                  onChange={(date) => setDob(date)}
+                  // onChange={(date) => setDob(date)}
+                  onChange={(date) => {
+                    setDob(date);
+                    handleFieldChange("dob", date);
+                  }}
                   dateFormat="dd/MM/yyyy"
                   className="rounded py-2 mb-2 form-control"
                   placeholderText="Select date of birth"
@@ -862,7 +898,7 @@ function CreateMarketplaceSeller({ history }) {
             disabled={loading || success}
           >
             <span className="d-flex justify-content-center">
-              {loading && <LoaderButton />} Continue
+              {loading && <LoaderButton />} {"  "}Continue
             </span>
           </Button>
         </Col>

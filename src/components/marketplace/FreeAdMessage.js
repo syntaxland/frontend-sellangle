@@ -24,6 +24,7 @@ function FreeAdMessage() {
   const image1 = queryParams.get("image1");
   const ad_name = queryParams.get("ad_name");
   const price = queryParams.get("price");
+  const currency = queryParams.get("currency");
   const sellerAvatarUrl = queryParams.get("sellerAvatarUrl");
   const seller_username = queryParams.get("seller_username");
   const expiration_date = queryParams.get("expiration_date");
@@ -112,7 +113,7 @@ function FreeAdMessage() {
                         </Col>
                         <Col md={12} className="py-2">
                           <ListGroup.Item>
-                            <p>NGN {price}</p>
+                            <p>{currency} {price}</p>
                           </ListGroup.Item>
                         </Col>
                         <Col md={12} className="py-2">
@@ -166,10 +167,10 @@ function FreeAdMessage() {
                   <li key={message.id} className="border rounded p-4 py-2">
                     <p>
                       User:{" "}
-                      {message.first_name?.charAt(0).toUpperCase() +
-                        message.first_name?.slice(1)}
+                      {message.username?.charAt(0).toUpperCase() +
+                        message.username?.slice(1)}
                     </p>
-                    <p>Message: {message.message}</p>
+                    <p>Message: {message.message}</p> 
                     <p>
                       Timestamp: {new Date(message.timestamp).toLocaleString()}
                     </p>
