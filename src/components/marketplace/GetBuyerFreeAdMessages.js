@@ -29,7 +29,7 @@ function GetBuyerFreeAdMessages() {
   console.log("freeAdMessages:", freeAdMessages);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -66,9 +66,12 @@ function GetBuyerFreeAdMessages() {
     <Container>
       <Row>
         <Col>
+          <hr />
           <h1 className="text-center py-3">
-            <i className="fas fa-message"></i> Seller Inbox
+            {/* <i className="fas fa-message"></i>  */}
+            Running Ads
           </h1>
+          <hr />
           {loading ? (
             <Loader />
           ) : error ? (
@@ -91,11 +94,11 @@ function GetBuyerFreeAdMessages() {
                     <tr>
                       <th>SN</th>
                       {/* <th>Msg ID</th> */}
-                      <th>Ad ID</th>
+                      {/* <th>Ad ID</th> */}
                       <th>Ad Image</th>
                       <th>Ad Name</th>
                       <th>Ad Price</th>
-                      <th>Ad Currency</th>
+                      {/* <th>Ad Currency</th> */}
                       <th>User</th>
                       <th>Ad Expiration Date</th>
                       <th>Message</th>
@@ -107,11 +110,11 @@ function GetBuyerFreeAdMessages() {
                       <tr key={ad.id} className="rounded">
                         <td>{index + 1}</td>
                         {/* <td>{ad.id}</td> */}
-                        <td>{ad.free_ad_id}</td>
+                        {/* <td>{ad.free_ad_id}</td> */}
                         <td>{ad.free_ad_image1}</td>
                         <td>{ad.free_ad_name}</td>
-                        <td>{ad.free_ad_price}</td>
-                        <td>{ad.free_ad_currency}</td>
+                        <td>{ad.free_ad_price} {ad.free_ad_currency}</td>
+                        {/* <td>{ad.free_ad_currency}</td> */}
                         <td>{ad.free_ad_buyer}</td>
                         <td>
                           <Button
@@ -146,7 +149,7 @@ function GetBuyerFreeAdMessages() {
                             size="sm"
                             onClick={() => handleReplyBuyer(ad)}
                           >
-                            Reply Buyer
+                            Reply Message
                           </Button>
                         </td>
                       </tr>

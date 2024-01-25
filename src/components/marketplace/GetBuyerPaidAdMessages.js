@@ -1,20 +1,17 @@
 // GetBuyerPaidAdMessages.js
 import React, { useEffect, useState } from "react";
-import {
-  useDispatch,
-  useSelector,
-  // useHistory
-} from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Table, Button, Row, Col, Container } from "react-bootstrap";
-import { listBuyerFreeAdMessages } from "../../actions/marketplaceSellerActions";
+import { listBuyerPaidAdMessages } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
+import PromoTimer from "../PromoTimer";
 
 function GetBuyerPaidAdMessages() {
   const dispatch = useDispatch();
-  // const history = useHistory();
+  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -25,32 +22,56 @@ function GetBuyerPaidAdMessages() {
     }
   }, [userInfo]);
 
-  const listBuyerFreeAdMessagesState = useSelector(
-    (state) => state.listBuyerFreeAdMessagesState
+  const listBuyerPaidAdMessagesState = useSelector(
+    (state) => state.listBuyerPaidAdMessagesState
   );
-  const { loading, freeAdMessages, error } = listBuyerFreeAdMessagesState;
-  console.log("freeAdMessages:", freeAdMessages);
+  const { loading, paidAdMessages, error } = listBuyerPaidAdMessagesState;
+  console.log("paidAdMessages:", paidAdMessages);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = freeAdMessages?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = paidAdMessages?.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
-    dispatch(listBuyerFreeAdMessages());
+    dispatch(listBuyerPaidAdMessages());
   }, [dispatch]);
+
+  const handleReplyBuyer = (ad) => {
+    const queryParams = {
+      id: ad?.paid_ad_id,
+      image1: ad?.paid_ad_image1,
+      ad_name: ad?.paid_ad_name,
+      price: ad?.paid_ad_price,
+      currency: ad?.paid_ad_currency,
+      sellerAvatarUrl: ad?.sellerAvatarUrl,
+      seller_username: ad?.paid_ad_seller_username,
+      expiration_date: ad?.paid_ad_expiration_date,
+      ad_rating: ad?.paid_ad_rating,
+    };
+
+    console.log("handleReplyBuyer queryParams:", queryParams);
+
+    history.push({
+      pathname: `/paid/ad/message/${ad.id}`,
+      search: `?${new URLSearchParams(queryParams).toString()}`,
+    });
+  };
 
   return (
     <Container>
       <Row>
         <Col>
+          <hr />
           <h1 className="text-center py-3">
-            <i className="fas fa-envelope"></i> Seller Inbox
+            {/* <i className="fas fa-message"></i>  */}
+            Promoted Ads
           </h1>
+          <hr />
           {loading ? (
             <Loader />
           ) : error ? (
@@ -72,18 +93,43 @@ function GetBuyerPaidAdMessages() {
                   <thead>
                     <tr>
                       <th>SN</th>
-                      <th>Ad ID</th>
-                      <th>Buyer</th>
+                      {/* <th>Msg ID</th> */}
+                      {/* <th>Ad ID</th> */}
+                      <th>Ad Image</th>
+                      <th>Ad Name</th>
+                      <th>Ad Price</th>
+                      {/* <th>Ad Currency</th> */}
+                      <th>User</th>
+                      <th>Ad Expiration Date</th>
                       <th>Message</th>
-                      <th>Time</th>
+                      <th>Timestamp</th>
                     </tr>
                   </thead>
                   <tbody>
                     {currentItems?.map((ad, index) => (
                       <tr key={ad.id} className="rounded">
                         <td>{index + 1}</td>
-                        <td>{ad.id}</td>
-                        <td>{ad.buyer}</td>
+                        {/* <td>{ad.id}</td> */}
+                        {/* <td>{ad.paid_ad_id}</td> */}
+                        <td>{ad.paid_ad_image1}</td>
+                        <td>{ad.paid_ad_name}</td>
+                        <td>{ad.paid_ad_price} {ad.paid_ad_currency}</td>
+                        {/* <td>{ad.paid_ad_currency}</td> */}
+                        <td>{ad.username}</td>
+                        <td>
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            className="rounded"
+                            disabled
+                          >
+                            <i className="fas fa-clock"></i> Expires in:{" "}
+                            <PromoTimer
+                              expirationDate={ad.paid_ad_expiration_date}
+                            />
+                          </Button>
+                        </td>
+
                         <td>{ad.message}</td>
                         <td>
                           {new Date(ad.timestamp).toLocaleString("en-US", {
@@ -98,13 +144,12 @@ function GetBuyerPaidAdMessages() {
                         </td>
 
                         <td>
-                          <Button variant="outline-primary" size="sm">
-                            <Link
-                              to={`/free/ad/message/${ad.ad_id}`}
-                              style={{ textDecoration: "none" }}
-                            >
-                              Message Buyer
-                            </Link>
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            onClick={() => handleReplyBuyer(ad)}
+                          >
+                            Reply Message
                           </Button>
                         </td>
                       </tr>
@@ -114,7 +159,7 @@ function GetBuyerPaidAdMessages() {
               )}
               <Pagination
                 itemsPerPage={itemsPerPage}
-                totalItems={freeAdMessages?.length}
+                totalItems={paidAdMessages?.length}
                 currentPage={currentPage}
                 paginate={paginate}
               />

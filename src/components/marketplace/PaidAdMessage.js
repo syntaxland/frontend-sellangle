@@ -7,7 +7,7 @@ import {
   createPaidAdMessage,
   listPaidAdMessages,
 } from "../../actions/marketplaceSellerActions"; 
-import Loader from "../Loader";
+import Loader from "../Loader"; 
 import Message from "../Message";
 import RatingSeller from "../RatingSeller";
 import PromoTimer from "../PromoTimer";
@@ -167,8 +167,8 @@ function PaidAdMessage(match) {
                   <li key={message.id} className="border rounded p-4 py-2">
                     <p>
                       User:{" "}
-                      {message.first_name?.charAt(0).toUpperCase() +
-                        message.first_name?.slice(1)}
+                      {message.username?.charAt(0).toUpperCase() +
+                        message.username?.slice(1)}
                     </p>
                     <p>Message: {message.message}</p>
                     <p>
