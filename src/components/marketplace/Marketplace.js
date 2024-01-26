@@ -15,6 +15,7 @@ import {
 } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import LoaderButton from "../LoaderButton";
+import Time from "../Time";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import Slider from "react-slick";
@@ -92,8 +93,8 @@ function Marketplace() {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,        
-    autoplaySpeed: 4000, 
+    autoplay: true,
+    autoplaySpeed: 4000,
     fade: true,
     focusOnSelect: true,
     centerMode: true,
@@ -249,6 +250,16 @@ function Marketplace() {
     <Container>
       <Row>
         <Col>
+          <div className="d-flex justify-content-center text-center">
+            <Button
+              variant="outline-transparent"
+              size="sm"
+              className="rounded"
+              disabled
+            >
+              <Time />
+            </Button>
+          </div>
           <hr />
           <h1 className="text-center py-3">
             <i className="fas fa-shopping-cart"></i> Sell Angle
