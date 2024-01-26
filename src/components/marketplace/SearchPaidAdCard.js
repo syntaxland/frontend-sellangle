@@ -55,9 +55,15 @@ function SearchPaidAdCard({ paidSearchAd }) {
   // console.log("sellerAvatarUrl:", sellerAvatarUrl);
 
   const [reportAdModal, setReportAdModal] = useState(false);
+  
   const handleReportAdOpen = () => {
-    setReportAdModal(true);
+    if (!userInfo) {
+      history.push("/login");
+    }  else {
+      setReportAdModal(true);
+    }
   };
+
   const handleReportAdClose = () => {
     setReportAdModal(false);
   };

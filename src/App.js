@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Time from "./components/Time";
 import OrderSuccessPage from "./components/OrderSuccessPage";
 // import HomeScreen from "./components/screens/HomeScreen";
 import ProductScreen from "./components/screens/ProductScreen";
@@ -79,6 +80,7 @@ function App() {
       <Container fluid>
         {/* <section class="container-fliud"> */}
         <Header userInfo={userInfo} />
+        <Time />
         <main className=" py-3">
           {/* <Route exact path="/" component={HomeScreen} /> */}
           <Route path="/product/:id" component={ProductScreen} />
