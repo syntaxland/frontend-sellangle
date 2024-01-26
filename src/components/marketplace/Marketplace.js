@@ -17,8 +17,29 @@ import Message from "../Message";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
-// import Slider, { Range } from 'rc-slider';
-// import 'rc-slider/assets/index.css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const quotes = [
+  "At this angle, sells are quick ...",
+  "Turning Angles into Sells – SellAngle Style!",
+  "Selling Perfected: It's the SellAngle Way!",
+  "Sell with Ease, Master the Angle – SellAngle!",
+  "Precision Sells, Perfect Angles – SellAngle!",
+  "Navigating Sell Success, One Angle at a Time!",
+  "Strategic Angles, Stellar Sells!",
+  "Precision in Every Pitch, Power in Every Sell! SellAngle!!",
+  "Master the Art of Selling with SellAngle!",
+  "Angles that Convert, Sales that Skyrocket!",
+  "Angle Your Way to Instant Sales Success!",
+  "Selling at Every Angle, Selling in a Flash!",
+  "SellAngle: Where Every Angle Counts in Sales!",
+  "Swift Sells at Every Angle!",
+  "Maximize Momentum with SellAngle!",
+  "Angles That Accelerate Sales!",
+  "Sell Smart, Sell Quick with the Power of Angle",
+];
 
 function Marketplace() {
   const dispatch = useDispatch();
@@ -63,6 +84,20 @@ function Marketplace() {
     sellerAvatarUrl,
   } = getSellerUsernameSearchState;
   // console.log("serachResults", serachResults);
+
+  const settings = {
+    // dots: true,
+    arrows: false,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,        
+    autoplaySpeed: 4000, 
+    fade: true,
+    focusOnSelect: true,
+    centerMode: true,
+  };
 
   const [freeAdLength, setFreeAdLength] = useState(0);
   const [paidAdLength, setPaidAdLength] = useState(0);
@@ -397,11 +432,6 @@ function Marketplace() {
             />
           </div>
 
-          {/* <div className="py-2 d-flex justify-content-center">
-          <Slider range />
-          </div> */}
-
-
           <div className="py-2 d-flex justify-content-center">
             {searchSellerUsername && (
               <Row className="py-2 d-flex justify-content-center">
@@ -423,15 +453,29 @@ function Marketplace() {
           <hr />
 
           <div className="text-center py-2">
-            <span>At this angle, sells are quick ...{"  "}</span>
-            <Button
-              variant="success"
-              className="rounded"
-              size="sm"
-              onClick={handlePostFreeAd}
-            >
-              Post Free Ads <i className="fas fa-plus-square"></i>
-            </Button>
+            {/* <span>At this angle, sells are quick ...{"  "}</span> */}
+
+            <Slider {...settings}>
+              {quotes.map((quote, index) => (
+                <div key={index} className="quote-slide">
+                  <p className="text-center py-2">
+                    <i className="fas fa-quote-left"></i> {quote}{" "}
+                    <i className="fas fa-quote-right"></i>
+                  </p>
+                </div>
+              ))}
+            </Slider>
+
+            <div className="text-center py-2">
+              <Button
+                variant="success"
+                className="rounded"
+                size="sm"
+                onClick={handlePostFreeAd}
+              >
+                Post Free Ads <i className="fas fa-plus-square"></i>
+              </Button>
+            </div>
           </div>
 
           <div>

@@ -27,7 +27,7 @@ function AllFreeAdCard({ product }) {
   const { sellerAvatarUrl } = getFreeAdDetailState;
 
   const [productSaved, setProductSaved] = useState(false);
-  const [totalSaves, setTotalSaves] = useState(product?.ad_save_count);
+  const [totalSaves, setTotalSaves] = useState(product?.ad_save_count); 
 
   const [productMessages, setProductMessages] = useState({
     productSaveSuccess: false,
@@ -53,9 +53,15 @@ function AllFreeAdCard({ product }) {
   console.log("is_seller_verified", sellerAccount?.is_seller_verified);
 
   const [reportAdModal, setReportAdModal] = useState(false);
+
   const handleReportAdOpen = () => {
-    setReportAdModal(true);
+    if (!userInfo) {
+      history.push("/login");
+    }  else {
+      setReportAdModal(true);
+    }
   };
+
   const handleReportAdClose = () => {
     setReportAdModal(false);
   };
@@ -365,6 +371,7 @@ function AllFreeAdCard({ product }) {
                   </div>
                 </Button>
               </span>
+              
             </div>
 
             <div className="d-flex justify-content-between py-2">

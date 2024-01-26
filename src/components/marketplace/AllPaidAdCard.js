@@ -75,9 +75,15 @@ function AllPaidAdCard({ product }) {
   //   return city ? city.name : "";
   // };
 const [reportAdModal, setReportAdModal] = useState(false);
-  const handleReportAdOpen = () => {
+
+const handleReportAdOpen = () => {
+  if (!userInfo) {
+    history.push("/login");
+  }  else {
     setReportAdModal(true);
-  };
+  }
+};
+
   const handleReportAdClose = () => {
     setReportAdModal(false);
   };

@@ -214,7 +214,7 @@ function FreeAdProductDetail({ match }) {
                       <Row>
                         <Col>Price:</Col>
                         <Col>
-                          <strong>NGN {formatAmount(ads.price)}</strong>
+                          <strong>{formatAmount(ads.price)} {ads.currency}</strong> 
                         </Col>
                       </Row>
                     </ListGroup.Item>

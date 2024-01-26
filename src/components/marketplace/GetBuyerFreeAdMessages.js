@@ -103,7 +103,7 @@ function GetBuyerFreeAdMessages() {
                       <th>Ad Expiration Date</th>
                       <th>Message</th>
                       <th>Timestamp</th>
-                    </tr>
+                    </tr> 
                   </thead>
                   <tbody>
                     {currentItems?.map((ad, index) => (
