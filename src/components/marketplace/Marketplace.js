@@ -70,7 +70,7 @@ function Marketplace() {
   const history = useHistory();
 
   const [sellerUsername, setSellerUsername] = useState("");
-  const [searchSellerUsername, setSearchSellerUsername] = useState(null);
+  const [searchSellerUsername, setSearchSellerUsername] = useState(null); 
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
