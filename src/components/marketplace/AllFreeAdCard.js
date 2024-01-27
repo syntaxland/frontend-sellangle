@@ -7,11 +7,17 @@ import RatingSeller from "../RatingSeller";
 import {
   saveProduct,
   removeProduct,
-  updateProductSaveCount,
-  trackProductView,
+  updateProductSaveCount, 
+  // trackProductView,
 } from "../../actions/productAction";
-import { getSellerAccount } from "../../actions/marketplaceSellerActions";
-import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
+import { getSellerAccount, 
+  getFreeAdDetail,
+  // toggleFreeAdSave, 
+  trackFreeAdView,
+//   getUserFreeAdsViews,
+// getUserSavedFreeAds,
+} from "../../actions/marketplaceSellerActions";
+// import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
@@ -51,6 +57,7 @@ function AllFreeAdCard({ product }) {
   );
   const { sellerAccount } = getSellerAccountState;
   console.log("is_seller_verified", sellerAccount?.is_seller_verified);
+  // console.log("ad_view_count", product?.ad_view_count);
 
   const [reportAdModal, setReportAdModal] = useState(false);
 
@@ -164,12 +171,16 @@ function AllFreeAdCard({ product }) {
     }, 3000);
   };
 
+  const adData = {
+    ad_id: product.id,
+  }
+
   const viewProductHandler = () => {
     if (!userInfo) {
       history.push("/login");
-      // dispatch(trackProductView(userInfo.id, product.id));
     }
-    dispatch(trackProductView(userInfo.id, product.id));
+    
+    dispatch(trackFreeAdView(adData));
 
     history.push(`/free-ad-detail/${product.id}`);
   };

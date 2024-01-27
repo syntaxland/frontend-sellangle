@@ -26,23 +26,47 @@ const quotes = [
   "Turning Angles into Sells – SellAngle Style!",
   "Selling Perfected: It's the SellAngle Way!",
   "Sell with Ease, Master the Angle – SellAngle!",
+  "Every Sell, Every Angle, Every Human – One Global Stop!",
   "Precision Sells, Perfect Angles – SellAngle!",
   "Navigating Sell Success, One Angle at a Time!",
+  "Global Sells, Infinite Angles – One Marketplace for All!",
+  "From Every Angle, to Every Human – SellAngle!",
   "Strategic Angles, Stellar Sells!",
   "Precision in Every Pitch, Power in Every Sell! SellAngle!!",
   "Master the Art of Selling with SellAngle!",
-  "Angles that Convert, Sales that Skyrocket!",
-  "Angle Your Way to Instant Sales Success!",
+  "Angles that Convert, Sells that Skyrocket!",
+  "Angle Your Way to Instant Sells Success!",
   "Selling at Every Angle, Selling in a Flash!",
-  "SellAngle: Where Every Angle Counts in Sales!",
+  "SellAngle: Where Every Angle Counts in Sells!",
   "Swift Sells at Every Angle!",
   "Maximize Momentum with SellAngle!",
-  "Angles That Accelerate Sales!",
+  "Angles That Accelerate Sells!",
   "Sell Smart, Sell Quick with the Power of Angle",
+  "Your Angle to Sell Success: SellAngle Unleashed!",
+  "The Quickest Sells, All in the Right Angle!",
+  "Sell Globally, Angle Locally with SellAngle!",
+  "One Stop, Every Sell, Every Angle – Global Marketplace!",
+  "Sell Smart, Angle Globally – Your One-Stop Hub!",
+  "From Every Angle, One Global Sell Destination!",
+  "One Stop for Sells Worldwide – Master Every Angle!",
+  "Sell Everywhere, Master Every Angle – SellAngle!",
+  "Global Sells, Local Angles – One Marketplace!",
+  "Sell at Every Turn, One Marketplace for All – SellAngle!",
+  "Global Sells, One-Stop Angles – It's Marketplace Magic!",
+  "Unlock Global Sells, Master Every Angle – SellAngle!",
+  "Sells for All, Angles for Every Need – SellAngle!",
+  "One Marketplace, All Humans – Sell and Angle Globally!",
+  "All Humans, All Sells, All Angles – One Marketplace!",
+  "For All, By All – SellAngle, Your Global Hub!",
+  "Sells for Every Human, Angles for Every Heart – SellAngle!",
+  "One Marketplace, Infinite Sells, Endless Angles – SellAngle!",
+  "All Humans, One Marketplace – Sell and Angle Worldwide!",
+  "Global Sells, Universal Angles – One Marketplace for All!",
+  "From Every Corner, For All Humans – SellAngle!",
 ];
 
 function Marketplace() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const history = useHistory();
 
   const [sellerUsername, setSellerUsername] = useState("");
@@ -85,6 +109,19 @@ function Marketplace() {
   } = getSellerUsernameSearchState;
   // console.log("serachResults", serachResults);
 
+  // const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+
+  // const handleQuoteChange = () => {
+  //   const newIndex = Math.floor(Math.random() * quotes.length);
+  //   setCurrentQuoteIndex(newIndex);
+  // };
+
+  // useEffect(() => {
+  //   const interval = setInterval(handleQuoteChange, 5000);
+
+  //   return () => clearInterval(interval);
+  // }, []);
+
   const settings = {
     // dots: true,
     arrows: false,
@@ -93,7 +130,7 @@ function Marketplace() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 5000,
     fade: true,
     focusOnSelect: true,
     centerMode: true,
@@ -465,6 +502,16 @@ function Marketplace() {
                 </div>
               ))}
             </Slider>
+            {/* <Slider {...settings} initialSlide={currentQuoteIndex}>
+              {quotes.map((quote, index) => (
+                <div key={index} className="quote-slide">
+                  <p className="text-center py-2">
+                    <i className="fas fa-quote-left"></i> {quote}{" "}
+                    <i className="fas fa-quote-right"></i>
+                  </p>
+                </div>
+              ))}
+            </Slider> */}
 
             <div className="text-center py-2">
               <Button

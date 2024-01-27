@@ -7,15 +7,17 @@ const Time = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000); // Update every second
+    }, 1000); 
 
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    return () => clearInterval(intervalId); 
   }, []);
 
   const formattedTime = currentTime.toLocaleString("en-US", {
-    weekday: "long",
+    weekday: "short",
+    // weekday: "long",
     day: "numeric",
-    month: "long",
+    month: "short",
+    // month: "long",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
@@ -26,13 +28,12 @@ const Time = () => {
   return (
       <div className="d-flex justify-content-center text-center py-2 digital-clock">
         <Button
-          variant="outline-transparent"
+          variant="outline-primary"
           size="sm"
           className="rounded"
           disabled
         >
-          {/* <i className="fas fa-clock"></i>  */}
-          {formattedTime}
+          <i className="fas fa-clock"></i> {formattedTime}
         </Button>
       </div>
   );

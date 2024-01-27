@@ -133,9 +133,325 @@ import {
   GET_BUYER_PAID_AD_MESSAGES_REQUEST,
   GET_BUYER_PAID_AD_MESSAGES_SUCCESS,
   GET_BUYER_PAID_AD_MESSAGES_FAIL,
+  TOGGLE_FREE_AD_SAVE_REQUEST,
+  TOGGLE_FREE_AD_SAVE_SUCCESS,
+  TOGGLE_FREE_AD_SAVE_FAIL,
+  TOGGLE_PAID_AD_SAVE_REQUEST,
+  TOGGLE_PAID_AD_SAVE_SUCCESS,
+  TOGGLE_PAID_AD_SAVE_FAIL,
+  TRACK_FREE_AD_VIEW_REQUEST,
+  TRACK_FREE_AD_VIEW_SUCCESS,
+  TRACK_FREE_AD_VIEW_FAIL,
+  TRACK_PAID_AD_VIEW_REQUEST,
+  TRACK_PAID_AD_VIEW_SUCCESS,
+  TRACK_PAID_AD_VIEW_FAIL,
+  GET_USER_VIEWED_FREE_ADS_REQUEST,
+  GET_USER_VIEWED_FREE_ADS_SUCCESS,
+  GET_USER_VIEWED_FREE_ADS_FAIL,
+  GET_USER_VIEWED_PAID_ADS_REQUEST,
+  GET_USER_VIEWED_PAID_ADS_SUCCESS,
+  GET_USER_VIEWED_PAID_ADS_FAIL,
+  GET_USER_SAVED_FREE_ADS_REQUEST,
+  GET_USER_SAVED_FREE_ADS_SUCCESS,
+  GET_USER_SAVED_FREE_ADS_FAIL,
+  GET_USER_SAVED_PAID_ADS_REQUEST,
+  GET_USER_SAVED_PAID_ADS_SUCCESS,
+  GET_USER_SAVED_PAID_ADS_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export const toggleFreeAdSave = (adData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TOGGLE_FREE_AD_SAVE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/toggle-free-ad-save/`,
+      adData,
+
+      config
+    );
+
+    dispatch({
+      type: TOGGLE_FREE_AD_SAVE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: TOGGLE_FREE_AD_SAVE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const togglePaidAdSave = (adData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TOGGLE_PAID_AD_SAVE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/toggle-paid-ad-save/`,
+      adData,
+
+      config
+    );
+
+    dispatch({
+      type: TOGGLE_PAID_AD_SAVE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: TOGGLE_PAID_AD_SAVE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const trackFreeAdView = (adData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TRACK_FREE_AD_VIEW_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/track-free-ad-view/`,
+      adData,
+
+      config
+    );
+
+    dispatch({
+      type: TRACK_FREE_AD_VIEW_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: TRACK_FREE_AD_VIEW_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const trackPaidAdView = (adData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TRACK_PAID_AD_VIEW_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/track-paid-ad-view/`,
+      adData,
+
+      config
+    );
+
+    dispatch({
+      type: TRACK_PAID_AD_VIEW_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: TRACK_PAID_AD_VIEW_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const getUserFreeAdsViews = (pk) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_USER_VIEWED_FREE_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_USER_VIEWED_FREE_ADS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USER_VIEWED_FREE_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const getUserPaidAdsViews = (pk) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_USER_VIEWED_PAID_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_USER_VIEWED_PAID_ADS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USER_VIEWED_PAID_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const getUserSavedFreeAds = (pk) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_USER_SAVED_FREE_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_USER_SAVED_FREE_ADS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USER_SAVED_FREE_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const getUserSavedPaidAds = (pk) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_USER_SAVED_PAID_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_USER_SAVED_PAID_ADS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USER_SAVED_PAID_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const sellerReplyFreeAdMessage = (messageData) => async (
   dispatch,

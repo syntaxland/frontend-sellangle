@@ -8,10 +8,16 @@ import {
   saveProduct,
   removeProduct,
   updateProductSaveCount,
-  trackProductView,
+  // trackProductView,
 } from "../../actions/productAction";
-import { getSellerAccount } from "../../actions/marketplaceSellerActions";
-import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
+import { getSellerAccount, 
+  getPaidAdDetail,
+  // togglePaidAdSave,
+  trackPaidAdView,
+//   getUserPaidAdsViews, 
+// getUserSavedPaidAds,
+} from "../../actions/marketplaceSellerActions";
+// import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
@@ -186,12 +192,16 @@ const handleReportAdOpen = () => {
     }, 3000);
   };
 
+  const adData = {
+    ad_id: product.id,
+  };
+
   const viewProductHandler = () => {
     if (!userInfo) {
       history.push("/login");
-      // dispatch(trackProductView(userInfo.id, product.id));
     }
-    dispatch(trackProductView(userInfo.id, product.id));
+    
+    dispatch(trackPaidAdView(adData));
 
     history.push(`/paid-ad-detail/${product.id}`);
   };

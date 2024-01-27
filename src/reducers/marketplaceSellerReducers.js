@@ -132,6 +132,30 @@ import {
   GET_BUYER_PAID_AD_MESSAGES_REQUEST,
   GET_BUYER_PAID_AD_MESSAGES_SUCCESS,
   GET_BUYER_PAID_AD_MESSAGES_FAIL,
+  TOGGLE_FREE_AD_SAVE_REQUEST,
+  TOGGLE_FREE_AD_SAVE_SUCCESS,
+  TOGGLE_FREE_AD_SAVE_FAIL,
+  TOGGLE_PAID_AD_SAVE_REQUEST,
+  TOGGLE_PAID_AD_SAVE_SUCCESS,
+  TOGGLE_PAID_AD_SAVE_FAIL,
+  TRACK_FREE_AD_VIEW_REQUEST,
+  TRACK_FREE_AD_VIEW_SUCCESS,
+  TRACK_FREE_AD_VIEW_FAIL,
+  TRACK_PAID_AD_VIEW_REQUEST,
+  TRACK_PAID_AD_VIEW_SUCCESS,
+  TRACK_PAID_AD_VIEW_FAIL,
+  GET_USER_VIEWED_FREE_ADS_REQUEST,
+  GET_USER_VIEWED_FREE_ADS_SUCCESS,
+  GET_USER_VIEWED_FREE_ADS_FAIL,
+  GET_USER_VIEWED_PAID_ADS_REQUEST,
+  GET_USER_VIEWED_PAID_ADS_SUCCESS,
+  GET_USER_VIEWED_PAID_ADS_FAIL,
+  GET_USER_SAVED_FREE_ADS_REQUEST,
+  GET_USER_SAVED_FREE_ADS_SUCCESS,
+  GET_USER_SAVED_FREE_ADS_FAIL,
+  GET_USER_SAVED_PAID_ADS_REQUEST,
+  GET_USER_SAVED_PAID_ADS_SUCCESS,
+  GET_USER_SAVED_PAID_ADS_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -148,12 +172,150 @@ const initialState = {
   sellerAvatarUrl: [],
   serachResults: [],
   ads: [],
+  savedAds: [],
+  viewedAds: [],
   freeSearchAds: [],
   paidSearchAds: [],
   freeAds: [],
   paidAds: [],
   sellerDetail: [],
   shopfrontLink: [],
+};
+
+export const toggleFreeAdSaveReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case TOGGLE_FREE_AD_SAVE_REQUEST:
+      return { loading: true };
+    case TOGGLE_FREE_AD_SAVE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case TOGGLE_FREE_AD_SAVE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const togglePaidAdSaveReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case TOGGLE_PAID_AD_SAVE_REQUEST:
+      return { loading: true };
+    case TOGGLE_PAID_AD_SAVE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case TOGGLE_PAID_AD_SAVE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const trackFreeAdViewReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case TRACK_FREE_AD_VIEW_REQUEST:
+      return { loading: true };
+    case TRACK_FREE_AD_VIEW_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case TRACK_FREE_AD_VIEW_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const trackPaidAdViewReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case TRACK_PAID_AD_VIEW_REQUEST:
+      return { loading: true };
+    case TRACK_PAID_AD_VIEW_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case TRACK_PAID_AD_VIEW_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getUserVieweFreeAdsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_USER_VIEWED_FREE_ADS_REQUEST:
+      return { loading: true };
+    case GET_USER_VIEWED_FREE_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        viewedAds: action.payload,
+      };
+
+    case GET_USER_VIEWED_FREE_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getUserViewePaidAdsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_USER_VIEWED_PAID_ADS_REQUEST:
+      return { loading: true };
+    case GET_USER_VIEWED_PAID_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        viewedAds: action.payload,
+      };
+
+    case GET_USER_VIEWED_PAID_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getUserSavedFreeAdsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_USER_SAVED_FREE_ADS_REQUEST:
+      return { loading: true };
+    case GET_USER_SAVED_FREE_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        savedAds: action.payload,
+      };
+
+    case GET_USER_SAVED_FREE_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getUserSavedPaidAdsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_USER_SAVED_PAID_ADS_REQUEST:
+      return { loading: true };
+    case GET_USER_SAVED_PAID_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        savedAds: action.payload,
+      };
+
+    case GET_USER_SAVED_PAID_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const sellerReplyFreeAdMessageReducer = (
