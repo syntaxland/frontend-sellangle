@@ -8,7 +8,7 @@ import Message from '../Message';
 import Loader from '../Loader';
 
 function ViewedItems() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
 
   useEffect(() => {
     dispatch(getUserViewedProducts());
@@ -42,7 +42,7 @@ function ViewedItems() {
     <div>
       <Row>
         <Col>
-          <h1 className="text-center">Viewed Products</h1>
+          <h1 className="text-center">Viewed Ads</h1>
           {loading ? (
             <Loader />
           ) : error ? (

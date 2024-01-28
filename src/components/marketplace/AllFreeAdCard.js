@@ -178,11 +178,10 @@ function AllFreeAdCard({ product }) {
   const viewProductHandler = () => {
     if (!userInfo) {
       history.push("/login");
+    } else {
+      dispatch(trackFreeAdView(adData));
+      history.push(`/free-ad-detail/${product.id}`);
     }
-    
-    dispatch(trackFreeAdView(adData));
-
-    history.push(`/free-ad-detail/${product.id}`);
   };
 
   function formatCount(viewCount) {

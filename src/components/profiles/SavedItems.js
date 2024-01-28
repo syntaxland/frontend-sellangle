@@ -11,7 +11,7 @@ function SavedItems() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserFavoriteProducts());
+    dispatch(getUserFavoriteProducts()); 
   }, [dispatch]);
 
   const userFavoriteProducts = useSelector((state) => state.userFavoriteProducts);

@@ -199,11 +199,10 @@ const handleReportAdOpen = () => {
   const viewProductHandler = () => {
     if (!userInfo) {
       history.push("/login");
+    } else {
+      dispatch(trackPaidAdView(adData));
+      history.push(`/paid-ad-detail/${product.id}`);
     }
-    
-    dispatch(trackPaidAdView(adData));
-
-    history.push(`/paid-ad-detail/${product.id}`);
   };
 
   function formatCount(viewCount) {

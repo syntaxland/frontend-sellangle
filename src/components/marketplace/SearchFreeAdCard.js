@@ -8,10 +8,10 @@ import {
   saveProduct,
   removeProduct,
   updateProductSaveCount,
-  trackProductView,
+  // trackProductView,
 } from "../../actions/productAction";
-import { getSellerAccount } from "../../actions/marketplaceSellerActions";
-import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
+import { getSellerAccount, getFreeAdDetail, trackFreeAdView } from "../../actions/marketplaceSellerActions";
+// import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
@@ -163,14 +163,26 @@ function SearchFreeAdCard({ freeSearchAd }) {
     }, 3000);
   };
 
+  // const viewProductHandler = () => {
+  //   if (!userInfo) {
+  //     history.push("/login");
+  //   }
+  //   dispatch(trackProductView(userInfo.id, freeSearchAd.id));
+
+  //   history.push(`/free-ad-detail/${freeSearchAd.id}`);
+  // };
+
+  const adData = {
+    ad_id: freeSearchAd.id,
+  };
+
   const viewProductHandler = () => {
     if (!userInfo) {
       history.push("/login");
-      // dispatch(trackProductView(userInfo.id, freeSearchAd.id));
+    } else {
+      dispatch(trackFreeAdView(adData));
+      history.push(`/free-ad-detail/${freeSearchAd.id}`);
     }
-    dispatch(trackProductView(userInfo.id, freeSearchAd.id));
-
-    history.push(`/free-ad-detail/${freeSearchAd.id}`);
   };
 
   function formatCount(viewCount) {

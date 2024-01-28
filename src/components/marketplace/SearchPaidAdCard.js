@@ -8,11 +8,11 @@ import {
   saveProduct,
   removeProduct,
   updateProductSaveCount,
-  trackProductView,
+  // trackProductView,
 } from "../../actions/productAction";
-import { getSellerAccount } from "../../actions/marketplaceSellerActions"; 
+import { getSellerAccount,getPaidAdDetail, trackPaidAdView } from "../../actions/marketplaceSellerActions"; 
 
-import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
+// import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 // import ProductPrice from "../ProductPrice";
@@ -165,14 +165,26 @@ function SearchPaidAdCard({ paidSearchAd }) {
     }, 3000);
   };
 
+  // const viewProductHandler = () => {
+  //   if (!userInfo) {
+  //     history.push("/login");
+  //   }
+  //   dispatch(trackProductView(userInfo.id, paidSearchAd.id));
+
+  //   history.push(`/paid-ad-detail/${paidSearchAd.id}`);
+  // };
+
+  const adData = {
+    ad_id: paidSearchAd.id,
+  };
+
   const viewProductHandler = () => {
     if (!userInfo) {
       history.push("/login");
-      // dispatch(trackProductView(userInfo.id, paidSearchAd.id));
+    } else {
+      dispatch(trackPaidAdView(adData));
+      history.push(`/paid-ad-detail/${paidSearchAd.id}`);
     }
-    dispatch(trackProductView(userInfo.id, paidSearchAd.id));
-
-    history.push(`/paid-ad-detail/${paidSearchAd.id}`);
   };
 
   function formatCount(viewCount) {
