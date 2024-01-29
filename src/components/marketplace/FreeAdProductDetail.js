@@ -23,13 +23,13 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
 import ReportFreeAd from "./ReportFreeAd";
-import {formatAmount} from "../FormatAmount";
+import { formatAmount } from "../FormatAmount";
 
 function FreeAdProductDetail({ match }) {
   // const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const history = useHistory();
-  
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -42,13 +42,19 @@ function FreeAdProductDetail({ match }) {
   const getFreeAdDetailState = useSelector(
     (state) => state.getFreeAdDetailState
   );
-  const { loading, error, ads, sellerAvatarUrl } = getFreeAdDetailState;
-  // console.log("Free Ads:", ads, sellerAvatarUrl);
+  const {
+    loading,
+    error,
+    ads,
+    sellerAvatarUrl,
+    isSellerVerified,
+  } = getFreeAdDetailState;
+  console.log("freeAd isSellerVerified", isSellerVerified);
 
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
-  );
-  const { sellerAccount } = getSellerAccountState;
+  // const getSellerAccountState = useSelector(
+  //   (state) => state.getSellerAccountState
+  // );
+  // const { sellerAccount } = getSellerAccountState;
 
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
@@ -214,7 +220,9 @@ function FreeAdProductDetail({ match }) {
                       <Row>
                         <Col>Price:</Col>
                         <Col>
-                          <strong>{formatAmount(ads.price)} {ads.currency}</strong> 
+                          <strong>
+                            {formatAmount(ads.price)} {ads.currency}
+                          </strong>
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -267,7 +275,8 @@ function FreeAdProductDetail({ match }) {
                       __html: DOMPurify.sanitize(
                         expanded
                           ? ads?.description
-                          : ads?.description?.split(" ")
+                          : ads?.description
+                              ?.split(" ")
                               .slice(0, 10)
                               .join(" ") + " ..."
                       ),
@@ -324,7 +333,7 @@ function FreeAdProductDetail({ match }) {
                   <ListGroup.Item>
                     <div>
                       <span>
-                        {sellerAccount?.is_seller_verified ? (
+                        {isSellerVerified ? (
                           <>
                             <Button
                               variant="outline-success"

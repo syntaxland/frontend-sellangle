@@ -26,10 +26,10 @@ function SearchPaidAdCard({ paidSearchAd }) {
   const [paidSearchAdSaved, setProductSaved] = useState(false);
   const [totalSaves, setTotalSaves] = useState(paidSearchAd?.ad_save_count);
 
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
-  );
-  const { sellerAccount } = getSellerAccountState;
+  // const getSellerAccountState = useSelector(
+  //   (state) => state.getSellerAccountState
+  // );
+  // const { sellerAccount } = getSellerAccountState;
 
   const [paidSearchAdMessages, setProductMessages] = useState({
     paidSearchAdSaveSuccess: false,
@@ -272,7 +272,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
             </Button>
           </span>
 
-          <div>
+          {/* <div>
             <span>
               {sellerAccount?.is_seller_verified ? (
                 <>
@@ -306,7 +306,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
                 </>
               )}
             </span>
-          </div>
+          </div> */}
         </div>
 
         <div className="d-flex justify-content-between">

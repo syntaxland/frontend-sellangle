@@ -220,7 +220,7 @@ function AllFreeAdCard({ product }) {
   };
 
   return (
-    <Row>
+    <Row className="d-flex justify-content-center">
       <Col>
         <Card className="my-3 p-3 rounded">
           {productMessages.productSaveSuccess && (
@@ -256,7 +256,7 @@ function AllFreeAdCard({ product }) {
               </Link>
             </div>
 
-            <div className="d-flex justify-content-end">
+            {/* <div className="d-flex justify-content-end">
               <div>
                 <span>
                   {sellerAccount?.is_seller_verified ? (
@@ -292,7 +292,7 @@ function AllFreeAdCard({ product }) {
                   )}
                 </span>
               </div>
-            </div>
+            </div> */}
 
             <div className="d-flex justify-content-between">
               <div as="div">

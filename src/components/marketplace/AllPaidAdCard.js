@@ -31,10 +31,10 @@ function AllPaidAdCard({ product }) {
   const [productSaved, setProductSaved] = useState(false);
   const [totalSaves, setTotalSaves] = useState(product?.ad_save_count);
 
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
-  );
-  const { sellerAccount } = getSellerAccountState;
+  // const getSellerAccountState = useSelector(
+  //   (state) => state.getSellerAccountState
+  // );
+  // const { sellerAccount } = getSellerAccountState;
 
   const [productMessages, setProductMessages] = useState({
     productSaveSuccess: false,
@@ -241,7 +241,7 @@ const handleReportAdOpen = () => {
   };
 
   return (
-    <Row>
+    <Row className="d-flex justify-content-center">
       <Col>
         <Card className="my-3 p-3 rounded">
           {productMessages.productSaveSuccess && (
@@ -289,7 +289,7 @@ const handleReportAdOpen = () => {
                 </Button>
               </span>
 
-              <div>
+              {/* <div>
                 <span>
                   {sellerAccount?.is_seller_verified ? (
                     <>
@@ -323,7 +323,8 @@ const handleReportAdOpen = () => {
                     </>
                   )}
                 </span>
-              </div>
+              </div> */}
+
             </div>
 
             <div className="d-flex justify-content-between">

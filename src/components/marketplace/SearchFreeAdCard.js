@@ -47,11 +47,11 @@ function SearchFreeAdCard({ freeSearchAd }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
-  );
-  const { sellerAccount } = getSellerAccountState;
-  console.log("is_seller_verified", sellerAccount?.is_seller_verified);
+  // const getSellerAccountState = useSelector(
+  //   (state) => state.getSellerAccountState
+  // );
+  // const { sellerAccount } = getSellerAccountState;
+  // console.log("is_seller_verified", sellerAccount?.is_seller_verified);
   
   const [reportAdModal, setReportAdModal] = useState(false);
   const handleReportAdOpen = () => {
@@ -258,7 +258,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
               <strong>{freeSearchAd.ad_name}</strong>
             </Card.Title>
           </Link>
-          <div>
+          {/* <div>
             <span>
               {sellerAccount?.is_seller_verified ? (
                 <>
@@ -292,7 +292,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
                 </>
               )}
             </span>
-          </div>
+          </div> */}
         </div>
 
         <div className="d-flex justify-content-between">

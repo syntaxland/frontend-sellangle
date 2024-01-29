@@ -16,18 +16,16 @@ import Loader from "../Loader";
 import Message from "../Message";
 import { useDispatch, useSelector } from "react-redux";
 import { getSellerAccount } from "../../actions/marketplaceSellerActions";
-import {
-  getPaidAdDetail,
-} from "../../actions/marketplaceSellerActions";
+import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Paysofter from "../MarketplacePayment/Paysofter";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
 import ReportPaidAd from "./ReportPaidAd";
-import {formatAmount} from "../FormatAmount";
+import { formatAmount } from "../FormatAmount";
 
-function PaidAdProductDetail({ match,  }) {
+function PaidAdProductDetail({ match }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,10 +38,10 @@ function PaidAdProductDetail({ match,  }) {
     }
   }, [userInfo]);
 
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
-  );
-  const { sellerAccount } = getSellerAccountState;
+  // const getSellerAccountState = useSelector(
+  //   (state) => state.getSellerAccountState
+  // );
+  // const { sellerAccount } = getSellerAccountState;
   const [showPaysofterOption, setShowPaysofterOption] = useState(false);
 
   const handlePaysofterOption = () => {
@@ -65,8 +63,9 @@ function PaidAdProductDetail({ match,  }) {
     ads,
     sellerApiKey,
     sellerAvatarUrl,
+    isSellerVerified,
   } = getPaidAdDetailState;
-  console.log("sellerAvatarUrl", sellerAvatarUrl);
+  console.log("paidAd isSellerVerified", isSellerVerified);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -244,7 +243,8 @@ function PaidAdProductDetail({ match,  }) {
                             {ads?.usd_price ? (
                               <span>
                                 {" "}
-                                / {formatAmount(ads?.usd_price)} {ads?.usd_currency}{" "}
+                                / {formatAmount(ads?.usd_price)}{" "}
+                                {ads?.usd_currency}{" "}
                               </span>
                             ) : (
                               <></>
@@ -282,7 +282,8 @@ function PaidAdProductDetail({ match,  }) {
                       __html: DOMPurify.sanitize(
                         expanded
                           ? ads?.description
-                          : ads?.description?.split(" ")
+                          : ads?.description
+                              ?.split(" ")
                               .slice(0, 10)
                               .join(" ") + " ..."
                       ),
@@ -324,7 +325,7 @@ function PaidAdProductDetail({ match,  }) {
                   <ListGroup.Item>
                     <div>
                       <span>
-                        {sellerAccount?.is_seller_verified ? (
+                        {isSellerVerified ? (
                           <>
                             <Button
                               variant="outline-success"

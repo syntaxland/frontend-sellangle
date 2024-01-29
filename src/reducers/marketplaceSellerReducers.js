@@ -170,6 +170,7 @@ const initialState = {
   paidAdMessages: [],
   sellerApiKey: [],
   sellerAvatarUrl: [],
+  isSellerVerified: [],
   serachResults: [],
   ads: [],
   savedAds: [],
@@ -540,6 +541,7 @@ export const getSellerDetailReducer = (state = initialState, action) => {
         success: true,
         sellerDetail: action.payload.data,
         sellerAvatarUrl: action.payload.seller_avatar_url,
+        
       };
 
     case GET_SELLER_DETAIL_FAIL:
@@ -779,6 +781,7 @@ export const getFreeAdDetailReducer = (state = initialState, action) => {
         ads: action.payload.data,
         sellerApiKey: action.payload.sellerApiKey,
         sellerAvatarUrl: action.payload.seller_avatar_url,
+        isSellerVerified: action.payload.is_seller_verified,
       };
     case GET_FREE_AD_DETAIL_FAIL:
       return { loading: false, error: action.payload };
@@ -798,6 +801,7 @@ export const getPaidAdDetailReducer = (state = initialState, action) => {
         ads: action.payload.data,
         sellerApiKey: action.payload.sellerApiKey,
         sellerAvatarUrl: action.payload.seller_avatar_url,
+        isSellerVerified: action.payload.is_seller_verified,
       };
     case GET_PAID_AD_DETAIL_FAIL:
       return { loading: false, error: action.payload };
@@ -855,7 +859,10 @@ export const getAllFreeAdReducer = (state = initialState, action) => {
     case GET_ALL_FREE_AD_REQUEST:
       return { loading: true };
     case GET_ALL_FREE_AD_SUCCESS:
-      return { loading: false, success: true, freeAds: action.payload };
+      return { 
+        loading: false, 
+        success: true, 
+        freeAds: action.payload };
     case GET_ALL_FREE_AD_FAIL:
       return { loading: false, error: action.payload };
     default:
