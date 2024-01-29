@@ -267,14 +267,13 @@ function FreeAdProductDetail({ match }) {
                       __html: DOMPurify.sanitize(
                         expanded
                           ? ads?.description
-                          : ads?.description
-                              .split(" ")
+                          : ads?.description?.split(" ")
                               .slice(0, 10)
                               .join(" ") + " ..."
                       ),
                     }}
                   />
-                  {ads?.description.split(" ").length > 10 && (
+                  {ads?.description?.split(" ")?.length > 10 && (
                     <Button variant="link" onClick={handleClickMore}>
                       {expanded ? "Less" : "More"}
                     </Button>

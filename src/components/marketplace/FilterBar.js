@@ -214,7 +214,7 @@ function FilterBar({
 
     onTypeChange(type.value, filteredFreeAds, filteredPaidAds);
 
-    localStorage.setItem("selectedType", type.value);
+    // localStorage.setItem("selectedType", type.value);
   };
 
   return (

@@ -177,7 +177,7 @@ function Marketplace() {
       setFilteredFreeAds(filteredFreeAds);
       setFilteredPaidAds(filteredPaidAds);
 
-      localStorage.setItem("selectedType", type);
+      // localStorage.setItem("selectedType", type);
     },
     []
   );
@@ -233,8 +233,8 @@ function Marketplace() {
   useEffect(() => {
     if (selectedCountry)
       localStorage.setItem("selectedCountry", selectedCountry);
-    if (selectedState) localStorage.setItem("selectedState", selectedState);
-    if (selectedCity) localStorage.setItem("selectedCity", selectedCity);
+    // if (selectedState) localStorage.setItem("selectedState", selectedState);
+    // if (selectedCity) localStorage.setItem("selectedCity", selectedCity);
   }, [selectedCountry, selectedState, selectedCity]);
 
   console.log("location", selectedCountry, selectedState, selectedCity);
