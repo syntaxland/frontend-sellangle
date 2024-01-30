@@ -37,7 +37,7 @@ function AllFreeAdScreen({
   //   // eslint-disable-next-line
   // }, [dispatch, selectedCountry, selectedState, selectedCity]); 
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 10;
 
   const indexOfLastItem = currentPage * itemsPerPage;

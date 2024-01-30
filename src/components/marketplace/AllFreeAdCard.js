@@ -4,67 +4,52 @@ import { Card, Button, Modal, Row, Col } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
+// import {
+//   saveProduct,
+//   removeProduct,
+//   updateProductSaveCount,
+//   // trackProductView,
+// } from "../../actions/productAction";
 import {
-  saveProduct,
-  removeProduct,
-  updateProductSaveCount, 
-  // trackProductView,
-} from "../../actions/productAction";
-import { getSellerAccount, 
+  getSellerAccount,
   getFreeAdDetail,
-  // toggleFreeAdSave, 
+  // toggleFreeAdSave,
   trackFreeAdView,
-//   getUserFreeAdsViews,
-// getUserSavedFreeAds,
+  //   getUserFreeAdsViews,
+  // getUserSavedFreeAds,
 } from "../../actions/marketplaceSellerActions";
 // import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
-import Message from "../Message";
-import Loader from "../Loader";
+// import Message from "../Message";
+// import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
 import ReportFreeAd from "./ReportFreeAd";
-import {formatAmount} from "../FormatAmount";
+import ToggleFreeAdSave from "./ToggleFreeAdSave";
+import { formatAmount } from "../FormatAmount";
 
 function AllFreeAdCard({ product }) {
   const dispatch = useDispatch();
+
+  // const [toggleSuccess, setToggleSuccess] = useState(false);
+  // const onToggleSuccess = () => {
+  //   setToggleSuccess(true);
+  // };
 
   const getFreeAdDetailState = useSelector(
     (state) => state.getFreeAdDetailState
   );
   const { sellerAvatarUrl } = getFreeAdDetailState;
 
-  const [productSaved, setProductSaved] = useState(false);
-  const [totalSaves, setTotalSaves] = useState(product?.ad_save_count); 
-
-  const [productMessages, setProductMessages] = useState({
-    productSaveSuccess: false,
-    productRemoveSuccess: false,
-    productSaveError: null,
-    productRemoveError: null,
-  });
-
-  const [productLoading, setProductLoading] = useState({
-    productSaveLoading: false,
-    productRemoveLoading: false,
-  });
-
   const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
-  );
-  const { sellerAccount } = getSellerAccountState;
-  console.log("is_seller_verified", sellerAccount?.is_seller_verified);
-  // console.log("ad_view_count", product?.ad_view_count);
 
   const [reportAdModal, setReportAdModal] = useState(false);
 
   const handleReportAdOpen = () => {
     if (!userInfo) {
       history.push("/login");
-    }  else {
+    } else {
       setReportAdModal(true);
     }
   };
@@ -81,99 +66,9 @@ function AllFreeAdCard({ product }) {
     }
   }, [dispatch, userInfo, product.id]);
 
-  useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.favorite_products &&
-      userInfo.favorite_products.includes(product.id)
-    ) {
-      setProductSaved(true);
-    } else {
-      setProductSaved(false);
-    }
-  }, [userInfo, product.id]);
-
-  const toggleFavoriteHandler = () => {
-    if (!userInfo) {
-      history.push("/login");
-    } else {
-      if (productSaved) {
-        setProductLoading({ productRemoveLoading: true });
-        dispatch(removeProduct(userInfo.id, product.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productRemoveSuccess: true,
-              productSaveSuccess: false,
-              productRemoveError: null,
-              productSaveError: null,
-            }));
-            setProductSaved(false);
-            setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
-            const updatedSaveCount = product?.ad_save_count - 1;
-            dispatch(updateProductSaveCount(product.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            // Handle error
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productRemoveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              productRemoveSuccess: false,
-              productSaveSuccess: false,
-              productSaveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ productRemoveLoading: false });
-          });
-      } else {
-        setProductLoading({ productSaveLoading: true });
-        dispatch(saveProduct(userInfo.id, product.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productSaveSuccess: true,
-              productRemoveSuccess: false,
-              productSaveError: null,
-              productRemoveError: null,
-            }));
-            setProductSaved(true);
-            setTotalSaves((prevSaves) => prevSaves + 1);
-            const updatedSaveCount = product?.ad_save_count + 1;
-            dispatch(updateProductSaveCount(product.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productSaveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              productSaveSuccess: false,
-              productRemoveSuccess: false,
-              productRemoveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ productSaveLoading: false });
-          });
-      }
-    }
-    setTimeout(() => {
-      setProductMessages((prevState) => ({
-        ...prevState,
-        productSaveSuccess: false,
-        productRemoveSuccess: false,
-      }));
-    }, 3000);
-  };
-
   const adData = {
     ad_id: product.id,
-  }
+  };
 
   const viewProductHandler = () => {
     if (!userInfo) {
@@ -205,8 +100,8 @@ function AllFreeAdCard({ product }) {
         image1: product.image1,
         ad_name: product.ad_name,
         price: product.price,
-      currency: product?.currency,
-      sellerAvatarUrl,
+        currency: product?.currency,
+        sellerAvatarUrl,
         seller_username: product.seller_username,
         expiration_date: product.expiration_date,
         ad_rating: product.ad_rating,
@@ -223,26 +118,6 @@ function AllFreeAdCard({ product }) {
     <Row className="d-flex justify-content-center">
       <Col>
         <Card className="my-3 p-3 rounded">
-          {productMessages.productSaveSuccess && (
-            <Message variant="success">Item added to favorites.</Message>
-          )}
-          {productMessages.productRemoveSuccess && (
-            <Message variant="danger">Item removed from favorites.</Message>
-          )}
-          {productMessages.productSaveError && (
-            <Message variant="danger">
-              {productMessages.productSaveError}
-            </Message>
-          )}
-          {productMessages.productRemoveError && (
-            <Message variant="danger">
-              {productMessages.productRemoveError}
-            </Message>
-          )}
-
-          {productLoading.productSaveLoading && <Loader />}
-          {productLoading.productRemoveLoading && <Loader />}
-
           <Link onClick={viewProductHandler}>
             <Card.Img src={product.image1} />
           </Link>
@@ -255,44 +130,6 @@ function AllFreeAdCard({ product }) {
                 </Card.Title>
               </Link>
             </div>
-
-            {/* <div className="d-flex justify-content-end">
-              <div>
-                <span>
-                  {sellerAccount?.is_seller_verified ? (
-                    <>
-                      <Button
-                        variant="outline-success"
-                        size="sm"
-                        className="rounded"
-                        disabled
-                      >
-                        <i className="fas fa-user-check"></i> <i>Verified ID</i>{" "}
-                        <i
-                          className="fas fa-check-circle"
-                          style={{ fontSize: "18px", color: "blue" }}
-                        ></i>
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        className="rounded"
-                        disabled
-                      >
-                        <i>ID Not Verified</i>{" "}
-                        <i
-                          // className="fas fa-times"
-                          style={{ fontSize: "18px", color: "red" }}
-                        ></i>
-                      </Button>
-                    </>
-                  )}
-                </span>
-              </div>
-            </div> */}
 
             <div className="d-flex justify-content-between">
               <div as="div">
@@ -363,25 +200,11 @@ function AllFreeAdCard({ product }) {
                 </Button>
               </span>
 
-              <span className="py-2">
-                <Button
-                  onClick={toggleFavoriteHandler}
-                  className="py-2 rounded"
-                  type="button"
-                  variant={productSaved ? "danger" : "outline-danger"}
-                >
-                  <div className="mt-auto">
-                    <i
-                      className={productSaved ? "fas fa-heart" : "far fa-heart"}
-                    ></i>{" "}
-                    {productSaved ? "Saved" : "Save"}{" "}
-                    <span className="text-muted">
-                      ({formatCount(totalSaves)})
-                    </span>
-                  </div>
-                </Button>
-              </span>
-              
+              <div>
+                <ToggleFreeAdSave
+                  ad={product}
+                />
+              </div>
             </div>
 
             <div className="d-flex justify-content-between py-2">

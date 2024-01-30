@@ -161,7 +161,7 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const toggleFreeAdSave = (adData) => async (dispatch, getState) => {
+export const toggleFreeAdSave = (toggleData) => async (dispatch, getState) => {
   try {
     dispatch({ type: TOGGLE_FREE_AD_SAVE_REQUEST });
 
@@ -178,7 +178,7 @@ export const toggleFreeAdSave = (adData) => async (dispatch, getState) => {
 
     const { data } = await axios.post(
       `${API_URL}/api/toggle-free-ad-save/`,
-      adData,
+      toggleData,
 
       config
     );
@@ -187,6 +187,7 @@ export const toggleFreeAdSave = (adData) => async (dispatch, getState) => {
       type: TOGGLE_FREE_AD_SAVE_SUCCESS,
       payload: data,
     });
+    return data;
   } catch (error) {
     dispatch({
       type: TOGGLE_FREE_AD_SAVE_FAIL,
@@ -198,7 +199,7 @@ export const toggleFreeAdSave = (adData) => async (dispatch, getState) => {
   }
 };
 
-export const togglePaidAdSave = (adData) => async (dispatch, getState) => {
+export const togglePaidAdSave = (toggleData) => async (dispatch, getState) => {
   try {
     dispatch({ type: TOGGLE_PAID_AD_SAVE_REQUEST });
 
@@ -215,7 +216,7 @@ export const togglePaidAdSave = (adData) => async (dispatch, getState) => {
 
     const { data } = await axios.post(
       `${API_URL}/api/toggle-paid-ad-save/`,
-      adData,
+      toggleData,
 
       config
     );
@@ -224,7 +225,8 @@ export const togglePaidAdSave = (adData) => async (dispatch, getState) => {
       type: TOGGLE_PAID_AD_SAVE_SUCCESS,
       payload: data,
     });
-  } catch (error) {
+      return data;
+    } catch (error) {
     dispatch({
       type: TOGGLE_PAID_AD_SAVE_FAIL,
       payload:

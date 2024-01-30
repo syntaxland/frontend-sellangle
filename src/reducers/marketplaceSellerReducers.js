@@ -191,6 +191,7 @@ export const toggleFreeAdSaveReducer = (state = initialState, action) => {
       return {
         loading: false,
         success: true,
+        // adSaveCount: action.payload.ad_save_count,
       };
     case TOGGLE_FREE_AD_SAVE_FAIL:
       return { loading: false, error: action.payload };

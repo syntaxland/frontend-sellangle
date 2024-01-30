@@ -5,48 +5,20 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
 import {
-  saveProduct,
-  removeProduct,
-  updateProductSaveCount,
-  // trackProductView,
-} from "../../actions/productAction";
-import { getSellerAccount, 
+  getSellerAccount,
   getPaidAdDetail,
   // togglePaidAdSave,
   trackPaidAdView,
-//   getUserPaidAdsViews, 
-// getUserSavedPaidAds,
 } from "../../actions/marketplaceSellerActions";
-// import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
-import Message from "../Message";
-import Loader from "../Loader";
+// import Message from "../Message";
+// import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
-// import { Country, State, City } from "country-state-city";
 import ReportPaidAd from "./ReportPaidAd";
-import {formatAmount} from "../FormatAmount";
+import TogglePaidAdSave from "./TogglePaidAdSave";
+import { formatAmount } from "../FormatAmount";
 
 function AllPaidAdCard({ product }) {
   const dispatch = useDispatch();
-
-  const [productSaved, setProductSaved] = useState(false);
-  const [totalSaves, setTotalSaves] = useState(product?.ad_save_count);
-
-  // const getSellerAccountState = useSelector(
-  //   (state) => state.getSellerAccountState
-  // );
-  // const { sellerAccount } = getSellerAccountState;
-
-  const [productMessages, setProductMessages] = useState({
-    productSaveSuccess: false,
-    productRemoveSuccess: false,
-    productSaveError: null,
-    productRemoveError: null,
-  });
-
-  const [productLoading, setProductLoading] = useState({
-    productSaveLoading: false,
-    productRemoveLoading: false,
-  });
 
   const history = useHistory();
 
@@ -57,54 +29,32 @@ function AllPaidAdCard({ product }) {
     (state) => state.getPaidAdDetailState
   );
   const { sellerAvatarUrl } = getPaidAdDetailState;
-  // console.log("sellerAvatarUrl:", sellerAvatarUrl);
 
-  // const countries = Country?.getAllCountries();
-  // const states = State?.getStatesOfCountry(product?.country?.isoCode);
-  // const cities = City?.getCitiesOfState(
-  //   product?.country?.isoCode,
-  //   product?.state_province?.isoCode
-  // );
+  const [reportAdModal, setReportAdModal] = useState(false);
 
-  // const getCountryLabel = (isoCode) => {
-  //   const country = countries.find((c) => c.isoCode === isoCode);
-  //   return country ? country.name : "";
-  // };
-
-  // const getStateLabel = (isoCode) => {
-  //   const state = states.find((s) => s.isoCode === isoCode);
-  //   return state ? state.name : "";
-  // };
-
-  // const getCityLabel = (cityName) => {
-  //   const city = cities.find((c) => c.name === cityName);
-  //   return city ? city.name : "";
-  // };
-const [reportAdModal, setReportAdModal] = useState(false);
-
-const handleReportAdOpen = () => {
-  if (!userInfo) {
-    history.push("/login");
-  }  else {
-    setReportAdModal(true);
-  }
-};
+  const handleReportAdOpen = () => {
+    if (!userInfo) {
+      history.push("/login");
+    } else {
+      setReportAdModal(true);
+    }
+  };
 
   const handleReportAdClose = () => {
     setReportAdModal(false);
   };
 
-  useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.favorite_products &&
-      userInfo.favorite_products.includes(product.id)
-    ) {
-      setProductSaved(true);
-    } else {
-      setProductSaved(false);
-    }
-  }, [userInfo, product.id]);
+  // useEffect(() => {
+  //   if (
+  //     userInfo &&
+  //     userInfo.favorite_products &&
+  //     userInfo.favorite_products.includes(product.id)
+  //   ) {
+  //     setProductSaved(true);
+  //   } else {
+  //     setProductSaved(false);
+  //   }
+  // }, [userInfo, product.id]);
 
   useEffect(() => {
     const pk = product.id;
@@ -113,84 +63,6 @@ const handleReportAdOpen = () => {
       dispatch(getPaidAdDetail(pk));
     }
   }, [dispatch, userInfo, product.id]);
-
-  const toggleFavoriteHandler = () => {
-    if (!userInfo) {
-      history.push("/login");
-    } else {
-      if (productSaved) {
-        setProductLoading({ productRemoveLoading: true });
-        dispatch(removeProduct(userInfo.id, product.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productRemoveSuccess: true,
-              productSaveSuccess: false,
-              productRemoveError: null,
-              productSaveError: null,
-            }));
-            setProductSaved(false);
-            setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
-            const updatedSaveCount = product?.ad_save_count - 1;
-            dispatch(updateProductSaveCount(product.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            // Handle error
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productRemoveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              productRemoveSuccess: false,
-              productSaveSuccess: false,
-              productSaveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ productRemoveLoading: false });
-          });
-      } else {
-        setProductLoading({ productSaveLoading: true });
-        dispatch(saveProduct(userInfo.id, product.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productSaveSuccess: true,
-              productRemoveSuccess: false,
-              productSaveError: null,
-              productRemoveError: null,
-            }));
-            setProductSaved(true);
-            setTotalSaves((prevSaves) => prevSaves + 1);
-            const updatedSaveCount = product?.ad_save_count + 1;
-            dispatch(updateProductSaveCount(product.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productSaveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              productSaveSuccess: false,
-              productRemoveSuccess: false,
-              productRemoveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ productSaveLoading: false });
-          });
-      }
-    }
-    setTimeout(() => {
-      setProductMessages((prevState) => ({
-        ...prevState,
-        productSaveSuccess: false,
-        productRemoveSuccess: false,
-      }));
-    }, 3000);
-  };
 
   const adData = {
     ad_id: product.id,
@@ -226,8 +98,8 @@ const handleReportAdOpen = () => {
         image1: product.image1,
         ad_name: product.ad_name,
         price: product.price,
-      currency: product?.currency,
-      sellerAvatarUrl,
+        currency: product?.currency,
+        sellerAvatarUrl,
         seller_username: product.seller_username,
         expiration_date: product.expiration_date,
         ad_rating: product.ad_rating,
@@ -244,26 +116,6 @@ const handleReportAdOpen = () => {
     <Row className="d-flex justify-content-center">
       <Col>
         <Card className="my-3 p-3 rounded">
-          {productMessages.productSaveSuccess && (
-            <Message variant="success">Item added to favorites.</Message>
-          )}
-          {productMessages.productRemoveSuccess && (
-            <Message variant="danger">Item removed from favorites.</Message>
-          )}
-          {productMessages.productSaveError && (
-            <Message variant="danger">
-              {productMessages.productSaveError}
-            </Message>
-          )}
-          {productMessages.productRemoveError && (
-            <Message variant="danger">
-              {productMessages.productRemoveError}
-            </Message>
-          )}
-
-          {productLoading.productSaveLoading && <Loader />}
-          {productLoading.productRemoveLoading && <Loader />}
-
           <Link onClick={viewProductHandler}>
             <Card.Img src={product.image1} />
           </Link>
@@ -324,7 +176,6 @@ const handleReportAdOpen = () => {
                   )}
                 </span>
               </div> */}
-
             </div>
 
             <div className="d-flex justify-content-between">
@@ -363,7 +214,8 @@ const handleReportAdOpen = () => {
                   {product?.usd_price ? (
                     <span>
                       {" "}
-                      / {formatAmount(product?.usd_price)} {product?.usd_currency}{" "}
+                      / {formatAmount(product?.usd_price)}{" "}
+                      {product?.usd_currency}{" "}
                     </span>
                   ) : (
                     <></>
@@ -419,24 +271,9 @@ const handleReportAdOpen = () => {
                 </Button>
               </span>
 
-              <span className="py-2">
-                <Button
-                  onClick={toggleFavoriteHandler}
-                  className="py-2 rounded"
-                  type="button"
-                  variant={productSaved ? "danger" : "outline-danger"}
-                >
-                  <div className="mt-auto">
-                    <i
-                      className={productSaved ? "fas fa-heart" : "far fa-heart"}
-                    ></i>{" "}
-                    {productSaved ? "Saved" : "Save"}{" "}
-                    <span className="text-muted">
-                      ({formatCount(totalSaves)})
-                    </span>
-                  </div>
-                </Button>
-              </span>
+              <div>
+                <TogglePaidAdSave ad={product} />
+              </div>
             </div>
 
             <div className="d-flex justify-content-between py-2">
@@ -492,7 +329,6 @@ const handleReportAdOpen = () => {
             </Modal.Body>
           </Modal>
         </div>
-
       </Col>
     </Row>
   );
