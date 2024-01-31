@@ -99,8 +99,8 @@ function ReportFreeAd({ history, adId }) {
   }, [success, history]);
 
   return (
-    <div>
-      <Row className="justify-content-center">
+    <div className="d-flex justify-content-center flex-column align-items-center">
+      <Row className="d-flex justify-content-center flex-column align-items-center">
         <Col>
           {loading && <Loader />}
           {error && <Message variant="danger">{error}</Message>}
@@ -130,7 +130,7 @@ function ReportFreeAd({ history, adId }) {
                 variant="primary"
                 disabled={loading || success}
               >
-                Submit
+                Submit Report
               </Button>
             </div>
           </Form>

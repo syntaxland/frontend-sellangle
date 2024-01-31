@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { addReview } from "../../actions/orderActions";
 import Loader from "../Loader";
-import Message from "../Message";
+import Message from "../Message"; 
 
 function AddReviewScreen({ match, history }) {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ function AddReviewScreen({ match, history }) {
               <Form.Control
                 as="select"
                 value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                onChange={(e) => setRating(e.target.value)} 
               >
                 <option value="1">1 - Poor</option>
                 <option value="1.5">1.5</option>

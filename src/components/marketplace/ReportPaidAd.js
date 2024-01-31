@@ -100,7 +100,7 @@ function ReportPaidAd({ history, adId }) {
 
   return (
     <div>
-      <Row className="justify-content-center">
+      <Row className="d-flex justify-content-center py-2">
         <Col>
           {loading && <Loader />}
           {error && <Message variant="danger">{error}</Message>}

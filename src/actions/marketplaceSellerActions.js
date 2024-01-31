@@ -157,9 +157,191 @@ import {
   GET_USER_SAVED_PAID_ADS_REQUEST,
   GET_USER_SAVED_PAID_ADS_SUCCESS,
   GET_USER_SAVED_PAID_ADS_FAIL,
+  REVIEW_SELLER_FREE_ADS_REQUEST,
+  REVIEW_SELLER_FREE_ADS_SUCCESS,
+  REVIEW_SELLER_FREE_ADS_FAIL,
+  REVIEW_SELLER_PAID_ADS_REQUEST,
+  REVIEW_SELLER_PAID_ADS_SUCCESS,
+  REVIEW_SELLER_PAID_ADS_FAIL,
+  GET_REVIEW_SELLER_FREE_ADS_REQUEST,
+  GET_REVIEW_SELLER_FREE_ADS_SUCCESS,
+  GET_REVIEW_SELLER_FREE_ADS_FAIL,
+  GET_REVIEW_SELLER_PAID_ADS_REQUEST,
+  GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
+  GET_REVIEW_SELLER_PAID_ADS_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export const getFreeAdSellerReviews = (reviewData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: GET_REVIEW_SELLER_FREE_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { ad_id } = reviewData;
+    const url = `${API_URL}/api/get-seller-free-ad-reviews/?ad_id=${ad_id}`;
+    const { data } = await axios.get(url, config);
+
+    // const { data } = await axios.get(
+    //   `${API_URL}/api/get-seller-free-ad-reviews/${reviewData}`,
+    //   reviewData,
+    //   config
+    // );
+
+    dispatch({
+      type: GET_REVIEW_SELLER_FREE_ADS_SUCCESS,
+      payload: data,
+    });
+    return data; 
+  } catch (error) {
+    dispatch({
+      type: GET_REVIEW_SELLER_FREE_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const getPaidAdSellerReviews = (reviewData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: GET_REVIEW_SELLER_PAID_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { ad_id } = reviewData;
+    const url = `${API_URL}/api/get-seller-paid-ad-reviews/?ad_id=${ad_id}`;
+    const { data } = await axios.get(url, config);
+
+    // const { data } = await axios.get(
+    //   `${API_URL}/api/get-seller-paid-ad-reviews/`,
+    //   reviewData,
+    //   config
+    // );
+
+    dispatch({
+      type: GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
+      payload: data,
+    });
+    return data;
+  } catch (error) {
+    dispatch({
+      type: GET_REVIEW_SELLER_PAID_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const reviewFreeAdSeller = (reviewData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: REVIEW_SELLER_FREE_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/review-free-ad-seller/`,
+      reviewData,
+
+      config
+    );
+
+    dispatch({
+      type: REVIEW_SELLER_FREE_ADS_SUCCESS,
+      payload: data,
+    });
+    return data;
+  } catch (error) {
+    dispatch({
+      type: REVIEW_SELLER_FREE_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const reviewPaidAdSeller = (reviewData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: REVIEW_SELLER_PAID_ADS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/review-paid-ad-seller/`,
+      reviewData,
+
+      config
+    );
+
+    dispatch({
+      type: REVIEW_SELLER_PAID_ADS_SUCCESS,
+      payload: data,
+    });
+    return data;
+  } catch (error) {
+    dispatch({
+      type: REVIEW_SELLER_PAID_ADS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const toggleFreeAdSave = (toggleData) => async (dispatch, getState) => {
   try {
@@ -225,8 +407,8 @@ export const togglePaidAdSave = (toggleData) => async (dispatch, getState) => {
       type: TOGGLE_PAID_AD_SAVE_SUCCESS,
       payload: data,
     });
-      return data;
-    } catch (error) {
+    return data;
+  } catch (error) {
     dispatch({
       type: TOGGLE_PAID_AD_SAVE_FAIL,
       payload:

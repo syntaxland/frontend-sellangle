@@ -30,13 +30,11 @@ function ToggleFreeAdSave({ ad }) {
       setToggleAdSaveLoading(true);
 
       const toggleData = {
-        ad_id: ad.id,
+        ad_id: ad.id, 
       };
 
       try {
         const response = await dispatch(toggleFreeAdSave(toggleData));
-        // setAdIsSaved(!adIsSaved);
-
         setAdIsSaved(response?.ad_is_saved);
         setAdSaveCount(response?.ad_save_count);
       } finally {
@@ -56,7 +54,7 @@ function ToggleFreeAdSave({ ad }) {
       return saveCount?.toString();
     }
   }
-
+ 
   return (
     <Container>
       <Row className="justify-content-center py-2">

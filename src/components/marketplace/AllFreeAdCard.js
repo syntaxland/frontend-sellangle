@@ -24,6 +24,7 @@ import {
 import PromoTimer from "../PromoTimer";
 import ReportFreeAd from "./ReportFreeAd";
 import ToggleFreeAdSave from "./ToggleFreeAdSave";
+import ReviewFreeAdSeller from "./ReviewFreeAdSeller";
 import { formatAmount } from "../FormatAmount";
 
 function AllFreeAdCard({ product }) {
@@ -37,7 +38,12 @@ function AllFreeAdCard({ product }) {
   const getFreeAdDetailState = useSelector(
     (state) => state.getFreeAdDetailState
   );
-  const { sellerAvatarUrl } = getFreeAdDetailState;
+  const {
+    sellerAvatarUrl,
+    // isSellerVerified,
+    sellerRating,
+    sellerReviewCount,
+  } = getFreeAdDetailState;
 
   const history = useHistory();
 
@@ -45,6 +51,14 @@ function AllFreeAdCard({ product }) {
   const { userInfo } = userLogin;
 
   const [reportAdModal, setReportAdModal] = useState(false);
+
+  const [reviewSellerModal, setReviewSellerModal] = useState(false);
+  const handleReviewSellerOpen = () => {
+    setReviewSellerModal(true);
+  };
+  const handleReviewSellerClose = () => {
+    setReviewSellerModal(false);
+  };
 
   const handleReportAdOpen = () => {
     if (!userInfo) {
@@ -129,21 +143,59 @@ function AllFreeAdCard({ product }) {
                   <strong>{product.ad_name}</strong>
                 </Card.Title>
               </Link>
+
+              {/* <div>
+                <span>
+                  {isSellerVerified ? (
+                    <>
+                      <Button
+                        variant="outline-success"
+                        size="sm"
+                        className="rounded"
+                        disabled
+                      >
+                        <i className="fas fa-user-check"></i> <i>Verified ID</i>{" "}
+                        <i
+                          className="fas fa-check-circle"
+                          style={{ fontSize: "18px", color: "blue" }}
+                        ></i>
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        className="rounded"
+                        disabled
+                      >
+                        <i className="fas fa-user"></i> <i>ID Not Verified</i>{" "}
+                        <i
+                          // className="fas fa-check-circle"
+                          style={{ fontSize: "18px", color: "red" }}
+                        ></i>
+                      </Button>
+                    </>
+                  )}
+                </span>
+              </div> */}
             </div>
 
             <div className="d-flex justify-content-between">
               <div as="div">
                 <div className="py-2">
                   <RatingSeller
-                    value={product.rating}
-                    text={`${formatCount(product?.num_reviews)} reviews `}
+                    value={sellerRating}
+                    text={`${formatCount(sellerReviewCount)}  reviews `}
                     color={"green"}
                   />
 
                   {userInfo ? (
-                    <Link to={`/review-list/${product.id}`}>
-                      (Seller Reviews)
-                    </Link>
+                    <>
+                      <Link onClick={handleReviewSellerOpen}>
+                        (Seller Reviews)
+                      </Link>
+                    </>
                   ) : (
                     <Link onClick={() => history.push("/login")}>
                       (Seller Reviews)
@@ -201,9 +253,7 @@ function AllFreeAdCard({ product }) {
               </span>
 
               <div>
-                <ToggleFreeAdSave
-                  ad={product}
-                />
+                <ToggleFreeAdSave ad={product} />
               </div>
             </div>
 
@@ -234,23 +284,32 @@ function AllFreeAdCard({ product }) {
                 </Button>
               </span>
             </div>
+
+            <div className="d-flex justify-content-center py-2">
+              <Modal show={reportAdModal} onHide={handleReportAdClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title className="text-center w-100 py-2">
+                    Report Ad
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="py-2 d-flex justify-content-center">
+                  {reportAdModal && <ReportFreeAd adId={product?.id} />}
+                </Modal.Body>
+              </Modal>
+            </div>
+
+            <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
+              <Modal.Header closeButton>
+                <Modal.Title className="text-center w-100 py-2">
+                  Seller Reviews
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="py-2 d-flex justify-content-center">
+                {reviewSellerModal && <ReviewFreeAdSeller adId={product?.id} />}
+              </Modal.Body>
+            </Modal>
           </Card.Body>
         </Card>
-
-        <div className="d-flex justify-content-center py-2">
-          <Modal show={reportAdModal} onHide={handleReportAdClose}>
-            <Modal.Header closeButton>
-              <Modal.Title className="text-center w-100 py-2">
-                Report Ad
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <span className="d-flex justify-content-center py-2">
-                {reportAdModal && <ReportFreeAd adId={product?.id} />}
-              </span>
-            </Modal.Body>
-          </Modal>
-        </div>
       </Col>
     </Row>
   );

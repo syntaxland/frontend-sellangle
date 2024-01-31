@@ -72,6 +72,11 @@ getUserViewePaidAdsReducer,
 getUserSavedFreeAdsReducer,
 getUserSavedPaidAdsReducer,
 
+reviewFreeAdSellerReducer,
+reviewPaidAdSellerReducer,
+getFreeAdSellerReviewsReducer,
+getPaidAdSellerReviewsReducer,
+
 reportFreeAdReducer,
 reportPaidAdReducer, 
 } from "./reducers/marketplaceSellerReducers";
@@ -348,6 +353,11 @@ getUserVieweFreeAdsState: getUserVieweFreeAdsReducer,
 getUserViewePaidAdsState: getUserViewePaidAdsReducer,
 getUserSavedFreeAdsState: getUserSavedFreeAdsReducer,
 getUserSavedPaidAdsState: getUserSavedPaidAdsReducer,
+
+reviewFreeAdSellerState: reviewFreeAdSellerReducer,
+reviewPaidAdSellerState: reviewPaidAdSellerReducer,
+getFreeAdSellerReviewsState: getFreeAdSellerReviewsReducer,
+getPaidAdSellerReviewsState: getPaidAdSellerReviewsReducer,
 
   reportFreeAdState: reportFreeAdReducer,
 reportPaidAdState: reportPaidAdReducer,

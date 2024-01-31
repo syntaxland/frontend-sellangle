@@ -48,6 +48,8 @@ function FreeAdProductDetail({ match }) {
     ads,
     sellerAvatarUrl,
     isSellerVerified,
+    sellerRating,
+    sellerReviewCount,
   } = getFreeAdDetailState;
   console.log("freeAd isSellerVerified", isSellerVerified);
 
@@ -191,7 +193,7 @@ function FreeAdProductDetail({ match }) {
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <ListGroup.Item>
-                      <h3>{ads?.ad_name}</h3>
+                      <h5>{ads?.ad_name}</h5>
                     </ListGroup.Item>
 
                     {ads?.count_in_stock > 0 && (
@@ -369,8 +371,8 @@ function FreeAdProductDetail({ match }) {
                   <ListGroup.Item>
                     <span>
                       <RatingSeller
-                        value={ads?.ad_rating}
-                        text={`${formatCount(ads?.num_reviews)} reviews `}
+                        value={sellerRating}
+                        text={`${formatCount(sellerReviewCount)} reviews `}
                         color={"green"}
                       />
                     </span>

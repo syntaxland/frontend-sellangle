@@ -261,7 +261,7 @@ function Header() {
                               className="fas fa-question-circle"
                               style={{ fontSize: "16px" }}
                             ></i>{" "}
-                            Contact Support
+                            Contact Us
                           </Nav.Link>
                         </>
                       ) : (

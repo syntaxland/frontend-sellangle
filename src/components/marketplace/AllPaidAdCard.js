@@ -15,6 +15,7 @@ import {
 import PromoTimer from "../PromoTimer";
 import ReportPaidAd from "./ReportPaidAd";
 import TogglePaidAdSave from "./TogglePaidAdSave";
+import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
 import { formatAmount } from "../FormatAmount";
 
 function AllPaidAdCard({ product }) {
@@ -28,7 +29,19 @@ function AllPaidAdCard({ product }) {
   const getPaidAdDetailState = useSelector(
     (state) => state.getPaidAdDetailState
   );
-  const { sellerAvatarUrl } = getPaidAdDetailState;
+  const { sellerAvatarUrl,
+  // isSellerVerified,
+  sellerRating,
+  sellerReviewCount,
+  } = getPaidAdDetailState;
+
+  const [reviewSellerModal, setReviewSellerModal] = useState(false);
+  const handleReviewSellerOpen = () => {
+    setReviewSellerModal(true);
+  };
+  const handleReviewSellerClose = () => {
+    setReviewSellerModal(false);
+  };
 
   const [reportAdModal, setReportAdModal] = useState(false);
 
@@ -182,15 +195,17 @@ function AllPaidAdCard({ product }) {
               <div as="div">
                 <div className="py-2">
                   <RatingSeller
-                    value={product.rating}
-                    text={`${formatCount(product?.num_reviews)} reviews `}
-                    color={"green"}
+                    value={sellerRating}
+                    text={`${formatCount(sellerReviewCount)} reviews `}
+                    color={"green"} 
                   />
 
                   {userInfo ? (
-                    <Link to={`/review-list/${product.id}`}>
-                      (Seller Reviews)
-                    </Link>
+                    <>
+                      <Link onClick={handleReviewSellerOpen}>
+                        (Seller Reviews)
+                      </Link>
+                    </>
                   ) : (
                     <Link onClick={() => history.push("/login")}>
                       (Seller Reviews)
@@ -324,11 +339,22 @@ function AllPaidAdCard({ product }) {
                 Report Ad
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="d-flex justify-content-center py-2">
               {reportAdModal && <ReportPaidAd adId={product?.id} />}
             </Modal.Body>
           </Modal>
         </div>
+
+        <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
+          <Modal.Header closeButton>
+            <Modal.Title className="text-center w-100 py-2">
+              Seller Reviews
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="py-2 d-flex justify-content-center">
+            {reviewSellerModal && <ReviewPaidAdSeller adId={product?.id} />}
+          </Modal.Body>
+        </Modal>
       </Col>
     </Row>
   );

@@ -156,6 +156,20 @@ import {
   GET_USER_SAVED_PAID_ADS_REQUEST,
   GET_USER_SAVED_PAID_ADS_SUCCESS,
   GET_USER_SAVED_PAID_ADS_FAIL,
+
+  REVIEW_SELLER_FREE_ADS_REQUEST,
+REVIEW_SELLER_FREE_ADS_SUCCESS,
+REVIEW_SELLER_FREE_ADS_FAIL,
+REVIEW_SELLER_PAID_ADS_REQUEST,
+REVIEW_SELLER_PAID_ADS_SUCCESS,
+REVIEW_SELLER_PAID_ADS_FAIL,
+
+GET_REVIEW_SELLER_FREE_ADS_REQUEST,
+GET_REVIEW_SELLER_FREE_ADS_SUCCESS,
+GET_REVIEW_SELLER_FREE_ADS_FAIL,
+GET_REVIEW_SELLER_PAID_ADS_REQUEST,
+GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
+GET_REVIEW_SELLER_PAID_ADS_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -171,6 +185,10 @@ const initialState = {
   sellerApiKey: [],
   sellerAvatarUrl: [],
   isSellerVerified: [],
+  sellerRating: [],
+  sellerReviewCount: [],
+  sellerFreeAdReviews: [],
+  sellerPaidAdReviews: [],
   serachResults: [],
   ads: [],
   savedAds: [],
@@ -181,6 +199,80 @@ const initialState = {
   paidAds: [],
   sellerDetail: [],
   shopfrontLink: [],
+};
+
+export const getFreeAdSellerReviewsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_REVIEW_SELLER_FREE_ADS_REQUEST:
+      return { loading: true };
+    case GET_REVIEW_SELLER_FREE_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        sellerFreeAdReviews: action.payload.data,
+        sellerAvatarUrl: action.payload.seller_avatar_url,
+        sellerRating: action.payload.seller_rating,
+        sellerReviewCount: action.payload.seller_review_count,
+      };
+
+    case GET_REVIEW_SELLER_FREE_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getPaidAdSellerReviewsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_REVIEW_SELLER_PAID_ADS_REQUEST:
+      return { loading: true };
+    case GET_REVIEW_SELLER_PAID_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        sellerPaidAdReviews: action.payload.data,
+        sellerAvatarUrl: action.payload.seller_avatar_url,
+        sellerRating: action.payload.seller_rating,
+        sellerReviewCount: action.payload.seller_review_count,
+      };
+
+    case GET_REVIEW_SELLER_PAID_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const reviewFreeAdSellerReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case REVIEW_SELLER_FREE_ADS_REQUEST:
+      return { loading: true };
+    case REVIEW_SELLER_FREE_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case REVIEW_SELLER_FREE_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const reviewPaidAdSellerReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case REVIEW_SELLER_PAID_ADS_REQUEST:
+      return { loading: true };
+    case REVIEW_SELLER_PAID_ADS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case REVIEW_SELLER_PAID_ADS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const toggleFreeAdSaveReducer = (state = initialState, action) => {
@@ -783,6 +875,8 @@ export const getFreeAdDetailReducer = (state = initialState, action) => {
         sellerApiKey: action.payload.sellerApiKey,
         sellerAvatarUrl: action.payload.seller_avatar_url,
         isSellerVerified: action.payload.is_seller_verified,
+        sellerRating: action.payload.seller_rating,
+        sellerReviewCount: action.payload.seller_review_count,
       };
     case GET_FREE_AD_DETAIL_FAIL:
       return { loading: false, error: action.payload };
@@ -803,6 +897,8 @@ export const getPaidAdDetailReducer = (state = initialState, action) => {
         sellerApiKey: action.payload.sellerApiKey,
         sellerAvatarUrl: action.payload.seller_avatar_url,
         isSellerVerified: action.payload.is_seller_verified,
+        sellerRating: action.payload.seller_rating,
+        sellerReviewCount: action.payload.seller_review_count,
       };
     case GET_PAID_AD_DETAIL_FAIL:
       return { loading: false, error: action.payload };
