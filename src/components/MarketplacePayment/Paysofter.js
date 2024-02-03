@@ -4,58 +4,61 @@ import { Row, Col, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import PaysofterButton from "./PaysofterButton";
-import ApplyPromoCode from "../ApplyPromoCode";
+import ApplyPromoCode from "../marketplace/ApplyPromoCode";
 import LoaderPaysofter from "../LoaderPaysofter";
 import Message from "../Message";
-import "./Paysofter.css"; 
-import {formatAmount} from "../FormatAmount";
+import "./Paysofter.css";
+import { formatAmount } from "../FormatAmount";
 
 function Paysofter({
-  // ads,
+  adId,
+  promoCode,
   buyerEmail,
   amount,
   sellerApiKey,
   currency,
   usdPrice,
   reference,
-  order_id,
-  totalPrice,
-  taxPrice,
+  ad_id,
   userEmail,
   adsPrice,
   finalItemsPrice,
-  promoDiscount,
-  discountPercentage,
-  promoTotalPrice,
-  paysofterPublicKey,
 }) {
-  const paymentCreate = useSelector((state) => state.paymentCreate);
-  const { loading, error } = paymentCreate;
+  // const paymentCreate = useSelector((state) => state.paymentCreate);
+  // const { loading, error } = paymentCreate;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  const getPaidAdDetailState = useSelector(
-    (state) => state.getPaidAdDetailState
-  );
-  const { ads } = getPaidAdDetailState;
-
   useEffect(() => {
     if (!userInfo) {
       window.location.href = "/login";
     }
   }, [userInfo]);
 
-  // const cart = useSelector((state) => state.cart);
-  // const { cartItems } = cart;
+  const getPaidAdDetailState = useSelector(
+    (state) => state.getPaidAdDetailState
+  );
+  const { ads, loading, error } = getPaidAdDetailState;
+
+  const applyPomoCodeState = useSelector((state) => state.applyPomoCodeState);
+  const { discountPercentage, promoDiscount } = applyPomoCodeState;
+
+  console.log("promoCode:", promoCode, "adId:", adId);
+  console.log(
+    "promoDiscount:",
+    promoDiscount,
+    "discountPercentage:",
+    discountPercentage
+  );
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-
   const createdAt = new Date().toISOString();
+  const totalPrice = ads?.price;
+  const promoTotalPrice = totalPrice - promoDiscount;
 
   const paymentData = {
     reference: reference,
-    order_id: order_id,
+    ad_id: ad_id,
     amount: totalPrice,
     email: userEmail,
 
@@ -66,12 +69,11 @@ function Paysofter({
     final_total_amount: promoTotalPrice,
   };
 
-
   return (
     <>
       <Row>
         <div className="d-flex justify-content-center ">
-          <Col md={6}>
+          <Col md={8}>
             <h1 className="text-center py-3">Paysofter Promise Option</h1>
             {loading && <LoaderPaysofter />}
             {error && <Message variant="danger">{error}</Message>}
@@ -95,81 +97,49 @@ function Paysofter({
                 </Row>
               </ListGroup.Item>
 
-              {/* <ListGroup.Item>
-                <p>Ad Name: {ads?.ad_name}</p>
-              </ListGroup.Item> */}
-
-              {/* <ListGroup.Item>
-                Tax: NGN{" "}
-                {taxPrice?.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </ListGroup.Item> */}
-
               <ListGroup.Item>
-                Total Amount:{" "}
-                {formatAmount(ads?.price)
-                
-                // ?.toLocaleString(undefined, {
-                //   minimumFractionDigits: 2, 
-                //   maximumFractionDigits: 2,
-                // })
-                
-                }{" "}{currency}
+                Total Amount: {formatAmount(ads?.price)} {currency}
               </ListGroup.Item>
 
-              <ListGroup.Item>
-                Promo Discount: {" "}
-                {promoDiscount ? (
-                  <span>
-                    {formatAmount(promoDiscount)
-                    
-                    // ?.toLocaleString(undefined, {
-                    //   minimumFractionDigits: 2,
-                    //   maximumFractionDigits: 2,
-                    // })
-                    
-                    }{" "}{currency}
-                    ({discountPercentage}%)
-                  </span>
-                ) : (
-                  <span>0</span>
-                )}
-              </ListGroup.Item>
+              {promoCode && (
+                <div className="py-2">
+                  <ListGroup.Item>
+                    <ApplyPromoCode
+                      adId={adId}
+                      // promoCode={promoCode}
+                      // currency={currency}
+                      // totalPrice={totalPrice}
+                      // promoTotalPrice={promoTotalPrice}
+                    />
+                  </ListGroup.Item>
 
-              <ListGroup.Item>
-                Final Total Amount: {currency}{" "}
-                {promoTotalPrice ? (
-                  <span>
-                    {formatAmount(promoTotalPrice)
-                    
-                    // ?.toLocaleString(undefined, {
-                    //   minimumFractionDigits: 2,
-                    //   maximumFractionDigits: 2,
-                    // })
-                    
-                    }{" "}{currency}
-                  </span>
-                ) : (
-                  <span>
-                    {formatAmount(totalPrice)
-                    
-                    // ?.toLocaleString(undefined, {
-                    //   minimumFractionDigits: 2,
-                    //   maximumFractionDigits: 2,
-                    // })
-                    
-                    }
-                  </span>
-                )}
-              </ListGroup.Item>
+                  <ListGroup.Item>
+                    Promo Discount Amount:{" "}
+                    {promoDiscount ? (
+                      <span>
+                        {currency} {formatAmount(promoDiscount)} (
+                        {discountPercentage}%)
+                      </span>
+                    ) : (
+                      <span>0</span>
+                    )}
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    Final Total Amount: {currency}{" "}
+                    {promoTotalPrice ? (
+                      <span>
+                        {formatAmount(promoTotalPrice)} {currency}
+                      </span>
+                    ) : (
+                      <span>{formatAmount(totalPrice)}</span>
+                    )}
+                  </ListGroup.Item>
+                </div>
+              )}
 
               <ListGroup.Item>Timestamp: {createdAt}</ListGroup.Item>
             </ListGroup>
-            <div className="text-center py-2">
-              <ApplyPromoCode order_id={order_id} />
-            </div>
 
             <div>
               <PaysofterButton
@@ -180,7 +150,7 @@ function Paysofter({
                 buyerEmail={buyerEmail}
                 currency={currency}
                 usdPrice={usdPrice}
-                amount={amount}
+                amount={promoTotalPrice}
                 sellerApiKey={sellerApiKey}
               />
             </div>

@@ -15,8 +15,11 @@ import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
 import Message from "../Message";
 import { useDispatch, useSelector } from "react-redux";
-import { getSellerAccount } from "../../actions/marketplaceSellerActions";
-import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
+import {
+  getSellerAccount,
+  getPaidAdDetail,
+} from "../../actions/marketplaceSellerActions";
+// import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Paysofter from "../MarketplacePayment/Paysofter";
@@ -65,7 +68,8 @@ function PaidAdProductDetail({ match }) {
     sellerAvatarUrl,
     isSellerVerified,
   } = getPaidAdDetailState;
-  console.log("paidAd isSellerVerified", isSellerVerified);
+  console.log("isSellerVerified:", isSellerVerified);
+  console.log("promo_code:", ads?.promo_code);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -210,22 +214,20 @@ function PaidAdProductDetail({ match }) {
                     </span>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    {" "}
-                    {/* Promo Code: */}
-                    <Button
+                    {/* <Button
                       variant="outline-primary"
                       size="sm"
                       className="py-2 rounded"
                       disabled
-                    >
-                      {/* <i>
-                        {ads?.promo_code} {ads?.discount_percentage}% Off 
-                      </i> */}
-                      <i>
-                        Promo Code: {ads?.promo_code} {ads?.discount_percentage}
-                        % Off
-                      </i>
-                    </Button>
+                    > */}
+                    <ListGroup.Item>
+                      Promo Code:{" "}
+                      <strong>
+                        <i>{ads?.promo_code}</i>
+                      </strong>{" "}
+                      {ads?.discount_percentage}% Off
+                    </ListGroup.Item>
+                    {/* </Button> */}
                   </ListGroup.Item>
                 </ListGroup>
               </Col>
@@ -442,7 +444,8 @@ function PaidAdProductDetail({ match }) {
             <Col>
               {showPaysofterOption && (
                 <Paysofter
-                  ads={ads}
+                  promoCode={ads?.promo_code}
+                  adId={ads?.id}
                   buyerEmail={userInfo?.email}
                   currency={ads?.currency}
                   usdPrice={ads?.usd_price}

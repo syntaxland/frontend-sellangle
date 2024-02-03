@@ -9,7 +9,7 @@ import Loader from "../Loader";
 import Message from "../Message";
 import { clearCart } from "../../actions/cartActions";
 import { createPayment } from "../../actions/paymentActions";
-import ApplyPromoCode from "../ApplyPromoCode";
+// import ApplyPromoCode from "../ApplyPromoCode";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -254,7 +254,7 @@ function Paystack() {
               <ListGroup.Item>Timestamp: {createdAt}</ListGroup.Item>
             </ListGroup>
             <div className="text-center py-2">
-              <ApplyPromoCode order_id={order_id} />
+              {/* <ApplyPromoCode order_id={order_id} /> */}
             </div>
             <div className="text-center py-2">
               <PaystackButton {...paymentObject}>

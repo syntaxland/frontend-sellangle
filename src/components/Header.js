@@ -237,6 +237,23 @@ function Header() {
                     <NavDropdown.Divider />
 
                     <div>
+                      {profile.is_marketplace_seller ? (
+                        <>
+                          <Nav.Link as={Link} to="/current-ads">
+                            <i
+                              className="fas fa-ad"
+                              style={{ fontSize: "16px" }}
+                            ></i>{" "}
+                            Current Ads
+                          </Nav.Link>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <NavDropdown.Divider />
+
+                    <div>
                       {userInfo ? (
                         <>
                           <Nav.Link as={Link} to="/inbox">

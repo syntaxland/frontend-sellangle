@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { useLocation } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { reviewPaidAdSeller } from "../../actions/marketplaceSellerActions";
 import Loader from "../Loader";
 // import Message from "../Message";
@@ -71,7 +71,7 @@ function ReviewPaidAdSeller({ adId }) {
   }, [success]);
 
   return (
-    <div>
+    <Container>
       <Row className="py-3 d-flex justify-content-center">
         <Col>
           <div>
@@ -124,7 +124,7 @@ function ReviewPaidAdSeller({ adId }) {
           </Form>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 }
 

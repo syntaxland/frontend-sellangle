@@ -169,9 +169,53 @@ import {
   GET_REVIEW_SELLER_PAID_ADS_REQUEST,
   GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
   GET_REVIEW_SELLER_PAID_ADS_FAIL,
+
+  APPLY_PROMO_CODE_REQUEST,
+APPLY_PROMO_CODE_SUCCESS,
+APPLY_PROMO_CODE_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export const applyPromoCode = (promoData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: APPLY_PROMO_CODE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/apply-promo-code/`,
+      promoData,
+      config
+    );
+
+    dispatch({
+      type: APPLY_PROMO_CODE_SUCCESS,
+      payload: data,
+    });
+    return data;
+  } catch (error) {
+    dispatch({
+      type: APPLY_PROMO_CODE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const getFreeAdSellerReviews = (reviewData) => async (
   dispatch,

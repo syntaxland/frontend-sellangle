@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 //   createPaysofterPayment,
 // } from "../../actions/paymentActions";
 import PaysofterButton from "./PaysofterButton"; 
-import ApplyPromoCode from "../ApplyPromoCode";
+// import ApplyPromoCode from "../ApplyPromoCode";
 import LoaderPaysofter from "../LoaderPaysofter"; 
 import Message from "../Message";
 import "./Paysofter.css";
@@ -302,7 +302,7 @@ function Paysofter({
               <ListGroup.Item>Timestamp: {createdAt}</ListGroup.Item>
             </ListGroup>
             <div className="text-center py-2">
-              <ApplyPromoCode order_id={order_id} />
+              {/* <ApplyPromoCode order_id={order_id} /> */}
             </div>
 
             <div>

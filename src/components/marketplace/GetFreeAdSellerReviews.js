@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { useParams } from "react-router-dom";
-import { Table, Button, Col, Row } from "react-bootstrap";
+import { Table, Button, Col, Row, Container } from "react-bootstrap";
 import { getFreeAdSellerReviews } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
@@ -39,7 +39,7 @@ function GetFreeAdSellerReviews({ adId }) {
   }, [dispatch, adId]);
 
   return (
-    <div className="py-3 d-flex justify-content-center">
+    <Container className="py-3 d-flex justify-content-center">
       <Row>
         <Col>
           {/* <h1 className="text-center">Seller Reviews</h1> */}
@@ -104,7 +104,7 @@ function GetFreeAdSellerReviews({ adId }) {
           )}
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 }
 

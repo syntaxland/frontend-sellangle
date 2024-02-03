@@ -170,6 +170,10 @@ GET_REVIEW_SELLER_FREE_ADS_FAIL,
 GET_REVIEW_SELLER_PAID_ADS_REQUEST,
 GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
 GET_REVIEW_SELLER_PAID_ADS_FAIL,
+
+APPLY_PROMO_CODE_REQUEST,
+APPLY_PROMO_CODE_SUCCESS,
+APPLY_PROMO_CODE_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -199,6 +203,27 @@ const initialState = {
   paidAds: [],
   sellerDetail: [],
   shopfrontLink: [],
+  discountPercentage: [],
+  promoDiscount: [],
+
+};
+
+export const applyPomoCodeReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case APPLY_PROMO_CODE_REQUEST:
+      return { loading: true };
+    case APPLY_PROMO_CODE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        discountPercentage: action.payload.discount_percentage,
+        promoDiscount: action.payload.promo_discount,
+      };
+    case APPLY_PROMO_CODE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const getFreeAdSellerReviewsReducer = (state = initialState, action) => {
