@@ -97,7 +97,7 @@ const ApplyPromoCode = ({
                     // size="sm"
                     disabled={
                       loading || 
-                      // success || 
+                      success || 
                       promoCode === ""}
                   >
                     Apply
