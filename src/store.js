@@ -154,6 +154,9 @@ import {
   creditPointEarningsReducer,
   userCreditPointPaymentsReducer,
   allCreditPointPaymentsReducer,
+
+  buyUsdCreditPointReducer,
+  getUsdBuyCreditPointReducer,
 } from "./reducers/creditPointReducers";
 
 import { messagingReducer, emailReducer } from "./reducers/messagingReducers";
@@ -226,7 +229,9 @@ const reducer = combineReducers({
   sellCreditPointState: sellCreditPointReducer,
   getBuyCreditPointState: getBuyCreditPointReducer,
   getBuyerCreditPointState: getBuyerCreditPointReducer,
-  getSellCreditPointState: getSellCreditPointReducer,
+  buyUsdCreditPointState: buyUsdCreditPointReducer,
+  getUsdBuyCreditPointState: getUsdBuyCreditPointReducer,
+  getSellCreditPointState: getSellCreditPointReducer,  
   creditPointRequestCreate: creditPointRequestCreateReducer,
   creditPointList: creditPointListReducer,
   creditPointAllList: creditPointAllListReducer,

@@ -287,7 +287,7 @@ function AllPaidAdCard({ product }) {
               </span>
 
               <div>
-                <TogglePaidAdSave ad={product} />
+                <TogglePaidAdSave ad={product} /> 
               </div>
             </div>
 

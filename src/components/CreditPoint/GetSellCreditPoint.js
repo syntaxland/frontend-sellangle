@@ -6,6 +6,7 @@ import { getUserSellCreditPoint } from "../../actions/creditPointActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
+import { formatAmount } from "../FormatAmount";
 
 function GetSellCreditPoint() {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ function GetSellCreditPoint() {
                     <td>{cps.cps_sell_id}</td>
                     <td>{cps.seller_username}</td>
                     <td>{cps.buyer_username}</td>
-                    <td style={{ color: "red" }}> {cps.amount}</td>
+                    <td style={{ color: "red" }}> {formatAmount(cps.amount)}</td>
                     {/* <td>{cps.cps_amount}</td> */} 
                     <td>
                       {cps.is_success ? (

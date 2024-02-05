@@ -57,14 +57,14 @@ function ToggleFreeAdSave({ ad }) {
  
   return (
     <Container>
-      <Row className="justify-content-center py-2">
+      <Row className="justify-content-center">
         <Col>
           {/* {success && <Message variant="success">Success!</Message>} */}
           {/* {error && <Message variant="danger">{error}</Message>} */}
           {toggleAdSaveLoading && <LoaderButton />}
 
           <div
-            className={`py-2 d-flex justify-content-center flex-column align-items-center ${
+            className={`d-flex justify-content-center flex-column align-items-center ${
               adIsSaved ? "text-danger" : "text-outline-danger"
             }`}
             onClick={handleToggleFreeAdSave}

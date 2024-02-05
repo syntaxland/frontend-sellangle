@@ -6,6 +6,7 @@ import { getUserBuyCreditPoint } from "../../actions/creditPointActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
+import { formatAmount } from "../FormatAmount";
 
 function GetBuyCreditPoint() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function GetBuyCreditPoint() {
     <div>
       <hr />
       <h1 className="text-center py-3">
-        <i className="fas fa-credit-card"></i> Bought/Funded CPS List
+        <i className="fas fa-credit-card"></i> Bought/Funded CPS List (NGN)
       </h1>
       <hr />
       {loading ? (
@@ -57,6 +58,8 @@ function GetBuyCreditPoint() {
                   <th>User</th>
                   <th>Amount Paid</th>
                   <th>CPS Amount</th>
+                  <th>Old CPS Bal</th>
+                  <th>New CPS Bal</th>
                   <th>Success</th>
                   <th>Created At</th>
                 </tr>
@@ -67,8 +70,10 @@ function GetBuyCreditPoint() {
                     <td>{index + 1}</td>
                     <td>{cps.cps_purchase_id}</td>
                     <td>{cps.username}</td>
-                    <td>NGN {cps.amount}</td>
-                    <td style={{ color: "green" }}>{cps.cps_amount}</td>
+                    <td>NGN {formatAmount(cps.amount)}</td>
+                    <td style={{ color: "green" }}>{formatAmount(cps.cps_amount)}</td>
+                    <td>{formatAmount(cps.old_bal)}</td>
+                    <td>{formatAmount(cps.new_bal)}</td>
                     <td>
                       {cps.is_success ? (
                         <>
@@ -106,7 +111,7 @@ function GetBuyCreditPoint() {
           )}
           <Pagination
             itemsPerPage={itemsPerPage}
-            totalItems={creditPoints.length}
+            totalItems={creditPoints.length} 
             currentPage={currentPage}
             paginate={paginate}
           />

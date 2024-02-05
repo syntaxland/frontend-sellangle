@@ -7,7 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import PaysofterButton from "./PaysofterButton";
 // import LoaderPaysofter from "../../LoaderPaysofter";
 // import Message from "../../Message";
-import "./Paysofter.css"; 
+import "./Paysofter.css";
+import { formatAmount } from "../../FormatAmount";
 
 function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
   // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
@@ -35,11 +36,7 @@ function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
 
             <ListGroup variant="flush" className="text-center py-2">
               <ListGroup.Item>
-                Amount:{" "}
-                {amount?.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}{" "}{currency}
+                Amount: {formatAmount(amount)} {currency}
               </ListGroup.Item>
             </ListGroup>
 
@@ -50,7 +47,7 @@ function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
                 userEmail={userEmail}
                 currency={currency}
                 amount={amount}
-                paysofterPublicKey={paysofterPublicKey} 
+                paysofterPublicKey={paysofterPublicKey}
               />
             </div>
           </Col>

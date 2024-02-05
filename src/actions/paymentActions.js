@@ -38,7 +38,7 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 // const PAYSOFTER_URL = process.env.PAYSOFTER_API_URL;
-// const PAYSOFTER_URL = "http://localhost:8002";
+// const PAYSOFTER_URL = "http://localhost:8001";
 const PAYSOFTER_URL = "https://api.paysofter.com";
 
 export const debitPaysofterUsdAccountFund = (debitUsdAccountData) => async (
@@ -195,7 +195,7 @@ export const createPayment = (paymentData) => async (dispatch, getState) => {
   }
 };
 
-export const createPaysofterPayment = (paysofterPaymentData) => async (
+export const createPaysofterPayment = (paysofterPaymentData) => async ( 
   dispatch
 ) => {
   try {

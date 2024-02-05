@@ -225,7 +225,7 @@ function PaidAdProductDetail({ match }) {
                       <strong>
                         <i>{ads?.promo_code}</i>
                       </strong>{" "}
-                      {ads?.discount_percentage}% Off
+                      ({ads?.discount_percentage}% Off)
                     </ListGroup.Item>
                     {/* </Button> */}
                   </ListGroup.Item>
@@ -484,7 +484,7 @@ function PaidAdProductDetail({ match }) {
                   Report Ad
                 </Modal.Title>
               </Modal.Header>
-              <Modal.Body>
+              <Modal.Body className="d-flex justify-content-center py-2">
                 {reportAdModal && <ReportPaidAd adId={ads?.id} />}
               </Modal.Body>
             </Modal>

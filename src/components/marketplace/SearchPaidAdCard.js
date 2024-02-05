@@ -435,14 +435,14 @@ function SearchPaidAdCard({ paidSearchAd }) {
         </div>
       </Card.Body>
     </Card>
-    <div className="d-flex justify-content-center py-2">
+    <div className="d-flex justify-content-center">
           <Modal show={reportAdModal} onHide={handleReportAdClose}>
             <Modal.Header closeButton>
               <Modal.Title className="text-center w-100 py-2">
                 Report Ad
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="d-flex justify-content-center py-2">
               {reportAdModal && <ReportPaidAd adId={paidSearchAd?.id} />}
             </Modal.Body>
           </Modal>

@@ -253,7 +253,7 @@ function AllFreeAdCard({ product }) {
               </span>
 
               <div>
-                <ToggleFreeAdSave ad={product} />
+                <ToggleFreeAdSave ad={product} /> 
               </div>
             </div>
 

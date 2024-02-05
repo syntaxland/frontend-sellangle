@@ -118,7 +118,7 @@ function Paysofter({
                     {promoDiscount ? (
                       <span>
                         {currency} {formatAmount(promoDiscount)} (
-                        {discountPercentage}%)
+                        {discountPercentage}% )
                       </span>
                     ) : (
                       <span>0</span>
