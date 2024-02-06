@@ -58,6 +58,8 @@ function GetBuyerCreditPoint() {
                   <th>Seller</th>
                   <th>Buyer</th>
                   <th>Amount</th>
+                  <th>Old Balance</th>
+                  <th>New Balance</th>
                   <th>Success</th>
                   <th>Created At</th>
                 </tr>
@@ -70,6 +72,8 @@ function GetBuyerCreditPoint() {
                     <td>{cps.seller_username}</td>
                     <td>{cps.buyer_username}</td>
                     <td style={{ color: "green" }}> {formatAmount(cps.amount)}</td>
+                    <td>{formatAmount(cps.buyer_old_bal)}</td>
+                    <td>{formatAmount(cps.buyer_new_bal)}</td>
                     <td>
                       {cps.is_success ? (
                         <>

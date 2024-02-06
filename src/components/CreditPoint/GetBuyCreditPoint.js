@@ -58,8 +58,8 @@ function GetBuyCreditPoint() {
                   <th>User</th>
                   <th>Amount Paid</th>
                   <th>CPS Amount</th>
-                  <th>Old CPS Bal</th>
-                  <th>New CPS Bal</th>
+                  <th>Old Balance</th>
+                  <th>New Balance</th>
                   <th>Success</th>
                   <th>Created At</th>
                 </tr>

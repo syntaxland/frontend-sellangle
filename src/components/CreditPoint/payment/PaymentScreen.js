@@ -6,7 +6,7 @@ import Paystack from "./Paystack";
 import PaystackUsd from "./PaystackUsd";
 import Paysofter from "./Paysofter";
 
-function PaymentScreen({ 
+function PaymentScreen({
   amount,
   currency,
   paysofterPublicKey,
@@ -47,7 +47,6 @@ function PaymentScreen({
             <h1 className="text-center py-2">Payment Page</h1>
 
             <div className="text-center py-2">
-
               <Row className="text-center py-2">
                 <Col md={10}>
                   <Button
@@ -118,31 +117,31 @@ function PaymentScreen({
               </Row>
             </div>
 
-{currency === "NGN" && (
-                <div>
-            {selectedPaymentGateway === "paystack" && (
-              <Paystack
-                currency={currency}
-                amount={amount}
-                userEmail={userEmail}
-                paystackPublicKey={paystackPublicKey}
-              />
+            {currency === "NGN" && (
+              <div>
+                {selectedPaymentGateway === "paystack" && (
+                  <Paystack
+                    currency={currency}
+                    amount={amount}
+                    userEmail={userEmail}
+                    paystackPublicKey={paystackPublicKey}
+                  />
+                )}
+              </div>
             )}
-             </div>
-              )}
 
-{currency === "USD" && (
-                <div>
-            {selectedPaymentGateway === "paystack" && (
-              <PaystackUsd
-                currency={currency}
-                amount={amount}
-                userEmail={userEmail}
-                paystackPublicKey={paystackPublicKey}
-              />
+            {currency === "USD" && (
+              <div>
+                {selectedPaymentGateway === "paystack" && (
+                  <PaystackUsd
+                    currency={currency}
+                    amount={amount}
+                    userEmail={userEmail}
+                    paystackPublicKey={paystackPublicKey}
+                  />
+                )}
+              </div>
             )}
-             </div>
-              )}
 
             {selectedPaymentGateway === "paysofter" && (
               <Paysofter
