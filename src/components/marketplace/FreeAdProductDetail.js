@@ -24,6 +24,7 @@ import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
 import ReportFreeAd from "./ReportFreeAd";
 import { formatAmount } from "../FormatAmount";
+import ToggleFreeAdSave from "./ToggleFreeAdSave";
 
 function FreeAdProductDetail({ match }) {
   // const [qty, setQty] = useState(1);
@@ -443,16 +444,22 @@ function FreeAdProductDetail({ match }) {
             </p>
           </div>
 
-          <div className="d-flex justify-content-end py-2">
-            <Button
-              variant="danger"
-              size="sm"
-              className="rounded py-2"
-              onClick={handleReportAdOpen}
-              // disabled
-            >
-              <i className="fa fa-flag"></i> Report Ad
-            </Button>
+          <div className="d-flex justify-content-between py-2">
+            <div className=" ">
+              <ToggleFreeAdSave ad={ads} />
+            </div>
+
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="danger"
+                size="sm"
+                className="rounded"
+                onClick={handleReportAdOpen}
+                // disabled
+              >
+                <i className="fa fa-flag"></i> Report Ad
+              </Button>
+            </div>
           </div>
 
           <div className="d-flex justify-content-center ">

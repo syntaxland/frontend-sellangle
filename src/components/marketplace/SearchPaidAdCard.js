@@ -4,44 +4,44 @@ import { Card, Button, Modal, Row, Col  } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
-import {
-  saveProduct,
-  removeProduct,
-  updateProductSaveCount,
-  // trackProductView,
-} from "../../actions/productAction";
+// import {
+//   saveProduct,
+//   removeProduct,
+//   updateProductSaveCount,
+//   // trackProductView,
+// } from "../../actions/productAction";
 import { getSellerAccount,getPaidAdDetail, trackPaidAdView } from "../../actions/marketplaceSellerActions"; 
-
 // import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
-import Message from "../Message";
-import Loader from "../Loader";
+// import Message from "../Message";
+// import Loader from "../Loader";
 // import ProductPrice from "../ProductPrice";
 import PromoTimer from "../PromoTimer";
-
 import ReportPaidAd from "./ReportPaidAd";
+import TogglePaidAdSave from "./TogglePaidAdSave";
 function SearchPaidAdCard({ paidSearchAd }) { 
+
   console.log("paidSearchAd Card", paidSearchAd);
   const dispatch = useDispatch(); 
 
-  const [paidSearchAdSaved, setProductSaved] = useState(false);
-  const [totalSaves, setTotalSaves] = useState(paidSearchAd?.ad_save_count);
+  // const [paidSearchAdSaved, setProductSaved] = useState(false);
+  // const [totalSaves, setTotalSaves] = useState(paidSearchAd?.ad_save_count);
 
   // const getSellerAccountState = useSelector(
   //   (state) => state.getSellerAccountState
   // );
   // const { sellerAccount } = getSellerAccountState;
 
-  const [paidSearchAdMessages, setProductMessages] = useState({
-    paidSearchAdSaveSuccess: false,
-    paidSearchAdRemoveSuccess: false,
-    paidSearchAdSaveError: null,
-    paidSearchAdRemoveError: null,
-  });
+  // const [paidSearchAdMessages, setProductMessages] = useState({
+  //   paidSearchAdSaveSuccess: false,
+  //   paidSearchAdRemoveSuccess: false,
+  //   paidSearchAdSaveError: null,
+  //   paidSearchAdRemoveError: null,
+  // });
 
-  const [paidSearchAdLoading, setProductLoading] = useState({
-    paidSearchAdSaveLoading: false,
-    paidSearchAdRemoveLoading: false,
-  });
+  // const [paidSearchAdLoading, setProductLoading] = useState({
+  //   paidSearchAdSaveLoading: false,
+  //   paidSearchAdRemoveLoading: false,
+  // });
 
   const history = useHistory();
 
@@ -67,17 +67,17 @@ function SearchPaidAdCard({ paidSearchAd }) {
   const handleReportAdClose = () => {
     setReportAdModal(false);
   };
-  useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.favorite_paidSearchAds &&
-      userInfo.favorite_paidSearchAds.includes(paidSearchAd.id)
-    ) {
-      setProductSaved(true);
-    } else {
-      setProductSaved(false);
-    }
-  }, [userInfo, paidSearchAd.id]);
+  // useEffect(() => {
+  //   if (
+  //     userInfo &&
+  //     userInfo.favorite_paidSearchAds &&
+  //     userInfo.favorite_paidSearchAds.includes(paidSearchAd.id)
+  //   ) {
+  //     setProductSaved(true);
+  //   } else {
+  //     setProductSaved(false);
+  //   }
+  // }, [userInfo, paidSearchAd.id]);
 
   useEffect(() => {
     const pk = paidSearchAd.id;
@@ -87,83 +87,83 @@ function SearchPaidAdCard({ paidSearchAd }) {
     }
   }, [dispatch, userInfo, paidSearchAd.id]);
 
-  const toggleFavoriteHandler = () => {
-    if (!userInfo) {
-      history.push("/login");
-    } else {
-      if (paidSearchAdSaved) {
-        setProductLoading({ paidSearchAdRemoveLoading: true });
-        dispatch(removeProduct(userInfo.id, paidSearchAd.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              paidSearchAdRemoveSuccess: true,
-              paidSearchAdSaveSuccess: false,
-              paidSearchAdRemoveError: null,
-              paidSearchAdSaveError: null,
-            }));
-            setProductSaved(false);
-            setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
-            const updatedSaveCount = paidSearchAd?.ad_save_count - 1;
-            dispatch(updateProductSaveCount(paidSearchAd.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            // Handle error
-            setProductMessages((prevState) => ({
-              ...prevState,
-              paidSearchAdRemoveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              paidSearchAdRemoveSuccess: false,
-              paidSearchAdSaveSuccess: false,
-              paidSearchAdSaveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ paidSearchAdRemoveLoading: false });
-          });
-      } else {
-        setProductLoading({ paidSearchAdSaveLoading: true });
-        dispatch(saveProduct(userInfo.id, paidSearchAd.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              paidSearchAdSaveSuccess: true,
-              paidSearchAdRemoveSuccess: false,
-              paidSearchAdSaveError: null,
-              paidSearchAdRemoveError: null,
-            }));
-            setProductSaved(true);
-            setTotalSaves((prevSaves) => prevSaves + 1);
-            const updatedSaveCount = paidSearchAd?.ad_save_count + 1;
-            dispatch(updateProductSaveCount(paidSearchAd.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              paidSearchAdSaveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              paidSearchAdSaveSuccess: false,
-              paidSearchAdRemoveSuccess: false,
-              paidSearchAdRemoveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ paidSearchAdSaveLoading: false });
-          });
-      }
-    }
-    setTimeout(() => {
-      setProductMessages((prevState) => ({
-        ...prevState,
-        paidSearchAdSaveSuccess: false,
-        paidSearchAdRemoveSuccess: false,
-      }));
-    }, 3000);
-  };
+  // const toggleFavoriteHandler = () => {
+  //   if (!userInfo) {
+  //     history.push("/login");
+  //   } else {
+  //     if (paidSearchAdSaved) {
+  //       setProductLoading({ paidSearchAdRemoveLoading: true });
+  //       dispatch(removeProduct(userInfo.id, paidSearchAd.id))
+  //         .then(() => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             paidSearchAdRemoveSuccess: true,
+  //             paidSearchAdSaveSuccess: false,
+  //             paidSearchAdRemoveError: null,
+  //             paidSearchAdSaveError: null,
+  //           }));
+  //           setProductSaved(false);
+  //           setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
+  //           const updatedSaveCount = paidSearchAd?.ad_save_count - 1;
+  //           dispatch(updateProductSaveCount(paidSearchAd.id, updatedSaveCount));
+  //         })
+  //         .catch((error) => {
+  //           // Handle error
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             paidSearchAdRemoveError:
+  //               error.response && error.response.data.detail
+  //                 ? error.response.data.detail
+  //                 : error.message,
+  //             paidSearchAdRemoveSuccess: false,
+  //             paidSearchAdSaveSuccess: false,
+  //             paidSearchAdSaveError: null,
+  //           }));
+  //         })
+  //         .finally(() => {
+  //           setProductLoading({ paidSearchAdRemoveLoading: false });
+  //         });
+  //     } else {
+  //       setProductLoading({ paidSearchAdSaveLoading: true });
+  //       dispatch(saveProduct(userInfo.id, paidSearchAd.id))
+  //         .then(() => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             paidSearchAdSaveSuccess: true,
+  //             paidSearchAdRemoveSuccess: false,
+  //             paidSearchAdSaveError: null,
+  //             paidSearchAdRemoveError: null,
+  //           }));
+  //           setProductSaved(true);
+  //           setTotalSaves((prevSaves) => prevSaves + 1);
+  //           const updatedSaveCount = paidSearchAd?.ad_save_count + 1;
+  //           dispatch(updateProductSaveCount(paidSearchAd.id, updatedSaveCount));
+  //         })
+  //         .catch((error) => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             paidSearchAdSaveError:
+  //               error.response && error.response.data.detail
+  //                 ? error.response.data.detail
+  //                 : error.message,
+  //             paidSearchAdSaveSuccess: false,
+  //             paidSearchAdRemoveSuccess: false,
+  //             paidSearchAdRemoveError: null,
+  //           }));
+  //         })
+  //         .finally(() => {
+  //           setProductLoading({ paidSearchAdSaveLoading: false });
+  //         });
+  //     }
+  //   }
+  //   setTimeout(() => {
+  //     setProductMessages((prevState) => ({
+  //       ...prevState,
+  //       paidSearchAdSaveSuccess: false,
+  //       paidSearchAdRemoveSuccess: false,
+  //     }));
+  //   }, 3000);
+  // };
 
   // const viewProductHandler = () => {
   //   if (!userInfo) {
@@ -233,7 +233,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
     <Row>
       <Col>
     <Card className="my-3 p-3 rounded">
-      {paidSearchAdMessages.paidSearchAdSaveSuccess && (
+      {/* {paidSearchAdMessages.paidSearchAdSaveSuccess && (
         <Message variant="success">Item added to favorites.</Message>
       )}
       {paidSearchAdMessages.paidSearchAdRemoveSuccess && (
@@ -247,7 +247,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
       )}
 
       {paidSearchAdLoading.paidSearchAdSaveLoading && <Loader />}
-      {paidSearchAdLoading.paidSearchAdRemoveLoading && <Loader />}
+      {paidSearchAdLoading.paidSearchAdRemoveLoading && <Loader />} */}
 
       <Link onClick={viewProductHandler}>
         <Card.Img src={paidSearchAd.image1} />
@@ -393,7 +393,10 @@ function SearchPaidAdCard({ paidSearchAd }) {
           </span>
 
           <span className="py-2">
-            <Button
+          <div>
+            <TogglePaidAdSave ad={paidSearchAd} /> 
+          </div>
+            {/* <Button
               onClick={toggleFavoriteHandler}
               className="py-2 rounded"
               type="button"
@@ -406,7 +409,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
                 {paidSearchAdSaved ? "Saved" : "Save"}{" "}
                 <span className="text-muted">({formatCount(totalSaves)})</span>
               </div>
-            </Button>
+            </Button> */}
           </span>
         </div>
         <div className="d-flex justify-content-between py-2">

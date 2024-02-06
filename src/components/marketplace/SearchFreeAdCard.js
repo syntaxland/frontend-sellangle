@@ -4,19 +4,20 @@ import { Card, Button, Modal, Row, Col  } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
-import {
-  saveProduct,
-  removeProduct,
-  updateProductSaveCount,
-  // trackProductView,
-} from "../../actions/productAction";
+// import {
+//   saveProduct,
+//   removeProduct,
+//   updateProductSaveCount,
+//   // trackProductView,
+// } from "../../actions/productAction";
 import { getSellerAccount, getFreeAdDetail, trackFreeAdView } from "../../actions/marketplaceSellerActions";
 // import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
-import Message from "../Message";
-import Loader from "../Loader";
+// import Message from "../Message"; 
+// import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
-
 import ReportFreeAd from "./ReportFreeAd";
+import ToggleFreeAdSave from "./ToggleFreeAdSave";
+
 function SearchFreeAdCard({ freeSearchAd }) { 
   console.log("free Ads Card", freeSearchAd);
 
@@ -27,20 +28,20 @@ function SearchFreeAdCard({ freeSearchAd }) {
   );
   const { sellerAvatarUrl } = getFreeAdDetailState;
 
-  const [freeSearchAdSaved, setProductSaved] = useState(false);
-  const [totalSaves, setTotalSaves] = useState(freeSearchAd?.ad_save_count);
+  // const [freeSearchAdSaved, setProductSaved] = useState(false);
+  // const [totalSaves, setTotalSaves] = useState(freeSearchAd?.ad_save_count);
 
-  const [freeSearchAdMessages, setProductMessages] = useState({
-    freeSearchAdSaveSuccess: false,
-    freeSearchAdRemoveSuccess: false,
-    freeSearchAdSaveError: null,
-    freeSearchAdRemoveError: null,
-  });
+  // const [freeSearchAdMessages, setProductMessages] = useState({
+  //   freeSearchAdSaveSuccess: false,
+  //   freeSearchAdRemoveSuccess: false,
+  //   freeSearchAdSaveError: null,
+  //   freeSearchAdRemoveError: null,
+  // });
 
-  const [freeSearchAdLoading, setProductLoading] = useState({
-    freeSearchAdSaveLoading: false,
-    freeSearchAdRemoveLoading: false,
-  });
+  // const [freeSearchAdLoading, setProductLoading] = useState({
+  //   freeSearchAdSaveLoading: false,
+  //   freeSearchAdRemoveLoading: false,
+  // });
 
   const history = useHistory();
 
@@ -73,95 +74,95 @@ function SearchFreeAdCard({ freeSearchAd }) {
     } 
   }, [dispatch, userInfo, freeSearchAd.id]);
 
-  useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.favorite_freeSearchAds &&
-      userInfo.favorite_freeSearchAds.includes(freeSearchAd.id)
-    ) {
-      setProductSaved(true);
-    } else {
-      setProductSaved(false);
-    }
-  }, [userInfo, freeSearchAd.id]);
+  // useEffect(() => {
+  //   if (
+  //     userInfo &&
+  //     userInfo.favorite_freeSearchAds &&
+  //     userInfo.favorite_freeSearchAds.includes(freeSearchAd.id)
+  //   ) {
+  //     setProductSaved(true);
+  //   } else {
+  //     setProductSaved(false);
+  //   }
+  // }, [userInfo, freeSearchAd.id]);
 
-  const toggleFavoriteHandler = () => {
-    if (!userInfo) {
-      history.push("/login");
-    } else {
-      if (freeSearchAdSaved) {
-        setProductLoading({ freeSearchAdRemoveLoading: true });
-        dispatch(removeProduct(userInfo.id, freeSearchAd.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              freeSearchAdRemoveSuccess: true,
-              freeSearchAdSaveSuccess: false,
-              freeSearchAdRemoveError: null,
-              freeSearchAdSaveError: null,
-            }));
-            setProductSaved(false);
-            setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
-            const updatedSaveCount = freeSearchAd?.ad_save_count - 1;
-            dispatch(updateProductSaveCount(freeSearchAd.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            // Handle error
-            setProductMessages((prevState) => ({
-              ...prevState,
-              freeSearchAdRemoveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              freeSearchAdRemoveSuccess: false,
-              freeSearchAdSaveSuccess: false,
-              freeSearchAdSaveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ freeSearchAdRemoveLoading: false });
-          });
-      } else {
-        setProductLoading({ freeSearchAdSaveLoading: true });
-        dispatch(saveProduct(userInfo.id, freeSearchAd.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              freeSearchAdSaveSuccess: true,
-              freeSearchAdRemoveSuccess: false,
-              freeSearchAdSaveError: null,
-              freeSearchAdRemoveError: null,
-            }));
-            setProductSaved(true);
-            setTotalSaves((prevSaves) => prevSaves + 1);
-            const updatedSaveCount = freeSearchAd?.ad_save_count + 1;
-            dispatch(updateProductSaveCount(freeSearchAd.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              freeSearchAdSaveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              freeSearchAdSaveSuccess: false,
-              freeSearchAdRemoveSuccess: false,
-              freeSearchAdRemoveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ freeSearchAdSaveLoading: false });
-          });
-      }
-    }
-    setTimeout(() => {
-      setProductMessages((prevState) => ({
-        ...prevState,
-        freeSearchAdSaveSuccess: false,
-        freeSearchAdRemoveSuccess: false,
-      }));
-    }, 3000);
-  };
+  // const toggleFavoriteHandler = () => {
+  //   if (!userInfo) {
+  //     history.push("/login");
+  //   } else {
+  //     if (freeSearchAdSaved) {
+  //       setProductLoading({ freeSearchAdRemoveLoading: true });
+  //       dispatch(removeProduct(userInfo.id, freeSearchAd.id))
+  //         .then(() => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             freeSearchAdRemoveSuccess: true,
+  //             freeSearchAdSaveSuccess: false,
+  //             freeSearchAdRemoveError: null,
+  //             freeSearchAdSaveError: null,
+  //           }));
+  //           setProductSaved(false);
+  //           setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
+  //           const updatedSaveCount = freeSearchAd?.ad_save_count - 1;
+  //           dispatch(updateProductSaveCount(freeSearchAd.id, updatedSaveCount));
+  //         })
+  //         .catch((error) => {
+  //           // Handle error
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             freeSearchAdRemoveError:
+  //               error.response && error.response.data.detail
+  //                 ? error.response.data.detail
+  //                 : error.message,
+  //             freeSearchAdRemoveSuccess: false,
+  //             freeSearchAdSaveSuccess: false,
+  //             freeSearchAdSaveError: null,
+  //           }));
+  //         })
+  //         .finally(() => {
+  //           setProductLoading({ freeSearchAdRemoveLoading: false });
+  //         });
+  //     } else {
+  //       setProductLoading({ freeSearchAdSaveLoading: true });
+  //       dispatch(saveProduct(userInfo.id, freeSearchAd.id))
+  //         .then(() => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             freeSearchAdSaveSuccess: true,
+  //             freeSearchAdRemoveSuccess: false,
+  //             freeSearchAdSaveError: null,
+  //             freeSearchAdRemoveError: null,
+  //           }));
+  //           setProductSaved(true);
+  //           setTotalSaves((prevSaves) => prevSaves + 1);
+  //           const updatedSaveCount = freeSearchAd?.ad_save_count + 1;
+  //           dispatch(updateProductSaveCount(freeSearchAd.id, updatedSaveCount));
+  //         })
+  //         .catch((error) => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             freeSearchAdSaveError:
+  //               error.response && error.response.data.detail
+  //                 ? error.response.data.detail
+  //                 : error.message,
+  //             freeSearchAdSaveSuccess: false,
+  //             freeSearchAdRemoveSuccess: false,
+  //             freeSearchAdRemoveError: null,
+  //           }));
+  //         })
+  //         .finally(() => {
+  //           setProductLoading({ freeSearchAdSaveLoading: false });
+  //         });
+  //     }
+  //   }
+  //   setTimeout(() => {
+  //     setProductMessages((prevState) => ({
+  //       ...prevState,
+  //       freeSearchAdSaveSuccess: false,
+  //       freeSearchAdRemoveSuccess: false,
+  //     }));
+  //   }, 3000);
+  // };
 
   // const viewProductHandler = () => {
   //   if (!userInfo) {
@@ -231,7 +232,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
     <Row>
       <Col>
     <Card className="my-3 p-3 rounded">
-      {freeSearchAdMessages.freeSearchAdSaveSuccess && (
+      {/* {freeSearchAdMessages.freeSearchAdSaveSuccess && (
         <Message variant="success">Item added to favorites.</Message>
       )}
       {freeSearchAdMessages.freeSearchAdRemoveSuccess && (
@@ -245,7 +246,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
       )}
 
       {freeSearchAdLoading.freeSearchAdSaveLoading && <Loader />}
-      {freeSearchAdLoading.freeSearchAdRemoveLoading && <Loader />}
+      {freeSearchAdLoading.freeSearchAdRemoveLoading && <Loader />} */}
 
       <Link onClick={viewProductHandler}>
         <Card.Img src={freeSearchAd.image1} />
@@ -359,7 +360,10 @@ function SearchFreeAdCard({ freeSearchAd }) {
           </span>
 
           <span className="py-2"> 
-            <Button
+          <div>
+            <ToggleFreeAdSave ad={freeSearchAd} /> 
+          </div>
+            {/* <Button
               onClick={toggleFavoriteHandler} 
               className="py-2 rounded"
               type="button"
@@ -372,7 +376,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
                 {freeSearchAdSaved ? "Saved" : "Save"}{" "}
                 <span className="text-muted">({formatCount(totalSaves)})</span>
               </div>
-            </Button> 
+            </Button>  */}
           </span>
         </div>
         <div className="d-flex justify-content-between py-2">

@@ -2,38 +2,39 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {    useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
-import {
-  saveProduct,
-  removeProduct,
-  updateProductSaveCount,
-  // trackProductView,  
-} from "../../actions/productAction";
-import Message from "../Message";
-import Loader from "../Loader";
+// import {
+//   saveProduct,
+//   removeProduct,
+//   updateProductSaveCount,
+//   // trackProductView,  
+// } from "../../actions/productAction";
+// import Message from "../Message"; 
+// import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
 import DeleteFreeAd from "./DeleteFreeAd";
 import DeactivateFreeAd from "./DeactivateFreeAd";
 import ReactivateFreeAd from "./ReactivateFreeAd";
+import ToggleFreeAdSave from "./ToggleFreeAdSave";
 
 function FreeAdCard({ product }) {
-  const dispatch = useDispatch(); 
+  // const dispatch = useDispatch(); 
 
-  const [productSaved, setProductSaved] = useState(false);
-  const [totalSaves, setTotalSaves] = useState(product?.ad_save_count);
+  // const [productSaved, setProductSaved] = useState(false);
+  // const [totalSaves, setTotalSaves] = useState(product?.ad_save_count);
 
-  const [productMessages, setProductMessages] = useState({
-    productSaveSuccess: false,
-    productRemoveSuccess: false,
-    productSaveError: null,
-    productRemoveError: null,
-  });
+  // const [productMessages, setProductMessages] = useState({
+  //   productSaveSuccess: false,
+  //   productRemoveSuccess: false,
+  //   productSaveError: null,
+  //   productRemoveError: null,
+  // });
 
-  const [productLoading, setProductLoading] = useState({
-    productSaveLoading: false,
-    productRemoveLoading: false,
-  });
+  // const [productLoading, setProductLoading] = useState({
+  //   productSaveLoading: false,
+  //   productRemoveLoading: false,
+  // });
 
   const history = useHistory();
 
@@ -81,95 +82,95 @@ function FreeAdCard({ product }) {
     history.push(`/edit/free/ad/${id}`); 
   };
 
-  useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.favorite_products &&
-      userInfo.favorite_products.includes(product.id)
-    ) {
-      setProductSaved(true);
-    } else {
-      setProductSaved(false);
-    }
-  }, [userInfo, product.id]);
+  // useEffect(() => {
+  //   if (
+  //     userInfo &&
+  //     userInfo.favorite_products &&
+  //     userInfo.favorite_products.includes(product.id)
+  //   ) {
+  //     setProductSaved(true);
+  //   } else {
+  //     setProductSaved(false);
+  //   }
+  // }, [userInfo, product.id]);
 
-  const toggleFavoriteHandler = () => {
-    if (!userInfo) {
-      history.push("/login");
-    } else {
-      if (productSaved) {
-        setProductLoading({ productRemoveLoading: true });
-        dispatch(removeProduct(userInfo.id, product.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productRemoveSuccess: true,
-              productSaveSuccess: false,
-              productRemoveError: null,
-              productSaveError: null,
-            }));
-            setProductSaved(false);
-            setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
-            const updatedSaveCount = product?.ad_save_count - 1;
-            dispatch(updateProductSaveCount(product.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            // Handle error
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productRemoveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              productRemoveSuccess: false,
-              productSaveSuccess: false,
-              productSaveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ productRemoveLoading: false });
-          });
-      } else {
-        setProductLoading({ productSaveLoading: true });
-        dispatch(saveProduct(userInfo.id, product.id))
-          .then(() => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productSaveSuccess: true,
-              productRemoveSuccess: false,
-              productSaveError: null,
-              productRemoveError: null,
-            }));
-            setProductSaved(true);
-            setTotalSaves((prevSaves) => prevSaves + 1);
-            const updatedSaveCount = product?.ad_save_count + 1;
-            dispatch(updateProductSaveCount(product.id, updatedSaveCount));
-          })
-          .catch((error) => {
-            setProductMessages((prevState) => ({
-              ...prevState,
-              productSaveError:
-                error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-              productSaveSuccess: false,
-              productRemoveSuccess: false,
-              productRemoveError: null,
-            }));
-          })
-          .finally(() => {
-            setProductLoading({ productSaveLoading: false });
-          });
-      }
-    }
-    setTimeout(() => {
-      setProductMessages((prevState) => ({
-        ...prevState,
-        productSaveSuccess: false,
-        productRemoveSuccess: false,
-      }));
-    }, 3000);
-  };
+  // const toggleFavoriteHandler = () => {
+  //   if (!userInfo) {
+  //     history.push("/login");
+  //   } else {
+  //     if (productSaved) {
+  //       setProductLoading({ productRemoveLoading: true });
+  //       dispatch(removeProduct(userInfo.id, product.id))
+  //         .then(() => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             productRemoveSuccess: true,
+  //             productSaveSuccess: false,
+  //             productRemoveError: null,
+  //             productSaveError: null,
+  //           }));
+  //           setProductSaved(false);
+  //           setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
+  //           const updatedSaveCount = product?.ad_save_count - 1;
+  //           dispatch(updateProductSaveCount(product.id, updatedSaveCount));
+  //         })
+  //         .catch((error) => {
+  //           // Handle error
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             productRemoveError:
+  //               error.response && error.response.data.detail
+  //                 ? error.response.data.detail
+  //                 : error.message,
+  //             productRemoveSuccess: false,
+  //             productSaveSuccess: false,
+  //             productSaveError: null,
+  //           }));
+  //         })
+  //         .finally(() => {
+  //           setProductLoading({ productRemoveLoading: false });
+  //         });
+  //     } else {
+  //       setProductLoading({ productSaveLoading: true });
+  //       dispatch(saveProduct(userInfo.id, product.id))
+  //         .then(() => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             productSaveSuccess: true,
+  //             productRemoveSuccess: false,
+  //             productSaveError: null,
+  //             productRemoveError: null,
+  //           }));
+  //           setProductSaved(true);
+  //           setTotalSaves((prevSaves) => prevSaves + 1);
+  //           const updatedSaveCount = product?.ad_save_count + 1;
+  //           dispatch(updateProductSaveCount(product.id, updatedSaveCount));
+  //         })
+  //         .catch((error) => {
+  //           setProductMessages((prevState) => ({
+  //             ...prevState,
+  //             productSaveError:
+  //               error.response && error.response.data.detail
+  //                 ? error.response.data.detail
+  //                 : error.message,
+  //             productSaveSuccess: false,
+  //             productRemoveSuccess: false,
+  //             productRemoveError: null,
+  //           }));
+  //         })
+  //         .finally(() => {
+  //           setProductLoading({ productSaveLoading: false });
+  //         });
+  //     }
+  //   }
+  //   setTimeout(() => {
+  //     setProductMessages((prevState) => ({
+  //       ...prevState,
+  //       productSaveSuccess: false,
+  //       productRemoveSuccess: false,
+  //     }));
+  //   }, 3000);
+  // };
 
   // const viewProductHandler = () => {
   //   if (!userInfo) {
@@ -202,7 +203,7 @@ function FreeAdCard({ product }) {
 
   return (
     <Card className="my-3 p-3 rounded">
-      {productMessages.productSaveSuccess && (
+      {/* {productMessages.productSaveSuccess && (
         <Message variant="success">Item added to favorites.</Message>
       )}
       {productMessages.productRemoveSuccess && (
@@ -216,7 +217,7 @@ function FreeAdCard({ product }) {
       )}
 
       {productLoading.productSaveLoading && <Loader />}
-      {productLoading.productRemoveLoading && <Loader />}
+      {productLoading.productRemoveLoading && <Loader />} */}
 
       <Link>
         <Card.Img src={product.image1} />
@@ -281,7 +282,11 @@ function FreeAdCard({ product }) {
             </Button>
           </span>
 
-          <span className="py-2">
+          <div>
+            <ToggleFreeAdSave ad={product} /> 
+          </div>
+
+          {/* <span className="py-2">
             <Button
               onClick={toggleFavoriteHandler}
               className="py-2 rounded"
@@ -296,7 +301,7 @@ function FreeAdCard({ product }) {
                 <span className="text-muted">({formatCount(totalSaves)})</span>
               </div>
             </Button>
-          </span>
+          </span> */}
         </div>
 
         <div className="d-flex justify-content-between py-2">

@@ -20,8 +20,8 @@ function TogglePaidAdSave({ ad }) {
   const { userInfo } = userLogin;
 
   const [toggleAdSaveLoading, setToggleAdSaveLoading] = useState(false);
-  const [adIsSaved, setAdIsSaved] = useState(ad.ad_is_saved);
-  const [adSaveCount, setAdSaveCount] = useState(ad.ad_save_count);
+  const [adIsSaved, setAdIsSaved] = useState(ad?.ad_is_saved);
+  const [adSaveCount, setAdSaveCount] = useState(ad?.ad_save_count);
 
   const handleTogglePaidAdSave = async () => {
     if (!userInfo) {

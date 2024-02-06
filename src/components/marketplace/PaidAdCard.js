@@ -16,6 +16,7 @@ import PromoTimer from "../PromoTimer";
 import DeletePaidAd from "./DeletePaidAd";
 import DeactivatePaidAd from "./DeactivatePaidAd";
 import ReactivatePaidAd from "./ReactivatePaidAd";
+import TogglePaidAdSave from "./TogglePaidAdSave";
 
 function PaidAdCard({ product }) {
   // const dispatch = useDispatch();
@@ -200,6 +201,10 @@ function PaidAdCard({ product }) {
               <PromoTimer expirationDate={product?.expiration_date} />
             </Button>
           </span>
+
+          <div>
+            <TogglePaidAdSave ad={product} />  
+          </div>
 
           {/* <span className="py-2">
             <Button

@@ -255,6 +255,7 @@ function AllFreeAdCard({ product }) {
               <div>
                 <ToggleFreeAdSave ad={product} /> 
               </div>
+              
             </div>
 
             <div className="d-flex justify-content-between py-2">
