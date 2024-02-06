@@ -1,6 +1,6 @@
 // SearchFreeAdCard.js
 import React, { useState, useEffect } from "react";
-import { Card, Button, Modal, Row, Col  } from "react-bootstrap";
+import { Card, Button, Modal, Row, Col } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
@@ -10,15 +10,20 @@ import RatingSeller from "../RatingSeller";
 //   updateProductSaveCount,
 //   // trackProductView,
 // } from "../../actions/productAction";
-import { getSellerAccount, getFreeAdDetail, trackFreeAdView } from "../../actions/marketplaceSellerActions";
+import {
+  getSellerAccount,
+  getFreeAdDetail,
+  trackFreeAdView,
+} from "../../actions/marketplaceSellerActions";
 // import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
-// import Message from "../Message"; 
+// import Message from "../Message";
 // import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
 import ReportFreeAd from "./ReportFreeAd";
 import ToggleFreeAdSave from "./ToggleFreeAdSave";
+import ReviewFreeAdSeller from "./ReviewFreeAdSeller";
 
-function SearchFreeAdCard({ freeSearchAd }) { 
+function SearchFreeAdCard({ freeSearchAd }) {
   console.log("free Ads Card", freeSearchAd);
 
   const dispatch = useDispatch();
@@ -26,7 +31,11 @@ function SearchFreeAdCard({ freeSearchAd }) {
   const getFreeAdDetailState = useSelector(
     (state) => state.getFreeAdDetailState
   );
-  const { sellerAvatarUrl } = getFreeAdDetailState;
+  const {
+    sellerAvatarUrl,
+    sellerRating,
+    sellerReviewCount,
+  } = getFreeAdDetailState;
 
   // const [freeSearchAdSaved, setProductSaved] = useState(false);
   // const [totalSaves, setTotalSaves] = useState(freeSearchAd?.ad_save_count);
@@ -53,16 +62,16 @@ function SearchFreeAdCard({ freeSearchAd }) {
   // );
   // const { sellerAccount } = getSellerAccountState;
   // console.log("is_seller_verified", sellerAccount?.is_seller_verified);
-  
+
   const [reportAdModal, setReportAdModal] = useState(false);
   const handleReportAdOpen = () => {
     if (!userInfo) {
       history.push("/login");
-    }  else {
+    } else {
       setReportAdModal(true);
     }
   };
-  
+
   const handleReportAdClose = () => {
     setReportAdModal(false);
   };
@@ -71,7 +80,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
     if (userInfo) {
       dispatch(getSellerAccount());
       dispatch(getFreeAdDetail(pk));
-    } 
+    }
   }, [dispatch, userInfo, freeSearchAd.id]);
 
   // useEffect(() => {
@@ -207,8 +216,8 @@ function SearchFreeAdCard({ freeSearchAd }) {
         image1: freeSearchAd.image1,
         ad_name: freeSearchAd.ad_name,
         price: freeSearchAd.price,
-      currency: freeSearchAd?.currency,
-      sellerAvatarUrl,
+        currency: freeSearchAd?.currency,
+        sellerAvatarUrl,
         seller_username: freeSearchAd.seller_username,
         expiration_date: freeSearchAd.expiration_date,
         ad_rating: freeSearchAd.ad_rating,
@@ -231,8 +240,8 @@ function SearchFreeAdCard({ freeSearchAd }) {
   return (
     <Row>
       <Col>
-    <Card className="my-3 p-3 rounded">
-      {/* {freeSearchAdMessages.freeSearchAdSaveSuccess && (
+        <Card className="my-3 p-3 rounded">
+          {/* {freeSearchAdMessages.freeSearchAdSaveSuccess && (
         <Message variant="success">Item added to favorites.</Message>
       )}
       {freeSearchAdMessages.freeSearchAdRemoveSuccess && (
@@ -248,18 +257,18 @@ function SearchFreeAdCard({ freeSearchAd }) {
       {freeSearchAdLoading.freeSearchAdSaveLoading && <Loader />}
       {freeSearchAdLoading.freeSearchAdRemoveLoading && <Loader />} */}
 
-      <Link onClick={viewProductHandler}>
-        <Card.Img src={freeSearchAd.image1} />
-      </Link>
-
-      <Card.Body>
-        <div className="d-flex justify-content-between">
           <Link onClick={viewProductHandler}>
-            <Card.Title as="div">
-              <strong>{freeSearchAd.ad_name}</strong>
-            </Card.Title>
+            <Card.Img src={freeSearchAd.image1} />
           </Link>
-          {/* <div>
+
+          <Card.Body>
+            <div className="d-flex justify-content-between">
+              <Link onClick={viewProductHandler}>
+                <Card.Title as="div">
+                  <strong>{freeSearchAd.ad_name}</strong>
+                </Card.Title>
+              </Link>
+              {/* <div>
             <span>
               {sellerAccount?.is_seller_verified ? (
                 <>
@@ -294,76 +303,83 @@ function SearchFreeAdCard({ freeSearchAd }) {
               )}
             </span>
           </div> */}
-        </div>
+            </div>
 
-        <div className="d-flex justify-content-between">
-          <div as="div">
-            <div className="py-2">
-              <RatingSeller
-                value={freeSearchAd.rating}
-                text={`${formatCount(freeSearchAd?.num_reviews)} reviews `}
-                color={"green"}
-              />
+            <div className="d-flex justify-content-between">
+              <div as="div">
+                <div className="py-2">
+                  <RatingSeller
+                    value={sellerRating}
+                    text={`${formatCount(
+                      sellerReviewCount
+                    )} reviews `}
+                    color={"green"}
+                  />
 
-              {userInfo ? (
+                  {/* {userInfo ? (
                 <Link to={`/review-list/${freeSearchAd.id}`}>(Seller Reviews)</Link>
               ) : (
                 <Link onClick={() => history.push("/login")}>
                   (Seller Reviews)
                 </Link>
-              )}
+              )} */}
+                  <ReviewFreeAdSeller adId={freeSearchAd?.id} />
+                </div>
+              </div>
+
+              <Card.Text as="div" className="py-2">
+                <span className="text-right" onClick={viewProductHandler}>
+                  <i className="fas fa-eye"></i>{" "}
+                  {formatCount(freeSearchAd?.ad_view_count)} views
+                </span>
+              </Card.Text>
             </div>
-          </div>
 
-          <Card.Text as="div" className="py-2">
-            <span className="text-right" onClick={viewProductHandler}>
-              <i className="fas fa-eye"></i>{" "}
-              {formatCount(freeSearchAd?.ad_view_count)} views
-            </span>
-          </Card.Text>
-        </div>
+            <div className="d-flex justify-content-between py-2">
+              <Card.Text as="h5" className="py-2">
+                <span>
+                  {formatNumber(freeSearchAd?.price)} {freeSearchAd?.currency}{" "}
+                  {/* {freeSearchAd?.usd_price ? <span> / {freeSearchAd?.usd_price} USD </span> : <></>}{" "} */}
+                  {freeSearchAd?.is_price_negotiable ? (
+                    <i>(Negotiable)</i>
+                  ) : (
+                    <></>
+                  )}
+                </span>
+              </Card.Text>
+            </div>
 
-        <div className="d-flex justify-content-between py-2">
-          <Card.Text as="h5" className="py-2">
-            <span>
-               {formatNumber(freeSearchAd?.price)} {freeSearchAd?.currency}{" "}
-             {/* {freeSearchAd?.usd_price ? <span> / {freeSearchAd?.usd_price} USD </span> : <></>}{" "} */}
-              {freeSearchAd?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
-            </span>
-          </Card.Text>
-        </div>
+            <div className="d-flex justify-content-between">
+              <span className="py-2">
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  className="py-2 rounded"
+                  disabled
+                >
+                  <i className="fas fa-clock"></i> Expires in:{" "}
+                  <PromoTimer expirationDate={freeSearchAd?.expiration_date} />
+                </Button>
+              </span>
+            </div>
 
-        <div className="d-flex justify-content-between">
-          <span className="py-2">
-            <Button
-              variant="outline-danger"
-              size="sm"
-              className="py-2 rounded"
-              disabled
-            >
-              <i className="fas fa-clock"></i> Expires in:{" "}
-              <PromoTimer expirationDate={freeSearchAd?.expiration_date} /> 
-            </Button>
-          </span>
-        </div>
+            <div className="d-flex justify-content-between py-2">
+              <span className="py-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="py-2 rounded"
+                  onClick={handleClickMessageSeller}
+                >
+                  <i className="fa fa-message"></i> Message Seller
+                </Button>
+              </span>
 
-        <div className="d-flex justify-content-between py-2">
-          <span className="py-2">
-            <Button
-              variant="primary"
-              size="sm"
-              className="py-2 rounded"
-              onClick={handleClickMessageSeller}
-            >
-              <i className="fa fa-message"></i> Message Seller
-            </Button>
-          </span>
-
-          <span className="py-2"> 
-          <div>
-            <ToggleFreeAdSave ad={freeSearchAd} /> 
-          </div>
-            {/* <Button
+              <span className="py-2">
+                <div>
+                  <ToggleFreeAdSave ad={freeSearchAd} />
+                </div>
+                {/* <Button
               onClick={toggleFavoriteHandler} 
               className="py-2 rounded"
               type="button"
@@ -377,35 +393,36 @@ function SearchFreeAdCard({ freeSearchAd }) {
                 <span className="text-muted">({formatCount(totalSaves)})</span>
               </div>
             </Button>  */}
-          </span>
-        </div>
-        <div className="d-flex justify-content-between py-2">
-          <span>
-            <Button
-              variant="outline-transparent"
-              size="sm"
-              className="py-2 rounded"
-              disabled
-            >
-              <i className="fas fa-map-marker-alt"></i> {freeSearchAd?.city} {freeSearchAd?.state_province}, {freeSearchAd?.country}.
-            </Button>
-          </span>
+              </span>
+            </div>
+            <div className="d-flex justify-content-between py-2">
+              <span>
+                <Button
+                  variant="outline-transparent"
+                  size="sm"
+                  className="py-2 rounded"
+                  disabled
+                >
+                  <i className="fas fa-map-marker-alt"></i> {freeSearchAd?.city}{" "}
+                  {freeSearchAd?.state_province}, {freeSearchAd?.country}.
+                </Button>
+              </span>
 
-          <span>
-            <Button
-              variant="danger"
-              size="sm"
-              className="rounded py-2"
-              onClick={handleReportAdOpen}
-              // disabled
-            >
-              <i className="fa fa-flag"></i> Report Ad 
-            </Button>
-          </span>
-        </div>
-      </Card.Body>
-    </Card>
-    <div className="d-flex justify-content-center">
+              <span>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  className="rounded py-2"
+                  onClick={handleReportAdOpen}
+                  // disabled
+                >
+                  <i className="fa fa-flag"></i> Report Ad
+                </Button>
+              </span>
+            </div>
+          </Card.Body>
+        </Card>
+        <div className="d-flex justify-content-center">
           <Modal show={reportAdModal} onHide={handleReportAdClose}>
             <Modal.Header closeButton>
               <Modal.Title className="text-center w-100 py-2">
@@ -417,7 +434,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
             </Modal.Body>
           </Modal>
         </div>
-    </Col>
+      </Col>
     </Row>
   );
 }

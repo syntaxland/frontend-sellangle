@@ -35,13 +35,13 @@ function AllPaidAdCard({ product }) {
   sellerReviewCount,
   } = getPaidAdDetailState;
 
-  const [reviewSellerModal, setReviewSellerModal] = useState(false);
-  const handleReviewSellerOpen = () => {
-    setReviewSellerModal(true);
-  };
-  const handleReviewSellerClose = () => {
-    setReviewSellerModal(false);
-  };
+  // const [reviewSellerModal, setReviewSellerModal] = useState(false);
+  // const handleReviewSellerOpen = () => {
+  //   setReviewSellerModal(true);
+  // };
+  // const handleReviewSellerClose = () => {
+  //   setReviewSellerModal(false);
+  // };
 
   const [reportAdModal, setReportAdModal] = useState(false);
 
@@ -200,7 +200,7 @@ function AllPaidAdCard({ product }) {
                     color={"green"} 
                   />
 
-                  {userInfo ? (
+                  {/* {userInfo ? (
                     <>
                       <Link onClick={handleReviewSellerOpen}>
                         (Seller Reviews)
@@ -210,7 +210,9 @@ function AllPaidAdCard({ product }) {
                     <Link onClick={() => history.push("/login")}>
                       (Seller Reviews)
                     </Link>
-                  )}
+                  )} */}
+                  <ReviewPaidAdSeller adId={product?.id}/>
+
                 </div>
               </div>
 
@@ -345,7 +347,7 @@ function AllPaidAdCard({ product }) {
           </Modal>
         </div>
 
-        <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
+        {/* <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
           <Modal.Header closeButton>
             <Modal.Title className="text-center w-100 py-2">
               Seller Reviews
@@ -354,7 +356,7 @@ function AllPaidAdCard({ product }) {
           <Modal.Body className="py-2 d-flex justify-content-center">
             {reviewSellerModal && <ReviewPaidAdSeller adId={product?.id} />}
           </Modal.Body>
-        </Modal>
+        </Modal> */}
       </Col>
     </Row>
   );

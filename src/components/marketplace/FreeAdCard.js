@@ -2,24 +2,25 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import {    useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
 // import {
 //   saveProduct,
 //   removeProduct,
 //   updateProductSaveCount,
-//   // trackProductView,  
+//   // trackProductView,
 // } from "../../actions/productAction";
-// import Message from "../Message"; 
+// import Message from "../Message";
 // import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
 import DeleteFreeAd from "./DeleteFreeAd";
 import DeactivateFreeAd from "./DeactivateFreeAd";
 import ReactivateFreeAd from "./ReactivateFreeAd";
 import ToggleFreeAdSave from "./ToggleFreeAdSave";
+import ReviewFreeAdSeller from "./ReviewFreeAdSeller";
 
 function FreeAdCard({ product }) {
-  // const dispatch = useDispatch(); 
+  // const dispatch = useDispatch();
 
   // const [productSaved, setProductSaved] = useState(false);
   // const [totalSaves, setTotalSaves] = useState(product?.ad_save_count);
@@ -41,6 +42,11 @@ function FreeAdCard({ product }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const getFreeAdDetailState = useSelector(
+    (state) => state.getFreeAdDetailState
+  );
+  const { sellerRating, sellerReviewCount } = getFreeAdDetailState;
+
   useEffect(() => {
     if (!userInfo) {
       window.location.href = "/login";
@@ -58,8 +64,6 @@ function FreeAdCard({ product }) {
   const handleDeleteAdClose = () => {
     setDeleteModal(false);
   };
-
-
 
   const [deactivateAdModal, setDeactivateAdModal] = useState(false);
   const handleDeactivateAdOpen = () => {
@@ -79,7 +83,7 @@ function FreeAdCard({ product }) {
 
   const handleEditAd = () => {
     const id = product.id;
-    history.push(`/edit/free/ad/${id}`); 
+    history.push(`/edit/free/ad/${id}`);
   };
 
   // useEffect(() => {
@@ -236,18 +240,19 @@ function FreeAdCard({ product }) {
           <div as="div">
             <div className="py-2">
               <RatingSeller
-                value={product.rating}
-                text={`${formatCount(product?.num_reviews)} reviews `}
+                value={sellerRating}
+                text={`${formatCount(sellerReviewCount)} reviews `}
                 color={"green"}
               />
 
-              {userInfo ? (
+              {/* {userInfo ? (
                 <Link to={`/review-list/${product.id}`}>(Seller Ratings)</Link>
               ) : (
                 <Link onClick={() => history.push("/login")}>
                   (Seller Ratings)
                 </Link>
-              )}
+              )} */}
+              <ReviewFreeAdSeller adId={product?.id} />
             </div>
           </div>
 
@@ -262,8 +267,8 @@ function FreeAdCard({ product }) {
         <div className="d-flex justify-content-between py-2">
           <Card.Text as="h5" className="py-2">
             <span>
-               {formatNumber(product?.price)} {product?.currency}{" "}
-             {/* {product?.usd_price ? <span> / {product?.usd_price} USD </span> : <></>}{" "} */}
+              {formatNumber(product?.price)} {product?.currency}{" "}
+              {/* {product?.usd_price ? <span> / {product?.usd_price} USD </span> : <></>}{" "} */}
               {product?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
             </span>
           </Card.Text>
@@ -283,7 +288,7 @@ function FreeAdCard({ product }) {
           </span>
 
           <div>
-            <ToggleFreeAdSave ad={product} /> 
+            <ToggleFreeAdSave ad={product} />
           </div>
 
           {/* <span className="py-2">
@@ -307,13 +312,13 @@ function FreeAdCard({ product }) {
         <div className="d-flex justify-content-between py-2">
           <span className="py-2">
             <Button
-            // disabled
+              // disabled
               variant="primary"
               size="sm"
               className="py-2 rounded"
               onClick={handleEditAd}
             >
-              Edit 
+              Edit
             </Button>
           </span>
 
@@ -370,7 +375,8 @@ function FreeAdCard({ product }) {
               className="py-2 rounded"
               disabled
             >
-              <i className="fas fa-map-marker-alt"></i>  {product?.city} {product?.state_province}, {product?.country}.
+              <i className="fas fa-map-marker-alt"></i> {product?.city}{" "}
+              {product?.state_province}, {product?.country}.
             </Button>
           </span>
         </div>
@@ -387,7 +393,6 @@ function FreeAdCard({ product }) {
         </Modal.Body>
       </Modal>
 
-      
       <Modal show={deactivateAdModal} onHide={handleDeactivateAdClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-center w-100 py-2">

@@ -25,6 +25,7 @@ import DOMPurify from "dompurify";
 import ReportFreeAd from "./ReportFreeAd";
 import { formatAmount } from "../FormatAmount";
 import ToggleFreeAdSave from "./ToggleFreeAdSave";
+import ReviewFreeAdSeller from "./ReviewFreeAdSeller";
 
 function FreeAdProductDetail({ match }) {
   // const [qty, setQty] = useState(1);
@@ -378,7 +379,7 @@ function FreeAdProductDetail({ match }) {
                       />
                     </span>
                     <span>
-                      {userInfo ? (
+                      {/* {userInfo ? (
                         <Link to={`/review-list/${ads.id}`}>
                           (Seller Reviews)
                         </Link>
@@ -386,7 +387,8 @@ function FreeAdProductDetail({ match }) {
                         <Link onClick={() => history.push("/login")}>
                           (Seller Reviews)
                         </Link>
-                      )}
+                      )} */}
+                      <ReviewFreeAdSeller adId={ads?.id} />
                     </span>
                   </ListGroup.Item>
 
@@ -398,7 +400,7 @@ function FreeAdProductDetail({ match }) {
                       onClick={handleShowPhoneNumber}
                     >
                       <i className="fa fa-phone"></i>{" "}
-                      {showPhoneNumber ? "Hide" : "Show"} Seller Phone Number
+                      {showPhoneNumber ? "Hide" : "Show"} Contact
                     </Button>
 
                     <p className="mt-2">

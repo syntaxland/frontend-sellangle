@@ -17,6 +17,7 @@ import DeletePaidAd from "./DeletePaidAd";
 import DeactivatePaidAd from "./DeactivatePaidAd";
 import ReactivatePaidAd from "./ReactivatePaidAd";
 import TogglePaidAdSave from "./TogglePaidAdSave";
+import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
 
 function PaidAdCard({ product }) {
   // const dispatch = useDispatch();
@@ -32,6 +33,11 @@ function PaidAdCard({ product }) {
     }
   }, [userInfo]);
 
+  const getPaidAdDetailState = useSelector(
+    (state) => state.getPaidAdDetailState
+  );
+  const { sellerRating, sellerReviewCount } = getPaidAdDetailState;
+
   const isAdExpired = new Date(product?.expiration_date) < new Date();
 
   const [deleteAdModal, setDeleteModal] = useState(false);
@@ -44,7 +50,7 @@ function PaidAdCard({ product }) {
 
   const handleEditAd = () => {
     const id = product.id;
-    history.push(`/edit/paid/ad/${id}`); 
+    history.push(`/edit/paid/ad/${id}`);
   };
 
   const [deactivateAdModal, setDeactivateAdModal] = useState(false);
@@ -138,18 +144,19 @@ function PaidAdCard({ product }) {
           <div as="div">
             <div className="py-2">
               <RatingSeller
-                value={product.rating}
-                text={`${formatCount(product?.num_reviews)} reviews `}
+                value={sellerRating}
+                text={`${formatCount(sellerReviewCount)} reviews `}
                 color={"green"}
               />
 
-              {userInfo ? (
+              {/* {userInfo ? (
                 <Link to={`/review-list/${product?.id}`}>(Seller Ratings)</Link>
               ) : (
                 <Link onClick={() => history.push("/login")}>
                   (Seller Ratings)
                 </Link>
-              )}
+              )} */}
+              <ReviewPaidAdSeller adId={product?.id} />
             </div>
           </div>
 
@@ -164,8 +171,15 @@ function PaidAdCard({ product }) {
         <div className="d-flex justify-content-between py-2">
           <Card.Text as="h5" className="py-2">
             <span>
-             {formatNumber(product?.price)} {product?.currency}{" "}
-             {product?.usd_price ? <span> / {product?.usd_price} {product?.usd_currency} </span> : <></>}{" "}
+              {formatNumber(product?.price)} {product?.currency}{" "}
+              {product?.usd_price ? (
+                <span>
+                  {" "}
+                  / {product?.usd_price} {product?.usd_currency}{" "}
+                </span>
+              ) : (
+                <></>
+              )}{" "}
               {product?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
             </span>
           </Card.Text>
@@ -203,7 +217,7 @@ function PaidAdCard({ product }) {
           </span>
 
           <div>
-            <TogglePaidAdSave ad={product} />  
+            <TogglePaidAdSave ad={product} />
           </div>
 
           {/* <span className="py-2">
@@ -227,7 +241,7 @@ function PaidAdCard({ product }) {
         <div className="d-flex justify-content-between py-2">
           <span className="py-2">
             <Button
-            // disabled
+              // disabled
               variant="primary"
               size="sm"
               className="py-2 rounded"
@@ -289,7 +303,8 @@ function PaidAdCard({ product }) {
               className="py-2 rounded"
               disabled
             >
-              <i className="fas fa-map-marker-alt"></i>  {product?.city} {product?.state_province}, {product?.country}.
+              <i className="fas fa-map-marker-alt"></i> {product?.city}{" "}
+              {product?.state_province}, {product?.country}.
             </Button>
           </span>
         </div>
@@ -304,7 +319,7 @@ function PaidAdCard({ product }) {
           {deleteAdModal && <DeletePaidAd ad_id={product?.id} />}
         </Modal.Body>
       </Modal>
-      
+
       <Modal show={deactivateAdModal} onHide={handleDeactivateAdClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-center w-100 py-2">

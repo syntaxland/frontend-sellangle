@@ -28,6 +28,7 @@ import DOMPurify from "dompurify";
 import ReportPaidAd from "./ReportPaidAd";
 import { formatAmount } from "../FormatAmount";
 import TogglePaidAdSave from "./TogglePaidAdSave";
+import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
 
 function PaidAdProductDetail({ match }) {
   const dispatch = useDispatch();
@@ -68,6 +69,8 @@ function PaidAdProductDetail({ match }) {
     sellerApiKey,
     sellerAvatarUrl,
     isSellerVerified,
+    sellerRating,
+    sellerReviewCount,
   } = getPaidAdDetailState;
   console.log("isSellerVerified:", isSellerVerified);
   console.log("promo_code:", ads?.promo_code);
@@ -364,13 +367,14 @@ function PaidAdProductDetail({ match }) {
                   <ListGroup.Item>
                     <span>
                       <RatingSeller
-                        value={ads?.ad_rating}
-                        text={`${formatCount(ads?.num_reviews)} reviews `}
+                        value={sellerRating}
+                        text={`${formatCount(sellerReviewCount)} reviews `} 
                         color={"green"}
                       />
                     </span>
+
                     <span>
-                      {userInfo ? (
+                      {/* {userInfo ? (
                         <Link to={`/review-list/${ads.id}`}>
                           (Seller Reviews)
                         </Link>
@@ -378,7 +382,8 @@ function PaidAdProductDetail({ match }) {
                         <Link onClick={() => history.push("/login")}>
                           (Seller Reviews)
                         </Link>
-                      )}
+                      )} */}
+                      <ReviewPaidAdSeller adId={ads?.id} />
                     </span>
                   </ListGroup.Item>
 
@@ -390,7 +395,7 @@ function PaidAdProductDetail({ match }) {
                       onClick={handleShowPhoneNumber}
                     >
                       <i className="fa fa-phone"></i>{" "}
-                      {showPhoneNumber ? "Hide" : "Show"} Seller Phone Number
+                      {showPhoneNumber ? "Hide" : "Show"} Contact
                     </Button>
                     <p className="mt-2">
                       {showPhoneNumber && <p>{ads?.seller_phone}</p>}

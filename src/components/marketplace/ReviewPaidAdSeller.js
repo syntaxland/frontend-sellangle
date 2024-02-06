@@ -2,14 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { useLocation } from "react-router-dom";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import { Form, Button, Row, Col, Modal, Container } from "react-bootstrap";
 import { reviewPaidAdSeller } from "../../actions/marketplaceSellerActions";
 import Loader from "../Loader";
 // import Message from "../Message";
 import Select from "react-select";
 import GetPaidAdSellerReviews from "./GetPaidAdSellerReviews";
 
-const SELLER_REVIEW_CHOICES = [
+const SELLER_REVIEW_CHOICES = [ 
   ["1", "1 - Poor"],
   ["1.5", "1.5"],
   ["2", "2 - Fair"],
@@ -23,6 +24,7 @@ const SELLER_REVIEW_CHOICES = [
 
 function ReviewPaidAdSeller({ adId }) {
   const dispatch = useDispatch();
+    const history = useHistory();
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
 
@@ -32,6 +34,17 @@ function ReviewPaidAdSeller({ adId }) {
   const { loading, success,
     //  error
      } = reviewPaidAdSellerState;
+
+     const userLogin = useSelector((state) => state.userLogin);
+     const { userInfo } = userLogin;
+   
+     const [reviewSellerModal, setReviewSellerModal] = useState(false);
+     const handleReviewSellerOpen = () => {
+       setReviewSellerModal(true);
+     };
+     const handleReviewSellerClose = () => {
+       setReviewSellerModal(false);
+     };
 
   const handleFieldChange = (fieldName, value) => {
     switch (fieldName) {
@@ -74,54 +87,80 @@ function ReviewPaidAdSeller({ adId }) {
     <Container>
       <Row className="py-3 d-flex justify-content-center">
         <Col>
-          <div>
-            <GetPaidAdSellerReviews adId={adId} />
-          </div>
+        {userInfo ? (
+            <>
+              <Link onClick={handleReviewSellerOpen}>(Seller Reviews)</Link>
+            </>
+          ) : (
+            <Link onClick={() => history.push("/login")}>(Seller Reviews)</Link>
+          )}
 
-          <h2 className="text-center py-2">Rate Seller</h2>
-          {loading && <Loader />}
-          {/* {error && <Message variant="danger">{error}</Message>} */}
-          {/* {success && (
-            <Message variant="success">Review added successfully.</Message>
-          )} */}
+          <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
+            <Modal.Header closeButton>
+              <Modal.Title className="text-center w-100 py-2">
+                Seller Reviews
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="py-2 d-flex justify-content-center">
+              {/* <div>
+                <GetFreeAdSellerReviews adId={adId} />
+              </div> */}
 
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="rating">
-              <Form.Label>Rating</Form.Label>
+              <div>
+                <h2 className="text-center py-2">Rate Seller</h2>
+                {loading && <Loader />}
+                {/* {error && <Message variant="danger">{error}</Message>} */}
+                {/* {success && (
+                      <Message variant="success">Review added successfully.</Message>
+                    )} */}
 
-              <Select
-                value={{ value: rating, label: rating }}
-                onChange={(selectedOption) =>
-                  handleFieldChange("rating", selectedOption.value)
-                }
-                options={SELLER_REVIEW_CHOICES?.map((type) => ({
-                  value: type[0],
-                  label: type[1],
-                }))}
-              />
-            </Form.Group>
+                <Form onSubmit={submitHandler}>
+                  <Form.Group controlId="rating">
+                    <Form.Label>Rating</Form.Label>
 
-            <Form.Group controlId="comment">
-              <Form.Label>Comment</Form.Label>
-              <Form.Control
-                required
-                as="textarea"
-                rows={2}
-                value={comment}
-                onChange={(e) => handleFieldChange("comment", e.target.value)}
-                placeholder="Enter comment"
-                maxLength={225}
-              ></Form.Control>
-            </Form.Group>
-            <Button
-              className="py-2 mt-2 w-100 rounded"
-              type="submit"
-              variant="success"
-              disabled={comment === ""}
-            >
-              Submit
-            </Button>
-          </Form>
+                    <Select
+                      value={{ value: rating, label: rating }}
+                      onChange={(selectedOption) =>
+                        handleFieldChange("rating", selectedOption.value)
+                      }
+                      options={SELLER_REVIEW_CHOICES?.map((type) => ({
+                        value: type[0],
+                        label: type[1],
+                      }))}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="comment">
+                    <Form.Label>Comment</Form.Label>
+                    <Form.Control
+                      required
+                      as="textarea"
+                      rows={2}
+                      value={comment}
+                      onChange={(e) =>
+                        handleFieldChange("comment", e.target.value)
+                      }
+                      placeholder="Enter comment"
+                      maxLength={225}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Button
+                    className="py-2 mt-2 w-100 rounded"
+                    type="submit"
+                    variant="success"
+                    disabled={comment === ""}
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              </div>
+
+              <div>
+                <GetPaidAdSellerReviews adId={adId} /> 
+              </div>
+
+            </Modal.Body>
+          </Modal>
         </Col>
       </Row>
     </Container>

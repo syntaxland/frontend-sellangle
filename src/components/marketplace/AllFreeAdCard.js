@@ -52,13 +52,13 @@ function AllFreeAdCard({ product }) {
 
   const [reportAdModal, setReportAdModal] = useState(false);
 
-  const [reviewSellerModal, setReviewSellerModal] = useState(false);
-  const handleReviewSellerOpen = () => {
-    setReviewSellerModal(true);
-  };
-  const handleReviewSellerClose = () => {
-    setReviewSellerModal(false);
-  };
+  // const [reviewSellerModal, setReviewSellerModal] = useState(false);
+  // const handleReviewSellerOpen = () => {
+  //   setReviewSellerModal(true);
+  // };
+  // const handleReviewSellerClose = () => {
+  //   setReviewSellerModal(false);
+  // };
 
   const handleReportAdOpen = () => {
     if (!userInfo) {
@@ -182,7 +182,7 @@ function AllFreeAdCard({ product }) {
             </div>
 
             <div className="d-flex justify-content-between">
-              <div as="div">
+              <div>
                 <div className="py-2">
                   <RatingSeller
                     value={sellerRating}
@@ -190,7 +190,7 @@ function AllFreeAdCard({ product }) {
                     color={"green"}
                   />
 
-                  {userInfo ? (
+                  {/* {userInfo ? (
                     <>
                       <Link onClick={handleReviewSellerOpen}>
                         (Seller Reviews)
@@ -200,7 +200,9 @@ function AllFreeAdCard({ product }) {
                     <Link onClick={() => history.push("/login")}>
                       (Seller Reviews)
                     </Link>
-                  )}
+                  )} */}
+
+                  <ReviewFreeAdSeller adId={product?.id}/>
                 </div>
               </div>
 
@@ -299,7 +301,7 @@ function AllFreeAdCard({ product }) {
               </Modal>
             </div>
 
-            <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
+            {/* <Modal show={reviewSellerModal} onHide={handleReviewSellerClose}>
               <Modal.Header closeButton>
                 <Modal.Title className="text-center w-100 py-2">
                   Seller Reviews
@@ -308,7 +310,8 @@ function AllFreeAdCard({ product }) {
               <Modal.Body className="py-2 d-flex justify-content-center">
                 {reviewSellerModal && <ReviewFreeAdSeller adId={product?.id} />}
               </Modal.Body>
-            </Modal>
+            </Modal> */}
+            
           </Card.Body>
         </Card>
       </Col>

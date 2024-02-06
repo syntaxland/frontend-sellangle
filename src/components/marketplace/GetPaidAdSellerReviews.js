@@ -74,7 +74,8 @@ function GetPaidAdSellerReviews({ adId }) {
                         <td>
                           <RatingSeller
                             value={review.rating}
-                            color={"#f8e825"}
+                            color={"green"}
+                            // color={"#f8e825"}
                           />
                         </td>
                         <td>{review.comment}</td>

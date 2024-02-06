@@ -9,7 +9,7 @@ import Loader from "../Loader";
 import RatingSeller from "../RatingSeller";
 import Pagination from "../Pagination";
 
-function GetFreeAdSellerReviews({ adId }) {
+function GetFreeAdSellerReviews({ adId }) { 
   const dispatch = useDispatch();
 
   const getFreeAdSellerReviewsState = useSelector(
@@ -74,7 +74,8 @@ function GetFreeAdSellerReviews({ adId }) {
                         <td>
                           <RatingSeller
                             value={review.rating}
-                            color={"#f8e825"}
+                            color={"green"}
+                            // color={"#f8e825"}
                           />
                         </td>
                         <td>{review.comment}</td>
