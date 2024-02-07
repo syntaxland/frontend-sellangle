@@ -4,20 +4,11 @@ import { Card, Button, Modal, Row, Col } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
-// import {
-//   saveProduct,
-//   removeProduct,
-//   updateProductSaveCount,
-//   // trackProductView,
-// } from "../../actions/productAction";
 import {
   getSellerAccount,
   getFreeAdDetail,
   trackFreeAdView,
 } from "../../actions/marketplaceSellerActions";
-// import { getFreeAdDetail } from "../../actions/marketplaceSellerActions";
-// import Message from "../Message";
-// import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
 import ReportFreeAd from "./ReportFreeAd";
 import ToggleFreeAdSave from "./ToggleFreeAdSave";
@@ -37,31 +28,10 @@ function SearchFreeAdCard({ freeSearchAd }) {
     sellerReviewCount,
   } = getFreeAdDetailState;
 
-  // const [freeSearchAdSaved, setProductSaved] = useState(false);
-  // const [totalSaves, setTotalSaves] = useState(freeSearchAd?.ad_save_count);
-
-  // const [freeSearchAdMessages, setProductMessages] = useState({
-  //   freeSearchAdSaveSuccess: false,
-  //   freeSearchAdRemoveSuccess: false,
-  //   freeSearchAdSaveError: null,
-  //   freeSearchAdRemoveError: null,
-  // });
-
-  // const [freeSearchAdLoading, setProductLoading] = useState({
-  //   freeSearchAdSaveLoading: false,
-  //   freeSearchAdRemoveLoading: false,
-  // });
-
   const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  // const getSellerAccountState = useSelector(
-  //   (state) => state.getSellerAccountState
-  // );
-  // const { sellerAccount } = getSellerAccountState;
-  // console.log("is_seller_verified", sellerAccount?.is_seller_verified);
 
   const [reportAdModal, setReportAdModal] = useState(false);
   const handleReportAdOpen = () => {
@@ -82,105 +52,6 @@ function SearchFreeAdCard({ freeSearchAd }) {
       dispatch(getFreeAdDetail(pk));
     }
   }, [dispatch, userInfo, freeSearchAd.id]);
-
-  // useEffect(() => {
-  //   if (
-  //     userInfo &&
-  //     userInfo.favorite_freeSearchAds &&
-  //     userInfo.favorite_freeSearchAds.includes(freeSearchAd.id)
-  //   ) {
-  //     setProductSaved(true);
-  //   } else {
-  //     setProductSaved(false);
-  //   }
-  // }, [userInfo, freeSearchAd.id]);
-
-  // const toggleFavoriteHandler = () => {
-  //   if (!userInfo) {
-  //     history.push("/login");
-  //   } else {
-  //     if (freeSearchAdSaved) {
-  //       setProductLoading({ freeSearchAdRemoveLoading: true });
-  //       dispatch(removeProduct(userInfo.id, freeSearchAd.id))
-  //         .then(() => {
-  //           setProductMessages((prevState) => ({
-  //             ...prevState,
-  //             freeSearchAdRemoveSuccess: true,
-  //             freeSearchAdSaveSuccess: false,
-  //             freeSearchAdRemoveError: null,
-  //             freeSearchAdSaveError: null,
-  //           }));
-  //           setProductSaved(false);
-  //           setTotalSaves((prevSaves) => prevSaves - 1); // Decrement totalSaves
-  //           const updatedSaveCount = freeSearchAd?.ad_save_count - 1;
-  //           dispatch(updateProductSaveCount(freeSearchAd.id, updatedSaveCount));
-  //         })
-  //         .catch((error) => {
-  //           // Handle error
-  //           setProductMessages((prevState) => ({
-  //             ...prevState,
-  //             freeSearchAdRemoveError:
-  //               error.response && error.response.data.detail
-  //                 ? error.response.data.detail
-  //                 : error.message,
-  //             freeSearchAdRemoveSuccess: false,
-  //             freeSearchAdSaveSuccess: false,
-  //             freeSearchAdSaveError: null,
-  //           }));
-  //         })
-  //         .finally(() => {
-  //           setProductLoading({ freeSearchAdRemoveLoading: false });
-  //         });
-  //     } else {
-  //       setProductLoading({ freeSearchAdSaveLoading: true });
-  //       dispatch(saveProduct(userInfo.id, freeSearchAd.id))
-  //         .then(() => {
-  //           setProductMessages((prevState) => ({
-  //             ...prevState,
-  //             freeSearchAdSaveSuccess: true,
-  //             freeSearchAdRemoveSuccess: false,
-  //             freeSearchAdSaveError: null,
-  //             freeSearchAdRemoveError: null,
-  //           }));
-  //           setProductSaved(true);
-  //           setTotalSaves((prevSaves) => prevSaves + 1);
-  //           const updatedSaveCount = freeSearchAd?.ad_save_count + 1;
-  //           dispatch(updateProductSaveCount(freeSearchAd.id, updatedSaveCount));
-  //         })
-  //         .catch((error) => {
-  //           setProductMessages((prevState) => ({
-  //             ...prevState,
-  //             freeSearchAdSaveError:
-  //               error.response && error.response.data.detail
-  //                 ? error.response.data.detail
-  //                 : error.message,
-  //             freeSearchAdSaveSuccess: false,
-  //             freeSearchAdRemoveSuccess: false,
-  //             freeSearchAdRemoveError: null,
-  //           }));
-  //         })
-  //         .finally(() => {
-  //           setProductLoading({ freeSearchAdSaveLoading: false });
-  //         });
-  //     }
-  //   }
-  //   setTimeout(() => {
-  //     setProductMessages((prevState) => ({
-  //       ...prevState,
-  //       freeSearchAdSaveSuccess: false,
-  //       freeSearchAdRemoveSuccess: false,
-  //     }));
-  //   }, 3000);
-  // };
-
-  // const viewProductHandler = () => {
-  //   if (!userInfo) {
-  //     history.push("/login");
-  //   }
-  //   dispatch(trackProductView(userInfo.id, freeSearchAd.id));
-
-  //   history.push(`/free-ad-detail/${freeSearchAd.id}`);
-  // };
 
   const adData = {
     ad_id: freeSearchAd.id,
@@ -220,7 +91,8 @@ function SearchFreeAdCard({ freeSearchAd }) {
         sellerAvatarUrl,
         seller_username: freeSearchAd.seller_username,
         expiration_date: freeSearchAd.expiration_date,
-        ad_rating: freeSearchAd.ad_rating,
+        ad_rating: sellerRating,
+        // ad_rating: freeSearchAd.ad_rating,
       };
 
       history.push({
@@ -241,21 +113,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
     <Row>
       <Col>
         <Card className="my-3 p-3 rounded">
-          {/* {freeSearchAdMessages.freeSearchAdSaveSuccess && (
-        <Message variant="success">Item added to favorites.</Message>
-      )}
-      {freeSearchAdMessages.freeSearchAdRemoveSuccess && (
-        <Message variant="danger">Item removed from favorites.</Message>
-      )}
-      {freeSearchAdMessages.freeSearchAdSaveError && (
-        <Message variant="danger">{freeSearchAdMessages.freeSearchAdSaveError}</Message>
-      )}
-      {freeSearchAdMessages.freeSearchAdRemoveError && (
-        <Message variant="danger">{freeSearchAdMessages.freeSearchAdRemoveError}</Message>
-      )}
-
-      {freeSearchAdLoading.freeSearchAdSaveLoading && <Loader />}
-      {freeSearchAdLoading.freeSearchAdRemoveLoading && <Loader />} */}
+          
 
           <Link onClick={viewProductHandler}>
             <Card.Img src={freeSearchAd.image1} />

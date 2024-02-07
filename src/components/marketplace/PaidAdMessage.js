@@ -12,6 +12,7 @@ import Message from "../Message";
 import RatingSeller from "../RatingSeller";
 import PromoTimer from "../PromoTimer";
 import LoaderButton from "../LoaderButton";
+import { formatAmount } from "../FormatAmount";
 
 function PaidAdMessage(match) {
   const dispatch = useDispatch();
@@ -113,9 +114,9 @@ function PaidAdMessage(match) {
                         </Col>
                         <Col md={12} className="py-2">
                           <ListGroup.Item>
-                            <p>{currency} {price}</p>
+                            <p>{currency} {formatAmount(price)}</p>
                           </ListGroup.Item>
-                        </Col>
+                        </Col> 
                         <Col md={12} className="py-2">
                           <Button
                             variant="outline-danger"
@@ -151,7 +152,7 @@ function PaidAdMessage(match) {
 
                         <Col className="mt-2">
                           <ListGroup.Item>
-                            <RatingSeller value={ad_rating} color={"green"} />
+                            <RatingSeller value={ad_rating} color={"green"} /> 
                           </ListGroup.Item>
                         </Col>
                       </Row>

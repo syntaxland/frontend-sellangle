@@ -143,7 +143,8 @@ function FreeAdProductDetail({ match }) {
       sellerAvatarUrl,
       seller_username: ads.seller_username,
       expiration_date: ads.expiration_date,
-      ad_rating: ads.ad_rating,
+      ad_rating: sellerRating,
+      // ad_rating: ads.ad_rating,
     };
 
     history.push({

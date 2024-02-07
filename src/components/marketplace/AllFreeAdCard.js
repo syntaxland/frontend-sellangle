@@ -118,7 +118,8 @@ function AllFreeAdCard({ product }) {
         sellerAvatarUrl,
         seller_username: product.seller_username,
         expiration_date: product.expiration_date,
-        ad_rating: product.ad_rating,
+        ad_rating: sellerRating,
+        // ad_rating: product.ad_rating,
       };
 
       history.push({

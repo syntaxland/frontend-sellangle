@@ -458,7 +458,7 @@ function SearchResults() {
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
-                                freeSearchAds={filteredFreeAds || freeSearchAds}
+                                freeSearchAds={filteredFreeAds || freeSearchAds} 
                               />
                             )}
                           </Col>
