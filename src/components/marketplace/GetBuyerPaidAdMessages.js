@@ -9,7 +9,7 @@ import Loader from "../Loader";
 import Pagination from "../Pagination";
 import PromoTimer from "../PromoTimer";
 
-function GetBuyerPaidAdMessages() {
+function GetBuyerPaidAdMessages() { 
   const dispatch = useDispatch();
   const history = useHistory();
 

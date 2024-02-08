@@ -117,7 +117,7 @@ function PaidAdMessage(match) {
                             <p>{currency} {formatAmount(price)}</p>
                           </ListGroup.Item>
                         </Col> 
-                        <Col md={12} className="py-2">
+                        <Col md={12} className="py-2"> 
                           <Button
                             variant="outline-danger"
                             size="sm"

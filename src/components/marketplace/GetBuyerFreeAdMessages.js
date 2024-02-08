@@ -11,7 +11,7 @@ import PromoTimer from "../PromoTimer";
 
 function GetBuyerFreeAdMessages() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useHistory(); 
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
