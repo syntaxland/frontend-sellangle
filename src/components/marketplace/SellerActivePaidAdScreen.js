@@ -11,7 +11,7 @@ import Loader from "../Loader";
 function SellerActivePaidAdScreen({seller_username}) {
   const dispatch = useDispatch();
 
-  const getSellerActivePaidAdsState = useSelector((state) => state.getSellerActivePaidAdsState);
+  const getSellerActivePaidAdsState = useSelector((state) => state.getSellerActivePaidAdsState); 
   const { loading, error, ads } = getSellerActivePaidAdsState; 
   console.log("Seller Paid Active Ads:", ads); 
 

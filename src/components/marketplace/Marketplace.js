@@ -33,7 +33,7 @@ const quotes = [
   "From Every Angle, to Every Human – SellAngle!",
   "From Every Angle, One Global Sell Destination!",
   "Strategic Angles, Stellar Sells!",
-  "Precision in Every Pitch, Power in Every Sell! SellAngle!!",
+  "Precision in Every Angle, Power in Every Sell! SellAngle!!",
   "Angles that Convert, Sells that Skyrocket!",
   "Angle Your Way to Instant Sells Success!",
   "Selling at Every Angle, Selling in a Flash!",

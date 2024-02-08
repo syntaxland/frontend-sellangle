@@ -13,7 +13,7 @@ import Loader from "../Loader";
 function SellerActiveFreeAdScreen({seller_username}) {
   const dispatch = useDispatch();
 
-  const getSellerActiveFreeAdsState = useSelector((state) => state.getSellerActiveFreeAdsState);
+  const getSellerActiveFreeAdsState = useSelector((state) => state.getSellerActiveFreeAdsState); 
   const { loading, error, ads } = getSellerActiveFreeAdsState;
   console.log("All Free Ads:", ads);
 

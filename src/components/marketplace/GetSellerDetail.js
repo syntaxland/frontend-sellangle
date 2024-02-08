@@ -1,6 +1,6 @@
 // GetSellerDetail.js
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -85,17 +85,17 @@ function GetSellerDetail({ match, history, seller_username }) {
 
   // const images = [sellerDetail?.image1, sellerDetail?.image2, sellerDetail?.image3].filter(Boolean);
 
-  function formatCount(viewCount) {
-    if (viewCount >= 1000000) {
-      // Format as million
-      return (viewCount / 1000000).toFixed(1) + "m";
-    } else if (viewCount >= 1000) {
-      // Format as thousand
-      return (viewCount / 1000).toFixed(1) + "k";
-    } else {
-      return viewCount?.toString();
-    }
-  }
+  // function formatCount(viewCount) {
+  //   if (viewCount >= 1000000) {
+  //     // Format as million
+  //     return (viewCount / 1000000).toFixed(1) + "m";
+  //   } else if (viewCount >= 1000) {
+  //     // Format as thousand
+  //     return (viewCount / 1000).toFixed(1) + "k";
+  //   } else {
+  //     return viewCount?.toString();
+  //   }
+  // }
 
   function calculateDuration(joinedTimestamp) {
     const now = new Date();
@@ -234,13 +234,13 @@ function GetSellerDetail({ match, history, seller_username }) {
                     <span>
                       <RatingSeller
                         value={sellerDetail?.rating}
-                        text={`${formatCount(
-                          sellerDetail?.num_reviews
-                        )} reviews `}
+                        // text={`${formatCount(
+                        //   sellerDetail?.review_count
+                        // )} reviews `}
                         color={"green"}
                       />
                     </span>
-                    <span>
+                    {/* <span>
                       {userInfo ? (
                         <Link to={`/review-list/${sellerDetail.id}`}>
                           (Seller Reviews)
@@ -250,7 +250,7 @@ function GetSellerDetail({ match, history, seller_username }) {
                           (Seller Reviews)
                         </Link>
                       )}
-                    </span>
+                    </span> */}
                   </ListGroup.Item>
 
                   <ListGroup.Item>
