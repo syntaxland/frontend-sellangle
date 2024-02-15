@@ -158,6 +158,8 @@ import {
 
   buyUsdCreditPointReducer,
   getUsdBuyCreditPointReducer,
+  getAdCpsChargesReducer,
+
 } from "./reducers/creditPointReducers";
 
 import { messagingReducer, emailReducer } from "./reducers/messagingReducers";
@@ -232,6 +234,8 @@ const reducer = combineReducers({
   getBuyerCreditPointState: getBuyerCreditPointReducer,
   buyUsdCreditPointState: buyUsdCreditPointReducer,
   getUsdBuyCreditPointState: getUsdBuyCreditPointReducer,
+  getAdCpsChargesState: getAdCpsChargesReducer,
+
   getSellCreditPointState: getSellCreditPointReducer,  
   creditPointRequestCreate: creditPointRequestCreateReducer,
   creditPointList: creditPointListReducer,
@@ -365,7 +369,7 @@ const reducer = combineReducers({
   reportPaidAdState: reportPaidAdReducer,
 
   getSellerPaidAdChargesState: getSellerPaidAdChargesReducer,
-
+  
   applyPomoCodeState: applyPomoCodeReducer,
 });
 

@@ -156,28 +156,27 @@ import {
   GET_USER_SAVED_PAID_ADS_REQUEST,
   GET_USER_SAVED_PAID_ADS_SUCCESS,
   GET_USER_SAVED_PAID_ADS_FAIL,
-
   REVIEW_SELLER_FREE_ADS_REQUEST,
-REVIEW_SELLER_FREE_ADS_SUCCESS,
-REVIEW_SELLER_FREE_ADS_FAIL,
-REVIEW_SELLER_PAID_ADS_REQUEST,
-REVIEW_SELLER_PAID_ADS_SUCCESS,
-REVIEW_SELLER_PAID_ADS_FAIL,
-
-GET_REVIEW_SELLER_FREE_ADS_REQUEST,
-GET_REVIEW_SELLER_FREE_ADS_SUCCESS,
-GET_REVIEW_SELLER_FREE_ADS_FAIL,
-GET_REVIEW_SELLER_PAID_ADS_REQUEST,
-GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
-GET_REVIEW_SELLER_PAID_ADS_FAIL,
-
-APPLY_PROMO_CODE_REQUEST,
-APPLY_PROMO_CODE_SUCCESS,
-APPLY_PROMO_CODE_FAIL,
-
-GET_SELLER_PAID_ADS_CHARGES_REQUEST,
-GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
-GET_SELLER_PAID_ADS_CHARGES_FAIL,
+  REVIEW_SELLER_FREE_ADS_SUCCESS,
+  REVIEW_SELLER_FREE_ADS_FAIL,
+  REVIEW_SELLER_PAID_ADS_REQUEST,
+  REVIEW_SELLER_PAID_ADS_SUCCESS,
+  REVIEW_SELLER_PAID_ADS_FAIL,
+  GET_REVIEW_SELLER_FREE_ADS_REQUEST,
+  GET_REVIEW_SELLER_FREE_ADS_SUCCESS,
+  GET_REVIEW_SELLER_FREE_ADS_FAIL,
+  GET_REVIEW_SELLER_PAID_ADS_REQUEST,
+  GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
+  GET_REVIEW_SELLER_PAID_ADS_FAIL,
+  APPLY_PROMO_CODE_REQUEST,
+  APPLY_PROMO_CODE_SUCCESS,
+  APPLY_PROMO_CODE_FAIL,
+  GET_SELLER_PAID_ADS_CHARGES_REQUEST,
+  GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
+  GET_SELLER_PAID_ADS_CHARGES_FAIL,
+  // GET_ADS_CPS_CHARGES_REQUEST,
+  // GET_ADS_CPS_CHARGES_SUCCESS,
+  // GET_ADS_CPS_CHARGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -212,7 +211,23 @@ const initialState = {
 
   totalAdCharges: [],
   paidAdCharges: [],
+  // adCpsCharges: [],
 };
+
+// export const getAdCpsChargesReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case GET_ADS_CPS_CHARGES_REQUEST:
+//       return { loading: true };
+//     case GET_ADS_CPS_CHARGES_SUCCESS:
+//       return { loading: false, 
+//         success: true, 
+//         adCpsCharges: action.payload };
+//     case GET_ADS_CPS_CHARGES_FAIL:
+//       return { loading: false, error: action.payload };
+//     default:
+//       return state;
+//   }
+// };
 
 export const getSellerPaidAdChargesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -227,7 +242,6 @@ export const getSellerPaidAdChargesReducer = (state = initialState, action) => {
         totalAdCharges: action.payload.total_ad_charges,
         // paidAdCharges: action.payload.response_data.ad_charges,
         // totalAdCharges: action.payload.response_data.total_ad_charges,
-
       };
     case GET_SELLER_PAID_ADS_CHARGES_FAIL:
       return { loading: false, error: action.payload };
@@ -687,7 +701,6 @@ export const getSellerDetailReducer = (state = initialState, action) => {
         success: true,
         sellerDetail: action.payload.data,
         sellerAvatarUrl: action.payload.seller_avatar_url,
-        
       };
 
     case GET_SELLER_DETAIL_FAIL:
@@ -1009,10 +1022,11 @@ export const getAllFreeAdReducer = (state = initialState, action) => {
     case GET_ALL_FREE_AD_REQUEST:
       return { loading: true };
     case GET_ALL_FREE_AD_SUCCESS:
-      return { 
-        loading: false, 
-        success: true, 
-        freeAds: action.payload };
+      return {
+        loading: false,
+        success: true,
+        freeAds: action.payload,
+      };
     case GET_ALL_FREE_AD_FAIL:
       return { loading: false, error: action.payload };
     default:

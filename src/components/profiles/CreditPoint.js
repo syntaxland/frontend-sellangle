@@ -5,15 +5,16 @@ import { Row, Col, Table } from "react-bootstrap";
 import {
   getCreditPointList,
   getUserCreditPointPayments,
-  getCreditPointEarnings,
+  // getCreditPointEarnings,
 } from "../../actions/creditPointActions";
 import Message from "../Message";
 import Loader from "../Loader";
-import CreditPointEarning from "./CreditPointEarning";
+// import CreditPointEarning from "./CreditPointEarning";
 import GetBuyCreditPoint from "../CreditPoint/GetBuyCreditPoint"; 
 import GetUsdBuyCreditPoint from "../CreditPoint/GetUsdBuyCreditPoint"; 
 import GetSellCreditPoint from "../CreditPoint/GetSellCreditPoint";
 import GetBuyerCreditPoint from "../CreditPoint/GetBuyerCreditPoint";
+import GetAdCpsCharges from "../CreditPoint/GetAdCpsCharges";
 
 const CreditPoint = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,9 @@ const CreditPoint = () => {
     dispatch(getUserCreditPointPayments());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getCreditPointEarnings());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getCreditPointEarnings());
+  // }, [dispatch]);
 
   // const [currentPage, setCurrentPage] = useState(1);
   const [currentPagePayments, setCurrentPagePayments] = useState(1);
@@ -86,8 +87,13 @@ const CreditPoint = () => {
   return (
     <>
       <Row>
-        <div className="justify-content-md-center">
+        <div className="d-flex justify-content-center">
           <Col>
+
+            <div>
+              <GetAdCpsCharges />
+            </div>
+
           <div>
               <GetUsdBuyCreditPoint />
             </div>
@@ -100,16 +106,18 @@ const CreditPoint = () => {
               <GetSellCreditPoint />
             </div>
 
+            
+
             <div>
               <GetBuyerCreditPoint />
             </div>
 
-            <div>
+            {/* <div>
               <CreditPointEarning />
-            </div>
+            </div> */}
 
             <div>
-              <h1 className="text-center py-3">Referral Bonus Point</h1>
+              <h1 className="text-center py-3">Referral CPS Bonus</h1>
               <hr />
 
               {creditPointPaymentsLoading ? (
@@ -207,6 +215,8 @@ const CreditPoint = () => {
                 </>
               )}
             </div>
+
+            
 
            
             <hr />

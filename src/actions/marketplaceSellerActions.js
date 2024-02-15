@@ -176,9 +176,49 @@ APPLY_PROMO_CODE_FAIL,
 GET_SELLER_PAID_ADS_CHARGES_REQUEST,
 GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
 GET_SELLER_PAID_ADS_CHARGES_FAIL,
+
+// GET_ADS_CPS_CHARGES_REQUEST,
+// GET_ADS_CPS_CHARGES_SUCCESS,
+// GET_ADS_CPS_CHARGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+// export const getAdCpsCharges = () => async (dispatch, getState) => {
+//   try {
+//     dispatch({ type: GET_ADS_CPS_CHARGES_REQUEST });
+
+//     const {
+//       userLogin: { userInfo },
+//     } = getState();
+
+//     const config = {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${userInfo.access}`,
+//       },
+//     };
+
+//     const { data } = await axios.get(
+//       `${API_URL}/api/get-ad-charges-cps/`,
+
+//       config
+//     );
+
+//     dispatch({
+//       type: GET_ADS_CPS_CHARGES_SUCCESS,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: GET_ADS_CPS_CHARGES_FAIL,
+//       payload:
+//         error.response && error.response.data.detail
+//           ? error.response.data.detail
+//           : error.message,
+//     });
+//   }
+// };
 
 export const getSellerPaidAdCharges = () => async (dispatch, getState) => {
   try {

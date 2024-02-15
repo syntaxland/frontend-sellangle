@@ -1,11 +1,12 @@
 // Billing.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Col, Row, Container } from "react-bootstrap";
+import { Table, Col, Row, Container, Button } from "react-bootstrap";
 import { getSellerPaidAdCharges } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
+import AdChargeCalculator from "./AdChargeCalculator";
 
 function Billing() {
   const dispatch = useDispatch();
@@ -36,8 +37,8 @@ function Billing() {
   }, [dispatch]);
 
   return (
-    <Container className="py-2 d-flex justify-content-center">
-      <Row>
+    <Container>
+      <Row className="py-2 d-flex justify-content-center">
         <Col>
           <h1 className="text-center py-2">Billing</h1>
           {loading ? (
@@ -66,8 +67,8 @@ function Billing() {
                           <td>{adCharge.username}</td>
                           <td>{adCharge.ad_name}</td>
                           <td>
-                            {adCharge.ad_charges} CPS ({adCharge.ad_charge_hours}{" "}
-                            hours)
+                            {adCharge.ad_charges} CPS (
+                            {adCharge.ad_charge_hours} hours)
                           </td>
                         </tr>
                       </>
@@ -77,14 +78,17 @@ function Billing() {
               )}
               <>
                 <div className="d-flex justify-content-end py-2">
-                  <hr />
-                  Total Charges:
-                  <span>
-                    {" "}
-                    {totalAdCharges?.total_ad_charges} (
-                    {totalAdCharges?.total_ad_charge_hours} hours)
-                  </span>
-                  <hr />
+                  <Button
+                    variant="outline-transparent"
+                    //   size="sm"
+                    className="rounded w-100"
+                    disabled
+                  >
+                    <strong>
+                      Total Ad Charges: {totalAdCharges?.total_ad_charges} (
+                      {totalAdCharges?.total_ad_charge_hours} hours)
+                    </strong>
+                  </Button>
                 </div>
 
                 <Pagination
@@ -98,6 +102,7 @@ function Billing() {
           )}
         </Col>
       </Row>
+      <AdChargeCalculator />
     </Container>
   );
 }
