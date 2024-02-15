@@ -9,7 +9,7 @@ import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getUserProfile } from "../../actions/userProfileActions";
 import UserProfile from "./UserProfile";
 import Orders from "./Orders";
-import Payments from "./Payments";
+import Payments from "./Payments"; 
 import Favorites from "./SavedItems";
 import OrderShipment from "./OrderShipment";
 import OrderItem from "./OrderItem";

@@ -13,7 +13,7 @@ import PostPaidAd from "./PostPaidAd";
 import CurrentAds from "./CurrentAds";
 // import Favorites from "./SavedItems";
 import ShopFrontLink from "./ShopFrontLink";
-// import OrderItem from "./OrderItem";
+import Billing from "./Billing";
 // import Reviews from "./Reviews";
 // import MessageInbox from "./MessageInbox";
 // import PostAds from "./PostFreeAd";
@@ -80,8 +80,8 @@ const handleCurrentAds = () => {
 
       
 
-      // case "reviews":
-      //   return <Reviews />;
+      case "billing":
+        return <Billing />;
 
       // case "message-inbox":
       //   return <MessageInbox />;
@@ -296,7 +296,7 @@ const handleCurrentAds = () => {
 
              
 
-              <div>
+              {/* <div>
                 <Button
                   variant={activeTab === "favorites" ? "info" : "outline-info"}
                   className="sidebar-link"
@@ -316,7 +316,7 @@ const handleCurrentAds = () => {
                 >
                   <i className="fa fa-eye"></i> Viewed Ads
                 </Button>
-              </div>
+              </div> */}
 
               <div>
                 <Button

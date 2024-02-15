@@ -129,7 +129,7 @@ function Paysofter({
                     Final Total Amount: {currency}{" "}
                     {promoTotalPrice ? (
                       <span>
-                        {formatAmount(promoTotalPrice)} {currency}
+                        {formatAmount(promoTotalPrice)} 
                       </span>
                     ) : (
                       <span>{formatAmount(totalPrice)}</span>

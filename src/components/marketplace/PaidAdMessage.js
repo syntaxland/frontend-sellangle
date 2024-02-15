@@ -14,7 +14,7 @@ import PromoTimer from "../PromoTimer";
 import LoaderButton from "../LoaderButton";
 import { formatAmount } from "../FormatAmount";
 
-function PaidAdMessage(match) {
+function PaidAdMessage() {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -22,6 +22,7 @@ function PaidAdMessage(match) {
   const queryParams = new URLSearchParams(location.search);
 
   const id = queryParams.get("id");
+  const paid_ad_message_id = queryParams.get("paid_ad_message_id");
   const image1 = queryParams.get("image1");
   const ad_name = queryParams.get("ad_name");
   const price = queryParams.get("price");
@@ -49,16 +50,22 @@ function PaidAdMessage(match) {
   console.log("adMessages:", adMessages);
 
   useEffect(() => {
-    const pk = id;
-    dispatch(listPaidAdMessages(pk));
-  }, [dispatch, id, match]);
+    // const pk = id;
+
+    const messageData = { 
+      ad_id: id,
+      paid_ad_message_id: paid_ad_message_id,
+    };
+    dispatch(listPaidAdMessages(messageData));
+  }, [dispatch, id, paid_ad_message_id]);
 
   const handleSubmitReply = (e) => {
     e.preventDefault();
 
     const messageData = {
-      pk: id,
+      ad_id: id, 
       message: message,
+      paid_ad_message_id: paid_ad_message_id,
     };
 
     dispatch(createPaidAdMessage(messageData));

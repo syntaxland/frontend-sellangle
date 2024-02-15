@@ -6,7 +6,7 @@ import {
   createSupportTicket,
   // createSupportMessage,
 } from "../../actions/supportActions";
-import Loader from "../Loader";
+import Loader from "../Loader"; 
 import Message from "../Message";
 
 function SupportTicketScreen({ history }) {

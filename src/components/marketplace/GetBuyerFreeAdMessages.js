@@ -44,6 +44,7 @@ function GetBuyerFreeAdMessages() {
   const handleReplyBuyer = (ad) => {
     const queryParams = {
       id: ad?.free_ad_id,
+      free_ad_message_id: ad?.free_ad_message_id,
       image1: ad?.free_ad_image1,
       ad_name: ad?.free_ad_name,
       price: ad?.free_ad_price,
@@ -102,6 +103,7 @@ function GetBuyerFreeAdMessages() {
                       <th>User</th>
                       <th>Ad Expiration Date</th>
                       <th>Message</th>
+                      <th>Message ID</th>
                       <th>Timestamp</th>
                     </tr> 
                   </thead>
@@ -125,12 +127,13 @@ function GetBuyerFreeAdMessages() {
                           >
                             <i className="fas fa-clock"></i> Expires in:{" "}
                             <PromoTimer
-                              expirationDate={ad.free_ad_expiration_date}
+                              expirationDate={ad.free_ad_expiration_date} 
                             />
                           </Button>
                         </td>
 
                         <td>{ad.message}</td>
+                        <td>{ad.free_ad_message_id}</td>
                         <td>
                           {new Date(ad.timestamp).toLocaleString("en-US", {
                             weekday: "long",

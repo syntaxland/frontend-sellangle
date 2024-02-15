@@ -76,6 +76,7 @@ import {
   reportFreeAdReducer,
   reportPaidAdReducer,
   applyPomoCodeReducer,
+  getSellerPaidAdChargesReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 import {
@@ -286,6 +287,7 @@ const reducer = combineReducers({
   ticketDetailList: ticketDetailListReducer,
   allTicketList: allTicketListReducer,
   allTicketResponse: allTicketResponseReducer,
+  
   feedbackCreate: feedbackCreateReducer,
   feedbackList: feedbackListReducer,
 
@@ -361,6 +363,8 @@ const reducer = combineReducers({
 
   reportFreeAdState: reportFreeAdReducer,
   reportPaidAdState: reportPaidAdReducer,
+
+  getSellerPaidAdChargesState: getSellerPaidAdChargesReducer,
 
   applyPomoCodeState: applyPomoCodeReducer,
 });

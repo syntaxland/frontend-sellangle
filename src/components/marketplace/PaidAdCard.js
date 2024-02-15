@@ -291,7 +291,8 @@ function PaidAdCard({ product }) {
             className="py-2 rounded"
             disabled
           >
-            Due Ad Charges: {product?.ad_charges} CPS
+            Due Ad Charges: {product?.ad_charges} CPS{' '} 
+            ({product?.ad_charge_hours} hours) 
           </Button>
         </div>
 

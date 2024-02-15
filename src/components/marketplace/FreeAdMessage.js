@@ -22,6 +22,7 @@ function FreeAdMessage() {
   const queryParams = new URLSearchParams(location.search);
 
   const id = queryParams.get("id");
+  const free_ad_message_id = queryParams.get("free_ad_message_id");
   const image1 = queryParams.get("image1");
   const ad_name = queryParams.get("ad_name");
   const price = queryParams.get("price");
@@ -49,15 +50,22 @@ function FreeAdMessage() {
   console.log("adMessages:", adMessages);
 
   useEffect(() => {
-    const pk = id;
-    dispatch(listFreeAdMessages(pk));
-  }, [dispatch, id]);
+    // const pk = id;
+
+    const messageData = {
+      ad_id: id,
+      free_ad_message_id: free_ad_message_id,
+    };
+ 
+    dispatch(listFreeAdMessages(messageData));
+  }, [dispatch, id, free_ad_message_id]);
 
   const handleSubmitReply = (e) => {
     e.preventDefault();
 
     const messageData = {
-      pk: id,
+      ad_id: id,
+      free_ad_message_id: free_ad_message_id,
       message: message,
     };
 

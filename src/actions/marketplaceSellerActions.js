@@ -173,9 +173,48 @@ import {
   APPLY_PROMO_CODE_REQUEST,
 APPLY_PROMO_CODE_SUCCESS,
 APPLY_PROMO_CODE_FAIL,
+GET_SELLER_PAID_ADS_CHARGES_REQUEST,
+GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
+GET_SELLER_PAID_ADS_CHARGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export const getSellerPaidAdCharges = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_SELLER_PAID_ADS_CHARGES_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-seller-paid-ads-charges/`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SELLER_PAID_ADS_CHARGES_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const applyPromoCode = (promoData) => async (
   dispatch,
@@ -1468,7 +1507,7 @@ export const createPaidAdMessage = (messageData) => async (
   }
 };
 
-export const listPaidAdMessages = (pk) => async (dispatch, getState) => {
+export const listPaidAdMessages = (messageData) => async (dispatch, getState) => {
   try {
     dispatch({ type: LIST_PAID_AD_MESSAGE_REQUEST });
 
@@ -1483,11 +1522,17 @@ export const listPaidAdMessages = (pk) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${API_URL}/api/list-paid-ad-messages/${pk}`,
+    // const { data } = await axios.get(
+    //   `${API_URL}/api/list-paid-ad-messages/${pk}`,
+    //   config
+    // );
 
-      config
-    );
+    const {
+      ad_id,
+      paid_ad_message_id,
+    } = messageData;
+    const url = `${API_URL}/api/list-paid-ad-messages/?ad_id=${ad_id}&paid_ad_message_id=${paid_ad_message_id}`;
+    const { data } = await axios.get(url, config);
 
     dispatch({
       type: LIST_PAID_AD_MESSAGE_SUCCESS,
@@ -1544,7 +1589,7 @@ export const createFreeAdMessage = (messageData) => async (
   }
 };
 
-export const listFreeAdMessages = (pk) => async (dispatch, getState) => {
+export const listFreeAdMessages = (messageData) => async (dispatch, getState) => {
   try {
     dispatch({ type: LIST_FREE_AD_MESSAGE_REQUEST });
 
@@ -1559,11 +1604,17 @@ export const listFreeAdMessages = (pk) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${API_URL}/api/list-free-ad-messages/${pk}`,
+    // const { data } = await axios.get(
+    //   `${API_URL}/api/list-free-ad-messages/${pk}`,
+    //   config
+    // );
 
-      config
-    );
+    const {
+      ad_id,
+      free_ad_message_id,
+    } = messageData;
+    const url = `${API_URL}/api/list-free-ad-messages/?ad_id=${ad_id}&free_ad_message_id=${free_ad_message_id}`;
+    const { data } = await axios.get(url, config);
 
     dispatch({
       type: LIST_FREE_AD_MESSAGE_SUCCESS,

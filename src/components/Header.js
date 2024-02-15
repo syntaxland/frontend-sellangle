@@ -67,11 +67,7 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="primary" 
-      variant="dark" 
-      expand="md" 
-      sticky="top"
-      >
+      <Navbar bg="primary" variant="dark" expand="md" sticky="top">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
             <i className="fas fa-home" style={{ fontSize: "16px" }}></i> Sell
@@ -143,7 +139,7 @@ function Header() {
                   </span>
                 )}
                 <Nav.Link as={Link} to="#">
-                <>
+                  <>
                     <i
                       className="fas fa-handshake"
                       style={{ fontSize: "16px" }}
@@ -167,7 +163,7 @@ function Header() {
 
                 {userInfo ? (
                   <NavDropdown
-                  className="profile-dropdown custom-dropdown"
+                    className="profile-dropdown custom-dropdown"
                     align="end"
                     // title={
                     //   userInfo.first_name
@@ -245,6 +241,15 @@ function Header() {
                               style={{ fontSize: "16px" }}
                             ></i>{" "}
                             Current Ads
+                          </Nav.Link>
+                          <NavDropdown.Divider />
+
+                          <Nav.Link as={Link} to="/billing">
+                            <i
+                              className="fas fa-money-bill"
+                              style={{ fontSize: "16px" }}
+                            ></i>{" "}
+                            Billing
                           </Nav.Link>
                         </>
                       ) : (

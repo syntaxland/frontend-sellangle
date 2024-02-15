@@ -44,6 +44,7 @@ function GetBuyerPaidAdMessages() {
   const handleReplyBuyer = (ad) => {
     const queryParams = {
       id: ad?.paid_ad_id,
+      paid_ad_message_id: ad?.paid_ad_message_id,
       image1: ad?.paid_ad_image1,
       ad_name: ad?.paid_ad_name,
       price: ad?.paid_ad_price,
@@ -102,6 +103,7 @@ function GetBuyerPaidAdMessages() {
                       <th>User</th>
                       <th>Ad Expiration Date</th>
                       <th>Message</th>
+                      <th>Message ID</th>
                       <th>Timestamp</th>
                     </tr>
                   </thead>
@@ -131,6 +133,7 @@ function GetBuyerPaidAdMessages() {
                         </td>
 
                         <td>{ad.message}</td>
+                        <td>{ad.paid_ad_message_id}</td>
                         <td>
                           {new Date(ad.timestamp).toLocaleString("en-US", {
                             weekday: "long",

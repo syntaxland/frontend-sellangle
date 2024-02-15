@@ -8,7 +8,7 @@ import Loader from "../Loader";
 import Message from "../Message";
 
 function FeedbackScreen({ history }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
 
   const [subject, setSubject] = useState("");
   const [category, setCategory] = useState("");

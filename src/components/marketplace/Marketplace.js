@@ -24,7 +24,7 @@ import "slick-carousel/slick/slick-theme.css";
 const quotes = [
   "At this angle, sells are quick ...",
   "Turning Angles into Sells – SellAngle Style!",
-  "Global Sells, Universal Angles – One Marketplace for All!",
+  "Global Sells, Universal Angles – One Marketplace for All!", 
   "Selling Perfected: It's the SellAngle Way!",
   "Sell with Ease, Master the Angle – SellAngle!",
   "Every Sell, Every Angle, Every Human – One Global Stop!",
@@ -128,7 +128,7 @@ function Marketplace() {
     infinite: true,
     speed: 1000,
     slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToScroll: 1, 
     autoplay: true,
     autoplaySpeed: 5000,
     fade: true,

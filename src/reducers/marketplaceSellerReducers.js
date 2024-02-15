@@ -174,6 +174,10 @@ GET_REVIEW_SELLER_PAID_ADS_FAIL,
 APPLY_PROMO_CODE_REQUEST,
 APPLY_PROMO_CODE_SUCCESS,
 APPLY_PROMO_CODE_FAIL,
+
+GET_SELLER_PAID_ADS_CHARGES_REQUEST,
+GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
+GET_SELLER_PAID_ADS_CHARGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -206,6 +210,30 @@ const initialState = {
   discountPercentage: [],
   promoDiscount: [],
 
+  totalAdCharges: [],
+  paidAdCharges: [],
+};
+
+export const getSellerPaidAdChargesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_SELLER_PAID_ADS_CHARGES_REQUEST:
+      return { loading: true };
+    case GET_SELLER_PAID_ADS_CHARGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        // paidAdCharges: action.payload.response_data,
+        paidAdCharges: action.payload.ad_charges,
+        totalAdCharges: action.payload.total_ad_charges,
+        // paidAdCharges: action.payload.response_data.ad_charges,
+        // totalAdCharges: action.payload.response_data.total_ad_charges,
+
+      };
+    case GET_SELLER_PAID_ADS_CHARGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const applyPomoCodeReducer = (state = initialState, action) => {
