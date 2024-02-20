@@ -26,7 +26,7 @@ import Referrals from "./Referrals";
 import SupportTicket from "./SupportTicket";
 import Feedback from "./Feedback";
 import Settings from "./Settings";
-import Billing from "../marketplace/Billing";
+// import Billing from "../marketplace/Billing";
 
 function UserDashboard() {
   const dispatch = useDispatch();
@@ -128,8 +128,8 @@ function UserDashboard() {
       case "settings":
         return <Settings />;
 
-      case "billing":
-        return <Billing />;
+      // case "billing":
+      //   return <Billing />;
 
       default:
         return <Dashboard />;
@@ -294,7 +294,7 @@ function UserDashboard() {
                 </Button>
               </div>
 
-              <div>
+              {/* <div>
                 <Button
                   variant={activeTab === "billing" ? "primary" : "outline-primary"}
                   className="sidebar-link"
@@ -302,7 +302,7 @@ function UserDashboard() {
                 >
                   <i className="fa fa-gift"></i> Billing
                 </Button>
-              </div>
+              </div> */}
 
               <div>
                 <Button
