@@ -18,6 +18,8 @@ import DeactivatePaidAd from "./DeactivatePaidAd";
 import ReactivatePaidAd from "./ReactivatePaidAd";
 import TogglePaidAdSave from "./TogglePaidAdSave";
 import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
+import { formatAmount } from "../FormatAmount";
+import { formatHour } from "../formatHour";
 
 function PaidAdCard({ product }) {
   // const dispatch = useDispatch();
@@ -291,8 +293,8 @@ function PaidAdCard({ product }) {
             className="py-2 rounded"
             disabled
           >
-            Due Ad Charges: {product?.ad_charges} CPS{' '} 
-            ({product?.ad_charge_hours} hours) 
+            Due Ad Charges: {formatAmount(product?.ad_charges)} CPS{' '} 
+            ({formatHour(product?.ad_charge_hours)} hours) 
           </Button>
         </div>
 

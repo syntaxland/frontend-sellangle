@@ -1,16 +1,39 @@
 // Billing.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Col, Row, Container, Button } from "react-bootstrap";
+import { Table, Col, Row, Container, Button, Modal } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { getSellerPaidAdCharges } from "../../actions/marketplaceSellerActions";
+import { getUserProfile } from "../../actions/userProfileActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 import AdChargeCalculator from "./AdChargeCalculator";
+import PayAdCharges from "./PayAdCharges";
+import { formatAmount } from "../FormatAmount";
+import { formatHour } from "../formatHour";
 
 function Billing() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
+  const userProfile = useSelector((state) => state.userProfile);
+  const { profile } = userProfile;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    }
+  }, [userInfo, history]);
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getUserProfile());
+    }
+  }, [dispatch, userInfo]);
   const getSellerPaidAdChargesState = useSelector(
     (state) => state.getSellerPaidAdChargesState
   );
@@ -25,6 +48,14 @@ function Billing() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const [payAdChargesModal, setBuyPayAdChargesModal] = useState(false);
+  const handlePayAdChargesOpen = () => {
+    setBuyPayAdChargesModal(true);
+  };
+  const handlePayAdChargesClose = () => {
+    setBuyPayAdChargesModal(false);
+  };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -85,8 +116,8 @@ function Billing() {
                     disabled
                   >
                     <strong>
-                      Total Ad Charges: {totalAdCharges?.total_ad_charges} (
-                      {totalAdCharges?.total_ad_charge_hours} hours)
+                      Total Ad Charges: {formatAmount(totalAdCharges?.total_ad_charges)} (
+                      {formatHour(totalAdCharges?.total_ad_charge_hours)} hours)
                     </strong>
                   </Button>
                 </div>
@@ -102,6 +133,36 @@ function Billing() {
           )}
         </Col>
       </Row>
+
+      {profile.ad_charge_is_owed ? (
+        <div className="d-flex justify-content-end py-2">
+          <span className="py-2">
+            <Button
+              variant="outline-danger"
+              size="sm"
+              className="py-2 rounded"
+              onClick={handlePayAdChargesOpen}
+            >
+              Pay Ad Charges
+            </Button>
+          </span>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      <Modal show={payAdChargesModal} onHide={handlePayAdChargesClose}>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-center w-100 py-2">
+            Pay Ad Charges
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="py-2 d-flex justify-content-center">
+          {payAdChargesModal && (
+            <PayAdCharges totalAdCharges={totalAdCharges?.total_ad_charges} />
+          )}
+        </Modal.Body>
+      </Modal>
       <AdChargeCalculator />
     </Container>
   );

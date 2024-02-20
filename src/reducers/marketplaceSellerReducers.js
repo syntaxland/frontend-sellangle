@@ -174,9 +174,9 @@ import {
   GET_SELLER_PAID_ADS_CHARGES_REQUEST,
   GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
   GET_SELLER_PAID_ADS_CHARGES_FAIL,
-  // GET_ADS_CPS_CHARGES_REQUEST,
-  // GET_ADS_CPS_CHARGES_SUCCESS,
-  // GET_ADS_CPS_CHARGES_FAIL,
+  PAY_ADS_CHARGES_REQUEST,
+PAY_ADS_CHARGES_SUCCESS,
+PAY_ADS_CHARGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -214,20 +214,22 @@ const initialState = {
   // adCpsCharges: [],
 };
 
-// export const getAdCpsChargesReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case GET_ADS_CPS_CHARGES_REQUEST:
-//       return { loading: true };
-//     case GET_ADS_CPS_CHARGES_SUCCESS:
-//       return { loading: false, 
-//         success: true, 
-//         adCpsCharges: action.payload };
-//     case GET_ADS_CPS_CHARGES_FAIL:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
+export const payAdChargesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case PAY_ADS_CHARGES_REQUEST:
+      return { loading: true };
+    case PAY_ADS_CHARGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        
+      };
+    case PAY_ADS_CHARGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const getSellerPaidAdChargesReducer = (state = initialState, action) => {
   switch (action.type) {

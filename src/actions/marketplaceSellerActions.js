@@ -169,56 +169,55 @@ import {
   GET_REVIEW_SELLER_PAID_ADS_REQUEST,
   GET_REVIEW_SELLER_PAID_ADS_SUCCESS,
   GET_REVIEW_SELLER_PAID_ADS_FAIL,
-
   APPLY_PROMO_CODE_REQUEST,
-APPLY_PROMO_CODE_SUCCESS,
-APPLY_PROMO_CODE_FAIL,
-GET_SELLER_PAID_ADS_CHARGES_REQUEST,
-GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
-GET_SELLER_PAID_ADS_CHARGES_FAIL,
-
-// GET_ADS_CPS_CHARGES_REQUEST,
-// GET_ADS_CPS_CHARGES_SUCCESS,
-// GET_ADS_CPS_CHARGES_FAIL,
+  APPLY_PROMO_CODE_SUCCESS,
+  APPLY_PROMO_CODE_FAIL,
+  GET_SELLER_PAID_ADS_CHARGES_REQUEST,
+  GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
+  GET_SELLER_PAID_ADS_CHARGES_FAIL,
+  PAY_ADS_CHARGES_REQUEST,
+  PAY_ADS_CHARGES_SUCCESS,
+  PAY_ADS_CHARGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-// export const getAdCpsCharges = () => async (dispatch, getState) => {
-//   try {
-//     dispatch({ type: GET_ADS_CPS_CHARGES_REQUEST });
+export const payAdCharges = (promoData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PAY_ADS_CHARGES_REQUEST });
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${userInfo.access}`,
-//       },
-//     };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
 
-//     const { data } = await axios.get(
-//       `${API_URL}/api/get-ad-charges-cps/`,
+    const { data } = await axios.post(
+      `${API_URL}/api/pay-ad-charges/`,
+      promoData,
+      config
+    );
 
-//       config
-//     );
-
-//     dispatch({
-//       type: GET_ADS_CPS_CHARGES_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: GET_ADS_CPS_CHARGES_FAIL,
-//       payload:
-//         error.response && error.response.data.detail
-//           ? error.response.data.detail
-//           : error.message,
-//     });
-//   }
-// };
+    dispatch({
+      type: PAY_ADS_CHARGES_SUCCESS,
+      payload: data,
+    });
+    return data;
+  } catch (error) {
+    dispatch({
+      type: PAY_ADS_CHARGES_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const getSellerPaidAdCharges = () => async (dispatch, getState) => {
   try {
@@ -256,10 +255,7 @@ export const getSellerPaidAdCharges = () => async (dispatch, getState) => {
   }
 };
 
-export const applyPromoCode = (promoData) => async (
-  dispatch,
-  getState
-) => {
+export const applyPromoCode = (promoData) => async (dispatch, getState) => {
   try {
     dispatch({ type: APPLY_PROMO_CODE_REQUEST });
 
@@ -328,7 +324,7 @@ export const getFreeAdSellerReviews = (reviewData) => async (
       type: GET_REVIEW_SELLER_FREE_ADS_SUCCESS,
       payload: data,
     });
-    return data; 
+    return data;
   } catch (error) {
     dispatch({
       type: GET_REVIEW_SELLER_FREE_ADS_FAIL,
@@ -632,7 +628,7 @@ export const getUserFreeAdsViews = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+      `${API_URL}/api/list-seller-free-a-messages/${pk}`,
 
       config
     );
@@ -668,7 +664,7 @@ export const getUserPaidAdsViews = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+      `${API_URL}/api/list-seller-free-ad-messags/${pk}`,
 
       config
     );
@@ -704,7 +700,7 @@ export const getUserSavedFreeAds = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+      `${API_URL}/api/list-seller-free-ad-messag/${pk}`,
 
       config
     );
@@ -740,7 +736,7 @@ export const getUserSavedPaidAds = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+      `${API_URL}/api/list-seller-free/${pk}`,
 
       config
     );
@@ -1547,7 +1543,10 @@ export const createPaidAdMessage = (messageData) => async (
   }
 };
 
-export const listPaidAdMessages = (messageData) => async (dispatch, getState) => {
+export const listPaidAdMessages = (messageData) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({ type: LIST_PAID_AD_MESSAGE_REQUEST });
 
@@ -1567,10 +1566,7 @@ export const listPaidAdMessages = (messageData) => async (dispatch, getState) =>
     //   config
     // );
 
-    const {
-      ad_id,
-      paid_ad_message_id,
-    } = messageData;
+    const { ad_id, paid_ad_message_id } = messageData;
     const url = `${API_URL}/api/list-paid-ad-messages/?ad_id=${ad_id}&paid_ad_message_id=${paid_ad_message_id}`;
     const { data } = await axios.get(url, config);
 
@@ -1629,7 +1625,10 @@ export const createFreeAdMessage = (messageData) => async (
   }
 };
 
-export const listFreeAdMessages = (messageData) => async (dispatch, getState) => {
+export const listFreeAdMessages = (messageData) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({ type: LIST_FREE_AD_MESSAGE_REQUEST });
 
@@ -1649,10 +1648,7 @@ export const listFreeAdMessages = (messageData) => async (dispatch, getState) =>
     //   config
     // );
 
-    const {
-      ad_id,
-      free_ad_message_id,
-    } = messageData;
+    const { ad_id, free_ad_message_id } = messageData;
     const url = `${API_URL}/api/list-free-ad-messages/?ad_id=${ad_id}&free_ad_message_id=${free_ad_message_id}`;
     const { data } = await axios.get(url, config);
 

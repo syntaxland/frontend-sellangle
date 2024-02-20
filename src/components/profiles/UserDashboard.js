@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 // import { Link} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -25,9 +26,11 @@ import Referrals from "./Referrals";
 import SupportTicket from "./SupportTicket";
 import Feedback from "./Feedback";
 import Settings from "./Settings";
+import Billing from "../marketplace/Billing";
 
-function UserDashboard({ history }) {
+function UserDashboard() {
   const dispatch = useDispatch();
+    const history = useHistory();
 
   const userProfile = useSelector((state) => state.userProfile);
   const { profile } = userProfile;
@@ -124,6 +127,9 @@ function UserDashboard({ history }) {
 
       case "settings":
         return <Settings />;
+
+      case "billing":
+        return <Billing />;
 
       default:
         return <Dashboard />;
@@ -288,15 +294,15 @@ function UserDashboard({ history }) {
                 </Button>
               </div>
 
-              {/* <div>
+              <div>
                 <Button
-                  variant={activeTab === "offers" ? "primary" : "outline-primary"}
+                  variant={activeTab === "billing" ? "primary" : "outline-primary"}
                   className="sidebar-link"
-                  onClick={() => handleTabChange("offers")}
+                  onClick={() => handleTabChange("billing")}
                 >
-                  <i className="fa fa-gift"></i> Offers
+                  <i className="fa fa-gift"></i> Billing
                 </Button>
-              </div> */}
+              </div>
 
               <div>
                 <Button

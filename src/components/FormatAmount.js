@@ -1,3 +1,5 @@
+// FormatAmount.js
+
 export function formatAmount(amount, decimalPlaces = 2) {
   const formattedNumber = parseFloat(amount).toFixed(decimalPlaces);
   const parts = formattedNumber.toString().split(".");
