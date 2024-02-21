@@ -127,6 +127,40 @@ main {
   min-height: 80vh;
 }
 
+.sidebar-link.position-relative {
+  position: relative;
+}
+
+.msg-counter {
+  /* position: absolute; */
+  /* top: -8px; */
+  /* right: -8px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+/* Add these styles to your CSS or SCSS file */
+.message-list-item {
+  /* Your default styles for list items go here */
+  /* border: 1px solid #ddd; */
+  /* margin-bottom: 10px; */
+  /* padding: 10px; */
+}
+
+.unread-message {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-weight: bold; 
+}
+
 .App {
   text-align: center;
   text-transform: none;

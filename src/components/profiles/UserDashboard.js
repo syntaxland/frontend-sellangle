@@ -8,9 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 // import { login } from "../../actions/userActions";
 import { getUserProfile } from "../../actions/userProfileActions";
+import { getUserMessages } from "../../actions/messagingActions";
 import UserProfile from "./UserProfile";
 import Orders from "./Orders";
-import Payments from "./Payments"; 
+import Payments from "./Payments";
 import Favorites from "./SavedItems";
 import OrderShipment from "./OrderShipment";
 import OrderItem from "./OrderItem";
@@ -30,15 +31,19 @@ import Settings from "./Settings";
 
 function UserDashboard() {
   const dispatch = useDispatch();
-    const history = useHistory();
+  const history = useHistory();
 
   const userProfile = useSelector((state) => state.userProfile);
   const { profile } = userProfile;
   console.log("profile:", profile);
 
+  const getUserMessagesState = useSelector((state) => state.getUserMessagesState);
+  const { messages } = getUserMessagesState;
+  console.log("messages:", messages);
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  console.log("userInfo:", userInfo);
+  // console.log("userInfo:", userInfo);
 
   useEffect(() => {
     if (!userInfo) {
@@ -47,9 +52,8 @@ function UserDashboard() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (userInfo) {
-      dispatch(getUserProfile());
-    }
+    dispatch(getUserProfile());
+    dispatch(getUserMessages());
   }, [dispatch, userInfo]);
 
   const [activeTab, setActiveTab] = useState("user-dashboard");
@@ -74,6 +78,9 @@ function UserDashboard() {
   const handleMarketplaceDashboard = () => {
     history.push("/dashboard/marketplace/sellers");
   };
+
+  const msgCounted = messages?.reduce((total, userMessages) => total + userMessages.msg_count, 0);
+  console.log("msgCounted:", msgCounted);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -154,7 +161,9 @@ function UserDashboard() {
               <div>
                 <Button
                   variant={
-                    activeTab === "user-dashboard" ? "primary" : "outline-primary"
+                    activeTab === "user-dashboard"
+                      ? "primary"
+                      : "outline-primary"
                   }
                   className="sidebar-link"
                   // activeClassName="active-link"
@@ -166,7 +175,9 @@ function UserDashboard() {
 
               <div>
                 <Button
-                  variant={activeTab === "profile" ? "primary" : "outline-primary"}
+                  variant={
+                    activeTab === "profile" ? "primary" : "outline-primary"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("profile")}
                 >
@@ -226,7 +237,9 @@ function UserDashboard() {
 
               <div>
                 <Button
-                  variant={activeTab === "referrals" ? "primary" : "outline-primary"}
+                  variant={
+                    activeTab === "referrals" ? "primary" : "outline-primary"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("referrals")}
                 >
@@ -249,18 +262,25 @@ function UserDashboard() {
               <div>
                 <Button
                   variant={
-                    activeTab === "message-inbox" ? "primary" : "outline-primary"
+                    activeTab === "message-inbox"
+                      ? "primary"
+                      : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("message-inbox")}
                 >
-                  <i className="fa fa-message"></i> Message Inbox
+                  <i className="fa fa-message"></i> Inbox{" "}
+                  {msgCounted > 0 && (
+                    <span className="msg-counter">{msgCounted}</span>
+                  )}
                 </Button>
               </div>
 
               <div>
                 <Button
-                  variant={activeTab === "favorites" ? "primary" : "outline-primary"}
+                  variant={
+                    activeTab === "favorites" ? "primary" : "outline-primary"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("favorites")}
                 >
@@ -271,7 +291,9 @@ function UserDashboard() {
               <div>
                 <Button
                   variant={
-                    activeTab === "viewed-products" ? "primary" : "outline-primary"
+                    activeTab === "viewed-products"
+                      ? "primary"
+                      : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("viewed-products")}
@@ -306,7 +328,9 @@ function UserDashboard() {
 
               <div>
                 <Button
-                  variant={activeTab === "feedback" ? "primary" : "outline-primary"}
+                  variant={
+                    activeTab === "feedback" ? "primary" : "outline-primary"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("feedback")}
                 >
@@ -317,7 +341,9 @@ function UserDashboard() {
               <div>
                 <Button
                   variant={
-                    activeTab === "support-ticket" ? "primary" : "outline-primary"
+                    activeTab === "support-ticket"
+                      ? "primary"
+                      : "outline-primary"
                   }
                   className="sidebar-link"
                   onClick={() => handleTabChange("support-ticket")}
@@ -338,7 +364,9 @@ function UserDashboard() {
 
               <div>
                 <Button
-                  variant={activeTab === "settings" ? "primary" : "outline-primary"}
+                  variant={
+                    activeTab === "settings" ? "primary" : "outline-primary"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("settings")}
                 >
@@ -370,7 +398,6 @@ function UserDashboard() {
               <div className="">
                 {!profile?.is_marketplace_seller ? (
                   <div className="mt-3">
-                    
                     <Button
                       size="sm"
                       className="sidebar-link py-2"
@@ -396,7 +423,6 @@ function UserDashboard() {
                   </>
                 )}
               </div>
-
             </div>
           )}
         </Col>

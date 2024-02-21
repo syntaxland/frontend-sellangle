@@ -163,7 +163,11 @@ import {
 
 } from "./reducers/creditPointReducers";
 
-import { messagingReducer, emailReducer } from "./reducers/messagingReducers";
+import { messagingReducer, 
+  emailReducer,
+  clearMessageCounterReducer,
+  getUserMessagesReducer,
+} from "./reducers/messagingReducers";
 import {
   // chatReducer,
   chatRoomsReducer,
@@ -279,7 +283,8 @@ const reducer = combineReducers({
 
   messaging: messagingReducer,
   emailMessaging: emailReducer,
-  // chat: chatReducer,
+  clearMessageCounterState: clearMessageCounterReducer,
+  getUserMessagesState: getUserMessagesReducer,
   chatRooms: chatRoomsReducer,
   chatMessages: chatMessagesReducer,
 

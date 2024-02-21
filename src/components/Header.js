@@ -12,7 +12,7 @@ import {
 import { logout } from "../actions/userActions";
 
 import { getUserProfile } from "../actions/userProfileActions";
-
+import { getUserMessages } from "../actions/messagingActions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Header.css";
 
@@ -26,6 +26,10 @@ function Header() {
   const userProfile = useSelector((state) => state.userProfile);
   const { profile } = userProfile;
 
+  const getUserMessagesState = useSelector((state) => state.getUserMessagesState);
+  const { messages } = getUserMessagesState;
+  console.log("messages:", messages);
+
   // const [keyword, setKeyword] = useState("");
   const [greeting, setGreeting] = useState("");
   const history = useHistory();
@@ -38,6 +42,7 @@ function Header() {
   useEffect(() => {
     if (userInfo) {
       dispatch(getUserProfile());
+      dispatch(getUserMessages());
     }
   }, [dispatch, userInfo]);
 
@@ -64,6 +69,12 @@ function Header() {
   const handleSearchAds = () => {
     history.push("/search-ad/");
   };
+
+  const msgCounted = messages?.reduce(
+    (total, userMessages) => total + userMessages.msg_count,
+    0
+  );
+  // console.log("msgCounted:", msgCounted);
 
   return (
     <header>
@@ -266,7 +277,10 @@ function Header() {
                               className="fas fa-message"
                               style={{ fontSize: "16px" }}
                             ></i>{" "}
-                            Inbox
+                            Inbox{" "}
+                            {msgCounted > 0 && (
+                              <span className="msg-counter">{msgCounted}</span>
+                            )}
                           </Nav.Link>
                         </>
                       ) : (
