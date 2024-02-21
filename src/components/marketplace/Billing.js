@@ -116,7 +116,7 @@ function Billing() {
                     disabled
                   >
                     <strong>
-                      Total Ad Charges: {formatAmount(totalAdCharges?.total_ad_charges)} (
+                      Total Ad Charges: {formatAmount(totalAdCharges?.total_ad_charges)} CPS (
                       {formatHour(totalAdCharges?.total_ad_charge_hours)} hours)
                     </strong>
                   </Button>

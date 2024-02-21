@@ -70,7 +70,7 @@ function Dashboard() {
   // };
 
   const lineGraphData = {
-    labels: payments.map((payment) =>
+    labels: payments?.map((payment) =>
       new Date(payment.created_at).toLocaleString()
     ),
     datasets: [
@@ -79,9 +79,9 @@ function Dashboard() {
         fill: false,
         borderColor: "rgba(75,192,192,1)",
         borderWidth: 2,
-        data: payments.map((payment) => payment.amount),
-        orderIds: payments.map((payment) => payment.order_id),
-        firstNames: payments.map((payment) => payment.first_name), 
+        data: payments?.map((payment) => payment.amount),
+        orderIds: payments?.map((payment) => payment.order_id),
+        firstNames: payments?.map((payment) => payment.first_name), 
       },
     ],
   };
@@ -109,7 +109,7 @@ function Dashboard() {
 
   const getTotalPayment = () => {
     let totalPayment = 0;
-    payments.forEach((payment) => {
+    payments?.forEach((payment) => {
       totalPayment += parseFloat(payment.amount);
     });
     return totalPayment;
@@ -143,19 +143,19 @@ function Dashboard() {
   const paidOrderRateData = {
     labels: [
       `Paid Orders (${(
-        (orders.filter((order) => order.isPaid).length / orders.length) *
+        (orders?.filter((order) => order.isPaid)?.length / orders?.length) *
         100
       ).toFixed(1)}%)`,
       `Unpaid Orders (${(
-        (orders.filter((order) => !order.isPaid).length / orders.length) *
+        (orders?.filter((order) => !order.isPaid)?.length / orders?.length) *
         100
       ).toFixed(1)}%)`,
     ],
     datasets: [
       {
         data: [
-          orders.filter((order) => order.isPaid).length,
-          orders.filter((order) => !order.isPaid).length,
+          orders?.filter((order) => order.isPaid).length,
+          orders?.filter((order) => !order.isPaid).length,
         ],
         backgroundColor: ["#1F77B4", "#FF6384"],
       },
@@ -165,19 +165,19 @@ function Dashboard() {
   const unfulfilledOrderRateData = {
     labels: [
       `Delivered Orders (${(
-        (orders.filter((order) => order.is_delivered).length / orders.length) *
+        (orders?.filter((order) => order.is_delivered).length / orders?.length) *
         100
       ).toFixed(1)}%)`,
       `Undelivered Orders (${(
-        (orders.filter((order) => !order.is_delivered).length / orders.length) *
+        (orders?.filter((order) => !order.is_delivered).length / orders?.length) *
         100
       ).toFixed(1)}%)`,
     ],
     datasets: [
       {
         data: [
-          orders.filter((order) => order.is_delivered).length,
-          orders.filter((order) => !order.is_delivered).length,
+          orders?.filter((order) => order.is_delivered).length,
+          orders?.filter((order) => !order.is_delivered).length,
         ],
         backgroundColor: ["#008000", "#FFA500"],
       },

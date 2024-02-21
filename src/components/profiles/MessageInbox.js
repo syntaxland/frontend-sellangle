@@ -55,6 +55,11 @@ const MessageInbox = () => {
             <Loader />
           ) : (
             <>
+            {currentItems.length === 0 ? (
+                <div className="text-center py-3">
+                  Inbox messages appear here.
+                </div>
+              ) : (
               <Card className="py-3">
                 <Card.Body>
                   <ListGroup>
@@ -111,7 +116,7 @@ const MessageInbox = () => {
                   </ListGroup>
                 </Card.Body>
               </Card>
-
+)}
               <Pagination
                 itemsPerPage={itemsPerPage}
                 totalItems={messages?.length}
