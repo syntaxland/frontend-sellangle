@@ -73,7 +73,7 @@ function GetAdCpsCharges() {
                     <td>{index + 1}</td>
                     <td>{cps.ad_charge_cps_id}</td>
                     <td>{cps.username}</td>
-                    <td style={{ color: "green" }}>{formatAmount(cps.cps_amount)}</td>
+                    <td style={{ color: "red" }}>{formatAmount(cps.cps_amount)}</td>
                     <td>{formatAmount(cps.old_bal)}</td>
                     <td>{formatAmount(cps.new_bal)}</td>
                     <td>
