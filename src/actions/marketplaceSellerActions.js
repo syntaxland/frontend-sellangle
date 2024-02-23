@@ -1182,7 +1182,8 @@ export const getSellerDetail = (seller_username) => async (
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1220,7 +1221,8 @@ export const getSellerActivePaidAds = (seller_username) => async (
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1258,7 +1260,8 @@ export const getSellerActiveFreeAds = (seller_username) => async (
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1677,7 +1680,8 @@ export const getSellerFreeAd = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1712,7 +1716,8 @@ export const getFreeAdDetail = (pk) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1823,7 +1828,8 @@ export const getAllFreeAd = (adData) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         // Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1863,7 +1869,8 @@ export const getPaidAd = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -1899,7 +1906,8 @@ export const getPaidAdDetail = (pk) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -2010,7 +2018,8 @@ export const getAllPaidAd = (adData) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         // Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -2161,7 +2170,8 @@ export const getSellerAccount = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -2271,7 +2281,8 @@ export const getSellerPhoto = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };
@@ -2345,7 +2356,8 @@ export const getSellerPaysofterApiKey = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.access}`,
       },
     };

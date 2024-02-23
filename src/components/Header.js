@@ -28,7 +28,7 @@ function Header() {
 
   const getUserMessagesState = useSelector((state) => state.getUserMessagesState);
   const { messages } = getUserMessagesState;
-  console.log("messages:", messages);
+  // console.log("messages:", messages);
 
   // const [keyword, setKeyword] = useState("");
   const [greeting, setGreeting] = useState("");

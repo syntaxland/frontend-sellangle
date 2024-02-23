@@ -83,7 +83,7 @@ const SendEmail = () => {
                     placeholder="Enter subject"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    maxLength={50}
+                    maxLength={100}
                     required
                   />
                 </Form.Group>
