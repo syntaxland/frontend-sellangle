@@ -86,7 +86,7 @@ function PayAdCharges({ totalAdCharges }) {
               onClick={handlePayAdCharges}
               className="rounded mt-2 text-center w-100"
             >
-              Pay Now
+              Pay Now 
             </Button>
           </Form>
         </Col>
