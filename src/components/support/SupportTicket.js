@@ -1,34 +1,38 @@
 // SupportTicket.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, 
-  // useHistory
- } from "react-router-dom"; 
-import { Table } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import { Table, Button, Container } from "react-bootstrap";
 import {
-  listAllSupportTickets,
+  listSupportTicket,
+  // listSupportMessage,
 } from "../../actions/supportActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 
-function SupportTicket() {
+function SupportTicket() { 
   const dispatch = useDispatch();
-  // const history = useHistory();
-  const allTicketList = useSelector(
-    (state) => state.allTicketList
+  const history = useHistory();
+  const listSupportTicketState = useSelector( 
+    (state) => state.listSupportTicketState
   );
-  const { loading, tickets, error } = allTicketList;
+  const { loading, tickets, error } = listSupportTicketState;
   console.log("tickets:", tickets);
 
-  // const allTicketResponse = useSelector(
-  //   (state) => state.allTicketResponse 
+  //  const replySupportTicketState = useSelector(
+  //   (state) => state.replySupportTicketState
+  // );
+  // const { loading, success, error } = replySupportTicketState;
+
+  // const listSupportMessageState = useSelector(
+  //   (state) => state.listSupportMessageState
   // );
   // const {
   //   loading: listSupportMessageloading,
   //   ticketMessages,
   //   error: listSupportMessageError,
-  // } = allTicketResponse;
+  // } = listSupportMessageState;
   // console.log("ticketMessages:", ticketMessages);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,15 +48,16 @@ function SupportTicket() {
     : [];
 
   useEffect(() => {
-    dispatch(listAllSupportTickets());
+    dispatch(listSupportTicket());
+    // dispatch(listSupportMessage());
   }, [dispatch]);
 
-  // const handleCreateTicket = () => {
-  //   history.push("/create-support-ticket");
-  // };
+  const handleCreateTicket = () => {
+    history.push("/create-support-ticket");
+  };
 
   return (
-    <div>
+    <Container>
       <h1 className="text-center py-3">
         <i className="fas fa-ticket"></i> Support Ticket
       </h1>
@@ -63,19 +68,17 @@ function SupportTicket() {
       ) : (
         <>
           {currentItems.length === 0 ? (
-            <div className="text-center py-3">Support tickets appear here.</div>
+            <div className="text-center py-3">Support Ticket appear here.</div>
           ) : (
             <Table striped bordered hover responsive className="table-sm">
               <thead>
                 <tr>
                   <th>SN</th>
                   <th>Ticket ID</th>
-                  <th>User</th>
-                  <th>Account ID</th>
-                  <th>username</th>
+                  {/* <th>User</th> */}
                   <th>Subject</th>
                   <th>Category</th>
-                  <th>Message</th>
+                  {/* <th>Message</th> */}
                   <th>Status</th>
                   <th>Resolved</th>
                   <th>Created At</th>
@@ -88,14 +91,12 @@ function SupportTicket() {
                     <td>
                       <Link to={`/support/ticket/${ticket.ticket_id}`}> 
                         #{ticket.ticket_id}
-                      </Link> 
+                      </Link>
                     </td>
-                    <td>{ticket.email}</td>
-                    <td>{ticket.account_id}</td>
-                    <td>{ticket.username}</td>
+                    {/* <td>{ticket.email}</td> */}
                     <td>{ticket.subject}</td>
                     <td>{ticket.category}</td>
-                    <td>{ticket.message}</td>
+                    {/* <td>{ticket.message}</td> */}
                     <td>
                       {ticket.is_closed ? (
                         <span style={{ color: "red" }}>Closed</span>
@@ -139,11 +140,11 @@ function SupportTicket() {
               totalItems={tickets.length}
               currentPage={currentPage}
               paginate={paginate}
-            />
+            /> 
           </div>
         </>
       )}
-      {/* <div className="d-flex justify-content-center mt-5 py-3">
+      <div className="d-flex justify-content-center mt-5 py-3">
         <Button
           variant="success"
           onClick={handleCreateTicket}
@@ -151,9 +152,9 @@ function SupportTicket() {
         >
           Create A New Support Ticket
         </Button>
-      </div> */}
-    </div>
-  );
+      </div>
+    </Container>
+  ); 
 }
 
 export default SupportTicket;

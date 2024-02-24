@@ -27,7 +27,6 @@ import ReviewScreen from "./components/screens/ReviewScreen";
 import AddReviewScreen from "./components/screens/AddReviewScreen";
 import EditReviewScreen from "./components/screens/EditReviewScreen";
 import CreditPointScreen from "./components/screens/CreditPointScreen";
-import SupportTicketScreen from "./components/screens/SupportTicketScreen";
 import LiveChatScreen from "./components/screens/LiveChatScreen";
 import FeedbackScreen from "./components/screens/FeedbackScreen";
 import DarkModeScreen from "./components/screens/DarkModeScreen";
@@ -39,13 +38,13 @@ import VerifyEmailOtp from "./components/emailOtp/VerifyEmailOtp";
 // import VerifyAccountFundOtp from "./components/payment/VerifyAccountFundOtp";
 
 import UserProfile from "./components/profiles/UserProfile";
+
 import DeleteAccount from "./components/profiles/DeleteAccount";
 import ChangePassword from "./components/profiles/ChangePassword";
 import ResetPasswordRequest from "./components/profiles/ResetPasswordRequest";
 import ResetPassword from "./components/profiles/ResetPassword";
 import Orders from "./components/profiles/Orders";
 import Payments from "./components/profiles/Payments";
-import SupportTicketDetails from "./components/profiles/SupportTicketDetails";
 import MessageInbox from "./components/profiles/MessageInbox";
 
 import UserDashboard from "./components/profiles/UserDashboard";
@@ -70,6 +69,10 @@ import SearchResults from "./components/marketplace/SearchResults";
 import CurrentAds from "./components/marketplace/CurrentAds";
 import SellerInbox from "./components/marketplace/SellerInbox";
 import Billing from "./components/marketplace/Billing";
+
+import CreateSupportTicket from "./components/support/CreateSupportTicket";
+import SupportTicketDetails from "./components/support/SupportTicketDetails";
+import SupportTicket from "./components/support/SupportTicket";
 
 function App() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -132,9 +135,11 @@ function App() {
           <Route path="/credit-point/" component={CreditPointScreen} />
           <Route
             path="/create-support-ticket"
-            component={SupportTicketScreen}
+            component={CreateSupportTicket}
           />
           <Route path="/support/ticket/:id" component={SupportTicketDetails} />
+          <Route path="/support/tickets/" component={SupportTicket} />
+          
           <Route path="/inbox" component={MessageInbox} />
           <Route path="/live-chat" component={LiveChatScreen} />
           <Route path="/feedback" component={FeedbackScreen} />
@@ -167,7 +172,6 @@ function App() {
             component={CreateMarketplaceSeller}
           />
           <Route path="/seller/photo/" component={SellerPhoto} />
-
         </main>
         <Footer />
         {/* </section> */}
