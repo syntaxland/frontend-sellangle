@@ -24,7 +24,7 @@ import RecommendedProducts from "./RecommendedProducts";
 import ViewedItems from "./ViewedItems";
 // import SellerInbox from "./SellerInbox";
 import Referrals from "./Referrals";
-import SupportTicket from "./SupportTicket";
+import SupportTicket from "../support/SupportTicket";
 import Feedback from "./Feedback";
 import Settings from "./Settings";
 // import Billing from "../marketplace/Billing";

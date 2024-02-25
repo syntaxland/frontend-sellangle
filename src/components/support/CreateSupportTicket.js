@@ -74,7 +74,7 @@ function CreateSupportTicket() {
               >
                 <option value="Support">Support</option>
                 <option value="Account Fund">Account Fund</option>
-                <option value="billing">Billing</option>
+                <option value="Billing">Billing</option>
                 <option value="Abuse">Abuse</option>
                 <option value="OTP">OTP</option>
                 <option value="Payments">Payments</option>

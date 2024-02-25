@@ -2,13 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { createFeedback } from "../../actions/feedbackActions";
 
 import Loader from "../Loader";
 import Message from "../Message";
 
-function FeedbackScreen({ history }) {
-  const dispatch = useDispatch(); 
+function FeedbackScreen() {
+  const dispatch = useDispatch();   
+      const history = useHistory();
 
   const [subject, setSubject] = useState("");
   const [category, setCategory] = useState("");
@@ -41,7 +43,7 @@ function FeedbackScreen({ history }) {
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        history.push("/dashboard");
+        history.push("/dashboard/users");
         window.location.reload();
       }, 3000);
       return () => clearTimeout(timer);
@@ -59,22 +61,24 @@ function FeedbackScreen({ history }) {
             <Message variant="success">Feedback sents successfully.</Message>
           )}
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId="category"> 
+          <Form.Group controlId="category">
               <Form.Label>Category</Form.Label>
               <Form.Control
                 as="select"
+                required
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="support">Support</option>
-                <option value="billing">Billing</option>
-                <option value="abuse">Abuse</option>
-                <option value="otp">OTP</option>
-                <option value="payment">Payment</option>
-                <option value="services">Services</option>
-                <option value="credit_points">Credit Points</option>
-                <option value="referrals">Referrals</option>
-                <option value="others">Others</option>
+                <option value="Support">Support</option>
+                <option value="Account Fund">Account Fund</option>
+                <option value="Billing">Billing</option>
+                <option value="Abuse">Abuse</option>
+                <option value="OTP">OTP</option>
+                <option value="Payments">Payments</option>
+                <option value="Services">Services</option>
+                <option value="Credit Points">Credit Points</option>
+                <option value="Referrals">Referrals</option>
+                <option value="Others">Others</option>
               </Form.Control>
             </Form.Group>
 
@@ -85,6 +89,7 @@ function FeedbackScreen({ history }) {
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
+                placeholder="Enter subject"
                 maxLength={80}
               ></Form.Control>
             </Form.Group>
@@ -96,6 +101,7 @@ function FeedbackScreen({ history }) {
                 as="textarea"
                 rows={4}
                 value={message}
+                placeholder="Enter message"
                 maxLength={1000}
                 onChange={(e) => setMessage(e.target.value)}
               ></Form.Control>

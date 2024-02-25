@@ -139,7 +139,7 @@ function App() {
           />
           <Route path="/support/ticket/:id" component={SupportTicketDetails} />
           <Route path="/support/tickets/" component={SupportTicket} />
-          
+
           <Route path="/inbox" component={MessageInbox} />
           <Route path="/live-chat" component={LiveChatScreen} />
           <Route path="/feedback" component={FeedbackScreen} />
@@ -176,7 +176,7 @@ function App() {
         <Footer />
         {/* </section> */}
       </Container>
-    </Router>
+    </Router> 
   );
 }
 
