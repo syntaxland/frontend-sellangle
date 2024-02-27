@@ -13,6 +13,7 @@ import {
 // import Message from "../Message";
 // import Loader from "../Loader";
 import PromoTimer from "../PromoTimer";
+import ProductPrice from "../ProductPrice";
 import ReportPaidAd from "./ReportPaidAd";
 import TogglePaidAdSave from "./TogglePaidAdSave";
 import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
@@ -29,10 +30,11 @@ function AllPaidAdCard({ product }) {
   const getPaidAdDetailState = useSelector(
     (state) => state.getPaidAdDetailState
   );
-  const { sellerAvatarUrl,
-  // isSellerVerified,
-  sellerRating,
-  sellerReviewCount,
+  const {
+    sellerAvatarUrl,
+    // isSellerVerified,
+    sellerRating,
+    sellerReviewCount,
   } = getPaidAdDetailState;
 
   // const [reviewSellerModal, setReviewSellerModal] = useState(false);
@@ -198,7 +200,7 @@ function AllPaidAdCard({ product }) {
                   <RatingSeller
                     value={sellerRating}
                     text={`${formatCount(sellerReviewCount)} reviews `}
-                    color={"green"} 
+                    color={"green"}
                   />
 
                   {/* {userInfo ? (
@@ -212,8 +214,7 @@ function AllPaidAdCard({ product }) {
                       (Seller Reviews)
                     </Link>
                   )} */}
-                  <ReviewPaidAdSeller adId={product?.id}/>
-
+                  <ReviewPaidAdSeller adId={product?.id} />
                 </div>
               </div>
 
@@ -228,7 +229,20 @@ function AllPaidAdCard({ product }) {
             <div className="d-flex justify-content-between">
               <Card.Text as="h5" className="py-2">
                 <span>
-                  {formatAmount(product?.price)} {product?.currency}{" "}
+                  
+                  {product?.show_strike_through_promo_price ? (
+                    <>
+                      <ProductPrice
+                        price={product?.price}
+                        currency={product?.currency}
+                        altPrice={product?.usd_price}
+                        altCurrency={product?.usd_currency}
+                        discountPercentage={product?.discount_percentage}
+                      />
+                    </>
+                  ) : (
+                    <>
+                    {formatAmount(product?.price)} {product?.currency}{" "}
                   {product?.usd_price ? (
                     <span>
                       {" "}
@@ -238,6 +252,8 @@ function AllPaidAdCard({ product }) {
                   ) : (
                     <></>
                   )}{" "}
+                    </>
+                  )}
                   {product?.is_price_negotiable ? <i>(Negotiable)</i> : <></>}
                 </span>
               </Card.Text>
@@ -290,7 +306,7 @@ function AllPaidAdCard({ product }) {
               </span>
 
               <div>
-                <TogglePaidAdSave ad={product} /> 
+                <TogglePaidAdSave ad={product} />
               </div>
             </div>
 

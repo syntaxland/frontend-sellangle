@@ -80,9 +80,16 @@ function PostPaidAd({ history }) {
   const [promoCode, setPromoCode] = useState("");
   const [promoCodeError, setPromoCodeError] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState("");
+  const [discountPercentageError, setDiscountPercentageError] = useState("");
   const [countInStock, setCountInStock] = useState("");
+
   const [isPriceNegotiable, setIsPriceNegotiable] = useState("");
   const [isAutoRenewal, setIsAutoRenewal] = useState("");
+
+  const [
+    showStrikethroughPromoPrice,
+    setShowStrikethroughPromoPrice,
+  ] = useState("");
 
   const [formError, setFormError] = useState("");
 
@@ -127,6 +134,10 @@ function PostPaidAd({ history }) {
   const [showAltCurrencyInfoModal, setShowAltCurrencyInfoModal] = useState(
     false
   );
+  const [
+    showLineThrougPriceInfoModal,
+    setShowLineThrougPriceInfoModal,
+  ] = useState(false); 
 
   const handleMainCurrencyInfoModalShow = () => {
     setShowMainCurrencyInfoModal(true);
@@ -142,6 +153,13 @@ function PostPaidAd({ history }) {
 
   const handleAltCurrencyInfoModalClose = () => {
     setShowAltCurrencyInfoModal(false);
+  };
+
+  const handleLineThrougPriceInfoModalShow = () => {
+    setShowLineThrougPriceInfoModal(true);
+  };
+  const handleLineThrougPriceInfoModalClose = () => {
+    setShowLineThrougPriceInfoModal(false);
   };
 
   const modules = {
@@ -259,6 +277,7 @@ function PostPaidAd({ history }) {
 
       case "discountPercentage":
         setDiscountPercentage(value);
+        setDiscountPercentageError("");
         break;
 
       case "countInStock":
@@ -267,6 +286,10 @@ function PostPaidAd({ history }) {
 
       case "isPriceNegotiable":
         setIsPriceNegotiable(value);
+        break;
+
+      case "showStrikethroughPromoPrice":
+        setShowStrikethroughPromoPrice(value);
         break;
 
       case "isAutoRenewal":
@@ -609,6 +632,10 @@ function PostPaidAd({ history }) {
   sellerData.append("discount_percentage", discountPercentage);
   sellerData.append("count_in_stock", countInStock);
   sellerData.append("is_price_negotiable", isPriceNegotiable);
+  sellerData.append(
+    "show_strike_through_promo_price",
+    showStrikethroughPromoPrice
+  );
   sellerData.append("is_auto_renewal", isAutoRenewal);
 
   useEffect(() => {
@@ -660,10 +687,26 @@ function PostPaidAd({ history }) {
       setCityError("");
     }
 
-    if (/[^a-zA-Z0-9_]/.test(promoCode)) {
+    if (promoCode && promoCode.length < 3) {
+      setPromoCodeError("Promo Code must be at least 3 characters.");
+      return;
+    } else if (/[^a-zA-Z0-9_]/.test(promoCode)) {
       setPromoCodeError("Promo Code must not contain special characters.");
+      return;
     } else {
       setPromoCodeError("");
+    }
+
+    if (promoCode && !discountPercentage) {
+      setDiscountPercentageError(
+        "Discount Percentage is required when Promo Code is entered."
+      );
+    } else if (!/^\d*\.?\d*$/.test(discountPercentage)) {
+      setDiscountPercentageError(
+        "Discount Percentage must contain only digits and decimal points."
+      );
+    } else {
+      setDiscountPercentageError("");
     }
 
     if (!currency) {
@@ -1006,6 +1049,92 @@ function PostPaidAd({ history }) {
             </Form.Group>
 
             <Form.Group>
+              <Form.Label>Promo Code</Form.Label>
+              <Form.Control
+                type="text"
+                value={promoCode}
+                onChange={(e) => handleFieldChange("promoCode", e.target.value)}
+                placeholder="Enter ad promo code"
+                className="rounded py-2 mb-2"
+                maxLength={10}
+              />
+              <Form.Text className="text-danger">{promoCodeError}</Form.Text>
+            </Form.Group>
+
+            {promoCode && (
+              <>
+                <Form.Group>
+                  <Form.Label>Discount Percentage*</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={discountPercentage}
+                    onChange={(e) =>
+                      handleFieldChange("discountPercentage", e.target.value)
+                    }
+                    placeholder="Enter ad discount percentage"
+                    className="rounded py-2 mb-2"
+                    maxLength={4}
+                    required
+                  />
+                  <Form.Text className="text-danger">
+                    {discountPercentageError}
+                  </Form.Text>
+                </Form.Group>
+
+                <Form.Group>
+                  <Row className="py-2">
+                    <Col md={10}>
+                      <Form.Check
+                        type="checkbox"
+                        label="Show strike through promo price?"
+                        checked={showStrikethroughPromoPrice}
+                        onChange={(e) =>
+                          handleFieldChange(
+                            "showStrikethroughPromoPrice",
+                            e.target.checked
+                          )
+                        }
+                        className="rounded py-2 mb-2"
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        variant="outline"
+                        onClick={handleLineThrougPriceInfoModalShow}
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="This displays the strike through price."
+                      >
+                        <i className="fa fa-info-circle"> </i>
+                      </Button>
+
+                      <Modal
+                        show={showLineThrougPriceInfoModal}
+                        onHide={handleLineThrougPriceInfoModalClose}
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title className="text-center w-100 py-2">
+                            Show Strike Through Price
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <p className="text-center">
+                            This shows the line through price. E.g. 100 USD ad
+                            price at 5% discount rate will display thus: `
+                            <span style={{ textDecoration: "line-through" }}>
+                              100 USD
+                            </span>{" "}
+                            95 USD (5% Off)`.{" "}
+                          </p>
+                        </Modal.Body>
+                      </Modal>
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </>
+            )}
+
+            <Form.Group>
               <Form.Label>Brand</Form.Label>
               <Form.Control
                 type="text"
@@ -1029,33 +1158,6 @@ function PostPaidAd({ history }) {
                 placeholder="Enter ad Youtube link"
                 className="rounded py-2 mb-2"
                 maxLength={225}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Promo Code</Form.Label>
-              <Form.Control
-                type="text"
-                value={promoCode}
-                onChange={(e) => handleFieldChange("promoCode", e.target.value)}
-                placeholder="Enter ad promo code"
-                className="rounded py-2 mb-2"
-                maxLength={10}
-              />
-              <Form.Text className="text-danger">{promoCodeError}</Form.Text>
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Discount Percentage</Form.Label>
-              <Form.Control
-                type="number"
-                value={discountPercentage}
-                onChange={(e) =>
-                  handleFieldChange("discountPercentage", e.target.value)
-                }
-                placeholder="Enter ad discount percentage"
-                className="rounded py-2 mb-2"
-                maxLength={4}
               />
             </Form.Group>
 

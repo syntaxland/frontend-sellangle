@@ -1,60 +1,68 @@
 // ProductPrice.js
 import React from "react";
+import { formatAmount } from "./FormatAmount";
 
-const ProductPrice = ({ price, promoPrice }) => {
-  // Check if price and promoPrice are defined
-  if (typeof price === "undefined" || typeof promoPrice === "undefined") {
-    return null; 
-  }
-
-  // Calculate the discount percentage
-  const discountPercentage = promoPrice
-    ? ((price - promoPrice) / price) * 100
+const ProductPrice = ({
+  price,
+  currency,
+  altPrice,
+  altCurrency,
+  discountPercentage,
+}) => {
+  const promoPrice = discountPercentage
+    ? price - (price * discountPercentage) / 100
     : 0;
 
-  // Format the prices with 2 decimal places
-  const formattedPrice = price;
-  // .toLocaleString(undefined, {
-  //   minimumFractionDigits: 2,
-  //   maximumFractionDigits: 2,
-  // });
-  const formattedPromoPrice = promoPrice;
-    // ? promoPrice
-    // .toLocaleString(undefined, {
-    //     minimumFractionDigits: 2,
-    //     maximumFractionDigits: 2,
-    //   })
-    // : null;
-    // console.log('formattedPrice', formattedPrice, 'formattedPromoPrice:', formattedPromoPrice)
-
+  const altPromoPrice = discountPercentage
+    ? altPrice - (altPrice * discountPercentage) / 100
+    : 0;
 
   return (
     <div>
       <div>
         {promoPrice ? (
           <>
-            <span style={{ textDecoration: "line-through" }}>
-              NGN {formattedPrice}
-            </span>
-            {"  "}
-            <span style={{ color: "red" }}>
-              NGN {formattedPromoPrice}
-            </span>
+            <p style={{ textDecoration: "line-through" }}>
+              <span>
+                {formatAmount(price)} {currency}
+              </span>{" "}
+              {altPrice ? (
+                <span>
+                  {" "}
+                  / {formatAmount(altPrice)} {altCurrency}{" "}
+                </span>
+              ) : (
+                <></>
+              )}{" "}
+            </p>
+
+            <p>
+              <span style={{ color: "green" }}>
+                {formatAmount(promoPrice)} {currency}
+              </span>
+              {altPrice ? (
+                <span style={{ color: "green" }}>
+                  {" "}
+                  / {formatAmount(altPromoPrice)} {altCurrency}{" "}
+                </span>
+              ) : (
+                <></>
+              )}{" "}
+            </p>
           </>
         ) : (
-          `NGN ${formattedPrice}`
+          ` ${formatAmount(price)} ${currency}`
         )}
       </div>
-      {promoPrice && (
+      {/* {promoPrice && (
         <div>
           <span style={{ color: "green" }}>
             {discountPercentage.toFixed(2)}% Off
           </span>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
 
 export default ProductPrice;
-

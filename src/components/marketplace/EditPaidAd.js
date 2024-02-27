@@ -11,7 +11,7 @@ import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
-import { Country, State, City } from "country-state-city";
+import { Country, State, City } from "country-state-city"; 
 // import ReactQuill from "react-quill";
 // import "react-quill/dist/quill.snow.css";
 
@@ -372,6 +372,7 @@ function EditPaidAd({ history, match }) {
     discount_percentage: "",
     count_in_stock: "",
     is_price_negotiable: "",
+    show_strike_through_promo_price: "",
     is_auto_renewal: "",
   });
 
@@ -424,6 +425,7 @@ function EditPaidAd({ history, match }) {
         discount_percentage: ads?.discount_percentage,
         count_in_stock: ads?.count_in_stock,
         is_price_negotiable: ads?.is_price_negotiable,
+        show_strike_through_promo_price: ads?.show_strike_through_promo_price,
         is_auto_renewal: ads?.is_auto_renewal,
       });
       setEditAdChanges(false);
@@ -463,7 +465,7 @@ function EditPaidAd({ history, match }) {
   const handleEditAdChanges = (e) => {
     const { name, value, files, checked } = e.target;
 
-    if (name === "is_price_negotiable" || name === "is_auto_renewal") {
+    if (name === "show_strike_through_promo_price" || name === "is_price_negotiable" || name === "is_auto_renewal") {
       setEditAdData({ ...editAdData, [name]: checked });
     } else if (files) {
       setEditAdData({ ...editAdData, [name]: files[0] });
@@ -593,6 +595,7 @@ function EditPaidAd({ history, match }) {
       "is_price_negotiable",
       editAdData.is_price_negotiable
     );
+    editAdFormData.append("show_strike_through_promo_price", editAdData.show_strike_through_promo_price);
     editAdFormData.append("is_auto_renewal", editAdData.is_auto_renewal);
     editAdFormData.append("ad_id", id);
 
@@ -919,6 +922,43 @@ function EditPaidAd({ history, match }) {
               />
             </Form.Group>
 
+            <Form.Group>
+              <Form.Label>Promo Code</Form.Label>
+              <Form.Control
+                type="text"
+                name="promo_code"
+                value={editAdData.promo_code}
+                onChange={handleEditAdChanges}
+                placeholder="Enter ad promo code"
+                className="rounded py-2 mb-2"
+                maxLength={10}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Discount Percentage</Form.Label>
+              <Form.Control
+                type="number"
+                name="discount_percentage"
+                value={editAdData.discount_percentage}
+                onChange={handleEditAdChanges}
+                placeholder="Enter ad discount percentage"
+                className="rounded py-2 mb-2"
+                maxLength={4}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Check
+                type="checkbox"
+                label="Show strike through promo price?"
+                name="show_strike_through_promo_price"
+                checked={editAdData.show_strike_through_promo_price}
+                onChange={handleEditAdChanges}
+                className="rounded py-2 mb-2"
+              />
+            </Form.Group>
+
             <Form.Group controlId="usdCurrency">
               <Form.Label>Alternative Currency</Form.Label>
               <Select
@@ -991,31 +1031,7 @@ function EditPaidAd({ history, match }) {
               />
             </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Promo Code</Form.Label>
-              <Form.Control
-                type="text"
-                name="promo_code"
-                value={editAdData.promo_code}
-                onChange={handleEditAdChanges}
-                placeholder="Enter ad promo code"
-                className="rounded py-2 mb-2"
-                maxLength={10}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Discount Percentage</Form.Label>
-              <Form.Control
-                type="number"
-                name="discount_percentage"
-                value={editAdData.discount_percentage}
-                onChange={handleEditAdChanges}
-                placeholder="Enter ad discount percentage"
-                className="rounded py-2 mb-2"
-                maxLength={4}
-              />
-            </Form.Group>
+            
 
             <Form.Group>
               <Form.Label>Number In Stock</Form.Label>

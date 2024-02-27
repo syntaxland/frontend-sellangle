@@ -117,7 +117,7 @@ const CreditPoint = () => {
             </div> */}
 
             <div>
-              <h1 className="text-center py-3">Referral CPS Bonus</h1>
+              <h1 className="text-center py-3">CPS Bonuses</h1>
               <hr />
 
               {creditPointPaymentsLoading ? (
