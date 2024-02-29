@@ -64,7 +64,7 @@ function Billing() {
   const currentItems = paidAdCharges?.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
-    dispatch(getSellerPaidAdCharges());
+    dispatch(getSellerPaidAdCharges()); 
   }, [dispatch]);
 
   return (
