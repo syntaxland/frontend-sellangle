@@ -349,6 +349,7 @@ function Marketplace() {
           <Row className="py-2 d-flex justify-content-end">
             <Col className="py-2">
               <Col md={4}>
+                <span>Country: </span>
                 <Select
                   options={Country.getAllCountries().map((country) => ({
                     // value: country.name,
@@ -368,6 +369,7 @@ function Marketplace() {
                 />
               </Col>
               <Col md={4}>
+                <span>State/Province: </span>
                 <Select
                   options={
                     selectedCountry
@@ -393,6 +395,7 @@ function Marketplace() {
                 />
               </Col>
               <Col md={4}>
+                <span>City: </span>
                 <Select
                   options={
                     selectedState
