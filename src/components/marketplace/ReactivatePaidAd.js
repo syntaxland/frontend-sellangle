@@ -48,13 +48,13 @@ function ReactivatePaidAd({ ad_id }) {
   };
 
   const DURATION_CHOICES = [
-    ["1 day", "1 day (24 cps)"],
-    ["2 days", "2 days (48 cps)"],
-    ["3 days", "3 days (72 cps)"],
-    ["5 days", "5 days (120 cps)"],
-    ["1 week", "1 week (180 cps)"],
-    ["2 weeks", "2 weeks (360 cps)"],
-    ["1 month", "1 month (720 cps)"],
+    ["1 day", "1 day (28.8 cps)"],
+    ["2 days", "2 days (57.6 cps)"],
+    ["3 days", "3 days (86.4 cps)"],
+    ["5 days", "5 days (144.0 cps)"],
+    ["1 week", "1 week (201.6 cps)"],
+    ["2 weeks", "2 weeks (432.0 cps)"],
+    ["1 month", "1 month (864.0 cps)"],
   ];
 
   return (
