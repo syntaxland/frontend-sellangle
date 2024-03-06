@@ -82,7 +82,7 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
 
       await dispatch(getAdChargesReceipt(adData));
 
-      if (success && paidAdReceipt) {
+      if (paidAdReceipt) {
 
         // Convert the base64 PDF data to a Blob using atob function
         const byteCharacters = atob(paidAdReceipt);
