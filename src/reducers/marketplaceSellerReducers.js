@@ -177,6 +177,10 @@ import {
   PAY_ADS_CHARGES_REQUEST,
 PAY_ADS_CHARGES_SUCCESS,
 PAY_ADS_CHARGES_FAIL,
+
+GET_PAID_ADS_CHARGES_RECEIPT_REQUEST,
+GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS,
+GET_PAID_ADS_CHARGES_RECEIPT_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -212,6 +216,25 @@ const initialState = {
   totalAdCharges: [],
   paidAdCharges: [],
   // adCpsCharges: [],
+  paidAdReceipt: [],
+};
+
+export const getAdChargesReceiptReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_PAID_ADS_CHARGES_RECEIPT_REQUEST:
+      return { loading: true };
+    case GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        paidAdReceipt: action.payload,
+        // paidAdReceipt: action.payload.pdf_data,
+      };
+    case GET_PAID_ADS_CHARGES_RECEIPT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const payAdChargesReducer = (state = initialState, action) => {

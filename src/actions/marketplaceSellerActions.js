@@ -178,9 +178,50 @@ import {
   PAY_ADS_CHARGES_REQUEST,
   PAY_ADS_CHARGES_SUCCESS,
   PAY_ADS_CHARGES_FAIL,
+  GET_PAID_ADS_CHARGES_RECEIPT_REQUEST,
+GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS,
+GET_PAID_ADS_CHARGES_RECEIPT_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export const getAdChargesReceipt = (adData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: GET_PAID_ADS_CHARGES_RECEIPT_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { ad_charges_receipt_month } = adData;
+    const url = `${API_URL}/api/get-ad-charges-receipt/?ad_charges_receipt_month=${ad_charges_receipt_month}`;
+    const { data } = await axios.get(url, config);
+
+    dispatch({
+      type: GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS,
+      payload: data,
+    });
+    return data;
+  } catch (error) {
+    dispatch({
+      type: GET_PAID_ADS_CHARGES_RECEIPT_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const payAdCharges = (promoData) => async (dispatch, getState) => {
   try {

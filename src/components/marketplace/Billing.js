@@ -10,6 +10,7 @@ import Loader from "../Loader";
 import Pagination from "../Pagination";
 import AdChargeCalculator from "./AdChargeCalculator";
 import PayAdCharges from "./PayAdCharges";
+import BillingPeriod from "./BillingPeriod";
 import { formatAmount } from "../FormatAmount";
 import { formatHour } from "../formatHour";
 
@@ -34,6 +35,7 @@ function Billing() {
       dispatch(getUserProfile());
     }
   }, [dispatch, userInfo]);
+
   const getSellerPaidAdChargesState = useSelector(
     (state) => state.getSellerPaidAdChargesState
   );
@@ -45,6 +47,12 @@ function Billing() {
   } = getSellerPaidAdChargesState;
   console.log("paidAdCharges:", paidAdCharges);
   console.log("totalAdCharges:", totalAdCharges);
+
+  const currentDate = new Date();
+  const monthYear = currentDate?.toLocaleString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -64,7 +72,7 @@ function Billing() {
   const currentItems = paidAdCharges?.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
-    dispatch(getSellerPaidAdCharges()); 
+    dispatch(getSellerPaidAdCharges());
   }, [dispatch]);
 
   return (
@@ -72,6 +80,8 @@ function Billing() {
       <Row className="py-2 d-flex justify-content-center">
         <Col>
           <h1 className="text-center py-2">Billing</h1>
+          <h5 className="text-center py-2">Current Bills ({monthYear})</h5>
+
           {loading ? (
             <Loader />
           ) : error ? (
@@ -81,42 +91,44 @@ function Billing() {
               {currentItems?.length === 0 ? (
                 <div className="text-center py-3">Ad charges appear here.</div>
               ) : (
-                <Table striped bordered hover responsive className="table-sm">
-                  <thead>
-                    <tr>
-                      <th>SN</th>
-                      <th>User</th>
-                      <th>Ad</th>
-                      <th>Ad Charges</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentItems?.map((adCharge, index) => (
-                      <>
-                        <tr key={adCharge.id}>
-                          <td>{index + 1}</td>
-                          <td>{adCharge.username}</td>
-                          <td>{adCharge.ad_name}</td>
-                          <td>
-                            {adCharge.ad_charges} CPS (
-                            {adCharge.ad_charge_hours} hours)
-                          </td>
-                        </tr>
-                      </>
-                    ))}
-                  </tbody>
-                </Table>
+                <>
+                  <Table striped bordered hover responsive className="table-sm">
+                    <thead>
+                      <tr>
+                        <th>SN</th>
+                        <th>User</th>
+                        <th>Ad</th>
+                        <th>Ad Charges</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentItems?.map((adCharge, index) => (
+                        <>
+                          <tr key={adCharge.id}>
+                            <td>{index + 1}</td>
+                            <td>{adCharge.username}</td>
+                            <td>{adCharge.ad_name}</td>
+                            <td>
+                              {adCharge.ad_charges} CPS (
+                              {adCharge.ad_charge_hours} hours)
+                            </td>
+                          </tr>
+                        </>
+                      ))}
+                    </tbody>
+                  </Table>
+                </>
               )}
               <>
-                <div className="d-flex justify-content-end py-2">
+                <div className="d-flex justify-content-center py-2">
                   <Button
                     variant="outline-transparent"
-                    //   size="sm"
-                    className="rounded w-100"
+                    className="w-100"
                     disabled
                   >
                     <strong>
-                      Total Ad Charges: {formatAmount(totalAdCharges?.total_ad_charges)} CPS (
+                      Total Ad Charges:{" "}
+                      {formatAmount(totalAdCharges?.total_ad_charges)} CPS (
                       {formatHour(totalAdCharges?.total_ad_charge_hours)} hours)
                     </strong>
                   </Button>
@@ -134,15 +146,10 @@ function Billing() {
         </Col>
       </Row>
 
-      {profile.ad_charge_is_owed ? (
+      {profile?.ad_charge_is_owed ? (
         <div className="d-flex justify-content-end py-2">
           <span className="py-2">
-            <Button
-              variant="outline-danger"
-              size="sm"
-              className="py-2 rounded"
-              onClick={handlePayAdChargesOpen}
-            >
+            <Button variant="outline-danger" onClick={handlePayAdChargesOpen}>
               Pay Ad Charges
             </Button>
           </span>
@@ -150,6 +157,10 @@ function Billing() {
       ) : (
         <></>
       )}
+
+      <div className="d-flex justify-content-center py-2">
+        <BillingPeriod />
+      </div>
 
       <Modal show={payAdChargesModal} onHide={handlePayAdChargesClose}>
         <Modal.Header closeButton>

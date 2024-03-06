@@ -78,6 +78,7 @@ import {
   applyPomoCodeReducer,
   getSellerPaidAdChargesReducer,
   payAdChargesReducer,
+  getAdChargesReceiptReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 import {
@@ -376,6 +377,7 @@ const reducer = combineReducers({
 
   getSellerPaidAdChargesState: getSellerPaidAdChargesReducer,
   payAdChargesState: payAdChargesReducer,
+  getAdChargesReceiptState: getAdChargesReceiptReducer,
   
   applyPomoCodeState: applyPomoCodeReducer,
 });

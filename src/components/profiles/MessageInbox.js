@@ -40,7 +40,7 @@ const MessageInbox = () => {
 
   const clearMsgCounter = (msgId) => {
     const messageData = {
-      msg_id: msgId,
+      ad_charges_receipt_month: msgId,
     };
     dispatch(clearMessageCounter(messageData));
   };
