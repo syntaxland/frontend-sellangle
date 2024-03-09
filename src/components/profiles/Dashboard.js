@@ -41,6 +41,14 @@ function Dashboard() {
   // const [creditPointEarning, setCreditPointEarning] = useState(0);
   const dispatch = useDispatch();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(() => {
+    if (!userInfo) {
+      window.location.href = "/login";
+    }
+  }, [userInfo]);
+
   const [buyCreditPointModal, setBuyCreditPointModal] = useState(false);
   const handleBuyCreditPointOpen = () => {
     setBuyCreditPointModal(true);
@@ -61,17 +69,17 @@ function Dashboard() {
   const { loading, error, creditPointBalance } = creditPointBal;
   console.log("creditPointBalance:", creditPointBalance);
 
-  const paymentList = useSelector((state) => state.paymentList);
-  const {
-    loading: paymentLoading,
-    error: paymentError,
-    payments,
-  } = paymentList;
-  console.log("payments:", payments);
+  // const paymentList = useSelector((state) => state.paymentList);
+  // const {
+  //   loading: paymentLoading,
+  //   error: paymentError,
+  //   payments,
+  // } = paymentList;
+  // console.log("payments:", payments);
 
-  const orderList = useSelector((state) => state.orderList);
-  const { loading: orderLoading, error: orderError, orders } = orderList;
-  console.log("Orders from state:", orders);
+  // const orderList = useSelector((state) => state.orderList);
+  // const { loading: orderLoading, error: orderError, orders } = orderList;
+  // console.log("Orders from state:", orders);
 
   function formatNumber(number, decimalPlaces = 2) {
     const formattedNumber = parseFloat(number).toFixed(decimalPlaces);
@@ -223,11 +231,11 @@ function Dashboard() {
   return (
     <div className="justify-content-center text-center">
       <div>
-        {loading || paymentLoading || orderLoading ? (
+        {loading? (
           <Loader />
-        ) : error || paymentError || orderError ? (
+        ) : error ? (
           <Message variant="danger">
-            {error || paymentError || orderError}
+            {error}
           </Message>
         ) : (
           <div>

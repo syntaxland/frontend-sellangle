@@ -50,6 +50,10 @@ GET_USD_BUY_CREDIT_POINT_FAIL,
 GET_ADS_CPS_CHARGES_REQUEST,
   GET_ADS_CPS_CHARGES_SUCCESS,
   GET_ADS_CPS_CHARGES_FAIL,
+
+  GET_USER_CPS_BONUSES_REQUEST,
+GET_USER_CPS_BONUSES_SUCCESS,
+GET_USER_CPS_BONUSES_FAIL,
 } from "../constants/creditPointConstants";
 
 const initialState = {
@@ -67,6 +71,21 @@ const initialState = {
   creditPoints: [],
 
     adCpsCharges: [],
+};
+
+export const getUserCpsBonusesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_USER_CPS_BONUSES_REQUEST:
+      return { loading: true };
+    case GET_USER_CPS_BONUSES_SUCCESS:
+      return { loading: false, 
+        success: true, 
+        creditPoints: action.payload };
+    case GET_USER_CPS_BONUSES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const getAdCpsChargesReducer = (state = initialState, action) => {

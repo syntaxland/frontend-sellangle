@@ -10,6 +10,7 @@ import GetUsdBuyCreditPoint from "../CreditPoint/GetUsdBuyCreditPoint";
 import GetSellCreditPoint from "../CreditPoint/GetSellCreditPoint";
 import GetBuyerCreditPoint from "../CreditPoint/GetBuyerCreditPoint";
 import GetAdCpsCharges from "../CreditPoint/GetAdCpsCharges";
+import GetUserCpsBonuses from "../CreditPoint/GetUserCpsBonuses";
 
 const CreditPoint = () => {
   // const dispatch = useDispatch();
@@ -28,6 +29,10 @@ const CreditPoint = () => {
       <Row>
         <div className="d-flex justify-content-center">
           <Col>
+          <div>
+              <GetUserCpsBonuses />
+            </div>
+            
             <div>
               <GetAdCpsCharges />
             </div>

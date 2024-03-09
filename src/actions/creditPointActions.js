@@ -49,9 +49,50 @@ GET_USD_BUY_CREDIT_POINT_FAIL,
 GET_ADS_CPS_CHARGES_REQUEST,
 GET_ADS_CPS_CHARGES_SUCCESS,
 GET_ADS_CPS_CHARGES_FAIL,
+
+GET_USER_CPS_BONUSES_REQUEST,
+GET_USER_CPS_BONUSES_SUCCESS,
+GET_USER_CPS_BONUSES_FAIL,
 } from "../constants/creditPointConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+
+export const getUserCpsBonuses = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_USER_CPS_BONUSES_REQUEST });
+
+    const { 
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-user-cps-bonuses/`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_USER_CPS_BONUSES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USER_CPS_BONUSES_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const getAdCpsCharges = () => async (dispatch, getState) => {
   try {

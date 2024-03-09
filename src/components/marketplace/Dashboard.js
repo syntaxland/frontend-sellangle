@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import Message from "../Message";
 import Loader from "../Loader";
-import { getCreditPointBalance } from "../../actions/creditPointActions";
-import { listPayments } from "../../actions/paymentActions";
-import { getOrders } from "../../actions/orderActions";
+import { getCreditPointBalance } from "../../actions/creditPointActions"; 
+// import { listPayments } from "../../actions/paymentActions";
+// import { getOrders } from "../../actions/orderActions";
 import { Line, Pie } from "react-chartjs-2";
 
 import {
@@ -39,6 +39,14 @@ function Dashboard() {
   // const [creditPointEarning, setCreditPointEarning] = useState(0);
   const dispatch = useDispatch();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(() => {
+    if (!userInfo) {
+      window.location.href = "/login";
+    }
+  }, [userInfo]);
+
   const creditPointBal = useSelector((state) => state.creditPointBal);
   const { loading, error, creditPointBalance } = creditPointBal;
   console.log("creditPointBalance:", creditPointBalance);
@@ -57,8 +65,8 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(getCreditPointBalance());
-    dispatch(listPayments());
-    dispatch(getOrders());
+    // dispatch(listPayments());
+    // dispatch(getOrders());
   }, [dispatch]);
 
   const lineGraphData = {

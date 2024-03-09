@@ -1,21 +1,21 @@
-// GetAdCpsCharges.js
+// GetUserCpsBonuses.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
-import { getAdCpsCharges } from "../../actions/creditPointActions"; 
+import { getUserCpsBonuses } from "../../actions/creditPointActions"; 
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 import { formatAmount } from "../FormatAmount";
 
-function GetAdCpsCharges() {
+function GetUserCpsBonuses() {
   const dispatch = useDispatch();
 
-  const getAdCpsChargesState = useSelector(
-    (state) => state.getAdCpsChargesState
+  const getUserCpsBonusesState = useSelector(
+    (state) => state.getUserCpsBonusesState
   );
-  const { loading, adCpsCharges, error } = getAdCpsChargesState;
-  console.log("adCpsCharges:", adCpsCharges);
+  const { loading, creditPoints, error } = getUserCpsBonusesState;
+  console.log("creditPoints:", creditPoints);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,17 +32,17 @@ function GetAdCpsCharges() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = adCpsCharges?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = creditPoints?.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
-    dispatch(getAdCpsCharges());
+    dispatch(getUserCpsBonuses());
   }, [dispatch]);
 
   return (
     <div>
       <hr />
       <h1 className="text-center py-3">
-        <i className="fas fa-credit-card"></i>  CPS Ad Charges 
+        <i className="fas fa-credit-card"></i> CPS Bonues
       </h1>
       <hr />
       {loading ? (
@@ -52,7 +52,7 @@ function GetAdCpsCharges() {
       ) : (
         <>
           {currentItems.length === 0 ? (
-            <div className="text-center py-3"> Ad cps charges appear here.</div> 
+            <div className="text-center py-3">CPS Bonues appear here.</div> 
           ) : (
             <Table striped bordered hover responsive className="table-sm">
               <thead>
@@ -60,7 +60,8 @@ function GetAdCpsCharges() {
                   <th>SN</th>
                   <th>CPS Charges ID</th>
                   <th>User</th>
-                  <th>CPS Charged</th>
+                  <th>CPS Bonus</th>
+                  <th>CPS Bonus Type</th>
                   <th>Old Balance</th>
                   <th>New Balance</th>
                   <th>Success</th>
@@ -71,9 +72,10 @@ function GetAdCpsCharges() {
                 {currentItems.map((cps, index) => (
                   <tr key={cps.id}>
                     <td>{index + 1}</td>
-                    <td>{cps.ad_charge_cps_id}</td>
+                    <td>{cps.cps_bonus_id}</td>
                     <td>{cps.username}</td>
-                    <td style={{ color: "red" }}>{formatAmount(cps.cps_amount)}</td>
+                    <td style={{ color: "green" }}>{formatAmount(cps.cps_amount)}</td>
+                    <td>{cps.cps_bonus_type}</td>
                     <td>{formatAmount(cps.old_bal)}</td>
                     <td>{formatAmount(cps.new_bal)}</td>
                     <td>
@@ -113,7 +115,7 @@ function GetAdCpsCharges() {
           )}
           <Pagination
             itemsPerPage={itemsPerPage}
-            totalItems={adCpsCharges?.length} 
+            totalItems={creditPoints?.length} 
             currentPage={currentPage}
             paginate={paginate}
           />
@@ -123,4 +125,4 @@ function GetAdCpsCharges() {
   );
 }
 
-export default GetAdCpsCharges;
+export default GetUserCpsBonuses;

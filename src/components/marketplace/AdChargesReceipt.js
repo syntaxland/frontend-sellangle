@@ -47,7 +47,7 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
         `${API_URL}/api/get-ad-charges-receipt/`,
         {
           headers: {
-            Authorization: `Bearer ${userInfo.access}`,
+            Authorization: `Bearer ${userInfo?.access}`,
           },
           params: {
             ad_charges_receipt_month: adChargesReceiptMonth,
