@@ -9,7 +9,7 @@ import RatingSeller from "../RatingSeller";
 //   removeProduct,
 //   updateProductSaveCount,
 //   // trackProductView,
-// } from "../../actions/productAction";
+// } from "../../actions/productAction"; 
 import {
   getSellerAccount,
   getFreeAdDetail,

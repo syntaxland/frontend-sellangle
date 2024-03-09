@@ -9,7 +9,7 @@ import Loader from "../Loader";
 
 function RecommendedProducts() {
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
     dispatch(fetchRecommendedProducts());
   }, [dispatch]);

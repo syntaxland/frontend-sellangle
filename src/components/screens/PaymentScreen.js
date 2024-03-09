@@ -11,7 +11,7 @@ import PaysofterPromise from "../payment/PaysofterPromise";
 const API_URL = process.env.REACT_APP_API_URL;
 
 function PaymentScreen() {
-  const userLogin = useSelector((state) => state.userLogin);
+  const userLogin = useSelector((state) => state.userLogin); 
   const { userInfo } = userLogin;
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function PaymentScreen() {
   const [paystackPublicKey, setPaystackPublicKey] = useState("");
   const [reference, setReference] = useState("");
   const userEmail = userInfo.email;
-
+ 
   const location = useLocation();
   const { pathname } = location;
   const order_id = pathname.split("/payment/")[1];

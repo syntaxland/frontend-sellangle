@@ -432,7 +432,7 @@ export const trackPaidAdViewReducer = (state = initialState, action) => {
   }
 };
 
-export const getUserVieweFreeAdsReducer = (state = initialState, action) => {
+export const getUserViewedFreeAdsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_VIEWED_FREE_ADS_REQUEST:
       return { loading: true };
@@ -450,7 +450,7 @@ export const getUserVieweFreeAdsReducer = (state = initialState, action) => {
   }
 };
 
-export const getUserViewePaidAdsReducer = (state = initialState, action) => {
+export const getUserViewedPaidAdsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_VIEWED_PAID_ADS_REQUEST:
       return { loading: true };

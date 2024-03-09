@@ -57,7 +57,7 @@ export const getAdCpsCharges = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_ADS_CPS_CHARGES_REQUEST });
 
-    const {
+    const { 
       userLogin: { userInfo },
     } = getState();
 

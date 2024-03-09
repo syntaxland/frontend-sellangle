@@ -37,8 +37,8 @@ function BillingPeriod() {
         const formattedDate = new Date(charge.created_at).toLocaleString(
           "en-US",
           {
-            month: "numeric",
-            // month: "long",
+            // month: "numeric",
+            month: "long",
             year: "numeric",
           }
         );

@@ -11,7 +11,7 @@ import { clearCart } from "../../actions/cartActions";
 import { createPayment } from "../../actions/paymentActions";
 // import ApplyPromoCode from "../ApplyPromoCode";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL; 
 
 function Paystack() {
   const userLogin = useSelector((state) => state.userLogin);

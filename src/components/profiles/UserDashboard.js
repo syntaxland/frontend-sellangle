@@ -12,7 +12,6 @@ import { getUserMessages } from "../../actions/messagingActions";
 import UserProfile from "./UserProfile";
 import Orders from "./Orders";
 import Payments from "./Payments";
-import Favorites from "./SavedItems";
 import OrderShipment from "./OrderShipment";
 import OrderItem from "./OrderItem";
 import Reviews from "./Reviews";
@@ -20,8 +19,11 @@ import Dashboard from "./Dashboard";
 import MessageInbox from "./MessageInbox";
 import CreditPoint from "./CreditPoint";
 import PromoProduct from "./Offers";
-import RecommendedProducts from "./RecommendedProducts";
-import ViewedItems from "./ViewedItems";
+
+import SavedAds from "./SavedAds";
+import ViewedAds from "./ViewedAds";
+import RecommendedAds from "../recommender/RecommendedAds";
+
 // import SellerInbox from "./SellerInbox";
 import Referrals from "./Referrals";
 import SupportTicket from "../support/SupportTicket";
@@ -94,7 +96,7 @@ function UserDashboard() {
         return <Payments />;
 
       case "favorites":
-        return <Favorites />;
+        return <SavedAds />;
 
       case "order-shipment":
         return <OrderShipment />;
@@ -111,14 +113,14 @@ function UserDashboard() {
       case "credit-point":
         return <CreditPoint />;
 
-      case "recommended-products":
-        return <RecommendedProducts />;
+      case "recommended-ads":
+        return <RecommendedAds />;
 
       case "offers":
         return <PromoProduct />;
 
       case "viewed-products":
-        return <ViewedItems />;
+        return <ViewedAds />;
 
       case "referrals":
         return <Referrals />;
@@ -305,12 +307,12 @@ function UserDashboard() {
               <div>
                 <Button
                   variant={
-                    activeTab === "recommended-products"
+                    activeTab === "recommended-ads"
                       ? "primary"
                       : "outline-primary"
                   }
                   className="sidebar-link"
-                  onClick={() => handleTabChange("recommended-products")}
+                  onClick={() => handleTabChange("recommended-ads")}
                 >
                   <i className="fa fa-thumbs-up"></i> Recommended Ads
                 </Button>

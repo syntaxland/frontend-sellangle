@@ -653,7 +653,7 @@ export const trackPaidAdView = (adData) => async (dispatch, getState) => {
   }
 };
 
-export const getUserFreeAdsViews = (pk) => async (dispatch, getState) => {
+export const getUserFreeAdsViews = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_USER_VIEWED_FREE_ADS_REQUEST });
 
@@ -669,7 +669,7 @@ export const getUserFreeAdsViews = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-a-messages/${pk}`,
+      `${API_URL}/api/get-user-viewed-free-ads/`,
 
       config
     );
@@ -689,7 +689,7 @@ export const getUserFreeAdsViews = (pk) => async (dispatch, getState) => {
   }
 };
 
-export const getUserPaidAdsViews = (pk) => async (dispatch, getState) => {
+export const getUserPaidAdsViews = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_USER_VIEWED_PAID_ADS_REQUEST });
 
@@ -705,7 +705,7 @@ export const getUserPaidAdsViews = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messags/${pk}`,
+      `${API_URL}/api/get-user-viewed-paid-ads/`,
 
       config
     );
@@ -725,7 +725,7 @@ export const getUserPaidAdsViews = (pk) => async (dispatch, getState) => {
   }
 };
 
-export const getUserSavedFreeAds = (pk) => async (dispatch, getState) => {
+export const getUserSavedFreeAds = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_USER_SAVED_FREE_ADS_REQUEST });
 
@@ -741,7 +741,7 @@ export const getUserSavedFreeAds = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messag/${pk}`,
+      `${API_URL}/api/get-user-saved-free-ads/`, 
 
       config
     );
@@ -761,7 +761,7 @@ export const getUserSavedFreeAds = (pk) => async (dispatch, getState) => {
   }
 };
 
-export const getUserSavedPaidAds = (pk) => async (dispatch, getState) => {
+export const getUserSavedPaidAds = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_USER_SAVED_PAID_ADS_REQUEST });
 
@@ -777,7 +777,7 @@ export const getUserSavedPaidAds = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free/${pk}`,
+      `${API_URL}/api/get-user-saved-paid-ads/`,
 
       config
     );

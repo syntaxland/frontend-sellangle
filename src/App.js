@@ -13,22 +13,22 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Time from "./components/Time";
-import OrderSuccessPage from "./components/OrderSuccessPage";
+// import OrderSuccessPage from "./components/OrderSuccessPage";
 // import HomeScreen from "./components/screens/HomeScreen";
-import ProductScreen from "./components/screens/ProductScreen";
-import SearchScreen from "./components/screens/SearchScreen";
+// import ProductScreen from "./components/screens/ProductScreen";
+// import SearchScreen from "./components/screens/SearchScreen";
 import RegisterScreen from "./components/screens/RegisterScreen";
 import LoginScreen from "./components/screens/LoginScreen";
-import CartScreen from "./components/screens/CartScreen";
-import CheckoutScreen from "./components/screens/CheckoutScreen";
-import PaymentScreen from "./components/screens/PaymentScreen";
-import ShipmentScreen from "./components/screens/ShipmentScreen";
-import ReviewScreen from "./components/screens/ReviewScreen";
-import AddReviewScreen from "./components/screens/AddReviewScreen";
-import EditReviewScreen from "./components/screens/EditReviewScreen";
-import CreditPointScreen from "./components/screens/CreditPointScreen";
+// import CartScreen from "./components/screens/CartScreen";
+// import CheckoutScreen from "./components/screens/CheckoutScreen";
+// import PaymentScreen from "./components/screens/PaymentScreen";
+// import ShipmentScreen from "./components/screens/ShipmentScreen";
+// import ReviewScreen from "./components/screens/ReviewScreen";
+// import AddReviewScreen from "./components/screens/AddReviewScreen";
+// import EditReviewScreen from "./components/screens/EditReviewScreen";
+// import CreditPointScreen from "./components/screens/CreditPointScreen";
 import LiveChatScreen from "./components/screens/LiveChatScreen";
-import FeedbackScreen from "./components/screens/FeedbackScreen";
+// import FeedbackScreen from "./components/screens/FeedbackScreen";
 import DarkModeScreen from "./components/screens/DarkModeScreen";
 import TermsAndConditionScreen from "./components/screens/TermsAndConditionScreen";
 
@@ -87,23 +87,23 @@ function App() {
         <Time />
         <main className=" py-3">
           {/* <Route exact path="/" component={HomeScreen} /> */}
-          <Route path="/product/:id" component={ProductScreen} />
+          {/* <Route path="/product/:id" component={ProductScreen} /> */}
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
-          <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/products/search/:keyword" component={SearchScreen} />
-          <Route path="/checkout" component={CheckoutScreen} />
-          <Route path="/payment" component={PaymentScreen} />
+          {/* <Route path="/cart/:id?" component={CartScreen} /> */}
+          {/* <Route path="/products/search/:keyword" component={SearchScreen} /> */}
+          {/* <Route path="/checkout" component={CheckoutScreen} /> */}
+          {/* <Route path="/payment" component={PaymentScreen} /> */}
 
-          <Route path="/shipment/:id" component={ShipmentScreen} />
+          {/* <Route path="/shipment/:id" component={ShipmentScreen} /> */}
           {/* <Route path="/favourites" component={FavouritesScreen} /> */}
           <Route path="/send-email-otp" component={SendEmailOtp} />
           <Route path="/verify-email-otp" component={VerifyEmailOtp} />
           {/* <Route path="/verify-account-fund-otp" component={VerifyAccountFundOtp} /> */}
-          <Route
+          {/* <Route
             path="/order-success/:reference"
             component={OrderSuccessPage}
-          />
+          /> */}
           <Route
             path="/terms-and-conditions"
             component={TermsAndConditionScreen}
@@ -128,11 +128,11 @@ function App() {
           />
           <Route path="/dashboard/admin" component={AdminDashboard} />
 
-          <Route path="/review-list/:productId" component={ReviewScreen} />
-          <Route path="/add-review/" component={AddReviewScreen} />
+          {/* <Route path="/review-list/:productId" component={ReviewScreen} /> */}
+          {/* <Route path="/add-review/" component={AddReviewScreen} /> */}
           {/* <Route path="/add-review/:orderItemId" component={AddReviewScreen} /> */}
-          <Route path="/edit-review/" component={EditReviewScreen} />
-          <Route path="/credit-point/" component={CreditPointScreen} />
+          {/* <Route path="/edit-review/" component={EditReviewScreen} /> */}
+          {/* <Route path="/credit-point/" component={CreditPointScreen} /> */}
           <Route
             path="/create-support-ticket"
             component={CreateSupportTicket}
@@ -142,7 +142,7 @@ function App() {
 
           <Route path="/inbox" component={MessageInbox} />
           <Route path="/live-chat" component={LiveChatScreen} />
-          <Route path="/feedback" component={FeedbackScreen} />
+          {/* <Route path="/feedback" component={FeedbackScreen} /> */}
           <Route path="/dark-mode" component={DarkModeScreen} />
 
           <Route

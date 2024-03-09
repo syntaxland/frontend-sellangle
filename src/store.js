@@ -65,8 +65,8 @@ import {
   togglePaidAdSaveReducer,
   trackFreeAdViewReducer,
   trackPaidAdViewReducer,
-  getUserVieweFreeAdsReducer,
-  getUserViewePaidAdsReducer,
+  getUserViewedFreeAdsReducer,
+  getUserViewedPaidAdsReducer,
   getUserSavedFreeAdsReducer,
   getUserSavedPaidAdsReducer,
   reviewFreeAdSellerReducer,
@@ -186,6 +186,11 @@ import {
   feedbackCreateReducer,
   feedbackListReducer,
 } from "./reducers/feedbackReducers";
+
+import {
+  getUserRecommendedFreeAdsReducer,
+  getUserRecommendedPaidAdsReducer,
+} from "./reducers/recommenderReducers";
 
 import axios from "axios";
 import { logout } from "./actions/userActions";
@@ -362,10 +367,14 @@ const reducer = combineReducers({
   togglePaidAdSaveState: togglePaidAdSaveReducer,
   trackFreeAdViewState: trackFreeAdViewReducer,
   trackPaidAdViewState: trackPaidAdViewReducer,
-  getUserVieweFreeAdsState: getUserVieweFreeAdsReducer,
-  getUserViewePaidAdsState: getUserViewePaidAdsReducer,
+
+  getUserViewedFreeAdsState: getUserViewedFreeAdsReducer,
+  getUserViewedPaidAdsState: getUserViewedPaidAdsReducer,
   getUserSavedFreeAdsState: getUserSavedFreeAdsReducer,
   getUserSavedPaidAdsState: getUserSavedPaidAdsReducer,
+
+  getUserRecommendedFreeAdsState: getUserRecommendedFreeAdsReducer,
+getUserRecommendedPaidAdsState: getUserRecommendedPaidAdsReducer,
 
   reviewFreeAdSellerState: reviewFreeAdSellerReducer,
   reviewPaidAdSellerState: reviewPaidAdSellerReducer,

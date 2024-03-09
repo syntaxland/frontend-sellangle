@@ -13,7 +13,7 @@ import { formatAmount } from "../FormatAmount";
 function Paysofter({
   adId,
   promoCode,
-  buyerEmail,
+  buyerEmail, 
   amount,
   sellerApiKey,
   currency,
