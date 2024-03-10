@@ -5,7 +5,7 @@ import {
   // useDispatch, 
   useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { jsPDF } from "jspdf";
+// import { jsPDF } from "jspdf";
 import axios from "axios";
 import Loader from "../Loader";
 import Message from "../Message";
@@ -52,31 +52,28 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
           params: {
             ad_charges_receipt_month: adChargesReceiptMonth,
           },
-          // responseType: 'blob',
+          responseType: 'blob', 
         }
       );
   
       if (response.status === 200) {
-        const decodedPdfData = atob(response.data); 
-        const pdfData = new Blob([decodedPdfData], { type: 'application/pdf' });
-        const url = URL.createObjectURL(pdfData);
-  
-        console.log("url:", url);
+        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+          console.log("pdfBlob:", pdfBlob);
+          console.log("response:", response);
+          console.log("response.data:", response.data);
+          console.log("Blob size:", response.data.size);
 
-        const doc = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: 'a4',
-        });
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        console.log("link:", link);
+
+        link.href = URL.createObjectURL(pdfBlob);
+        // link.href = window.URL.createObjectURL(pdfBlob);
+        link.download = `${adChargesReceiptMonth}_ad_charges_receipt.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
   
-        // Embed the content from the server
-        // doc.addPage();
-        // doc.addImage(url, 'JPEG', 0, 0, 210, 297);
-        doc.text(`Ad Charges Receipt for ${adChargesReceiptMonth}`, 10, 10);
-        doc.text(url, 10, 20);
-  
-        // Save the PDF
-        doc.save(`${adChargesReceiptMonth}_ad_charges_receipt.pdf`);
         setSuccess(true);
       } else {
         setError('Error downloading ad charges receipt.');
@@ -87,7 +84,60 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
       setLoading(false);
       handleShowReceiptModal();
     }
-  };  
+  };
+  
+
+  // const downloadAdChargesReceipt = async () => {
+  //   try {
+  //     setLoading(true);
+  
+  //     const response = await axios.get(
+  //       `${API_URL}/api/get-ad-charges-receipt/`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${userInfo?.access}`,
+  //         },
+  //         params: {
+  //           ad_charges_receipt_month: adChargesReceiptMonth,
+  //         },
+  //         responseType: 'blob',
+  //       }
+  //     );
+  
+  //     if (response.status === 200) {
+  //       // const decodedPdfData = atob(response.data); 
+  //       // const pdfData = new Blob([decodedPdfData], { type: 'application/pdf' });
+  //       const pdfData = new Blob([response.data], { type: 'application/pdf' });
+  //       const url = URL.createObjectURL(pdfData);
+  //       console.log("response:", response);
+  //       console.log("pdfData:", pdfData);
+  //       console.log("url:", url);
+
+  //       const doc = new jsPDF({
+  //         orientation: 'portrait',
+  //         unit: 'mm',
+  //         format: 'a4',
+  //       });
+  
+  //       // Embed the content from the server
+  //       // doc.addPage();
+  //       // doc.addImage(url, 'JPEG', 0, 0, 210, 297);
+  //       doc.text(`Ad Charges Receipt for ${adChargesReceiptMonth}`, 10, 10);
+  //       doc.text(url, 10, 20);
+  
+  //       // Save the PDF
+  //       doc.save(`${adChargesReceiptMonth}_ad_charges_receipt.pdf`);
+  //       setSuccess(true);
+  //     } else {
+  //       setError('Error downloading ad charges receipt.');
+  //     }
+  //   } catch (error) {
+  //     setError(`Error downloading ad charges receipt: ${error.message}`);
+  //   } finally {
+  //     setLoading(false);
+  //     handleShowReceiptModal();
+  //   }
+  // };  
 
   return (
     <Container className="d-flex justify-content-center align-items-center text-center">
