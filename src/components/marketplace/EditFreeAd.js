@@ -350,17 +350,9 @@ function EditFreeAd({ history, match }) {
     ad_type: "",
     location: "",
 
-    // country: {},
-    // state_province: {},
-    // city: {},
-
-    // country: { isoCode: "", name: "" },
-    // state_province: { isoCode: "", name: "" },
-    // city: { name: "" },
-
-    country: ads?.country || {},
-    state_province: ads?.state_province || {},
-    city: ads?.city || {},
+    country: {},
+    state_province: {},
+    city: {},
 
     condition: "",
     currency: "",
@@ -410,25 +402,15 @@ function EditFreeAd({ history, match }) {
         ad_type: ads?.ad_type,
         location: ads?.location,
 
-        country: ads?.country,
-        state_province: ads?.state_province,
-        city: ads?.city,
-
-        // country: ads?.country?.isoCode || {},
-        // state_province: ads?.state_province?.isoCode || {},
-        // city: ads?.city || {},
-
-        // country: {
-        //   isoCode: ads?.country?.isoCode || "",
-        //   name: ads?.country?.name || "",
-        // },
-        // state_province: {
-        //   isoCode: ads?.state_province?.isoCode || "",
-        //   name: ads?.state_province?.name || "",
-        // },
-        // city: {
-        //   name: ads?.city?.name || "",
-        // },
+        country: ads?.country ? Country?.getCountryByCode(ads?.country) : {},
+        state_province: ads?.state_province
+          ? State?.getStateByCodeAndCountry(ads?.state_province, ads?.country)
+          : {},
+        city: ads?.city
+          ? City?.getCitiesOfState(ads?.country, ads?.state_province)?.find(
+              (city) => city.name === ads?.city
+            )
+          : {},
 
         condition: ads?.condition,
         currency: ads?.currency,
@@ -450,40 +432,30 @@ function EditFreeAd({ history, match }) {
     }
   }, [ads]);
 
-  console.log("ad location:", ads?.city, ads?.state_province, ads?.country);
-  console.log(
-    "ad location edit:",
-    editAdData?.city,
-    editAdData?.state_province,
-    editAdData?.country
-  );
-
   useEffect(() => {
-    setCountries(Country.getAllCountries());
+    setCountries(Country?.getAllCountries());
   }, []);
 
   useEffect(() => {
-    if (editAdData.country) {
+    if (editAdData?.country) {
       setStates(State.getStatesOfCountry(editAdData.country?.isoCode));
     } else {
       setStates([]);
     }
-  }, [editAdData.country]);
+  }, [editAdData?.country]);
 
   useEffect(() => {
     if (editAdData.state_province) {
       setCities(
         City.getCitiesOfState(
-          editAdData.country?.isoCode,
-          editAdData.state_province?.isoCode
+          editAdData?.country?.isoCode,
+          editAdData?.state_province?.isoCode
         )
       );
     } else {
       setCities([]);
     }
-  }, [editAdData.state_province, editAdData.country?.isoCode]);
-
-  
+  }, [editAdData?.state_province, editAdData?.country?.isoCode]);
 
   const handleEditAdChanges = (e) => {
     const { name, value, files, checked } = e.target;
@@ -499,27 +471,18 @@ function EditFreeAd({ history, match }) {
     setEditAdChanges(true);
   };
 
-  // const handleDesEditAdChanges = (value, name) => {
-  //   if (name === "description" ) {
-  //     setEditAdData({ ...editAdData, [name]: value });
-  //   } 
-  //   setEditAdChanges(true);
-  // };
-
   const handleEditAd = () => {
     const editAdFormData = new FormData();
 
     editAdFormData.append("ad_name", editAdData.ad_name);
     editAdFormData.append("ad_category", editAdData.ad_category);
     editAdFormData.append("ad_type", editAdData.ad_type);
-    // editAdFormData.append("location", editAdData.location);
     editAdFormData.append("country", editAdData.country?.isoCode);
     editAdFormData.append("state_province", editAdData.state_province?.isoCode);
     editAdFormData.append("city", editAdData.city?.name);
     editAdFormData.append("condition", editAdData.condition);
     editAdFormData.append("currency", editAdData.currency);
     editAdFormData.append("price", editAdData.price);
-    // editAdFormData.append("usd_price", editAdData.usd_price);
     editAdFormData.append("brand", editAdData.brand);
     editAdFormData.append("description", editAdData.description);
     editAdFormData.append("youtube_link", editAdData.youtube_link);
@@ -779,19 +742,6 @@ function EditFreeAd({ history, match }) {
               />
             </Form.Group>
 
-            {/* <Form.Group>
-              <Form.Label>USD Price</Form.Label>
-              <Form.Control
-                type="number"
-                name="usd_price"
-                value={editAdData.usd_price}
-                onChange={handleEditAdChanges}
-                placeholder="Enter USD price equivalent"
-                className="rounded py-2 mb-2"
-                required
-              />
-            </Form.Group> */}
-
             <Form.Group>
               <Form.Check
                 type="checkbox"
@@ -980,8 +930,6 @@ function EditFreeAd({ history, match }) {
                 placeholder="Enter ad description"
                 maxLength={4000}
               /> */}
-
-              
             </Form.Group>
           </Form>
           <div className="py-2">

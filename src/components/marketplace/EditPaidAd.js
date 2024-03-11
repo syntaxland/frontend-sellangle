@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import {
-  editPaidAd, 
+  editPaidAd,
   getPaidAdDetail,
 } from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
-import { Country, State, City } from "country-state-city"; 
+import { Country, State, City } from "country-state-city";
 // import ReactQuill from "react-quill";
 // import "react-quill/dist/quill.snow.css";
 
@@ -56,7 +56,7 @@ const AD_TYPE_CHOICES = {
     ["Refrigerator", "Refrigerator"],
     ["Microwave", "Microwave"],
     ["Coffee Machine", "Coffee Machine"],
-    ["Air Conditioner", "Air Conditioner"], 
+    ["Air Conditioner", "Air Conditioner"],
     ["Solar", "Solar"],
     ["Kitchen Appliances", "Kitchen Appliances"],
   ],
@@ -339,7 +339,6 @@ function EditPaidAd({ history, match }) {
     dispatch(getPaidAdDetail(match.params.id));
   }, [dispatch, match]);
 
-
   const editPaidAdState = useSelector((state) => state.editPaidAdState);
   const { success, error, loading } = editPaidAdState;
 
@@ -353,9 +352,10 @@ function EditPaidAd({ history, match }) {
     ad_category: "",
     ad_type: "",
     location: "",
-    country: "",
-    state_province: "",
-    city: "",
+
+    country: {},
+    state_province: {},
+    city: {},
     condition: "",
     currency: "",
     price: "",
@@ -406,9 +406,16 @@ function EditPaidAd({ history, match }) {
         ad_category: ads?.ad_category,
         ad_type: ads?.ad_type,
         location: ads?.location,
-        country: ads?.country,
-        state_province: ads?.state_province,
-        city: ads?.city,
+
+        country: ads?.country ? Country?.getCountryByCode(ads?.country) : {},
+        state_province: ads?.state_province
+          ? State?.getStateByCodeAndCountry(ads?.state_province, ads?.country)
+          : {},
+        city: ads?.city
+          ? City?.getCitiesOfState(ads?.country, ads?.state_province)?.find(
+              (city) => city.name === ads?.city
+            )
+          : {},
         condition: ads?.condition,
         currency: ads?.currency,
         price: ads?.price,
@@ -457,15 +464,14 @@ function EditPaidAd({ history, match }) {
     }
   }, [editAdData.state_province, editAdData.country?.isoCode]);
 
-  // const handleDesEditAdChanges = (value, name) => {
-  //   setEditAdData({ ...editAdData, [name]: value });
-  //   setEditAdChanges(true);
-  // };
-
   const handleEditAdChanges = (e) => {
     const { name, value, files, checked } = e.target;
 
-    if (name === "show_strike_through_promo_price" || name === "is_price_negotiable" || name === "is_auto_renewal") {
+    if (
+      name === "show_strike_through_promo_price" ||
+      name === "is_price_negotiable" ||
+      name === "is_auto_renewal"
+    ) {
       setEditAdData({ ...editAdData, [name]: checked });
     } else if (files) {
       setEditAdData({ ...editAdData, [name]: files[0] });
@@ -476,97 +482,6 @@ function EditPaidAd({ history, match }) {
     setEditAdChanges(true);
   };
 
-  // useEffect(() => {
-  //   setCountries(Country?.getAllCountries());
-  // }, []);
-
-  // useEffect(() => {
-  //   if (editAdData?.country && editAdData?.country?.isoCode) {
-  //     setStates(State?.getStatesOfCountry(editAdData?.country?.isoCode));
-  //   } else {
-  //     setStates([]);
-  //   }
-  // }, [editAdData?.country, editAdData?.country?.isoCode]);
-
-  // useEffect(() => {
-  //   if (editAdData?.state_province && editAdData?.state_province?.isoCode) {
-  //     setCities(
-  //       City?.getCitiesOfState(
-  //         editAdData?.country?.isoCode,
-  //         editAdData?.state_province?.isoCode
-  //       )
-  //     );
-  //   } else {
-  //     setCities([]);
-  //   }
-  // }, [editAdData?.state_province, editAdData?.country?.isoCode]);
-
-  // useEffect(() => {
-  //   if (editAdData?.country) {
-  //     setStates(State?.getStatesOfCountry(editAdData?.country));
-  //   } else {
-  //     setStates([]);
-  //   }
-  // }, [editAdData?.country]);
-
-  // useEffect(() => {
-  //   if (editAdData?.state_province) {
-  //     setCities(
-  //       City?.getCitiesOfState(
-  //         editAdData?.country,
-  //         editAdData?.state_province
-  //       )
-  //     );
-  //   } else {
-  //     setCities([]);
-  //   }
-  // }, [editAdData?.country, editAdData?.state_province]);
-
-  // const handleEditAdChanges = (e) => {
-  //   const { name, value, files, checked } = e.target;
-
-  //   if (name === "is_price_negotiable" || name === "is_auto_renewal") {
-  //     setEditAdData({ ...editAdData, [name]: checked });
-  //   } else if (files) {
-  //     setEditAdData({ ...editAdData, [name]: files[0] });
-  //   } else if (name === "country") {
-  //     const selectedCountry = countries?.find(
-  //       (country) => country.name === value
-  //       // (country) => country.isoCode === value
-  //     );
-  //     setEditAdData({
-  //       ...editAdData,
-  //       country: selectedCountry,
-  //       state_province: "",
-  //       city: "",
-  //     });
-  //   } else if (name === "state_province") {
-  //     const selectedState = states?.find((state) => state.name === value);
-  //     // const selectedState = states?.find((state) => state.isoCode === value);
-  //     setEditAdData({
-  //       ...editAdData,
-  //       state_province: selectedState,
-  //       city: "",
-  //     });
-  //   } else if (name === "city") {
-  //     const selectedCity = cities?.find((city) => city.name === value);
-  //     setEditAdData({
-  //       ...editAdData,
-  //       city: selectedCity,
-  //     });
-  //   } else {
-  //     setEditAdData({ ...editAdData, [name]: value });
-  //   }
-
-  //   setEditAdChanges(true);
-  // };
-
-  // console.log(
-  //   "country.name,  country.isoCode",
-  //   editAdData?.country,
-  //   editAdData?.country
-  // );
-
   const handleEditAd = () => {
     const editAdFormData = new FormData();
 
@@ -574,7 +489,10 @@ function EditPaidAd({ history, match }) {
     editAdFormData.append("ad_category", editAdData.ad_category);
     editAdFormData.append("ad_type", editAdData.ad_type);
     editAdFormData.append("country", editAdData?.country?.isoCode);
-    editAdFormData.append("state_province", editAdData?.state_province?.isoCode);
+    editAdFormData.append(
+      "state_province",
+      editAdData?.state_province?.isoCode
+    );
     editAdFormData.append("city", editAdData?.city?.name);
     editAdFormData.append("condition", editAdData.condition);
     editAdFormData.append("currency", editAdData.currency);
@@ -595,7 +513,10 @@ function EditPaidAd({ history, match }) {
       "is_price_negotiable",
       editAdData.is_price_negotiable
     );
-    editAdFormData.append("show_strike_through_promo_price", editAdData.show_strike_through_promo_price);
+    editAdFormData.append(
+      "show_strike_through_promo_price",
+      editAdData.show_strike_through_promo_price
+    );
     editAdFormData.append("is_auto_renewal", editAdData.is_auto_renewal);
     editAdFormData.append("ad_id", id);
 
@@ -615,7 +536,6 @@ function EditPaidAd({ history, match }) {
 
     dispatch(editPaidAd(editAdFormData));
   };
-
 
   useEffect(() => {
     if (success) {
@@ -780,96 +700,6 @@ function EditPaidAd({ history, match }) {
                 required
               />
             </Form.Group>
- 
-            {/* <Form.Group>
-              <Form.Label>Ad Country</Form.Label>
-              <Select
-                options={countries?.map((country) => ({
-                  value: country.name,
-                  label: country.name,
-                  // value: country?.isoCode,
-                  // label: country?.name,
-                }))}
-                value={{
-                  value: editAdData?.country,
-                  label: editAdData?.country,
-                  // value: editAdData?.country?.isoCode,
-                  // label: editAdData?.country?.name,
-                }}
-                onChange={(selectedOption) => {
-                  handleEditAdChanges({
-                    target: {
-                      name: "country",
-                      value: {
-                        isoCode: selectedOption.value,
-                        name: selectedOption.label,
-                      },
-                    },
-                  });
-                }}
-                placeholder="Select Country"
-                className="rounded py-2 mb-2"
-                required
-                isDisabled
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Ad State/Province</Form.Label>
-              <Select
-                options={states?.map((state) => ({
-                  // value: state?.isoCode,
-                  value: state.name,
-                  label: state.name,
-                }))}
-                value={{
-                  value: editAdData?.state_province,
-                  // value: editAdData?.state_province?.isoCode,
-                  label: editAdData?.state_province,
-                }}
-                onChange={(selectedOption) => {
-                  handleEditAdChanges({
-                    target: {
-                      name: "state_province",
-                      value: {
-                        isoCode: selectedOption.value,
-                        name: selectedOption.label,
-                      },
-                    },
-                  });
-                }}
-                placeholder="Select State/Province"
-                className="rounded py-2 mb-2"
-                required
-                isDisabled
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Ad City</Form.Label>
-              <Select
-                options={cities?.map((city) => ({
-                  value: city.name,
-                  label: city.name,
-                }))}
-                value={{
-                  value: editAdData?.city,
-                  label: editAdData?.city,
-                }}
-                onChange={(selectedOption) => {
-                  handleEditAdChanges({
-                    target: {
-                      name: "city",
-                      value: { name: selectedOption.label },
-                    },
-                  });
-                }}
-                placeholder="Select City"
-                className="rounded py-2 mb-2"
-                required
-                isDisabled
-              />
-            </Form.Group> */}
 
             <Form.Group>
               <Form.Label>Ad Condition</Form.Label>
@@ -1030,8 +860,6 @@ function EditPaidAd({ history, match }) {
                 maxLength={225}
               />
             </Form.Group>
-
-            
 
             <Form.Group>
               <Form.Label>Number In Stock</Form.Label>
