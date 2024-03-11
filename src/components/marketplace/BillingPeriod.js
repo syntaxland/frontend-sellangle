@@ -86,6 +86,7 @@ function BillingPeriod() {
             <Col md={4} className="py-1">
               <AdChargesReceipt
                 adChargesReceiptMonth={selectedBillingPeriod?.label}
+                billingPeriodLoading={loading}
               />
             </Col>
           </Row>

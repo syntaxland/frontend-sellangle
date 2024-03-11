@@ -1,9 +1,10 @@
 // AdChargesReceipt.js
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Col, Row, Container } from "react-bootstrap";
-import { 
-  // useDispatch, 
-  useSelector } from "react-redux";
+import {
+  // useDispatch,
+  useSelector,
+} from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Loader";
@@ -11,7 +12,7 @@ import Message from "../Message";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-function AdChargesReceipt({ adChargesReceiptMonth }) {
+function AdChargesReceipt({ adChargesReceiptMonth, billingPeriodLoading }) {
   // const dispatch = useDispatch();
   const history = useHistory();
 
@@ -41,7 +42,7 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
   const downloadAdChargesReceipt = async () => {
     try {
       setLoading(true);
-  
+
       const response = await axios.get(
         `${API_URL}/api/get-ad-charges-receipt/`,
         {
@@ -51,14 +52,14 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
           params: {
             ad_charges_receipt_month: adChargesReceiptMonth,
           },
-          responseType: 'blob', 
+          responseType: "blob",
         }
       );
-  
+
       if (response.status === 200) {
-        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+        const pdfBlob = new Blob([response.data], { type: "application/pdf" });
         //   console.log("Blob size:", response.data.size);
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         console.log("link:", link);
         link.href = URL.createObjectURL(pdfBlob);
         link.download = `${adChargesReceiptMonth}_ad_charges_receipt.pdf`;
@@ -67,7 +68,7 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
         document.body.removeChild(link);
         setSuccess(true);
       } else {
-        setError('Error downloading ad charges receipt.');
+        setError("Error downloading ad charges receipt.");
       }
     } catch (error) {
       setError(`Error downloading ad charges receipt: ${error.message}`);
@@ -75,7 +76,7 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
       setLoading(false);
     }
   };
-  
+
   return (
     <Container className="d-flex justify-content-center align-items-center text-center">
       <Row>
@@ -83,9 +84,15 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
           <Button
             variant="primary"
             onClick={handleShowReceiptModal}
-            disabled={loading || success || adChargesReceiptMonth === ""}
+            disabled={
+              loading ||
+              billingPeriodLoading ||
+              success ||
+              adChargesReceiptMonth === ""
+            }
           >
-            <i className="fas fa-download"></i>  {loading ? "Downloading..." : "Download"}
+            <i className="fas fa-download"></i>{" "}
+            {loading ? "Downloading..." : "Download"}
           </Button>
 
           <Modal show={showReceiptModal} onHide={handleCloseReceiptModal}>
@@ -112,12 +119,10 @@ function AdChargesReceipt({ adChargesReceiptMonth }) {
                   <>
                     <p>
                       <p>
-                        Download your ad charges receipt for:{" "}
-                        {adChargesReceiptMonth}?
+                        Download your ad billing receipt for:{" "}
+                        {adChargesReceiptMonth}? 
                       </p>
-                      <Button
-                        onClick={downloadAdChargesReceipt}
-                      >
+                      <Button onClick={downloadAdChargesReceipt}>
                         {" "}
                         <i className="fas fa-file-download"></i> Download
                       </Button>
@@ -148,7 +153,7 @@ export default AdChargesReceipt;
 // import { getAdChargesReceipt } from "../../actions/marketplaceSellerActions";
 // import Loader from "../Loader";
 // import Message from "../Message";
-// import { jsPDF } from "jspdf"; 
+// import { jsPDF } from "jspdf";
 // // import { saveAs } from "file-saver";
 // // import b64toBlob from 'b64-to-blob';
 // // import {
@@ -216,16 +221,16 @@ export default AdChargesReceipt;
 //       const adData = {
 //         ad_charges_receipt_month: adChargesReceiptMonth,
 //       };
-  
+
 //       // Dispatch the action to get the ad charges receipt
 //       await dispatch(getAdChargesReceipt(adData));
-  
+
 //       if (paidAdReceipt) {
 //         console.log("paidAdReceipt2:", paidAdReceipt);
 //         // Decode base64
 //         const decodedPaidAdReceipt = atob(paidAdReceipt);
 //         console.log("decodedPaidAdReceipt:", decodedPaidAdReceipt);
-  
+
 //         // Generate PDF using jsPDF
 //         // const doc = new jsPDF();
 
@@ -234,13 +239,12 @@ export default AdChargesReceipt;
 //           unit: "mm", // or "pt", "in", etc.
 //           format: "a4", // or an array of numbers [width, height]
 //         });
-        
 
 //         doc.text(`Ad Charges Receipt for ${adChargesReceiptMonth}`, 10, 10);
 //         doc.text(decodedPaidAdReceipt, 10, 20);
 
 //         console.log("decodedPaidAdReceipt 2:", decodedPaidAdReceipt);
-  
+
 //         // Save the PDF
 //         doc.save(`${adChargesReceiptMonth}_ad_charges_receipt.pdf`);
 //       } else {
@@ -250,26 +254,26 @@ export default AdChargesReceipt;
 //       console.error("Error dispatching getAdChargesReceipt:", error);
 //     }
 //   };
-  
+
 //   // const downloadAdChargesReceipt = async () => {
 //   //   try {
 //   //     const adData = {
 //   //       ad_charges_receipt_month: adChargesReceiptMonth,
 //   //     };
-  
+
 //   //     // Dispatch the action to get the ad charges receipt
 //   //     await dispatch(getAdChargesReceipt(adData));
-  
+
 //   //     // Access the paidAdReceipt from the Redux state
 //   //     // const { paidAdReceipt } = getAdChargesReceiptState;
-  
+
 //   //     if (paidAdReceipt) {
 //   //       // Generate PDF using paidAdReceipt data
 //   //       const pdfBlob = await AdChargesReceiptPDF({
 //   //         adChargesReceiptMonth,
 //   //         paidAdReceipt, // Pass the paidAdReceipt data to the PDF component
 //   //       }).toBlob();
-  
+
 //   //       // Create a download link and trigger the download
 //   //       const link = document.createElement("a");
 //   //       link.href = URL.createObjectURL(pdfBlob);
@@ -287,7 +291,7 @@ export default AdChargesReceipt;
 //   //     console.error("Error dispatching getAdChargesReceipt:", error);
 //   //   }
 //   // };
-  
+
 //   // const downloadAdChargesReceipt = async () => {
 //   //   try {
 //   //     const adData = {
