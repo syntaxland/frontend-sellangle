@@ -29,7 +29,6 @@ import Referrals from "./Referrals";
 import SupportTicket from "../support/SupportTicket";
 import Feedback from "./Feedback";
 import Settings from "./Settings";
-// import Billing from "../marketplace/Billing";
 
 function UserDashboard() {
   const dispatch = useDispatch();
@@ -39,7 +38,9 @@ function UserDashboard() {
   const { profile } = userProfile;
   console.log("profile:", profile);
 
-  const getUserMessagesState = useSelector((state) => state.getUserMessagesState);
+  const getUserMessagesState = useSelector(
+    (state) => state.getUserMessagesState
+  );
   const { messages } = getUserMessagesState;
   console.log("messages:", messages);
 
@@ -81,8 +82,11 @@ function UserDashboard() {
     history.push("/dashboard/marketplace/sellers");
   };
 
-  const msgCounted = messages?.reduce((total, userMessages) => total + userMessages.msg_count, 0);
-  console.log("msgCounted:", msgCounted);
+  const msgCounted = messages?.reduce(
+    (total, userMessages) => total + userMessages.msg_count,
+    0
+  );
+  console.log("msgCounted:", msgCounted); 
 
   const renderTabContent = () => {
     switch (activeTab) {

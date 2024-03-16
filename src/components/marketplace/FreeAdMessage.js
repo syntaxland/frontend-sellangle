@@ -89,7 +89,7 @@ function FreeAdMessage() {
           <Col xs={12} md={8}>
             <div className=" py-2 ">
               {loading && <Loader />}
-              {error && (
+              {error && ( 
                 <Message variant="danger" fixed>
                   {error}
                 </Message>

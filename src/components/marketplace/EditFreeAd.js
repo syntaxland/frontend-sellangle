@@ -12,8 +12,8 @@ import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
-// import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const CURRENCY_CHOICES = [
   ["NGN", "Nigerian Naira"],
@@ -371,28 +371,28 @@ function EditFreeAd({ history, match }) {
     is_auto_renewal: "",
   });
 
-  // const modules = {
-  //   toolbar: [
-  //     [{ header: "1" }, { header: "2" }, { font: [] }],
-  //     [{ list: "ordered" }, { list: "bullet" }],
-  //     ["bold", "italic", "underline"],
-  //     [{ align: [] }],
-  //     ["link", "image"],
-  //     ["clean"],
-  //   ],
-  // };
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["bold", "italic", "underline"],
+      [{ align: [] }],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
 
-  // const formats = [
-  //   "header",
-  //   "font",
-  //   "list",
-  //   "bold",
-  //   "italic",
-  //   "underline",
-  //   "align",
-  //   "link",
-  //   "image",
-  // ];
+  const formats = [
+    "header",
+    "font",
+    "list",
+    "bold",
+    "italic",
+    "underline",
+    "align",
+    "link",
+    "image",
+  ];
 
   useEffect(() => {
     if (ads) {
@@ -895,21 +895,10 @@ function EditFreeAd({ history, match }) {
                 ))}
               </Form.Control>
             </Form.Group>
-
-            {/* <Form.Group>
-              <Form.Check
-                type="checkbox"
-                label="Renew Automatically?"
-                name="is_auto_renewal"
-                checked={editAdData.is_auto_renewal}
-                onChange={handleEditAdChanges}
-                className="rounded py-2 mb-2"
-              />
-            </Form.Group> */}
-
+           
             <Form.Group>
               <Form.Label>Description</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 as="textarea"
                 rows={4}
                 name="description"
@@ -919,17 +908,22 @@ function EditFreeAd({ history, match }) {
                 className="rounded py-2 mb-2"
                 required
                 maxLength={4000}
-              />
+              /> */}
 
-              {/* <ReactQuill
-              theme="snow"
+              <ReactQuill
                 value={editAdData.description}
-                onChange={(value) => handleEditAdChanges({ target: { name: 'description', value } })}
+                onChange={(value) =>
+                  handleEditAdChanges({
+                    target: { name: "description", value: value },
+                  })
+                }
+                placeholder="Enter ad description"
+                className="rounded py-2 mb-2"
                 modules={modules}
                 formats={formats}
-                placeholder="Enter ad description"
                 maxLength={4000}
-              /> */}
+                required
+              />
             </Form.Group>
           </Form>
           <div className="py-2">

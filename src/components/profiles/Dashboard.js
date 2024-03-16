@@ -44,7 +44,7 @@ function Dashboard() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo) { 
       window.location.href = "/login";
     }
   }, [userInfo]);
