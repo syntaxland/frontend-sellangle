@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Table, Button, Row, Col, Container } from "react-bootstrap";
-import { listBuyerFreeAdMessages } from "../../actions/marketplaceSellerActions";
+import {
+  listBuyerFreeAdMessages,
+  clearSellerFreeAdMessageCounter,
+} from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
@@ -11,7 +14,7 @@ import PromoTimer from "../PromoTimer";
 
 function GetBuyerFreeAdMessages() {
   const dispatch = useDispatch();
-  const history = useHistory(); 
+  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -58,9 +61,16 @@ function GetBuyerFreeAdMessages() {
     console.log("handleReplyBuyer queryParams:", queryParams);
 
     history.push({
-      pathname: `/free/ad/message/${ad.id}`,
+      pathname: `/seller/free/ad/message/${ad.id}`,
       search: `?${new URLSearchParams(queryParams).toString()}`,
     });
+  };
+
+  const clearMsgCounter = (msgId) => {
+    const counterData = {
+      free_ad_message_id: msgId,
+    };
+    dispatch(clearSellerFreeAdMessageCounter(counterData));
   };
 
   return (
@@ -94,30 +104,28 @@ function GetBuyerFreeAdMessages() {
                   <thead>
                     <tr>
                       <th>SN</th>
-                      {/* <th>Msg ID</th> */}
                       {/* <th>Ad ID</th> */}
                       <th>Ad Image</th>
                       <th>Ad Name</th>
                       <th>Ad Price</th>
-                      {/* <th>Ad Currency</th> */}
                       <th>User</th>
                       <th>Ad Expiration Date</th>
                       <th>Message</th>
                       <th>Message ID</th>
                       <th>Timestamp</th>
-                    </tr> 
+                    </tr>
                   </thead>
                   <tbody>
                     {currentItems?.map((ad, index) => (
                       <tr key={ad.id} className="rounded">
                         <td>{index + 1}</td>
                         {/* <td>{ad.id}</td> */}
-                        {/* <td>{ad.free_ad_id}</td> */}
                         <td>{ad.free_ad_image1}</td>
                         <td>{ad.free_ad_name}</td>
-                        <td>{ad.free_ad_price} {ad.free_ad_currency}</td>
-                        {/* <td>{ad.free_ad_currency}</td> */}
-                        <td>{ad.free_ad_buyer}</td>
+                        <td>
+                          {ad.free_ad_price} {ad.free_ad_currency}
+                        </td>
+                        <td>{ad.username}</td>
                         <td>
                           <Button
                             variant="outline-danger"
@@ -127,7 +135,7 @@ function GetBuyerFreeAdMessages() {
                           >
                             <i className="fas fa-clock"></i> Expires in:{" "}
                             <PromoTimer
-                              expirationDate={ad.free_ad_expiration_date} 
+                              expirationDate={ad.free_ad_expiration_date}
                             />
                           </Button>
                         </td>
@@ -150,9 +158,17 @@ function GetBuyerFreeAdMessages() {
                           <Button
                             variant="outline-primary"
                             size="sm"
-                            onClick={() => handleReplyBuyer(ad)}
+                            onClick={() => {
+                              handleReplyBuyer(ad);
+                              clearMsgCounter(ad.free_ad_message_id);
+                            }}
                           >
-                            Reply Message
+                            Reply Message{" "}
+                            {ad.seller_free_ad_msg_count > 0 && (
+                              <span className="msg-counter">
+                                {ad.seller_free_ad_msg_count}
+                              </span>
+                            )}
                           </Button>
                         </td>
                       </tr>

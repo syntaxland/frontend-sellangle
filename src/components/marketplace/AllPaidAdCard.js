@@ -122,7 +122,7 @@ function AllPaidAdCard({ product }) {
       };
 
       history.push({
-        pathname: `/paid/ad/message/${product.id}`,
+        pathname: `/buyer/paid/ad/message/${product.id}`,
         search: `?${new URLSearchParams(queryParams).toString()}`,
       });
     }

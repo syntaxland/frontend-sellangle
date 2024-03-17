@@ -2,9 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 // import { Link} from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons"; 
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  listBuyerFreeAdMessages,
+  listBuyerPaidAdMessages,
+} from "../../actions/marketplaceSellerActions";
+
 import Dashboard from "./Dashboard";
 // import { login } from "../../actions/userActions";
 import SellerProfile from "./SellerProfile";
@@ -28,7 +34,7 @@ import Billing from "./Billing";
 import SellerInbox from "./SellerInbox";
 
 function MarketplaceDashboard({ history }) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -38,6 +44,31 @@ function MarketplaceDashboard({ history }) {
       window.location.href = "/login";
     }
   }, [userInfo]);
+
+  const listBuyerFreeAdMessagesState = useSelector(
+    (state) => state.listBuyerFreeAdMessagesState
+  );
+  const { freeAdMessages } = listBuyerFreeAdMessagesState;
+  console.log("freeAdMessages:", freeAdMessages);
+
+  const listBuyerPaidAdMessagesState = useSelector(
+    (state) => state.listBuyerPaidAdMessagesState
+  );
+  const { paidAdMessages } = listBuyerPaidAdMessagesState;
+  console.log("paidAdMessages:", paidAdMessages);
+
+  const msgFreeAdCounted = freeAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.seller_free_ad_msg_count,
+    0
+  );
+
+  const msgPaidAdCounted = paidAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.seller_paid_ad_msg_count,
+    0
+  );
+
+  console.log("msgFreeAdCounted:", msgFreeAdCounted);
+  console.log("msgPaidAdCounted:", msgPaidAdCounted);
 
   const [activeTab, setActiveTab] = useState("user-dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -50,7 +81,7 @@ function MarketplaceDashboard({ history }) {
     setSidebarOpen(!sidebarOpen);
   };
 
-const handleCurrentAds = () => {
+  const handleCurrentAds = () => {
     history.push("/current-ads");
   };
 
@@ -60,6 +91,11 @@ const handleCurrentAds = () => {
   // const handleAdminDashboard = () => {
   //   history.push("/admin-dashboard");
   // };
+
+  useEffect(() => {
+    dispatch(listBuyerFreeAdMessages());
+    dispatch(listBuyerPaidAdMessages());
+  }, [dispatch]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -77,8 +113,6 @@ const handleCurrentAds = () => {
 
       case "Shop-front-link":
         return <ShopFrontLink />;
-
-      
 
       case "billing":
         return <Billing />;
@@ -117,7 +151,7 @@ const handleCurrentAds = () => {
       //   return <Settings />;
 
       case "seller-inbox":
-        return <SellerInbox />; 
+        return <SellerInbox />;
 
       default:
         return <Dashboard />;
@@ -166,7 +200,9 @@ const handleCurrentAds = () => {
 
               <div>
                 <Button
-                  variant={activeTab === "seller-profile" ? "info" : "outline-info"}
+                  variant={
+                    activeTab === "seller-profile" ? "info" : "outline-info"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("seller-profile")}
                 >
@@ -257,7 +293,7 @@ const handleCurrentAds = () => {
                 >
                   <i className="fas fa-ad"></i> Post Paid Ads
                 </Button>
-              </div> 
+              </div>
 
               {/* <div>
                 <Button
@@ -294,8 +330,6 @@ const handleCurrentAds = () => {
                 </Button>
               </div>
 
-             
-
               {/* <div>
                 <Button
                   variant={activeTab === "favorites" ? "info" : "outline-info"}
@@ -327,13 +361,20 @@ const handleCurrentAds = () => {
                   onClick={handleSellerInbox}
                   // onClick={() => handleTabChange("seller-inbox")}
                 >
-                  <i className="fa fa-message"></i> Seller Inbox
+                  <i className="fa fa-message"></i> Seller Inbox{" "}
+                  {(msgPaidAdCounted + msgFreeAdCounted) > 0 && (
+                    <span className="msg-counter">
+                      {msgPaidAdCounted + msgFreeAdCounted}
+                    </span>
+                  )}
                 </Button>
               </div>
 
               <div>
                 <Button
-                  variant={activeTab === "Shop-front-link" ? "info" : "outline-info"}
+                  variant={
+                    activeTab === "Shop-front-link" ? "info" : "outline-info"
+                  }
                   className="sidebar-link"
                   onClick={() => handleTabChange("Shop-front-link")}
                 >

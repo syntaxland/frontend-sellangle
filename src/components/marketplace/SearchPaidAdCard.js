@@ -98,7 +98,7 @@ function SearchPaidAdCard({ paidSearchAd }) {
       };
 
       history.push({
-        pathname: `/paid/ad/message/${paidSearchAd.id}`,
+        pathname: `/buyer/paid/ad/message/${paidSearchAd.id}`,
         search: `?${new URLSearchParams(queryParams).toString()}`,
       });
     }

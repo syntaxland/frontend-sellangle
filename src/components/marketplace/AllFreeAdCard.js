@@ -123,7 +123,7 @@ function AllFreeAdCard({ product }) {
       };
 
       history.push({
-        pathname: `/free/ad/message/${product.id}`,
+        pathname: `/buyer/free/ad/message/${product.id}`,
         search: `?${new URLSearchParams(queryParams).toString()}`,
       });
     }

@@ -60,8 +60,10 @@ import SellerPhoto from "./components/marketplace/SellerPhoto";
 import PaidAdProductDetail from "./components/marketplace/PaidAdProductDetail";
 import FreeAdProductDetail from "./components/marketplace/FreeAdProductDetail";
 import PaidAdScreen from "./components/marketplace/PaidAdScreen";
-import PaidAdMessage from "./components/marketplace/PaidAdMessage";
-import FreeAdMessage from "./components/marketplace/FreeAdMessage";
+import BuyerPaidAdMessage from "./components/marketplace/BuyerPaidAdMessage";
+import BuyerFreeAdMessage from "./components/marketplace/BuyerFreeAdMessage";
+import SellerPaidAdMessage from "./components/marketplace/SellerPaidAdMessage";
+import SellerFreeAdMessage from "./components/marketplace/SellerFreeAdMessage";
 import EditPaidAd from "./components/marketplace/EditPaidAd";
 import SellerShopFront from "./components/marketplace/SellerShopFront";
 import EditFreeAd from "./components/marketplace/EditFreeAd";
@@ -155,8 +157,12 @@ function App() {
           <Route path="/paid-ad-detail/:id" component={PaidAdProductDetail} />
           <Route path="/free-ad-detail/:id" component={FreeAdProductDetail} />
           <Route path="/paid-ad-screen" component={PaidAdScreen} />
-          <Route path="/paid/ad/message/:id" component={PaidAdMessage} />
-          <Route path="/free/ad/message/:id" component={FreeAdMessage} />
+
+          <Route path="/buyer/paid/ad/message/:id" component={BuyerPaidAdMessage} />
+          <Route path="/buyer/free/ad/message/:id" component={BuyerFreeAdMessage} />
+          <Route path="/seller/paid/ad/message/:id" component={SellerPaidAdMessage} />
+          <Route path="/seller/free/ad/message/:id" component={SellerFreeAdMessage} />
+
           <Route path="/edit/paid/ad/:id" component={EditPaidAd} />
           <Route path="/edit/free/ad/:id" component={EditFreeAd} />
           <Route

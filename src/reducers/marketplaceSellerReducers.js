@@ -181,6 +181,19 @@ PAY_ADS_CHARGES_FAIL,
 GET_PAID_ADS_CHARGES_RECEIPT_REQUEST,
 GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS,
 GET_PAID_ADS_CHARGES_RECEIPT_FAIL,
+
+CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_REQUEST,
+CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_SUCCESS,
+CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_FAIL,
+CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_REQUEST,
+CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_SUCCESS,
+CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_FAIL,
+CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_REQUEST,
+CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
+CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_FAIL,
+CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_REQUEST,
+CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
+CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -217,6 +230,74 @@ const initialState = {
   paidAdCharges: [],
   // adCpsCharges: [],
   paidAdReceipt: [],
+};
+
+export const clearSellerFreeAdMsgCounterReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_REQUEST:
+      return { loading: true };
+    case CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        
+      };
+    case CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const clearBuyerFreeAdMsgCounterReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_REQUEST:
+      return { loading: true };
+    case CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        
+      };
+    case CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const clearSellerPaidAdMsgCounterReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_REQUEST:
+      return { loading: true };
+    case CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        
+      };
+    case CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const clearBuyerPaidAdMsgCounterReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_REQUEST:
+      return { loading: true };
+    case CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        
+      };
+    case CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const getAdChargesReceiptReducer = (state = initialState, action) => {

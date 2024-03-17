@@ -1,20 +1,20 @@
-// FreeAdMessage.js
+// BuyerPaidAdMessage.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Form, Button, Row, Col, ListGroup, Container } from "react-bootstrap";
 import {
-  createFreeAdMessage,
-  listFreeAdMessages,
+  buyerCreatePaidAdMessage,
+  listPaidAdMessages,
 } from "../../actions/marketplaceSellerActions";
-import Loader from "../Loader"; 
+import Loader from "../Loader";
 import Message from "../Message";
 import RatingSeller from "../RatingSeller";
 import PromoTimer from "../PromoTimer";
 import LoaderButton from "../LoaderButton";
 import { formatAmount } from "../FormatAmount";
 
-function FreeAdMessage() {
+function BuyerPaidAdMessage() {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -22,7 +22,7 @@ function FreeAdMessage() {
   const queryParams = new URLSearchParams(location.search);
 
   const id = queryParams.get("id");
-  const free_ad_message_id = queryParams.get("free_ad_message_id");
+  const paid_ad_message_id = queryParams.get("paid_ad_message_id");
   const image1 = queryParams.get("image1");
   const ad_name = queryParams.get("ad_name");
   const price = queryParams.get("price");
@@ -34,19 +34,19 @@ function FreeAdMessage() {
 
   const [message, setMessage] = useState("");
 
-  const createFreeAdMessageState = useSelector(
-    (state) => state.createFreeAdMessageState
+  const createPaidAdMessageState = useSelector(
+    (state) => state.createPaidAdMessageState
   );
-  const { loading, success, error } = createFreeAdMessageState;
+  const { loading, success, error } = createPaidAdMessageState;
 
-  const listFreeAdMessageState = useSelector(
-    (state) => state.listFreeAdMessageState
+  const listPaidAdMessageState = useSelector(
+    (state) => state.listPaidAdMessageState
   );
   const {
-    loading: listFreeAdMessageLoading,
-    error: listFreeAdMessageError,
+    loading: listPaidAdMessageLoading,
+    error: listPaidAdMessageError,
     adMessages,
-  } = listFreeAdMessageState;
+  } = listPaidAdMessageState;
   console.log("adMessages:", adMessages);
 
   useEffect(() => {
@@ -54,22 +54,21 @@ function FreeAdMessage() {
 
     const messageData = {
       ad_id: id,
-      free_ad_message_id: free_ad_message_id,
+      paid_ad_message_id: paid_ad_message_id,
     };
- 
-    dispatch(listFreeAdMessages(messageData));
-  }, [dispatch, id, free_ad_message_id]);
+    dispatch(listPaidAdMessages(messageData));
+  }, [dispatch, id, paid_ad_message_id]);
 
   const handleSubmitReply = (e) => {
     e.preventDefault();
 
     const messageData = {
       ad_id: id,
-      free_ad_message_id: free_ad_message_id,
       message: message,
+      paid_ad_message_id: paid_ad_message_id,
     };
 
-    dispatch(createFreeAdMessage(messageData));
+    dispatch(buyerCreatePaidAdMessage(messageData));
   };
 
   useEffect(() => {
@@ -82,23 +81,66 @@ function FreeAdMessage() {
     }
   }, [success, history]);
 
+  // Function to format the timestamp
+  const formatTimestamp = (timestamp) => {
+    const messageDate = new Date(timestamp);
+    return messageDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  // Function to determine if a message is the first of the day
+  const isFirstMessageOfDay = (currentIndex, messages) => {
+    if (currentIndex === 0) return true;
+
+    const currentDate = new Date(messages[currentIndex].timestamp);
+    const prevDate = new Date(messages[currentIndex - 1].timestamp);
+
+    // Check if the messages were sent on different dates
+    if (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      // Check if the current message was sent today
+      if (currentDate.toLocaleDateString() === today.toLocaleDateString()) {
+        return "Today";
+      }
+      // Check if the current message was sent yesterday
+      else if (
+        currentDate.toLocaleDateString() === yesterday.toLocaleDateString()
+      ) {
+        return "Yesterday";
+      } else {
+        // If it's beyond yesterday, return the full date
+        return currentDate.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+    }
+  };
+
   return (
     <Container>
       <div>
-        <Row className="justify-content-center">
-          <Col xs={12} md={8}>
+        <Row className="d-flex justify-content-center">
+          <Col className="border rounded p-4 bg-secondary" xs={10} md={8}>
             <div className=" py-2 ">
               {loading && <Loader />}
-              {error && ( 
+              {error && (
                 <Message variant="danger" fixed>
                   {error}
                 </Message>
               )}
 
-              {listFreeAdMessageLoading && <Loader />}
-              {listFreeAdMessageError && (
+              {listPaidAdMessageLoading && <Loader />}
+              {listPaidAdMessageError && (
                 <Message variant="danger" fixed>
-                  {listFreeAdMessageError}
+                  {listPaidAdMessageError}
                 </Message>
               )}
             </div>
@@ -122,7 +164,9 @@ function FreeAdMessage() {
                         </Col>
                         <Col md={12} className="py-2">
                           <ListGroup.Item>
-                            <p>{currency} {formatAmount(price)}</p>
+                            <p>
+                              {currency} {formatAmount(price)}
+                            </p>
                           </ListGroup.Item>
                         </Col>
                         <Col md={12} className="py-2">
@@ -160,7 +204,7 @@ function FreeAdMessage() {
 
                         <Col className="mt-2">
                           <ListGroup.Item>
-                            <RatingSeller value={ad_rating} color={"green"} /> 
+                            <RatingSeller value={ad_rating} color={"green"} />
                           </ListGroup.Item>
                         </Col>
                       </Row>
@@ -170,23 +214,52 @@ function FreeAdMessage() {
               </ListGroup.Item>
             </ListGroup>
 
-            <ul>
-              {adMessages?.map((message) => (
-                <div className="py-2">
-                  <li key={message.id} className="border rounded p-4 py-2">
-                    <p>
-                      User:{" "}
-                      {message.username?.charAt(0).toUpperCase() +
-                        message.username?.slice(1)}
-                    </p>
-                    <p>Message: {message.message}</p> 
-                    <p>
-                      Timestamp: {new Date(message.timestamp).toLocaleString()}
-                    </p>
-                  </li>
+            {adMessages?.map((message, index) => (
+              <div key={message.id}>
+                {isFirstMessageOfDay(index, adMessages) && (
+                  <p className="text-center mb-0 mt-3">
+                    {new Date(message.timestamp).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                )}
+                <div
+                  className={`${
+                    message.seller
+                      ? "d-flex justify-content-left"
+                      : "d-flex justify-content-end"
+                  }`}
+                  style={{ maxWidth: "75%" }}
+                >
+                  <div>
+                    <div
+                      className={`border rounded p-3 my-2 ${
+                        message.seller
+                          ? "bg-light"
+                          : "bg-success justify-content-end"
+                      }`}
+                    >
+                      <p>
+                        User:{" "}
+                        {message.buyer_username
+                          ? message.buyer_username?.charAt(0).toUpperCase() +
+                            message.buyer_username?.slice(1)
+                          : message.seller_username?.charAt(0).toUpperCase() +
+                            message.seller_username?.slice(1)}
+                      </p>
+                      <p>Message: {message.message}</p>
+                      <p className="d-flex justify-content-end">
+                        {" "}
+                        {formatTimestamp(message.timestamp)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </ul>
+              </div>
+            ))}
 
             <Form onSubmit={handleSubmitReply}>
               <Form.Group controlId="message">
@@ -195,7 +268,7 @@ function FreeAdMessage() {
                   required
                   as="textarea"
                   placeholder="Type your message"
-                  rows={4}
+                  rows={2}
                   value={message}
                   maxLength={1000}
                   onChange={(e) => setMessage(e.target.value)}
@@ -206,10 +279,10 @@ function FreeAdMessage() {
                 <Button
                   className="w-100 rounded"
                   type="submit"
-                  variant="success"
+                  variant="primary"
                 >
                   <div className="d-flex justify-content-center">
-                    <span className="py-1">Submit</span>
+                    <span className="py-1">Send <i className="fa fa-paper-plane"></i></span>
                     {loading && <LoaderButton />}
                   </div>
                 </Button>
@@ -227,4 +300,4 @@ function FreeAdMessage() {
   );
 }
 
-export default FreeAdMessage;
+export default BuyerPaidAdMessage;

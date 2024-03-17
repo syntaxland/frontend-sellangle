@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Table, Button, Row, Col, Container } from "react-bootstrap";
-import { listBuyerPaidAdMessages } from "../../actions/marketplaceSellerActions";
+import { listBuyerPaidAdMessages,
+
+    clearSellerPaidAdMessageCounter,
+} from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
@@ -58,11 +61,17 @@ function GetBuyerPaidAdMessages() {
     console.log("handleReplyBuyer queryParams:", queryParams);
 
     history.push({
-      pathname: `/paid/ad/message/${ad.id}`,
+      pathname: `/seller/paid/ad/message/${ad.id}`,
       search: `?${new URLSearchParams(queryParams).toString()}`,
     });
   };
 
+  const clearMsgCounter = (msgId) => {
+    const counterData = {
+      paid_ad_message_id: msgId,
+    };
+    dispatch(clearSellerPaidAdMessageCounter(counterData));
+  };
   return (
     <Container>
       <Row>
@@ -99,7 +108,6 @@ function GetBuyerPaidAdMessages() {
                       <th>Ad Image</th>
                       <th>Ad Name</th>
                       <th>Ad Price</th>
-                      {/* <th>Ad Currency</th> */}
                       <th>User</th>
                       <th>Ad Expiration Date</th>
                       <th>Message</th>
@@ -116,7 +124,6 @@ function GetBuyerPaidAdMessages() {
                         <td>{ad.paid_ad_image1}</td>
                         <td>{ad.paid_ad_name}</td>
                         <td>{ad.paid_ad_price} {ad.paid_ad_currency}</td>
-                        {/* <td>{ad.paid_ad_currency}</td> */}
                         <td>{ad.username}</td>
                         <td>
                           <Button
@@ -150,9 +157,17 @@ function GetBuyerPaidAdMessages() {
                           <Button
                             variant="outline-primary"
                             size="sm"
-                            onClick={() => handleReplyBuyer(ad)}
+                            onClick={() => {
+                              handleReplyBuyer(ad);
+                              clearMsgCounter(ad.paid_ad_message_id);
+                            }}
                           >
-                            Reply Message
+                            Reply Message{" "}
+                            {ad.seller_paid_ad_msg_count > 0 && (
+                              <span className="msg-counter">
+                                {ad.seller_paid_ad_msg_count}
+                              </span>
+                            )}
                           </Button>
                         </td>
                       </tr>

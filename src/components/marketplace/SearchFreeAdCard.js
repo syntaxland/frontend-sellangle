@@ -96,7 +96,7 @@ function SearchFreeAdCard({ freeSearchAd }) {
       };
 
       history.push({
-        pathname: `/free/ad/message/${freeSearchAd.id}`,
+        pathname: `/buyer/free/ad/message/${freeSearchAd.id}`,
         search: `?${new URLSearchParams(queryParams).toString()}`,
       });
     }

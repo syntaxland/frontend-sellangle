@@ -277,7 +277,7 @@ function UserDashboard() {
                 >
                   <i className="fa fa-message"></i> Inbox{" "}
                   {msgCounted > 0 && (
-                    <span className="msg-counter">{msgCounted}</span>
+                    <span className="msg-counter">{msgCounted}</span> 
                   )}
                 </Button>
               </div>

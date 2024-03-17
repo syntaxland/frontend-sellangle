@@ -79,6 +79,11 @@ import {
   getSellerPaidAdChargesReducer,
   payAdChargesReducer,
   getAdChargesReceiptReducer,
+
+  clearSellerFreeAdMsgCounterReducer,
+clearBuyerFreeAdMsgCounterReducer,
+clearSellerPaidAdMsgCounterReducer,
+clearBuyerPaidAdMsgCounterReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 import {
@@ -389,6 +394,11 @@ getUserRecommendedPaidAdsState: getUserRecommendedPaidAdsReducer,
   getSellerPaidAdChargesState: getSellerPaidAdChargesReducer,
   payAdChargesState: payAdChargesReducer,
   getAdChargesReceiptState: getAdChargesReceiptReducer,
+
+  clearSellerFreeAdMsgCounterState: clearSellerFreeAdMsgCounterReducer,
+clearBuyerFreeAdMsgCounterState: clearBuyerFreeAdMsgCounterReducer,
+clearSellerPaidAdMsgCounterState: clearSellerPaidAdMsgCounterReducer,
+clearBuyerPaidAdMsgCounterState: clearBuyerPaidAdMsgCounterReducer,
   
   applyPomoCodeState: applyPomoCodeReducer,
 });
