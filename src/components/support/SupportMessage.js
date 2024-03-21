@@ -7,7 +7,7 @@ import {
   listSupportTicket,
   listSupportMessage,
 } from "../../actions/supportActions";
-import Message from "../Message";
+import Message from "../Message"; 
 import Loader from "../Loader";  
 import Pagination from "../Pagination";
 

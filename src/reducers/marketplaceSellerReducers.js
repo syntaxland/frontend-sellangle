@@ -194,6 +194,15 @@ CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_FAIL,
 CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_REQUEST,
 CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
 CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_FAIL,
+
+GET_ACTIVE_BUYER_FREE_AD_MESSAGES_REQUEST,
+GET_ACTIVE_BUYER_FREE_AD_MESSAGES_SUCCESS,
+GET_ACTIVE_BUYER_FREE_AD_MESSAGES_FAIL,
+GET_ACTIVE_BUYER_PAID_AD_MESSAGES_REQUEST,
+GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS,
+GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL,
+
+
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -230,6 +239,52 @@ const initialState = {
   paidAdCharges: [],
   // adCpsCharges: [],
   paidAdReceipt: [],
+
+  activeBuyerFreeAdMessages: [],
+  activeBuyerPaidAdMessages: [],
+};
+
+
+export const GetActiveBuyerFreeAdMessagesReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_ACTIVE_BUYER_FREE_AD_MESSAGES_REQUEST:
+      return { loading: true };
+    case GET_ACTIVE_BUYER_FREE_AD_MESSAGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        activeBuyerFreeAdMessages: action.payload,
+      };
+
+    case GET_ACTIVE_BUYER_FREE_AD_MESSAGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const GetActiveBuyerPaidAdMessagesReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_ACTIVE_BUYER_PAID_AD_MESSAGES_REQUEST:
+      return { loading: true };
+    case GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        activeBuyerPaidAdMessages: action.payload,
+      };
+
+    case GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const clearSellerFreeAdMsgCounterReducer = (state = initialState, action) => {

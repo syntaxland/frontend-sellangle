@@ -16,6 +16,9 @@ import {
   REPLY_SUPPORT_TICKET_REQUEST,
   REPLY_SUPPORT_TICKET_SUCCESS,
   REPLY_SUPPORT_TICKET_FAIL,
+  ADMIN_REPLY_SUPPORT_TICKET_REQUEST,
+ADMIN_REPLY_SUPPORT_TICKET_SUCCESS,
+ADMIN_REPLY_SUPPORT_TICKET_FAIL,
   LIST_SUPPORT_TICKET_REPLY_REQUEST,
   LIST_SUPPORT_TICKET_REPLY_SUCCESS,
   LIST_SUPPORT_TICKET_REPLY_FAIL,
@@ -28,9 +31,89 @@ import {
   LIST_ALL_TICKET_RESPONSE_REQUEST,
   LIST_ALL_TICKET_RESPONSE_SUCCESS,
   LIST_ALL_TICKET_RESPONSE_FAIL, 
+
+  CLEAR_USER_SUPPORT_MESSAGE_COUNTER_REQUEST,
+CLEAR_USER_SUPPORT_MESSAGE_COUNTER_SUCCESS,
+CLEAR_USER_SUPPORT_MESSAGE_COUNTER_FAIL,
+CLEAR_ADMIN_SUPPORT_MESSAGE_COUNTER_REQUEST,
+CLEAR_ADMIN_SUPPORT_MESSAGE_COUNTER_SUCCESS,
+CLEAR_ADMIN_SUPPORT_MESSAGE_COUNTER_FAIL,
 } from "../constants/supportConstants";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+
+export const clearUserSupportMsgCounter = (ticketData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: CLEAR_USER_SUPPORT_MESSAGE_COUNTER_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/clear-user-support-message-counter/`,
+      ticketData,
+      config
+    );
+
+    dispatch({ type: CLEAR_USER_SUPPORT_MESSAGE_COUNTER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CLEAR_USER_SUPPORT_MESSAGE_COUNTER_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const clearAdminSupportMsgCounter = (ticketData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: CLEAR_ADMIN_SUPPORT_MESSAGE_COUNTER_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/clear-admin-support-message-counter/`,
+      ticketData,
+      config
+    );
+
+    dispatch({ type: CLEAR_ADMIN_SUPPORT_MESSAGE_COUNTER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CLEAR_ADMIN_SUPPORT_MESSAGE_COUNTER_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const createSupportTicket = (ticketData) => async (
   dispatch,
@@ -164,7 +247,7 @@ export const listAllSupportResponse = () => async (dispatch, getState) => {
   }
 };
 
-export const replySupportTicket = (replyticketData) => async (
+export const userReplySupportTicket = (replyticketData) => async (
   dispatch,
   getState
 ) => {
@@ -183,7 +266,7 @@ export const replySupportTicket = (replyticketData) => async (
     };
 
     const { data } = await axios.post(
-      `${API_URL}/api/reply-support-ticket/`,
+      `${API_URL}/api/user-reply-support-ticket/`,
       replyticketData,
       config
     );
@@ -192,6 +275,42 @@ export const replySupportTicket = (replyticketData) => async (
   } catch (error) {
     dispatch({
       type: REPLY_SUPPORT_TICKET_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const adminReplySupportTicket = (replyticketData) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: ADMIN_REPLY_SUPPORT_TICKET_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/admin-reply-support-ticket/`,
+      replyticketData,
+      config
+    );
+
+    dispatch({ type: ADMIN_REPLY_SUPPORT_TICKET_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_REPLY_SUPPORT_TICKET_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

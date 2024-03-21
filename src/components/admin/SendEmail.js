@@ -108,7 +108,7 @@ const SendEmail = () => {
                     type="submit"
                     variant="success"
                   >
-                    Send Email <i className="fa fa-paper-plane"></i>
+                    Send Email <i className="fa fa-paper-plane"></i> 
                   </Button>
                 </div>
               </Form>

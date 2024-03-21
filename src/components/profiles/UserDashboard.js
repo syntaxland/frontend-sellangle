@@ -9,6 +9,13 @@ import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 // import { login } from "../../actions/userActions";
 import { getUserProfile } from "../../actions/userProfileActions";
 import { getUserMessages } from "../../actions/messagingActions";
+import {
+  GetActiveBuyerFreeAdMessages,
+  GetActiveBuyerPaidAdMessages,
+  listBuyerFreeAdMessages,
+  listBuyerPaidAdMessages,
+} from "../../actions/marketplaceSellerActions";
+import { listSupportTicket } from "../../actions/supportActions";
 import UserProfile from "./UserProfile";
 import Orders from "./Orders";
 import Payments from "./Payments";
@@ -19,12 +26,10 @@ import Dashboard from "./Dashboard";
 import MessageInbox from "./MessageInbox";
 import CreditPoint from "./CreditPoint";
 import PromoProduct from "./Offers";
-
 import SavedAds from "./SavedAds";
 import ViewedAds from "./ViewedAds";
 import RecommendedAds from "../recommender/RecommendedAds";
-
-// import SellerInbox from "./SellerInbox";
+import Inbox from "./Inbox";
 import Referrals from "./Referrals";
 import SupportTicket from "../support/SupportTicket";
 import Feedback from "./Feedback";
@@ -54,10 +59,64 @@ function UserDashboard() {
     }
   }, [userInfo]);
 
-  useEffect(() => {
-    dispatch(getUserProfile());
-    dispatch(getUserMessages());
-  }, [dispatch, userInfo]);
+  const msgCounted = messages?.reduce(
+    (total, userMessages) => total + userMessages.msg_count,
+    0
+  );
+
+  const listBuyerFreeAdMessagesState = useSelector(
+    (state) => state.listBuyerFreeAdMessagesState
+  );
+  const { freeAdMessages } = listBuyerFreeAdMessagesState;
+
+  const listBuyerPaidAdMessagesState = useSelector(
+    (state) => state.listBuyerPaidAdMessagesState
+  );
+  const { paidAdMessages } = listBuyerPaidAdMessagesState;
+   const listSupportTicketState = useSelector(
+    (state) => state.listSupportTicketState
+  );
+  const { tickets } = listSupportTicketState;
+
+  const supportMsgCounted = tickets?.reduce(
+    (total, userMessages) => total + userMessages.user_msg_count,
+    0
+  );
+
+  const msgFreeAdCounted = freeAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.seller_free_ad_msg_count,
+    0
+  );
+
+  const msgPaidAdCounted = paidAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.seller_paid_ad_msg_count,
+    0
+  );
+
+  const GetActiveBuyerFreeAdMessageState = useSelector(
+    (state) => state.GetActiveBuyerFreeAdMessageState
+  );
+  const { activeBuyerFreeAdMessages } = GetActiveBuyerFreeAdMessageState;
+
+  const GetActiveBuyerPaidAdMessageState = useSelector(
+    (state) => state.GetActiveBuyerPaidAdMessageState
+  );
+  const { activeBuyerPaidAdMessages } = GetActiveBuyerPaidAdMessageState;
+
+  const msgActiveFreeAdCounted = activeBuyerFreeAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.buyer_free_ad_msg_count,
+    0
+  );
+
+  const msgActivePaidAdCounted = activeBuyerPaidAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.buyer_paid_ad_msg_count,
+    0
+  );
+  console.log("msgCounted:", msgCounted);
+  console.log("msgFreeAdCounted:", msgFreeAdCounted);
+  console.log("msgPaidAdCounted:", msgPaidAdCounted);
+  console.log("msgActiveFreeAdCounted:", msgActiveFreeAdCounted);
+  console.log("msgActivePaidAdCounted:", msgActivePaidAdCounted);
 
   const [activeTab, setActiveTab] = useState("user-dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -82,11 +141,15 @@ function UserDashboard() {
     history.push("/dashboard/marketplace/sellers");
   };
 
-  const msgCounted = messages?.reduce(
-    (total, userMessages) => total + userMessages.msg_count,
-    0
-  );
-  console.log("msgCounted:", msgCounted); 
+  useEffect(() => {
+    dispatch(getUserProfile());
+    dispatch(getUserMessages());
+    dispatch(GetActiveBuyerFreeAdMessages());
+    dispatch(GetActiveBuyerPaidAdMessages());
+    dispatch(listBuyerFreeAdMessages());
+    dispatch(listBuyerPaidAdMessages());
+          dispatch(listSupportTicket());
+  }, [dispatch, userInfo]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -129,8 +192,8 @@ function UserDashboard() {
       case "referrals":
         return <Referrals />;
 
-      // case "live-chat":
-      //   return <SellerInbox />;
+      case "inbox":
+        return <Inbox />;
 
       case "support-ticket":
         return <SupportTicket />;
@@ -268,16 +331,27 @@ function UserDashboard() {
               <div>
                 <Button
                   variant={
-                    activeTab === "message-inbox"
+                    activeTab === "inbox"
                       ? "primary"
                       : "outline-primary"
                   }
                   className="sidebar-link"
-                  onClick={() => handleTabChange("message-inbox")}
+                  onClick={() => handleTabChange("inbox")}
                 >
                   <i className="fa fa-message"></i> Inbox{" "}
-                  {msgCounted > 0 && (
-                    <span className="msg-counter">{msgCounted}</span> 
+                  {(msgCounted +
+                    msgPaidAdCounted +
+                    msgFreeAdCounted +
+                    msgActiveFreeAdCounted +
+                    msgActivePaidAdCounted) >
+                    0 && (
+                    <span className="msg-counter">
+                      {msgCounted +
+                        msgPaidAdCounted +
+                        msgFreeAdCounted +
+                        msgActiveFreeAdCounted +
+                        msgActivePaidAdCounted}
+                    </span>
                   )}
                 </Button>
               </div>
@@ -354,7 +428,11 @@ function UserDashboard() {
                   className="sidebar-link"
                   onClick={() => handleTabChange("support-ticket")}
                 >
-                  <i className="fa fa-ticket"></i> Support Ticket
+                  <i className="fa fa-ticket"></i> Support Ticket 
+                  {" "}
+                  {supportMsgCounted > 0 && (
+                    <span className="msg-counter">{supportMsgCounted}</span>
+                  )}
                 </Button>
               </div>
 

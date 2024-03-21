@@ -2,38 +2,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { Table, Button, Container } from "react-bootstrap";
+import { Table, Button, Container, ListGroup } from "react-bootstrap";
 import {
+  clearUserSupportMsgCounter,
   listSupportTicket,
-  // listSupportMessage,
 } from "../../actions/supportActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 
-function SupportTicket() { 
+function SupportTicket() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const listSupportTicketState = useSelector( 
+  const listSupportTicketState = useSelector(
     (state) => state.listSupportTicketState
   );
   const { loading, tickets, error } = listSupportTicketState;
   console.log("tickets:", tickets);
-
-  //  const replySupportTicketState = useSelector(
-  //   (state) => state.replySupportTicketState
-  // );
-  // const { loading, success, error } = replySupportTicketState;
-
-  // const listSupportMessageState = useSelector(
-  //   (state) => state.listSupportMessageState
-  // );
-  // const {
-  //   loading: listSupportMessageloading,
-  //   ticketMessages,
-  //   error: listSupportMessageError,
-  // } = listSupportMessageState;
-  // console.log("ticketMessages:", ticketMessages);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -42,18 +27,23 @@ function SupportTicket() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  //   const currentItems = tickets.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems = tickets
     ? tickets.slice(indexOfFirstItem, indexOfLastItem)
     : [];
 
   useEffect(() => {
     dispatch(listSupportTicket());
-    // dispatch(listSupportMessage());
   }, [dispatch]);
 
   const handleCreateTicket = () => {
     history.push("/create-support-ticket");
+  };
+
+  const clearMessageCounter = (ticketId) => {
+    const ticketData = {
+      ticket_id: ticketId,
+    };
+    dispatch(clearUserSupportMsgCounter(ticketData));
   };
 
   return (
@@ -61,7 +51,7 @@ function SupportTicket() {
       <h1 className="text-center py-3">
         <i className="fas fa-ticket"></i> Support Ticket
       </h1>
-      {loading  ? (
+      {loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
@@ -88,15 +78,32 @@ function SupportTicket() {
                 {currentItems.map((ticket, index) => (
                   <tr key={ticket.id}>
                     <td>{index + 1}</td>
-                    <td>
-                      <Link to={`/support/ticket/${ticket.ticket_id}`}> 
-                        #{ticket.ticket_id}
-                      </Link>
+                    <td className="text-center">
+                      <ListGroup className="text-center py-1">
+                        <ListGroup.Item>#{ticket.ticket_id}</ListGroup.Item>
+                      </ListGroup>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => clearMessageCounter(ticket.ticket_id)}
+                      >
+                        <Link
+                          to={`/user-reply-support-ticket/${ticket.ticket_id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          Reply Support{" "}
+                          {ticket?.user_msg_count > 0 && (
+                            <span className="msg-counter">
+                              {ticket?.user_msg_count}
+                            </span>
+                          )}
+                        </Link>
+                      </Button>
                     </td>
                     {/* <td>{ticket.email}</td> */}
                     <td>{ticket.subject}</td>
                     <td>{ticket.category}</td>
-                    {/* <td>{ticket.message}</td> */}
+                    {/* <td>{ticket.ticket}</td> */}
                     <td>
                       {ticket.is_closed ? (
                         <span style={{ color: "red" }}>Closed</span>
@@ -140,7 +147,7 @@ function SupportTicket() {
               totalItems={tickets.length}
               currentPage={currentPage}
               paginate={paginate}
-            /> 
+            />
           </div>
         </>
       )}
@@ -154,7 +161,7 @@ function SupportTicket() {
         </Button>
       </div>
     </Container>
-  ); 
+  );
 }
 
 export default SupportTicket;

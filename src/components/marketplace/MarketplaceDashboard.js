@@ -2,15 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 // import { Link} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-
 import {
   listBuyerFreeAdMessages,
   listBuyerPaidAdMessages,
 } from "../../actions/marketplaceSellerActions";
-
 import Dashboard from "./Dashboard";
 // import { login } from "../../actions/userActions";
 import SellerProfile from "./SellerProfile";
@@ -31,10 +30,11 @@ import Billing from "./Billing";
 // import SupportTicket from "./SupportTicket";
 // import Feedback from "./Feedback";
 // import Settings from "./Settings";
-import SellerInbox from "./SellerInbox";
+// import SellerInbox from "./SellerInbox";
 
-function MarketplaceDashboard({ history }) {
+function MarketplaceDashboard() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -45,30 +45,30 @@ function MarketplaceDashboard({ history }) {
     }
   }, [userInfo]);
 
-  const listBuyerFreeAdMessagesState = useSelector(
-    (state) => state.listBuyerFreeAdMessagesState
-  );
-  const { freeAdMessages } = listBuyerFreeAdMessagesState;
-  console.log("freeAdMessages:", freeAdMessages);
+  // const listBuyerFreeAdMessagesState = useSelector(
+  //   (state) => state.listBuyerFreeAdMessagesState
+  // );
+  // const { freeAdMessages } = listBuyerFreeAdMessagesState;
+  // console.log("freeAdMessages:", freeAdMessages);
 
-  const listBuyerPaidAdMessagesState = useSelector(
-    (state) => state.listBuyerPaidAdMessagesState
-  );
-  const { paidAdMessages } = listBuyerPaidAdMessagesState;
-  console.log("paidAdMessages:", paidAdMessages);
+  // const listBuyerPaidAdMessagesState = useSelector(
+  //   (state) => state.listBuyerPaidAdMessagesState
+  // );
+  // const { paidAdMessages } = listBuyerPaidAdMessagesState;
+  // // console.log("paidAdMessages:", paidAdMessages);
 
-  const msgFreeAdCounted = freeAdMessages?.reduce(
-    (total, userMessages) => total + userMessages.seller_free_ad_msg_count,
-    0
-  );
+  // const msgFreeAdCounted = freeAdMessages?.reduce(
+  //   (total, userMessages) => total + userMessages.seller_free_ad_msg_count,
+  //   0
+  // );
 
-  const msgPaidAdCounted = paidAdMessages?.reduce(
-    (total, userMessages) => total + userMessages.seller_paid_ad_msg_count,
-    0
-  );
+  // const msgPaidAdCounted = paidAdMessages?.reduce(
+  //   (total, userMessages) => total + userMessages.seller_paid_ad_msg_count,
+  //   0
+  // );
 
-  console.log("msgFreeAdCounted:", msgFreeAdCounted);
-  console.log("msgPaidAdCounted:", msgPaidAdCounted);
+  // console.log("msgFreeAdCounted:", msgFreeAdCounted);
+  // console.log("msgPaidAdCounted:", msgPaidAdCounted);
 
   const [activeTab, setActiveTab] = useState("user-dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -85,9 +85,9 @@ function MarketplaceDashboard({ history }) {
     history.push("/current-ads");
   };
 
-  const handleSellerInbox = () => {
-    history.push("/seller-inbox");
-  };
+  // const handleSellerInbox = () => {
+  //   history.push("/seller-inbox");
+  // };
   // const handleAdminDashboard = () => {
   //   history.push("/admin-dashboard");
   // };
@@ -150,8 +150,8 @@ function MarketplaceDashboard({ history }) {
       // case "settings":
       //   return <Settings />;
 
-      case "seller-inbox":
-        return <SellerInbox />;
+      // case "seller-inbox":
+      //   return <SellerInbox />;
 
       default:
         return <Dashboard />;
@@ -352,7 +352,7 @@ function MarketplaceDashboard({ history }) {
                 </Button>
               </div> */}
 
-              <div>
+              {/* <div>
                 <Button
                   variant={
                     activeTab === "seller-inbox" ? "info" : "outline-info"
@@ -362,13 +362,13 @@ function MarketplaceDashboard({ history }) {
                   // onClick={() => handleTabChange("seller-inbox")}
                 >
                   <i className="fa fa-message"></i> Seller Inbox{" "}
-                  {(msgPaidAdCounted + msgFreeAdCounted) > 0 && (
+                  {msgPaidAdCounted + msgFreeAdCounted > 0 && (
                     <span className="msg-counter">
                       {msgPaidAdCounted + msgFreeAdCounted}
                     </span>
                   )}
                 </Button>
-              </div>
+              </div> */}
 
               <div>
                 <Button

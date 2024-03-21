@@ -224,7 +224,7 @@ function BuyerPaidAdMessage() {
                       month: "long",
                       day: "numeric",
                     })}
-                  </p>
+                  </p> 
                 )}
                 <div
                   className={`${
@@ -243,14 +243,14 @@ function BuyerPaidAdMessage() {
                       }`}
                     >
                       <p>
-                        User:{" "}
+                      <i className="fas fa-user"></i>{" "}
                         {message.buyer_username
                           ? message.buyer_username?.charAt(0).toUpperCase() +
                             message.buyer_username?.slice(1)
                           : message.seller_username?.charAt(0).toUpperCase() +
                             message.seller_username?.slice(1)}
                       </p>
-                      <p>Message: {message.message}</p>
+                      <p>{message.message}</p>
                       <p className="d-flex justify-content-end">
                         {" "}
                         {formatTimestamp(message.timestamp)}
@@ -270,7 +270,7 @@ function BuyerPaidAdMessage() {
                   placeholder="Type your message"
                   rows={2}
                   value={message}
-                  maxLength={1000}
+                  maxLength={500}
                   onChange={(e) => setMessage(e.target.value)}
                 ></Form.Control>
               </Form.Group>
@@ -280,13 +280,14 @@ function BuyerPaidAdMessage() {
                   className="w-100 rounded"
                   type="submit"
                   variant="primary"
+                  disabled={loading}
                 >
                   <div className="d-flex justify-content-center">
                     <span className="py-1">Send <i className="fa fa-paper-plane"></i></span>
                     {loading && <LoaderButton />}
                   </div>
                 </Button>
-              </div>
+              </div> 
               {success && (
                 <Message variant="success" fixed>
                   Message sent successfully.

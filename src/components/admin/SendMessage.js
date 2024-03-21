@@ -11,7 +11,7 @@ import "react-quill/dist/quill.snow.css";
 const SendMessage = () => {
   const dispatch = useDispatch();
   const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(""); 
   const [successMessage, setSuccessMessage] = useState("");
 
   const messaging = useSelector((state) => state.messaging);

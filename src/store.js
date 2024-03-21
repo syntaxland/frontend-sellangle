@@ -79,11 +79,12 @@ import {
   getSellerPaidAdChargesReducer,
   payAdChargesReducer,
   getAdChargesReceiptReducer,
-
   clearSellerFreeAdMsgCounterReducer,
-clearBuyerFreeAdMsgCounterReducer,
-clearSellerPaidAdMsgCounterReducer,
-clearBuyerPaidAdMsgCounterReducer,
+  clearBuyerFreeAdMsgCounterReducer,
+  clearSellerPaidAdMsgCounterReducer,
+  clearBuyerPaidAdMsgCounterReducer,
+  GetActiveBuyerFreeAdMessagesReducer,
+  GetActiveBuyerPaidAdMessagesReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 import {
@@ -122,10 +123,13 @@ import {
   listSupportTicketReducer,
   listSupportMessageReducer,
   replySupportTicketReducer,
-  listSupportTicketReplyReducer,
+  adminReplySupportTicketReducer, 
+  listSupportTicketReplyReducer, 
   ticketDetailListReducer,
   allTicketListReducer,
   allTicketResponseReducer,
+  clearUserSupportMsgCounterReducer,
+  clearAdminSupportMsgCounterReducer,
 } from "./reducers/supportReducers";
 import {
   getUserProfileReducer,
@@ -162,15 +166,14 @@ import {
   creditPointEarningsReducer,
   userCreditPointPaymentsReducer,
   allCreditPointPaymentsReducer,
-
   buyUsdCreditPointReducer,
   getUsdBuyCreditPointReducer,
   getAdCpsChargesReducer,
   getUserCpsBonusesReducer,
-
 } from "./reducers/creditPointReducers";
 
-import { messagingReducer, 
+import {
+  messagingReducer,
   emailReducer,
   clearMessageCounterReducer,
   getUserMessagesReducer,
@@ -254,7 +257,7 @@ const reducer = combineReducers({
   getAdCpsChargesState: getAdCpsChargesReducer,
   getUserCpsBonusesState: getUserCpsBonusesReducer,
 
-  getSellCreditPointState: getSellCreditPointReducer,  
+  getSellCreditPointState: getSellCreditPointReducer,
   creditPointRequestCreate: creditPointRequestCreateReducer,
   creditPointList: creditPointListReducer,
   creditPointAllList: creditPointAllListReducer,
@@ -306,11 +309,14 @@ const reducer = combineReducers({
   listSupportTicketState: listSupportTicketReducer,
   listSupportMessageState: listSupportMessageReducer,
   replySupportTicketState: replySupportTicketReducer,
+  adminReplySupportTicketState: adminReplySupportTicketReducer,
   listSupportTicketReplyState: listSupportTicketReplyReducer,
   ticketDetailList: ticketDetailListReducer,
   allTicketList: allTicketListReducer,
   allTicketResponse: allTicketResponseReducer,
-  
+  clearUserSupportMsgCounterState: clearUserSupportMsgCounterReducer,
+  clearAdminSupportMsgCounterState: clearAdminSupportMsgCounterReducer,
+
   feedbackCreate: feedbackCreateReducer,
   feedbackList: feedbackListReducer,
 
@@ -381,7 +387,7 @@ const reducer = combineReducers({
   getUserSavedPaidAdsState: getUserSavedPaidAdsReducer,
 
   getUserRecommendedFreeAdsState: getUserRecommendedFreeAdsReducer,
-getUserRecommendedPaidAdsState: getUserRecommendedPaidAdsReducer,
+  getUserRecommendedPaidAdsState: getUserRecommendedPaidAdsReducer,
 
   reviewFreeAdSellerState: reviewFreeAdSellerReducer,
   reviewPaidAdSellerState: reviewPaidAdSellerReducer,
@@ -396,10 +402,13 @@ getUserRecommendedPaidAdsState: getUserRecommendedPaidAdsReducer,
   getAdChargesReceiptState: getAdChargesReceiptReducer,
 
   clearSellerFreeAdMsgCounterState: clearSellerFreeAdMsgCounterReducer,
-clearBuyerFreeAdMsgCounterState: clearBuyerFreeAdMsgCounterReducer,
-clearSellerPaidAdMsgCounterState: clearSellerPaidAdMsgCounterReducer,
-clearBuyerPaidAdMsgCounterState: clearBuyerPaidAdMsgCounterReducer,
-  
+  clearBuyerFreeAdMsgCounterState: clearBuyerFreeAdMsgCounterReducer,
+  clearSellerPaidAdMsgCounterState: clearSellerPaidAdMsgCounterReducer,
+  clearBuyerPaidAdMsgCounterState: clearBuyerPaidAdMsgCounterReducer,
+
+  GetActiveBuyerFreeAdMessageState: GetActiveBuyerFreeAdMessagesReducer,
+  GetActiveBuyerPaidAdMessageState: GetActiveBuyerPaidAdMessagesReducer,
+
   applyPomoCodeState: applyPomoCodeReducer,
 });
 

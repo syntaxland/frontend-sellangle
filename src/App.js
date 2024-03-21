@@ -45,7 +45,7 @@ import ResetPasswordRequest from "./components/profiles/ResetPasswordRequest";
 import ResetPassword from "./components/profiles/ResetPassword";
 import Orders from "./components/profiles/Orders";
 import Payments from "./components/profiles/Payments";
-import MessageInbox from "./components/profiles/MessageInbox";
+import Inbox from "./components/profiles/Inbox";
 
 import UserDashboard from "./components/profiles/UserDashboard";
 import EcommerceDashboard from "./components/ecommerce/EcommerceDashboard";
@@ -69,11 +69,12 @@ import SellerShopFront from "./components/marketplace/SellerShopFront";
 import EditFreeAd from "./components/marketplace/EditFreeAd";
 import SearchResults from "./components/marketplace/SearchResults";
 import CurrentAds from "./components/marketplace/CurrentAds";
-import SellerInbox from "./components/marketplace/SellerInbox";
+// import SellerInbox from "./components/marketplace/SellerInbox";
 import Billing from "./components/marketplace/Billing";
 
 import CreateSupportTicket from "./components/support/CreateSupportTicket";
-import SupportTicketDetails from "./components/support/SupportTicketDetails";
+import UserReplySupportTicket from "./components/support/UserReplySupportTicket"; 
+import AdminReplySupportTicket from "./components/support/AdminReplySupportTicket"; 
 import SupportTicket from "./components/support/SupportTicket";
 
 function App() {
@@ -139,10 +140,11 @@ function App() {
             path="/create-support-ticket"
             component={CreateSupportTicket}
           />
-          <Route path="/support/ticket/:id" component={SupportTicketDetails} />
+          <Route path="/user-reply-support-ticket/:id" component={UserReplySupportTicket} />
+          <Route path="/admin-reply-support-ticket/:id" component={AdminReplySupportTicket} />
           <Route path="/support/tickets/" component={SupportTicket} />
 
-          <Route path="/inbox" component={MessageInbox} />
+          <Route path="/inbox" component={Inbox} />
           <Route path="/live-chat" component={LiveChatScreen} />
           {/* <Route path="/feedback" component={FeedbackScreen} /> */}
           <Route path="/dark-mode" component={DarkModeScreen} />
@@ -170,7 +172,7 @@ function App() {
             component={SellerShopFront}
           />
           <Route path="/current-ads" component={CurrentAds} />
-          <Route path="/seller-inbox" component={SellerInbox} />
+          {/* <Route path="/seller-inbox" component={SellerInbox} /> */}
           <Route path="/billing" component={Billing} />
           <Route path="/search-ad/" component={SearchResults} />
           <Route

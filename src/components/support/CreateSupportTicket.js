@@ -10,7 +10,7 @@ import Loader from "../Loader";
 import Message from "../Message";
  
 function CreateSupportTicket() { 
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();  
     const history = useHistory();
   
   const [subject, setSubject] = useState(""); 
@@ -22,7 +22,7 @@ function CreateSupportTicket() {
 
   useEffect(() => {
     if (!userInfo) {
-      window.location.href = "/login";
+      window.location.href = "/login"; 
     }
   }, [userInfo]);
 

@@ -13,6 +13,12 @@ import { logout } from "../actions/userActions";
 
 import { getUserProfile } from "../actions/userProfileActions";
 import { getUserMessages } from "../actions/messagingActions";
+import {
+  GetActiveBuyerFreeAdMessages,
+  GetActiveBuyerPaidAdMessages,
+  listBuyerFreeAdMessages,
+  listBuyerPaidAdMessages,
+} from "../actions/marketplaceSellerActions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Header.css";
 
@@ -26,7 +32,9 @@ function Header() {
   const userProfile = useSelector((state) => state.userProfile);
   const { profile } = userProfile;
 
-  const getUserMessagesState = useSelector((state) => state.getUserMessagesState);
+  const getUserMessagesState = useSelector(
+    (state) => state.getUserMessagesState
+  );
   const { messages } = getUserMessagesState;
   // console.log("messages:", messages);
 
@@ -38,13 +46,6 @@ function Header() {
   const logoutHandler = () => {
     dispatch(logout());
   };
-
-  useEffect(() => {
-    if (userInfo) {
-      dispatch(getUserProfile());
-      dispatch(getUserMessages());
-    }
-  }, [dispatch, userInfo]);
 
   // const searchHandler = (e) => {
   //   e.preventDefault();
@@ -74,7 +75,59 @@ function Header() {
     (total, userMessages) => total + userMessages.msg_count,
     0
   );
-  // console.log("msgCounted:", msgCounted);
+  const listBuyerFreeAdMessagesState = useSelector(
+    (state) => state.listBuyerFreeAdMessagesState
+  );
+  const { freeAdMessages } = listBuyerFreeAdMessagesState;
+
+  const listBuyerPaidAdMessagesState = useSelector(
+    (state) => state.listBuyerPaidAdMessagesState
+  );
+  const { paidAdMessages } = listBuyerPaidAdMessagesState;
+
+  const msgFreeAdCounted = freeAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.seller_free_ad_msg_count,
+    0
+  );
+
+  const msgPaidAdCounted = paidAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.seller_paid_ad_msg_count,
+    0
+  );
+
+  const GetActiveBuyerFreeAdMessageState = useSelector(
+    (state) => state.GetActiveBuyerFreeAdMessageState
+  );
+  const { activeBuyerFreeAdMessages } = GetActiveBuyerFreeAdMessageState;
+
+  const GetActiveBuyerPaidAdMessageState = useSelector(
+    (state) => state.GetActiveBuyerPaidAdMessageState
+  );
+  const { activeBuyerPaidAdMessages } = GetActiveBuyerPaidAdMessageState;
+
+  const msgActiveFreeAdCounted = activeBuyerFreeAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.buyer_free_ad_msg_count,
+    0
+  );
+
+  const msgActivePaidAdCounted = activeBuyerPaidAdMessages?.reduce(
+    (total, userMessages) => total + userMessages.buyer_paid_ad_msg_count,
+    0
+  );
+
+  // console.log("msgFreeAdCounted header:", msgFreeAdCounted);
+  // console.log("msgPaidAdCounted header:", msgPaidAdCounted);
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getUserProfile());
+      dispatch(getUserMessages());
+      dispatch(GetActiveBuyerFreeAdMessages());
+      dispatch(GetActiveBuyerPaidAdMessages());
+      dispatch(listBuyerFreeAdMessages());
+      dispatch(listBuyerPaidAdMessages());
+    }
+  }, [dispatch, userInfo]);
 
   return (
     <header>
@@ -278,8 +331,19 @@ function Header() {
                               style={{ fontSize: "16px" }}
                             ></i>{" "}
                             Inbox{" "}
-                            {msgCounted > 0 && (
-                              <span className="msg-counter">{msgCounted}</span>
+                            {(msgCounted +
+                              msgPaidAdCounted +
+                              msgFreeAdCounted +
+                              msgActiveFreeAdCounted +
+                              msgActivePaidAdCounted) >
+                              0 && (
+                              <span className="msg-counter">
+                                {msgCounted +
+                                  msgPaidAdCounted +
+                                  msgFreeAdCounted +
+                                  msgActiveFreeAdCounted +
+                                  msgActivePaidAdCounted}
+                              </span>
                             )}
                           </Nav.Link>
                         </>
