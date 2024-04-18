@@ -1,12 +1,12 @@
 //LoginScreen.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import Loader from "../Loader";
 import Message from "../Message";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../FormContainer";
-import { login } from "../../actions/userActions";
+import { login, updateUserLastLogin } from "../../actions/userActions";
 // import GoogleLoginScreen from "./GoogleLoginScreen";
 
 function LoginScreen() {
@@ -22,7 +22,12 @@ function LoginScreen() {
   // const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const userLogin = useSelector((state) => state.userLogin);
-  const {loading, error, userInfo } = userLogin;
+  const {
+    loading,
+    error,
+    userInfo,
+    success,
+  } = userLogin;
 
   // const handleGoogleLoginClick = () => {
   //   setShowGoogleLogin(true);
@@ -32,7 +37,9 @@ function LoginScreen() {
     if (userInfo) {
       try {
         if (userInfo.is_verified) {
-          history.push("/");
+          // dispatch(updateUserLastLogin());
+          // console.log("UserLastLogin updated");
+          // history.push("/");
           setSuccessMessage("Login successful.");
         } else {
           history.push("/verify-email-otp");
@@ -44,16 +51,35 @@ function LoginScreen() {
     }
   }, [userInfo, history, dispatch]);
 
-  const loginData = {
-    email : email.toLowerCase(),
-    password,
-  };
-  console.log("loginData:", loginData);
+  const lowerCaseEmail = email.toLowerCase();
+  const loginData = useMemo(() => {
+    return {
+      email: lowerCaseEmail.trim(),
+      password: password.trim(),
+    };
+  }, [lowerCaseEmail, password]);
+
+  // const loginData = {
+  //   email: email.toLowerCase(),
+  //   password,
+  // };
+  // console.log("loginData:", loginData);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(loginData));
   };
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        dispatch(updateUserLastLogin(loginData));
+        console.log('UserLastLogin updated');
+        history.push("/");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [dispatch, success, history, loginData]);
 
   return (
     <div>
@@ -68,7 +94,7 @@ function LoginScreen() {
           {loading && <Loader />}
           <Form.Group controlId="identifier">
             <Form.Label>
-              <i className="fas fa-envelope"></i> Email 
+              <i className="fas fa-envelope"></i> Email
             </Form.Label>
             <Form.Control
               required
@@ -108,10 +134,7 @@ function LoginScreen() {
                 type="submit"
                 variant="success"
                 block
-                disabled={
-                  password === ""
-                  || email === ""
-                }
+                disabled={password === "" || email === ""}
               >
                 Login <i className="fa fa-sign-in"></i>
               </Button>

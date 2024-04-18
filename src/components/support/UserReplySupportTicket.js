@@ -128,7 +128,8 @@ function UserReplySupportTicket() {
     <Container>
       <div>
         <Row className="d-flex justify-content-center">
-          <Col className="border rounded p-4 bg-secondary" xs={10} md={8}>
+          <Col className="border rounded p-4 bg-secondary py-2" xs={10} md={8}>
+
             {loading && <Loader />}
             {error && <Message variant="danger">{error}</Message>}
 
@@ -200,19 +201,19 @@ function UserReplySupportTicket() {
                   </p>
                 )}
                 <div
-                  className={`${
-                    message.user
-                      ? "d-flex justify-content-end"
-                      : "d-flex justify-content-left"
+                  className={`${ 
+                    message.admin_user
+                      ? "d-flex justify-content-left"
+                      : "d-flex justify-content-end"
                   }`}
                   style={{ maxWidth: "75%" }}
                 >
                   <div>
                     <div
                       className={`border rounded p-3 my-2 ${
-                        message.user
-                          ? "bg-success"
-                          : "bg-light justify-content-end"
+                        message.admin_user
+                          ? "bg-light"
+                          : "bg-success justify-content-end"
                       }`}
                     >
                       <p>

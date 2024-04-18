@@ -7,13 +7,17 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_REQUEST,
+  UPDATE_USER_LAST_LOGIN_REQUEST,
+  UPDATE_USER_LAST_LOGIN_SUCCESS,
+  UPDATE_USER_LAST_LOGIN_FAIL,
 } from "../constants/userConstants";
-import axios from "axios"; 
-import axiosInstance from "../store"; 
+import axios from "axios";
+import axiosInstance from "../store";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../config/apiConfig";
 
-export const login = (loginData) => async (dispatch) => { 
+export const login = (loginData) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -25,7 +29,7 @@ export const login = (loginData) => async (dispatch) => {
       },
     };
 
-  // const lowerCaseEmail = identifier.toLowerCase();
+    // const lowerCaseEmail = identifier.toLowerCase();
 
     const { data } = await axios.post(
       `${API_URL}/api/users/login/`,
@@ -44,7 +48,7 @@ export const login = (loginData) => async (dispatch) => {
 
     // Set timer to refresh the access token after refreshTokenTime minutes (ms)
     // let refreshTokenTime = 1000 * 60 * 900; // ms * hr * mins
-    let refreshTokenTime = 1000 * 60 * 60*24*7; // ms * hr * mins
+    let refreshTokenTime = 1000 * 60 * 60 * 24 * 7; // ms * hr * mins
     setTimeout(() => {
       dispatch(refreshToken(data.refresh));
     }, refreshTokenTime);
@@ -53,6 +57,39 @@ export const login = (loginData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const updateUserLastLogin = (loginData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: UPDATE_USER_LAST_LOGIN_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/update-user-last-login/`,
+      loginData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_USER_LAST_LOGIN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_USER_LAST_LOGIN_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail
@@ -109,75 +146,75 @@ export const login = (loginData) => async (dispatch) => {
 //   }
 // };
 
-export const loginWithGoogle =
-  (email, googleId, tokenId) => async (dispatch) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+export const loginWithGoogle = (email, googleId, tokenId) => async (
+  dispatch
+) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const { data } = await axios.post(
-        `${API_URL}/api/google-login/`,
-        { email, google_id: googleId, token_id: tokenId },
-        config
-      );
+    const { data } = await axios.post(
+      `${API_URL}/api/google-login/`,
+      { email, google_id: googleId, token_id: tokenId },
+      config
+    );
 
-      dispatch({
-        type: USER_LOGIN_SUCCESS,
-        payload: data,
-      });
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
 
-      localStorage.setItem("userInfo", JSON.stringify(data));
-    } catch (error) {
-      dispatch({
-        type: USER_LOGIN_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_LOGIN_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
-export const register =
-  (formData) => async (dispatch) => {
-    try {
-      dispatch({
-        type: USER_REGISTER_REQUEST,
-      });
+export const register = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_REGISTER_REQUEST,
+    });
 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
 
-      const { data } = await axios.post(
-        `${API_URL}/api/users/register/`,
-        formData,
-        config,
-      );
+    const { data } = await axios.post(
+      `${API_URL}/api/users/register/`,
+      formData,
+      config
+    );
 
-      dispatch({
-        type: USER_REGISTER_SUCCESS,
-        payload: data,
-      });
+    dispatch({
+      type: USER_REGISTER_SUCCESS,
+      payload: data,
+    });
 
-      // localStorage.setItem("registerData", JSON.stringify(formData));
-      // window.location.reload(); 
-      // window.location.href = "/verify-email-otp";
-    } catch (error) {
-      dispatch({
-        type: USER_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+    // localStorage.setItem("registerData", JSON.stringify(formData));
+    // window.location.reload();
+    // window.location.href = "/verify-email-otp";
+  } catch (error) {
+    dispatch({
+      type: USER_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const refreshToken = (refreshToken) => async (dispatch) => {
   try {
@@ -205,7 +242,7 @@ export const refreshToken = (refreshToken) => async (dispatch) => {
 
     // Set timer to refresh the access token again after refreshTokenTime minutes (ms)
     // let refreshTokenTime = 1000 * 60 * 900; // ms * hr * mins
-    let refreshTokenTime = 1000 * 60 * 60*24*7; // ms * hr * mins
+    let refreshTokenTime = 1000 * 60 * 60 * 24 * 7; // ms * hr * mins
     setTimeout(() => {
       dispatch(refreshToken(data.refresh));
     }, refreshTokenTime);

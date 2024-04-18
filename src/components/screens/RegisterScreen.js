@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { register } from "../../actions/userActions";
 import { sendEmailOtp } from "../../actions/emailOtpActions";
-// import FormContainer from "../FormContainer"; 
+// import FormContainer from "../FormContainer";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 // import GoogleLoginScreen from "./GoogleLoginScreen";
@@ -108,14 +108,14 @@ function RegisterScreen({ location }) {
   };
 
   const lowerCaseEmail = email.toLowerCase();
-  const lowerCaseUsername = username.toLowerCase().trim();
+  const lowerCaseUsername = username.toLowerCase();
 
   const formData = useMemo(() => {
     return {
-      first_name: firstName,
-      last_name: lastName,
-      username: lowerCaseUsername,
-      email: lowerCaseEmail,
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
+      username: lowerCaseUsername.trim(),
+      email: lowerCaseEmail.trim(),
       password,
       phone_number: phoneNumber,
       referral_code: referralCode,
@@ -415,13 +415,15 @@ function RegisterScreen({ location }) {
             </Form.Group>
 
             <Form.Group controlId="confirmPassword">
-              <Form.Label><i className="fas fa-key"></i> Confirm Password</Form.Label>
+              <Form.Label>
+                <i className="fas fa-key"></i> Confirm Password
+              </Form.Label>
               <Form.Control
                 type={confirmPasswordVisible ? "text" : "password"}
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) =>
-                  handleFieldChange("confirmPassword", e.target.value) 
+                  handleFieldChange("confirmPassword", e.target.value)
                 }
               />
               <div className="d-flex justify-content-between">

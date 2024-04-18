@@ -127,9 +127,10 @@ function BuyerFreeAdMessage() {
 
   return (
     <Container>
-      <div>
+      <div> 
         <Row className="d-flex justify-content-center">
           <Col className="border rounded p-4 bg-secondary" xs={10} md={8}>
+            
             <div className=" py-2 ">
               {loading && <Loader />}
               {error && (

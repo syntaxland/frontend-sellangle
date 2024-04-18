@@ -97,7 +97,7 @@ function SupportTicket() {
                       <tr key={ticket.id}>
                         <td>{index + 1}</td>
                         <td className="text-center">
-                          <ListGroup className="text-center py-1">
+                          <ListGroup className="text-center py-2"> 
                             <ListGroup.Item>#{ticket.ticket_id}</ListGroup.Item>
                           </ListGroup>
                           <Button

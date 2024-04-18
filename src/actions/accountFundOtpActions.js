@@ -9,10 +9,12 @@ import {
   VERIFY_OTP_FAIL,
 } from "../constants/accountFundOtpConstants";
 
+import { PAYSOFTER_API_URL } from "../config/apiConfig";
+
 // const API_URL = process.env.REACT_APP_API_URL;
-// const PAYSOFTER_URL = process.env.PAYSOFTER_API_URL;
-const PAYSOFTER_URL = "http://localhost:8001";
-// const PAYSOFTER_URL = "https://api.paysofter.com";
+// const PAYSOFTER_API_URL = process.env.PAYSOFTER_API_URL;
+// const PAYSOFTER_API_URL = "http://localhost:8001";
+// const PAYSOFTER_API_URL = "https://api.paysofter.com";
 
 export const sendOtp = (email, firstName) => async (dispatch) => {
   try {
@@ -32,7 +34,7 @@ export const sendOtp = (email, firstName) => async (dispatch) => {
 
     const body = JSON.stringify({ email, first_name: firstName });
 
-    await axios.post(`${PAYSOFTER_URL}/api/send-otp/`, body, config);
+    await axios.post(`${PAYSOFTER_API_URL}/api/send-otp/`, body, config);
 
     dispatch({
       type: SEND_OTP_SUCCESS,
@@ -61,7 +63,7 @@ export const verifyOtp = (otpData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/verify-otp/`,
+      `${PAYSOFTER_API_URL}/api/verify-otp/`,
       { otpData },
       config
     );

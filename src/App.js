@@ -31,6 +31,8 @@ import LiveChatScreen from "./components/screens/LiveChatScreen";
 // import FeedbackScreen from "./components/screens/FeedbackScreen";
 import DarkModeScreen from "./components/screens/DarkModeScreen";
 import TermsAndConditionScreen from "./components/screens/TermsAndConditionScreen";
+import PrivacyPolicyScreen from "./components/screens/PrivacyPolicyScreen";
+import DeleteAccountGuideScreen from "./components/screens/DeleteAccountGuideScreen";
 
 import SendEmailOtp from "./components/emailOtp/SendEmailOtp";
 import VerifyEmailOtp from "./components/emailOtp/VerifyEmailOtp";
@@ -73,8 +75,8 @@ import CurrentAds from "./components/marketplace/CurrentAds";
 import Billing from "./components/marketplace/Billing";
 
 import CreateSupportTicket from "./components/support/CreateSupportTicket";
-import UserReplySupportTicket from "./components/support/UserReplySupportTicket"; 
-import AdminReplySupportTicket from "./components/support/AdminReplySupportTicket"; 
+import UserReplySupportTicket from "./components/support/UserReplySupportTicket";
+import AdminReplySupportTicket from "./components/support/AdminReplySupportTicket";
 import SupportTicket from "./components/support/SupportTicket";
 
 function App() {
@@ -112,6 +114,9 @@ function App() {
             component={TermsAndConditionScreen}
           />
 
+          <Route path="/privacy-policy" component={PrivacyPolicyScreen} />
+          <Route path="/account-deletion-guide" component={DeleteAccountGuideScreen} />
+
           <Route path="/user/profile" component={UserProfile} />
           <Route path="/delete-account" component={DeleteAccount} />
           <Route path="/change-password" component={ChangePassword} />
@@ -140,8 +145,14 @@ function App() {
             path="/create-support-ticket"
             component={CreateSupportTicket}
           />
-          <Route path="/user-reply-support-ticket/:id" component={UserReplySupportTicket} />
-          <Route path="/admin-reply-support-ticket/:id" component={AdminReplySupportTicket} />
+          <Route
+            path="/user-reply-support-ticket/:id"
+            component={UserReplySupportTicket}
+          />
+          <Route
+            path="/admin-reply-support-ticket/:id"
+            component={AdminReplySupportTicket}
+          />
           <Route path="/support/tickets/" component={SupportTicket} />
 
           <Route path="/inbox" component={Inbox} />
@@ -160,10 +171,22 @@ function App() {
           <Route path="/free-ad-detail/:id" component={FreeAdProductDetail} />
           <Route path="/paid-ad-screen" component={PaidAdScreen} />
 
-          <Route path="/buyer/paid/ad/message/:id" component={BuyerPaidAdMessage} />
-          <Route path="/buyer/free/ad/message/:id" component={BuyerFreeAdMessage} />
-          <Route path="/seller/paid/ad/message/:id" component={SellerPaidAdMessage} />
-          <Route path="/seller/free/ad/message/:id" component={SellerFreeAdMessage} />
+          <Route
+            path="/buyer/paid/ad/message/:id"
+            component={BuyerPaidAdMessage}
+          />
+          <Route
+            path="/buyer/free/ad/message/:id"
+            component={BuyerFreeAdMessage}
+          />
+          <Route
+            path="/seller/paid/ad/message/:id"
+            component={SellerPaidAdMessage}
+          />
+          <Route
+            path="/seller/free/ad/message/:id"
+            component={SellerFreeAdMessage}
+          />
 
           <Route path="/edit/paid/ad/:id" component={EditPaidAd} />
           <Route path="/edit/free/ad/:id" component={EditFreeAd} />
@@ -184,7 +207,7 @@ function App() {
         <Footer />
         {/* </section> */}
       </Container>
-    </Router> 
+    </Router>
   );
 }
 

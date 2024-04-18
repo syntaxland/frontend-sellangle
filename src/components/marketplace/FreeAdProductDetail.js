@@ -102,7 +102,7 @@ function FreeAdProductDetail({ match }) {
     const now = new Date();
     const joinedDate = new Date(joinedTimestamp);
     const duration = now - joinedDate;
-  
+
     const seconds = Math.floor(duration / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
@@ -110,24 +110,47 @@ function FreeAdProductDetail({ match }) {
     const weeks = Math.floor(days / 7);
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
-  
+
     if (years > 0) {
-      return `${years} year${years > 1 ? 's' : ''}`;
+      return `${years} year${years > 1 ? "s" : ""}`;
     } else if (months > 0) {
-      return `${months} month${months > 1 ? 's' : ''}`;
+      return `${months} month${months > 1 ? "s" : ""}`;
     } else if (weeks > 0) {
-      return `${weeks} week${weeks > 1 ? 's' : ''}`;
+      return `${weeks} week${weeks > 1 ? "s" : ""}`;
     } else if (days > 0) {
-      return `${days} day${days > 1 ? 's' : ''}`;
+      return `${days} day${days > 1 ? "s" : ""}`;
     } else if (hours > 0) {
-      return `${hours} hour${hours > 1 ? 's' : ''}`;
+      return `${hours} hour${hours > 1 ? "s" : ""}`;
     } else if (minutes > 0) {
-      return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+      return `${minutes} minute${minutes > 1 ? "s" : ""}`;
     } else {
-      return `${seconds} second${seconds > 1 ? 's' : ''}`;
+      return `${seconds} second${seconds > 1 ? "s" : ""}`;
     }
   }
-  
+
+  function calculateLastSeen(lastLoginTimestamp) {
+    const now = new Date();
+    const lastLoginDate = new Date(lastLoginTimestamp);
+    const duration = now - lastLoginDate;
+
+    const days = Math.floor(duration / (24 * 60 * 60 * 1000));
+    const weeks = Math.floor(days / 7);
+    const months = Math.floor(days / 30);
+
+    console.log("days:", days);
+
+    if (days < 3) {
+      return "Last seen recently";
+    } else if (weeks < 1) {
+      return "Last seen within a week";
+    } else if (months < 1) {
+      return "Last seen within a month";
+      // } else if (months > 1) {
+      //   return "Last seen a long time ago";
+    } else {
+      return "Last seen a long time ago";
+    }
+  }
 
   // function calculateDuration(joinedTimestamp) {
   //   const now = new Date();
@@ -362,6 +385,7 @@ function FreeAdProductDetail({ match }) {
                             {ads?.seller_username}
                           </span>
                         </Link>
+                        {calculateLastSeen(ads?.user_last_login)}
                       </Col>
                       {/* <Col>Go to Seller Shopfront</Col> */}
                     </Row>

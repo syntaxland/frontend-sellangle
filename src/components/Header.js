@@ -19,8 +19,10 @@ import {
   listBuyerFreeAdMessages,
   listBuyerPaidAdMessages,
 } from "../actions/marketplaceSellerActions";
+import { listSupportTicket } from "../actions/supportActions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Header.css";
+import logoImage from "../images/logo.png";
 
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -118,6 +120,16 @@ function Header() {
   // console.log("msgFreeAdCounted header:", msgFreeAdCounted);
   // console.log("msgPaidAdCounted header:", msgPaidAdCounted);
 
+  const listSupportTicketState = useSelector(
+    (state) => state.listSupportTicketState
+  );
+  const { tickets } = listSupportTicketState;
+
+  const supportMsgCounted = tickets?.reduce(
+    (total, userMessages) => total + userMessages.user_msg_count,
+    0
+  );
+
   useEffect(() => {
     if (userInfo) {
       dispatch(getUserProfile());
@@ -126,6 +138,8 @@ function Header() {
       dispatch(GetActiveBuyerPaidAdMessages());
       dispatch(listBuyerFreeAdMessages());
       dispatch(listBuyerPaidAdMessages());
+
+      dispatch(listSupportTicket());
     }
   }, [dispatch, userInfo]);
 
@@ -134,8 +148,17 @@ function Header() {
       <Navbar bg="primary" variant="dark" expand="md" sticky="top">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
-            <i className="fas fa-home" style={{ fontSize: "16px" }}></i> Sell
-            Angle
+            {/* <i className="fas fa-home" style={{ fontSize: "16px" }}></i> */}
+            <img
+              src={logoImage}
+              alt="Sell Angle"
+              style={{
+                maxHeight: "40px",
+                maxWidth: "80px",
+                height: "auto",
+                width: "auto",
+              }}
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarCollapse" />
           <Navbar.Collapse id="navbarCollapse">
@@ -331,11 +354,11 @@ function Header() {
                               style={{ fontSize: "16px" }}
                             ></i>{" "}
                             Inbox{" "}
-                            {(msgCounted +
+                            {msgCounted +
                               msgPaidAdCounted +
                               msgFreeAdCounted +
                               msgActiveFreeAdCounted +
-                              msgActivePaidAdCounted) >
+                              msgActivePaidAdCounted >
                               0 && (
                               <span className="msg-counter">
                                 {msgCounted +
@@ -356,12 +379,34 @@ function Header() {
                     <div>
                       {userInfo ? (
                         <>
-                          <Nav.Link as={Link} to="/create-support-ticket">
+                          <Nav.Link as={Link} to="/support/tickets/">
                             <i
                               className="fas fa-question-circle"
                               style={{ fontSize: "16px" }}
                             ></i>{" "}
-                            Contact Us
+                            Support{" "}
+                            {supportMsgCounted > 0 && (
+                              <span className="msg-counter">
+                                {supportMsgCounted}
+                              </span>
+                            )}
+                          </Nav.Link>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <NavDropdown.Divider />
+
+                    <div>
+                      {profile.is_superuser || profile.is_staff ? (
+                        <>
+                          <Nav.Link as={Link} to="/dashboard/admin">
+                            <i
+                              className="fas fa-dashboard"
+                              style={{ fontSize: "16px" }}
+                            ></i>{" "}
+                            Admin
                           </Nav.Link>
                         </>
                       ) : (

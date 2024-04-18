@@ -6,7 +6,8 @@ import {
   CART_CLEAR_ITEMS,
 } from "../constants/cartConstants";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../config/apiConfig";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`${API_URL}/api/products/${id}`); 

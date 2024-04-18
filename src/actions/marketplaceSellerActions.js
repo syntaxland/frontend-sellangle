@@ -203,7 +203,8 @@ GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS,
 GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
-const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../config/apiConfig";
+// const API_URL = process.env.REACT_APP_API_URL;
 
 export const GetActiveBuyerFreeAdMessages = () => async (dispatch, getState) => {
   try {

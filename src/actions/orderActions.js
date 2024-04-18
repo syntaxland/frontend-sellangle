@@ -47,7 +47,8 @@ import {
   ORDER_EDIT_REVIEW_FAIL,
 } from "../constants/orderConstants";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../config/apiConfig";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {

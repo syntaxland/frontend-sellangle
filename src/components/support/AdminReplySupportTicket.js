@@ -201,18 +201,18 @@ function AdminReplySupportTicket() {
                 )}
                 <div
                   className={`${
-                    message.admin_user
-                      ? "d-flex justify-content-end"
-                      : "d-flex justify-content-left"
+                    message.user
+                      ? "d-flex justify-content-left"
+                      : "d-flex justify-content-end"
                   }`}
                   style={{ maxWidth: "75%" }}
                 >
                   <div>
                     <div
                       className={`border rounded p-3 my-2 ${
-                        message.admin_user
-                          ? "bg-success"
-                          : "bg-light justify-content-end"
+                        message.user
+                          ? "bg-light"
+                          : "bg-success justify-content-end"
                       }`}
                     >
                       <p>

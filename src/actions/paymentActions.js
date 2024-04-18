@@ -36,10 +36,9 @@ import {
   VERIFY_USD_OTP_FAIL,
 } from "../constants/accountFundOtpConstants";
 
-const API_URL = process.env.REACT_APP_API_URL;
-// const PAYSOFTER_URL = process.env.PAYSOFTER_API_URL;
-const PAYSOFTER_URL = "http://localhost:8001";
-// const PAYSOFTER_URL = "https://api.paysofter.com";
+// const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL, PAYSOFTER_API_URL } from "../config/apiConfig";
+
 
 export const debitPaysofterUsdAccountFund = (debitUsdAccountData) => async (
   dispatch
@@ -62,7 +61,7 @@ export const debitPaysofterUsdAccountFund = (debitUsdAccountData) => async (
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/debit-user-usd-account-fund/`,
+      `${PAYSOFTER_API_URL}/api/debit-user-usd-account-fund/`,
       debitUsdAccountData,
       config
     );
@@ -97,7 +96,7 @@ export const verifyUsdPromiseOtp = (otpData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/verify-usd-account-debit-email-otp/`,
+      `${PAYSOFTER_API_URL}/api/verify-usd-account-debit-email-otp/`,
       { otpData },
       config
     );
@@ -211,7 +210,7 @@ export const createPaysofterPayment = (paysofterPaymentData) => async (
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/initiate-transaction/`,
+      `${PAYSOFTER_API_URL}/api/initiate-transaction/`,
       paysofterPaymentData,
       config
     );
@@ -249,7 +248,7 @@ export const createPaysofterPromise = (paysofterPromiseData) => async (
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/create-promise/`,
+      `${PAYSOFTER_API_URL}/api/create-promise/`,
       paysofterPromiseData,
       config
     );
@@ -292,7 +291,7 @@ export const debitPaysofterAccountFund = (debitAccountData) => async (
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/debit-user-account-balance/`,
+      `${PAYSOFTER_API_URL}/api/debit-user-account-balance/`,
       debitAccountData,
       config
     );
@@ -327,7 +326,7 @@ export const verifyOtp = (otpData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${PAYSOFTER_URL}/api/verify-otp/`,
+      `${PAYSOFTER_API_URL}/api/verify-otp/`,
       { otpData },
       config
     );

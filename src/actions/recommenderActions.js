@@ -10,7 +10,8 @@ import {
   
 } from "../constants/recommenderConstants";  
 
-const API_URL = process.env.REACT_APP_API_URL;
+// const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../config/apiConfig";
 
 export const getUserRecommendedFreeAds = () => async (dispatch, getState) => {
   try {
