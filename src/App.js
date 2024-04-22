@@ -28,7 +28,7 @@ import LoginScreen from "./components/screens/LoginScreen";
 // import EditReviewScreen from "./components/screens/EditReviewScreen";
 // import CreditPointScreen from "./components/screens/CreditPointScreen";
 import LiveChatScreen from "./components/screens/LiveChatScreen";
-// import FeedbackScreen from "./components/screens/FeedbackScreen";
+import FeedbackScreen from "./components/screens/FeedbackScreen";
 import DarkModeScreen from "./components/screens/DarkModeScreen";
 import TermsAndConditionScreen from "./components/screens/TermsAndConditionScreen";
 import PrivacyPolicyScreen from "./components/screens/PrivacyPolicyScreen";
@@ -157,7 +157,7 @@ function App() {
 
           <Route path="/inbox" component={Inbox} />
           <Route path="/live-chat" component={LiveChatScreen} />
-          {/* <Route path="/feedback" component={FeedbackScreen} /> */}
+          <Route path="/create-feedback" component={FeedbackScreen} />
           <Route path="/dark-mode" component={DarkModeScreen} />
 
           <Route

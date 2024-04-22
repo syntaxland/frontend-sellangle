@@ -22,7 +22,7 @@ function Feedback() {
   }, [dispatch]);
 
   const handleSendFeedback = () => {
-    history.push("/feedback");
+    history.push("/create-feedback");
   };
 
   return (
