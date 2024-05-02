@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { logout } from "../actions/userActions";
 
-import { getUserProfile } from "../actions/userProfileActions";
+import { getUserProfile } from "../actions/userProfileActions"; 
 import { getUserMessages } from "../actions/messagingActions";
 import {
   GetActiveBuyerFreeAdMessages,

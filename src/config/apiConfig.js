@@ -5,5 +5,3 @@
 
 export const API_URL = "https://backend.sellangle.com";
 export const PAYSOFTER_API_URL = "https://api.paysofter.com"; 
-
-
