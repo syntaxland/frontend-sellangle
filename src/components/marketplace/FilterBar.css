@@ -1,6 +1,5 @@
 /* FilterBar.css */
 
-/* Add the following styles to control the visibility of the scrollbar */
 .scroll-menu-wrapper {
     overflow-x: hidden;
   }
@@ -8,4 +7,11 @@
   .scroll-menu-wrapper:hover {
     overflow-x: auto;
   }
-  
+
+  /* .category-item {
+    max-height: 80px; 
+  }
+
+  .btn-category-item {
+    height: 80px; 
+  } */

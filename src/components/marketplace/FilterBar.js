@@ -8,12 +8,13 @@ import "./FilterBar.css";
 
 const AD_CATEGORY_CHOICES = [
   ["Home Appliances", "Home Appliances"],
+  ["Pets", "Pets"],
+  ["Fashion", "Fashion"],
+  ["Mobile Phones", "Mobile Phones"],
   ["Properties", "Properties"],
   ["Electronics", "Electronics"],
-  ["Fashion", "Fashion"],
   ["Vehicles", "Vehicles"],
   ["Services", "Services"],
-  ["Mobile Phones", "Mobile Phones"],
   ["Health & Beauty", "Health & Beauty"],
   ["Sports", "Sports"],
   ["Jobs", "Jobs"],
@@ -22,7 +23,6 @@ const AD_CATEGORY_CHOICES = [
   ["Repairs", "Repairs"],
   ["Equipment & Tools", "Equipment & Tools"],
   ["CVs", "CVs"],
-  ["Pets", "Pets"],
   ["Others", "Others"],
 ];
 
@@ -35,6 +35,12 @@ const AD_TYPE_CHOICES = {
     ["Air Conditioner", "Air Conditioner"],
     ["Solar", "Solar"],
     ["Kitchen Appliances", "Kitchen Appliances"],
+  ],
+  Pets: [
+    ["Dog", "Dog"],
+    ["Cat", "Cat"],
+    ["Fish", "Fish"],
+    ["Bird", "Bird"],
   ],
   Properties: [
     ["House", "House"],
@@ -116,12 +122,7 @@ const AD_TYPE_CHOICES = {
     ["Design", "Design"],
     ["Education", "Education"],
   ],
-  Pets: [
-    ["Dog", "Dog"],
-    ["Cat", "Cat"],
-    ["Fish", "Fish"],
-    ["Bird", "Bird"],
-  ],
+
   Others: [["Others", "Others"]],
 };
 
@@ -230,6 +231,7 @@ function FilterBar({
                     selectedCategory === value ? "active" : ""
                   }`}
                 >
+                  {/* <div className="btn-category-item py-2"> */}
                   <Button
                     variant="outline-primary"
                     className={`rounded ${
@@ -243,6 +245,7 @@ function FilterBar({
                         categoryCounts[value].paidAdsCount}
                     )
                   </Button>
+                  {/* </div> */}
                 </div>
               ))}
             </ScrollMenu>

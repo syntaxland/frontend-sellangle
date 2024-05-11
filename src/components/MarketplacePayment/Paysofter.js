@@ -10,7 +10,7 @@ import Message from "../Message";
 import "./Paysofter.css";
 import { formatAmount } from "../FormatAmount";
 
-function Paysofter({
+function Paysofter({ 
   adId,
   promoCode,
   buyerEmail, 

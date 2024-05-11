@@ -9,7 +9,7 @@ import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 //   debitPaysofterAccountFundPromise,
 // } from "../../actions/paymentActions";
 import Message from "../Message";
-import Loader from "../Loader";
+import Loader from "../Loader"; 
 import PaysofterAccountFundPromise from "./PaysofterAccountFundPromise";
 import PaysofterUsdAccountFundPromise from "./PaysofterUsdAccountFundPromise";
 import Select from "react-select";

@@ -174,7 +174,7 @@ export const createPayment = (paymentData) => async (dispatch, getState) => {
     const { data } = await axios.post(
       `${API_URL}/api/create-payment/`,
       paymentData,
-      config
+      config 
     );
 
     dispatch({

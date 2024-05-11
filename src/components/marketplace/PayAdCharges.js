@@ -21,9 +21,7 @@ function PayAdCharges({ totalAdCharges }) {
     }
   }, [userInfo, history]);
 
-  const payAdChargesState = useSelector(
-    (state) => state.payAdChargesState
-  );
+  const payAdChargesState = useSelector((state) => state.payAdChargesState);
   const { success, error, loading } = payAdChargesState;
 
   // const [password, setPassword] = useState("");
@@ -67,8 +65,8 @@ function PayAdCharges({ totalAdCharges }) {
                 //  color: "yellow"
               }}
             ></i>{" "}
-            Warning! This action will deduct the ad charges of {formatAmount(totalAdCharges)}{" "}
-            from your CPS wallet.
+            Warning! This action will deduct the ad charges of{" "}
+            {formatAmount(totalAdCharges)} CPS from your wallet.
           </p>
 
           <Form>
@@ -86,7 +84,7 @@ function PayAdCharges({ totalAdCharges }) {
               onClick={handlePayAdCharges}
               className="rounded mt-2 text-center w-100"
             >
-              Pay Now 
+              Pay Now
             </Button>
           </Form>
         </Col>
