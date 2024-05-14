@@ -7,7 +7,7 @@ import PaymentScreen from "./payment/PaymentScreen";
 // import Select from "react-select";
 
 function BuyCreditPoint({ currency }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
 
   const getPaymentApiKeysState = useSelector(
     (state) => state.getPaymentApiKeysState

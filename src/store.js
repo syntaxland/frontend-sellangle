@@ -2,20 +2,21 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import {
-  productListReducers,
-  productDetailsReducers,
-  // productTrackSaveReducer,
-  saveProductReducer,
-  userFavoriteProductsReducer,
-  userViewedProductsReducer,
-  removeProductReducer,
-  updateProductSaveCountReducer,
-  viewedProductReducer,
-  recommendedProductsReducer,
-  productSearchReducer,
-} from "./reducers/productReducers";
-import { cartReducer } from "./reducers/cartReducers";
+// import {
+//   productListReducers,
+//   productDetailsReducers,
+//   // productTrackSaveReducer,
+//   saveProductReducer,
+//   userFavoriteProductsReducer,
+//   userViewedProductsReducer,
+//   removeProductReducer,
+//   updateProductSaveCountReducer,
+//   viewedProductReducer,
+//   recommendedProductsReducer,
+//   productSearchReducer,
+// } from "./reducers/productReducers";
+
+// import { cartReducer } from "./reducers/cartReducers";
 import { userLoginReducers } from "./reducers/userReducers";
 import { userRegisterReducers } from "./reducers/userReducers";
 import {
@@ -87,21 +88,21 @@ import {
   GetActiveBuyerPaidAdMessagesReducer,
 } from "./reducers/marketplaceSellerReducers";
 
-import {
-  orderCreateReducer,
-  shipmentSaveReducer,
-  userShipmentsReducer,
-  allUserShipmentsReducer,
-  orderListReducer,
-  allOrderListReducer,
-  orderDeleteReducer,
-  orderItemsListReducer,
-  confirmDeliveryReducer,
-  // shippingAddressReducer,
-  reviewListReducer,
-  orderAddReviewReducer,
-  orderEditReviewReducer,
-} from "./reducers/orderReducers";
+// import {
+//   // orderCreateReducer,
+//   // shipmentSaveReducer,
+//   // userShipmentsReducer,
+//   // allUserShipmentsReducer,
+//   // orderListReducer,
+//   // allOrderListReducer,
+//   // orderDeleteReducer,
+//   // orderItemsListReducer,
+//   // confirmDeliveryReducer,
+//   // shippingAddressReducer,
+//   // reviewListReducer,
+//   // orderAddReviewReducer,
+//   // orderEditReviewReducer,
+// } from "./reducers/orderReducers";
 
 import {
   getPaymentApiKeysReducer,
@@ -159,12 +160,12 @@ import {
   getBuyCreditPointReducer,
   getBuyerCreditPointReducer,
   getSellCreditPointReducer,
-  creditPointRequestCreateReducer,
+  // creditPointRequestCreateReducer,
   creditPointListReducer,
   creditPointAllListReducer,
   creditPointBalanceReducer,
-  creditPointEarningsReducer,
-  userCreditPointPaymentsReducer,
+  // creditPointEarningsReducer,
+  // userCreditPointPaymentsReducer,
   allCreditPointPaymentsReducer,
   buyUsdCreditPointReducer,
   getUsdBuyCreditPointReducer,
@@ -221,32 +222,32 @@ axiosInstance.interceptors.response.use(
 );
 
 const reducer = combineReducers({
-  productList: productListReducers,
-  productDetails: productDetailsReducers,
-  productSave: saveProductReducer,
-  userFavoriteProducts: userFavoriteProductsReducer,
-  userViewedProducts: userViewedProductsReducer,
-  viewedProduct: viewedProductReducer,
-  productRemove: removeProductReducer,
-  updateProductSaveCount: updateProductSaveCountReducer,
-  recommendedProducts: recommendedProductsReducer,
-  productSearch: productSearchReducer,
+  // productList: productListReducers,
+  // productDetails: productDetailsReducers,
+  // productSave: saveProductReducer,
+  // userFavoriteProducts: userFavoriteProductsReducer,
+  // userViewedProducts: userViewedProductsReducer,
+  // viewedProduct: viewedProductReducer,
+  // productRemove: removeProductReducer,
+  // updateProductSaveCount: updateProductSaveCountReducer,
+  // recommendedProducts: recommendedProductsReducer,
+  // productSearch: productSearchReducer,
 
-  cart: cartReducer,
+  // cart: cartReducer, 
   userLogin: userLoginReducers,
   userRegister: userRegisterReducers,
 
-  orderCreate: orderCreateReducer,
-  shipmentSave: shipmentSaveReducer,
-  userShipments: userShipmentsReducer,
-  allUserShipments: allUserShipmentsReducer,
-  orderItemsList: orderItemsListReducer,
-  confirmDelivery: confirmDeliveryReducer,
+  // orderCreate: orderCreateReducer,
+  // shipmentSave: shipmentSaveReducer,
+  // userShipments: userShipmentsReducer,
+  // allUserShipments: allUserShipmentsReducer,
+  // orderItemsList: orderItemsListReducer,
+  // confirmDelivery: confirmDeliveryReducer,
   // shippingAddress: shippingAddressReducer,
 
-  reviewList: reviewListReducer,
-  orderAddReview: orderAddReviewReducer,
-  orderEditReview: orderEditReviewReducer,
+  // reviewList: reviewListReducer,
+  // orderAddReview: orderAddReviewReducer,
+  // orderEditReview: orderEditReviewReducer,
 
   buyCreditPointState: buyCreditPointReducer,
   sellCreditPointState: sellCreditPointReducer,
@@ -258,17 +259,17 @@ const reducer = combineReducers({
   getUserCpsBonusesState: getUserCpsBonusesReducer,
 
   getSellCreditPointState: getSellCreditPointReducer,
-  creditPointRequestCreate: creditPointRequestCreateReducer,
+  // creditPointRequestCreate: creditPointRequestCreateReducer,
   creditPointList: creditPointListReducer,
   creditPointAllList: creditPointAllListReducer,
   creditPointBal: creditPointBalanceReducer,
-  userCreditPointPayments: userCreditPointPaymentsReducer,
+  // userCreditPointPayments: userCreditPointPaymentsReducer,
   allCreditPointPayments: allCreditPointPaymentsReducer,
-  creditPointEarningState: creditPointEarningsReducer,
+  // creditPointEarningState: creditPointEarningsReducer,
 
-  orderList: orderListReducer,
-  allOrderList: allOrderListReducer,
-  orderDelete: orderDeleteReducer,
+  // orderList: orderListReducer,
+  // allOrderList: allOrderListReducer,
+  // orderDelete: orderDeleteReducer,
 
   getPaymentApiKeysState: getPaymentApiKeysReducer,
   paymentCreate: paymentCreateReducer,
