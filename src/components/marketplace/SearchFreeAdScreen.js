@@ -11,7 +11,7 @@ import Pagination from "../Pagination";
 function SearchFreeAdScreen({
   selectedCountry,
   selectedState,
-  selectedCity,
+  selectedCity, 
   // freeSearchAds
 }) {
   const dispatch = useDispatch();

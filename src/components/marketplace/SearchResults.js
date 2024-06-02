@@ -206,9 +206,9 @@ function SearchResults() {
     }
   };
 
-//   const Slider = require('rc-slider');
-// const createSliderWithTooltip = Slider.createSliderWithTooltip;
-// const Range = createSliderWithTooltip(Slider.Range);
+  //   const Slider = require('rc-slider');
+  // const createSliderWithTooltip = Slider.createSliderWithTooltip;
+  // const Range = createSliderWithTooltip(Slider.Range);
 
   return (
     <Container>
@@ -415,6 +415,7 @@ function SearchResults() {
                   <div>
                     {serachResults && (
                       <SellerSearchCard
+                        key={serachResults.id}
                         serachResults={serachResults}
                         sellerAvatarUrl={sellerAvatarUrl}
                       />
@@ -438,10 +439,11 @@ function SearchResults() {
                   <div>
                     {freeSearchAds || paidSearchAds ? (
                       <>
-                        {paidSearchAds?.map((paidSearchAds) => (
+                        {paidSearchAds?.map((ad) => (
                           <Col>
                             {paidSearchAds && (
                               <SearchPaidAdScreen
+                                key={ad.id}
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
@@ -451,21 +453,22 @@ function SearchResults() {
                           </Col>
                         ))}
 
-                        {freeSearchAds?.map((freeSearchAds) => (
+                        {freeSearchAds?.map((ad) => (
                           <Col>
                             {freeSearchAds && (
                               <SearchFreeAdScreen
+                                key={ad.id}
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
-                                freeSearchAds={filteredFreeAds || freeSearchAds} 
+                                freeSearchAds={filteredFreeAds || freeSearchAds}
                               />
                             )}
                           </Col>
                         ))}
                       </>
                     ) : (
-                      <p></p>
+                      <></>
                     )}
                   </div>
                 </Col>
