@@ -24,7 +24,7 @@ import "slick-carousel/slick/slick-theme.css";
 const quotes = [
   "At this angle, sells are quick ...",
   "Turning Angles into Sells – SellAngle Style!",
-  "Global Sells, Universal Angles – One Marketplace for All!", 
+  "Global Sells, Universal Angles – One Marketplace for All!",
   "Selling Perfected: It's the SellAngle Way!",
   "Sell with Ease, Master the Angle – SellAngle!",
   "Every Sell, Every Angle, Every Human – One Global Stop!",
@@ -66,11 +66,11 @@ const quotes = [
 ];
 
 function Marketplace() {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const [sellerUsername, setSellerUsername] = useState("");
-  const [searchSellerUsername, setSearchSellerUsername] = useState(null); 
+  const [searchSellerUsername, setSearchSellerUsername] = useState(null);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -128,7 +128,7 @@ function Marketplace() {
     infinite: true,
     speed: 1000,
     slidesToShow: 1,
-    slidesToScroll: 1, 
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
     fade: true,
@@ -204,6 +204,10 @@ function Marketplace() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+
+  const defaultCountry = { value: "", label: "Select Country" };
+  const defaultState = { value: "", label: "Select State/Province" };
+  const defaultCity = { value: "", label: "Select City" };
 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption.value);
@@ -350,7 +354,7 @@ function Marketplace() {
             <Col className="py-2">
               <Col md={4}>
                 <span>Country: </span>
-                <Select
+                {/* <Select
                   options={Country.getAllCountries().map((country) => ({
                     // value: country.name,
                     value: country.isoCode,
@@ -366,11 +370,30 @@ function Marketplace() {
                   placeholder="Select Country"
                   className="rounded"
                   required
+                /> */}
+
+                <Select
+                  options={[
+                    defaultCountry,
+                    ...Country.getAllCountries().map((country) => ({
+                      value: country.isoCode,
+                      label: country.name,
+                    })),
+                  ]}
+                  value={
+                    selectedCountry
+                      ? { value: selectedCountry, label: selectedCountry }
+                      : defaultCountry
+                  }
+                  onChange={handleCountryChange}
+                  placeholder="Select Country"
+                  className="rounded"
+                  required
                 />
               </Col>
               <Col md={4}>
                 <span>State/Province: </span>
-                <Select
+                {/* <Select
                   options={
                     selectedCountry
                       ? State.getStatesOfCountry(selectedCountry).map(
@@ -392,11 +415,34 @@ function Marketplace() {
                   placeholder="Select State/Province"
                   className="rounded"
                   required
+                /> */}
+
+                <Select
+                  options={[
+                    defaultState,
+                    ...(selectedCountry
+                      ? State.getStatesOfCountry(selectedCountry).map(
+                          (state) => ({
+                            value: state.isoCode,
+                            label: state.name,
+                          })
+                        )
+                      : []),
+                  ]}
+                  value={
+                    selectedState
+                      ? { value: selectedState, label: selectedState }
+                      : defaultState
+                  }
+                  onChange={handleStateChange}
+                  placeholder="Select State/Province"
+                  className="rounded"
+                  required
                 />
               </Col>
               <Col md={4}>
                 <span>City: </span>
-                <Select
+                {/* <Select
                   options={
                     selectedState
                       ? City.getCitiesOfState(
@@ -414,6 +460,30 @@ function Marketplace() {
                   //     ? { value: selectedCity, label: selectedCity }
                   //     : defaultCity
                   // }
+                  onChange={handleCityChange}
+                  placeholder="Select City"
+                  className="rounded"
+                  required
+                /> */}
+
+                <Select
+                  options={[
+                    defaultCity,
+                    ...(selectedState
+                      ? City.getCitiesOfState(
+                          selectedCountry,
+                          selectedState
+                        ).map((city) => ({
+                          value: city.name,
+                          label: city.name,
+                        }))
+                      : []),
+                  ]}
+                  value={
+                    selectedCity
+                      ? { value: selectedCity, label: selectedCity }
+                      : defaultCity
+                  }
                   onChange={handleCityChange}
                   placeholder="Select City"
                   className="rounded"

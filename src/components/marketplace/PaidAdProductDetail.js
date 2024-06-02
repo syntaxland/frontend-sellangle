@@ -9,7 +9,7 @@ import {
   Button,
   Card,
   Container,
-  Modal,
+  Modal, 
 } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";

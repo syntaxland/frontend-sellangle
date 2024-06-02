@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Paystack from "./Paystack";
 import PaystackUsd from "./PaystackUsd";
 import Paysofter from "./Paysofter";
-
+ 
 function PaymentScreen({
   amount,
   currency,

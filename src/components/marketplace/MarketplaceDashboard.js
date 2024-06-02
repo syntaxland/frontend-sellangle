@@ -190,7 +190,7 @@ function MarketplaceDashboard() {
                   variant={
                     activeTab === "user-dashboard" ? "info" : "outline-info"
                   }
-                  className="sidebar-link"
+                  className="sidebar-link" 
                   // activeClassName="active-link"
                   onClick={() => handleTabChange("user-dashboard")}
                 >
@@ -291,7 +291,7 @@ function MarketplaceDashboard() {
                   className="sidebar-link"
                   onClick={() => handleTabChange("post-paid-ad")}
                 >
-                  <i className="fas fa-ad"></i> Post Paid Ads
+                  <i className="fas fa-ad"></i> Post Paid Ads 
                 </Button>
               </div>
 

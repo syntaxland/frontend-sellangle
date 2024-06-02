@@ -56,7 +56,7 @@ function PaysofterButton({
           variant="outline-primary"
           onClick={() => setShowPaymentModal(true)}
         >
-          <span>Pay Now</span>
+          <span>Pay Now</span> 
         </Button>
       </div>
 

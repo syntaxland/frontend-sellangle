@@ -3,13 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { debitPaysofterAccountFund } from "../../../actions/paymentActions";
-
 import Message from "../../Message";
 import Loader from "../../Loader";
 import VerifyAccountFundOtp from "./VerifyAccountFundOtp";
 import { formatAmount } from "../../FormatAmount";
 
-const PaysofterAccountFund = ({
+const PaysofterAccountFund = ({ 
   history,
   amount,
   paymentData,
@@ -45,7 +44,6 @@ const PaysofterAccountFund = ({
 
   const [accountId, setAccountId] = useState("");
   const [securityCode, setSecurityCode] = useState("");
-  // const [currency, setCurrency] = useState("");
 
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showAccountInfoModal, setShowAccountInfoModal] = useState(false);

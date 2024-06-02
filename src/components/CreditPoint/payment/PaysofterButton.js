@@ -9,7 +9,7 @@ import UssdPayment from "./UssdPayment";
 import BankPayment from "./BankPayment";
 import TransferPayment from "./TransferPayment";
 import PaysofterAccountFund from "./PaysofterAccountFund";
-import PaysofterUsdAccountFund from "./PaysofterUsdAccountFund";
+import PaysofterUsdAccountFund from "./PaysofterUsdAccountFund"; 
 import QrPayment from "./QrPayment";
 import { formatAmount } from "../../FormatAmount";
 
@@ -339,7 +339,7 @@ function PaysofterButton({
         </Modal.Body>
       </Modal>
     </div>
-  );
+  ); 
 }
 
 export default PaysofterButton;

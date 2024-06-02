@@ -480,7 +480,7 @@ function UserDashboard() {
               </div>
 
               <div className="">
-                {!profile?.is_marketplace_seller ? (
+                {!profile?.is_marketplace_seller ? ( 
                   <div className="mt-3">
                     <Button
                       size="sm"

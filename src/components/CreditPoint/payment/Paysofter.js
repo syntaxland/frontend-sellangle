@@ -11,7 +11,7 @@ import "./Paysofter.css";
 import { formatAmount } from "../../FormatAmount";
 
 function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
-  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState); 
+  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);  
   // const { success, error, loading } = buyCreditPointState;
 
   const userLogin = useSelector((state) => state.userLogin);

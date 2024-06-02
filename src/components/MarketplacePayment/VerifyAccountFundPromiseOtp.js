@@ -11,7 +11,7 @@ import {
 } from "../../actions/paymentActions"; 
 
 import { useHistory } from "react-router-dom";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap"; 
 import Loader from "../Loader";
 import Message from "../Message";
 import ConfirmPaysofterPromise from "./ConfirmPaysofterPromise";

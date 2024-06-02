@@ -10,7 +10,7 @@ import { getCreditPointBalance } from "../../actions/creditPointActions";
 // import { getOrders } from "../../actions/orderActions";
 // import { Line, Pie } from "react-chartjs-2";
 import SellCreditPoint from "../CreditPoint/SellCreditPoint";
-import SelectCurrency from "../CreditPoint/SelectCurrency";
+import SelectCurrency from "../CreditPoint/SelectCurrency"; 
 
 import {
   Chart as ChartJS,
@@ -229,7 +229,7 @@ function Dashboard() {
   // };
 
   return (
-    <div className="justify-content-center text-center">
+    <div className="justify-content-center text-center"> 
       <div>
         {loading? (
           <Loader />

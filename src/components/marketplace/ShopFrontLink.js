@@ -6,7 +6,7 @@ import { getSellerShopfrontLink } from "../../actions/marketplaceSellerActions";
 import Loader from "../Loader";
 import Message from "../Message";
 
-function ShopFrontLink() {
+function ShopFrontLink() { 
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);

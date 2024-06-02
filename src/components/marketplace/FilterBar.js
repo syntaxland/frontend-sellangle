@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Select from "react-select";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
-import "react-horizontal-scrolling-menu/dist/styles.css";
+import "react-horizontal-scrolling-menu/dist/styles.css"; 
 import "./FilterBar.css";
 
 const AD_CATEGORY_CHOICES = [

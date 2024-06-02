@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { postFreeAd } from "../../actions/marketplaceSellerActions";
+import { getUserProfile } from "../../actions/userProfileActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
@@ -11,19 +12,51 @@ import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
- 
+import {
+  FREE_AD_DURATION_CHOICES,
+  AD_CONDITION_CHOICES,
+  AD_CATEGORY_CHOICES,
+  AD_TYPE_CHOICES,
+  CURRENCY_CHOICES,
+} from "../constants";
+
 function PostFreeAd() {
   const dispatch = useDispatch();
+
+  const [durationChoices, setDurationChoices] = useState([]);
+  const [adConditionChoices, setAdConditionChoices] = useState([]);
+  const [adCategoryChoices, setAdCategoryChoices] = useState([]);
+  const [adTypeChoices, setAdTypeChoices] = useState([]);
+  const [currencyChoices, setCurrencyChoices] = useState([]);
+
+  useEffect(() => {
+    setDurationChoices(FREE_AD_DURATION_CHOICES);
+    setAdConditionChoices(AD_CONDITION_CHOICES);
+    setAdCategoryChoices(AD_CATEGORY_CHOICES);
+    setAdTypeChoices(AD_TYPE_CHOICES);
+    setCurrencyChoices(CURRENCY_CHOICES);
+  }, []);
 
   const history = useHistory();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userProfile = useSelector((state) => state.userProfile);
+  const { profile } = userProfile;
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
+    } else if (userInfo && !profile.is_marketplace_seller) {
+      history.push("/create-marketplace-seller");
+    } else {
+      history.push("/ad/free");
     }
-  }, [userInfo, history]);
+  }, [userInfo, history, profile.is_marketplace_seller]);
 
   const postFreeAdState = useSelector((state) => state.postFreeAdState);
   const { success, error, loading } = postFreeAdState;
@@ -240,302 +273,6 @@ function PostFreeAd() {
     }
   };
 
-  const DURATION_CHOICES = [
-    ["1 day", "1 day (Free)"],
-    ["2 days", "2 days (Free)"],
-    ["3 days", "3 days (Free)"],
-    ["5 days", "5 days (Free)"],
-    ["1 week", "1 week (Free)"],
-    ["2 weeks", "2 weeks (Free)"],
-    ["1 month", "1 month (Free)"],
-  ];
-
-  const AD_CONDITION_CHOICES = [
-    ["Brand New", "Brand New"],
-    ["Fairly Used", "Fairly Used"],
-  ];
-
-  const AD_CATEGORY_CHOICES = [
-    ["Home Appliances", "Home Appliances"],
-    ["Properties", "Properties"],
-    ["Electronics", "Electronics"],
-    ["Fashion", "Fashion"],
-    ["Vehicles", "Vehicles"],
-    ["Services", "Services"],
-    ["Mobile Phones", "Mobile Phones"],
-    ["Health & Beauty", "Health & Beauty"],
-    ["Sports", "Sports"],
-    ["Jobs", "Jobs"],
-    ["Babies and Kids", "Babies and Kids"],
-    ["Agric & Food", "Agric & Food"],
-    ["Repairs", "Repairs"],
-    ["Equipment & Tools", "Equipment & Tools"],
-    ["CVs", "CVs"],
-    ["Pets", "Pets"],
-    ["Others", "Others"],
-  ];
-
-  const AD_TYPE_CHOICES = {
-    "Home Appliances": [
-      ["Washing Machine", "Washing Machine"],
-      ["Refrigerator", "Refrigerator"],
-      ["Microwave", "Microwave"],
-      ["Coffee Machine", "Coffee Machine"],
-      ["Air Conditioner", "Air Conditioner"],
-      ["Solar", "Solar"],
-      ["Kitchen Appliances", "Kitchen Appliances"],
-    ],
-    Properties: [
-      ["House", "House"],
-      ["Apartment", "Apartment"],
-      ["Land", "Land"],
-      ["Commercial Property", "Commercial Property"],
-    ],
-    Electronics: [
-      ["Laptop", "Laptop"],
-      ["Smartphone", "Smartphone"],
-      ["Camera", "Camera"],
-      ["Headphones", "Headphones"],
-      ["Television", "Television"],
-    ],
-    Fashion: [
-      ["Clothing", "Clothing"],
-      ["Shoes", "Shoes"],
-      ["Accessories", "Accessories"],
-    ],
-    Vehicles: [
-      ["Car", "Car"],
-      ["Motorcycle", "Motorcycle"],
-      ["Bicycle", "Bicycle"],
-    ],
-    Services: [
-      ["Cleaning", "Cleaning"],
-      ["Plumbing", "Plumbing"],
-      ["Electrician", "Electrician"],
-      ["Catering", "Catering"],
-      ["Tutoring", "Tutoring"],
-    ],
-    "Mobile Phones": [
-      ["iPhone", "iPhone"],
-      ["Samsung", "Samsung"],
-      ["Google Pixel", "Google Pixel"],
-      ["OnePlus", "OnePlus"],
-    ],
-    "Health & Beauty": [
-      ["Skincare", "Skincare"],
-      ["Haircare", "Haircare"],
-      ["Makeup", "Makeup"],
-      ["Fitness Equipment", "Fitness Equipment"],
-    ],
-    Sports: [
-      ["Soccer", "Soccer"],
-      ["Basketball", "Basketball"],
-      ["Tennis", "Tennis"],
-      ["Golf", "Golf"],
-    ],
-    Jobs: [
-      ["IT", "IT"],
-      ["Sales", "Sales"],
-      ["Marketing", "Marketing"],
-      ["Administrative", "Administrative"],
-    ],
-    "Babies and Kids": [
-      ["Toys", "Toys"],
-      ["Clothing Kids", "Clothing"],
-      ["Strollers", "Strollers"],
-    ],
-    "Agric & Food": [
-      ["Farm Products", "Farm Products"],
-      ["Processed Food", "Processed Food"],
-      ["Beverages", "Beverages"],
-    ],
-    Repairs: [
-      ["Electronic Repair", "Electronic Repair"],
-      ["Appliance Repair", "Appliance Repair"],
-      ["Car Repair", "Car Repair"],
-    ],
-    "Equipment & Tools": [
-      ["Power Tools", "Power Tools"],
-      ["Hand Tools", "Hand Tools"],
-      ["Kitchen Tools", "Kitchen Tools"],
-    ],
-    CVs: [
-      ["Engineering", "Engineering"],
-      ["Marketing CVs", "Marketing"],
-      ["Design", "Design"],
-      ["Education", "Education"],
-    ],
-    Pets: [
-      ["Dog", "Dog"],
-      ["Cat", "Cat"],
-      ["Fish", "Fish"],
-      ["Bird", "Bird"],
-    ],
-    Others: [["Others", "Others"]],
-  };
-
-  const CURRENCY_CHOICES = [
-    ["NGN", "Nigerian Naira"],
-    ["USD", "United States Dollar"],
-    ["CAD", "Canadian Dollar"],
-    ["EUR", "Euro"],
-    ["GBP", "British Pound Sterling"],
-    ["INR", "Indian Rupee"],
-    ["ZAR", "South African Rand"],
-    ["GHS", "Ghanaian Cedi"],
-    ["CNY", "Chinese Yuan"],
-    ["AED", "United Arab Emirates Dirham"],
-    ["AUD", "Australian Dollar"],
-    ["BRL", "Brazilian Real"],
-    ["JPY", "Japanese Yen"],
-    ["KES", "Kenyan Shilling"],
-    ["SAR", "Saudi Riyal"],
-    // Additional currencies
-    ["AFN", "Afghan Afghani"],
-    ["ALL", "Albanian Lek"],
-    ["AMD", "Armenian Dram"],
-    ["ANG", "Netherlands Antillean Guilder"],
-    ["AOA", "Angolan Kwanza"],
-    ["ARS", "Argentine Peso"],
-    ["AWG", "Aruban Florin"],
-    ["AZN", "Azerbaijani Manat"],
-    ["BAM", "Bosnia-Herzegovina Convertible Mark"],
-    ["BBD", "Barbadian Dollar"],
-    ["BDT", "Bangladeshi Taka"],
-    ["BGN", "Bulgarian Lev"],
-    ["BHD", "Bahraini Dinar"],
-    ["BIF", "Burundian Franc"],
-    ["BMD", "Bermudian Dollar"],
-    ["BND", "Brunei Dollar"],
-    ["BOB", "Bolivian Boliviano"],
-    ["BSD", "Bahamian Dollar"],
-    ["BTN", "Bhutanese Ngultrum"],
-    ["BWP", "Botswanan Pula"],
-    ["BYN", "Belarusian Ruble"],
-    ["BZD", "Belize Dollar"],
-    ["CDF", "Congolese Franc"],
-    ["CHF", "Swiss Franc"],
-    ["CLP", "Chilean Peso"],
-    ["CNY", "Chinese Yuan"],
-    ["COP", "Colombian Peso"],
-    ["CRC", "Costa Rican Colón"],
-    ["CUP", "Cuban Peso"],
-    ["CVE", "Cape Verdean Escudo"],
-    ["CZK", "Czech Republic Koruna"],
-    ["DJF", "Djiboutian Franc"],
-    ["DKK", "Danish Krone"],
-    ["DOP", "Dominican Peso"],
-    ["DZD", "Algerian Dinar"],
-    ["EGP", "Egyptian Pound"],
-    ["ERN", "Eritrean Nakfa"],
-    ["ETB", "Ethiopian Birr"],
-    ["FJD", "Fijian Dollar"],
-    ["FKP", "Falkland Islands Pound"],
-    ["FOK", "Faroe Islands Króna"],
-    ["GEL", "Georgian Lari"],
-    ["GGP", "Guernsey Pound"],
-    ["GIP", "Gibraltar Pound"],
-    ["GMD", "Gambian Dalasi"],
-    ["GNF", "Guinean Franc"],
-    ["GTQ", "Guatemalan Quetzal"],
-    ["GYD", "Guyanaese Dollar"],
-    ["HKD", "Hong Kong Dollar"],
-    ["HNL", "Honduran Lempira"],
-    ["HRK", "Croatian Kuna"],
-    ["HTG", "Haitian Gourde"],
-    ["HUF", "Hungarian Forint"],
-    ["IDR", "Indonesian Rupiah"],
-    ["ILS", "Israeli New Shekel"],
-    ["IMP", "Isle of Man Pound"],
-    ["IQD", "Iraqi Dinar"],
-    ["IRR", "Iranian Rial"],
-    ["ISK", "Icelandic Króna"],
-    ["JEP", "Jersey Pound"],
-    ["JMD", "Jamaican Dollar"],
-    ["JOD", "Jordanian Dinar"],
-    ["KGS", "Kyrgystani Som"],
-    ["KHR", "Cambodian Riel"],
-    ["KID", "Kiribati Dollar"],
-    ["KWD", "Kuwaiti Dinar"],
-    ["KYD", "Cayman Islands Dollar"],
-    ["KZT", "Kazakhstani Tenge"],
-    ["LAK", "Laotian Kip"],
-    ["LBP", "Lebanese Pound"],
-    ["LKR", "Sri Lankan Rupee"],
-    ["LRD", "Liberian Dollar"],
-    ["LSL", "Lesotho Loti"],
-    ["LYD", "Libyan Dinar"],
-    ["MAD", "Moroccan Dirham"],
-    ["MDL", "Moldovan Leu"],
-    ["MGA", "Malagasy Ariary"],
-    ["MKD", "Macedonian Denar"],
-    ["MMK", "Myanma Kyat"],
-    ["MNT", "Mongolian Tugrik"],
-    ["MOP", "Macanese Pataca"],
-    ["MRU", "Mauritanian Ouguiya"],
-    ["MUR", "Mauritian Rupee"],
-    ["MVR", "Maldivian Rufiyaa"],
-    ["MWK", "Malawian Kwacha"],
-    ["MXN", "Mexican Peso"],
-    ["MYR", "Malaysian Ringgit"],
-    ["MZN", "Mozambican Metical"],
-    ["NAD", "Namibian Dollar"],
-    ["NIO", "Nicaraguan Córdoba"],
-    ["NOK", "Norwegian Krone"],
-    ["NPR", "Nepalese Rupee"],
-    ["NZD", "New Zealand Dollar"],
-    ["OMR", "Omani Rial"],
-    ["PAB", "Panamanian Balboa"],
-    ["PEN", "Peruvian Nuevo Sol"],
-    ["PGK", "Papua New Guinean Kina"],
-    ["PHP", "Philippine Peso"],
-    ["PKR", "Pakistani Rupee"],
-    ["PLN", "Polish Złoty"],
-    ["PYG", "Paraguayan Guarani"],
-    ["QAR", "Qatari Rial"],
-    ["RON", "Romanian Leu"],
-    ["RSD", "Serbian Dinar"],
-    ["RUB", "Russian Ruble"],
-    ["RWF", "Rwandan Franc"],
-    ["SBD", "Solomon Islands Dollar"],
-    ["SCR", "Seychellois Rupee"],
-    ["SDG", "Sudanese Pound"],
-    ["SEK", "Swedish Krona"],
-    ["SGD", "Singapore Dollar"],
-    ["SHP", "Saint Helena Pound"],
-    ["SLL", "Sierra Leonean Leone"],
-    ["SOS", "Somali Shilling"],
-    ["SRD", "Surinamese Dollar"],
-    ["SSP", "South Sudanese Pound"],
-    ["STN", "São Tomé and Príncipe Dobra"],
-    ["SYP", "Syrian Pound"],
-    ["SZL", "Swazi Lilangeni"],
-    ["TJS", "Tajikistani Somoni"],
-    ["TMT", "Turkmenistani Manat"],
-    ["TND", "Tunisian Dinar"],
-    ["TOP", "Tongan Paʻanga"],
-    ["TRY", "Turkish Lira"],
-    ["TTD", "Trinidad and Tobago Dollar"],
-    ["TVD", "Tuvaluan Dollar"],
-    ["TWD", "New Taiwan Dollar"],
-    ["TZS", "Tanzanian Shilling"],
-    ["UAH", "Ukrainian Hryvnia"],
-    ["UGX", "Ugandan Shilling"],
-    ["UYU", "Uruguayan Peso"],
-    ["UZS", "Uzbekistan Som"],
-    ["VES", "Venezuelan Bolívar"],
-    ["VND", "Vietnamese Đồng"],
-    ["VUV", "Vanuatu Vatu"],
-    ["WST", "Samoan Tala"],
-    ["XAF", "Central African CFA Franc"],
-    ["XCD", "Eastern Caribbean Dollar"],
-    ["XDR", "Special Drawing Rights"],
-    ["XOF", "West African CFA franc"],
-    ["XPF", "CFP Franc"],
-    ["YER", "Yemeni Rial"],
-    ["ZMW", "Zambian Kwacha"],
-  ];
-
   const sellerData = new FormData();
   sellerData.append("ad_name", adName);
   sellerData.append("ad_category", adCategory);
@@ -714,7 +451,7 @@ function PostFreeAd() {
             <Form.Group>
               <Form.Label>Ad Category*</Form.Label>
               <Select
-                options={AD_CATEGORY_CHOICES.map(([value, label]) => ({
+                options={adCategoryChoices?.map(([value, label]) => ({
                   value,
                   label,
                 }))}
@@ -731,12 +468,10 @@ function PostFreeAd() {
               <Form.Group>
                 <Form.Label>Ad Type*</Form.Label>
                 <Select
-                  options={AD_TYPE_CHOICES[adCategory].map(
-                    ([value, label]) => ({
-                      value,
-                      label,
-                    })
-                  )}
+                  options={adTypeChoices[adCategory]?.map(([value, label]) => ({
+                    value,
+                    label,
+                  }))}
                   value={{ value: adType, label: adType }}
                   onChange={handleTypeChange}
                   placeholder="Select Type"
@@ -824,7 +559,7 @@ function PostFreeAd() {
                 required
               >
                 <option value="">Select Ad Condition</option>
-                {AD_CONDITION_CHOICES.map((type) => (
+                {adConditionChoices?.map((type) => (
                   <option key={type[0]} value={type[0]}>
                     {type[1]}
                   </option>
@@ -844,7 +579,7 @@ function PostFreeAd() {
                 required
               >
                 <option value="">Select Currency</option>
-                {CURRENCY_CHOICES.map((type) => (
+                {currencyChoices?.map((type) => (
                   <option key={type[0]} value={type[0]}>
                     {type[1]}
                   </option>
@@ -950,7 +685,7 @@ function PostFreeAd() {
                 required
               >
                 <option value="">Select Ad Duration</option>
-                {DURATION_CHOICES.map((type) => (
+                {durationChoices?.map((type) => (
                   <option key={type[0]} value={type[0]}>
                     {type[1]}
                   </option>
@@ -994,7 +729,7 @@ function PostFreeAd() {
               variant="success"
               onClick={handlePostFreeAd}
               className="rounded py-2 mb-2 text-center w-100"
-              disabled={loading || success}
+              disabled={loading}
             >
               <div className="d-flex justify-content-center">
                 <span className="py-1">Post Free Ad</span>
