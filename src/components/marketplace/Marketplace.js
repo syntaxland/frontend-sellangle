@@ -372,7 +372,7 @@ function Marketplace() {
                   required
                 /> */}
 
-                <Select
+                {/* <Select
                   options={[
                     defaultCountry,
                     ...Country.getAllCountries().map((country) => ({
@@ -389,6 +389,26 @@ function Marketplace() {
                   placeholder="Select Country"
                   className="rounded"
                   required
+                /> */}
+
+                <Select
+                  options={[
+                    defaultCountry,
+                    ...Country.getAllCountries().map((country) => ({
+                      value: country.isoCode,
+                      label: country.name,
+                    })),
+                  ]}
+                  value={
+                    selectedCountry
+                      ? {
+                          value: selectedCountry,
+                          label: Country.getCountryByCode(selectedCountry)
+                            ?.name,
+                        }
+                      : defaultCountry
+                  }
+                  onChange={handleCountryChange}
                 />
               </Col>
               <Col md={4}>
@@ -417,7 +437,7 @@ function Marketplace() {
                   required
                 /> */}
 
-                <Select
+                {/* <Select
                   options={[
                     defaultState,
                     ...(selectedCountry
@@ -438,6 +458,33 @@ function Marketplace() {
                   placeholder="Select State/Province"
                   className="rounded"
                   required
+                /> */}
+
+                <Select
+                  options={[
+                    defaultState,
+                    ...(selectedCountry
+                      ? State.getStatesOfCountry(selectedCountry).map(
+                          (state) => ({
+                            value: state.isoCode,
+                            label: state.name,
+                          })
+                        )
+                      : []),
+                  ]}
+                  value={
+                    selectedState
+                      ? {
+                          value: selectedState,
+                          label: State.getStateByCodeAndCountry(
+                            selectedState,
+                            selectedCountry
+                          )?.name,
+                        }
+                      : defaultState
+                  }
+                  onChange={handleStateChange}
+                  isDisabled={!selectedCountry}
                 />
               </Col>
               <Col md={4}>

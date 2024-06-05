@@ -116,6 +116,10 @@ function SearchResults() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
 
+  const defaultCountry = { value: "", label: "Select Country" };
+  const defaultState = { value: "", label: "Select State/Province" };
+  const defaultCity = { value: "", label: "Select City" };
+
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption.value);
     setSelectedState("");
@@ -298,7 +302,7 @@ function SearchResults() {
           <Row className="py-2 d-flex justify-content-end">
             <Col className="py-2">
               <Col md={4}>
-                <Select
+                {/* <Select
                   options={Country.getAllCountries().map((country) => ({
                     // value: country.name,
                     value: country.isoCode,
@@ -309,10 +313,29 @@ function SearchResults() {
                   placeholder="Select Country"
                   className="rounded"
                   required
+                /> */}
+                <Select
+                  options={[
+                    defaultCountry,
+                    ...Country.getAllCountries().map((country) => ({
+                      value: country.isoCode,
+                      label: country.name,
+                    })),
+                  ]}
+                  value={
+                    selectedCountry
+                      ? {
+                          value: selectedCountry,
+                          label: Country.getCountryByCode(selectedCountry)
+                            ?.name,
+                        }
+                      : defaultCountry
+                  }
+                  onChange={handleCountryChange}
                 />
               </Col>
               <Col md={4}>
-                <Select
+                {/* <Select
                   options={
                     selectedCountry
                       ? State.getStatesOfCountry(selectedCountry).map(
@@ -329,10 +352,36 @@ function SearchResults() {
                   placeholder="Select State/Province"
                   className="rounded"
                   required
+                /> */}
+                <Select
+                  options={[
+                    defaultState,
+                    ...(selectedCountry
+                      ? State.getStatesOfCountry(selectedCountry).map(
+                          (state) => ({
+                            value: state.isoCode,
+                            label: state.name,
+                          })
+                        )
+                      : []),
+                  ]}
+                  value={
+                    selectedState
+                      ? {
+                          value: selectedState,
+                          label: State.getStateByCodeAndCountry(
+                            selectedState,
+                            selectedCountry
+                          )?.name,
+                        }
+                      : defaultState
+                  }
+                  onChange={handleStateChange}
+                  isDisabled={!selectedCountry}
                 />
               </Col>
               <Col md={4}>
-                <Select
+                {/* <Select
                   options={
                     selectedState
                       ? City.getCitiesOfState(
@@ -345,6 +394,29 @@ function SearchResults() {
                       : []
                   }
                   value={{ value: selectedCity, label: selectedCity }}
+                  onChange={handleCityChange}
+                  placeholder="Select City"
+                  className="rounded"
+                  required
+                /> */}
+                <Select
+                  options={[
+                    defaultCity,
+                    ...(selectedState
+                      ? City.getCitiesOfState(
+                          selectedCountry,
+                          selectedState
+                        ).map((city) => ({
+                          value: city.name,
+                          label: city.name,
+                        }))
+                      : []),
+                  ]}
+                  value={
+                    selectedCity
+                      ? { value: selectedCity, label: selectedCity }
+                      : defaultCity
+                  }
                   onChange={handleCityChange}
                   placeholder="Select City"
                   className="rounded"
@@ -438,7 +510,7 @@ function SearchResults() {
                 <Col>
                   <div>
                     {freeSearchAds || paidSearchAds ? (
-                      <>
+                      <div>
                         {paidSearchAds?.map((ad) => (
                           <Col>
                             {paidSearchAds && (
@@ -447,7 +519,7 @@ function SearchResults() {
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
-                                paidSearchAds={filteredPaidAds || paidSearchAds}
+                                // paidSearchAds={filteredPaidAds || paidSearchAds}
                               />
                             )}
                           </Col>
@@ -461,12 +533,37 @@ function SearchResults() {
                                 selectedCountry={selectedCountry}
                                 selectedState={selectedState}
                                 selectedCity={selectedCity}
-                                freeSearchAds={filteredFreeAds || freeSearchAds}
                               />
                             )}
                           </Col>
                         ))}
-                      </>
+
+                        {filteredPaidAds.length > 0 ? (
+                          filteredPaidAds.map((ad) => (
+                            <SearchPaidAdScreen
+                              key={ad.id}
+                              selectedCountry={selectedCountry}
+                              selectedState={selectedState}
+                              selectedCity={selectedCity}
+                            />
+                          ))
+                        ) : (
+                          <></>
+                        )}
+
+                        {filteredFreeAds.length > 0 ? (
+                          filteredFreeAds.map((ad) => (
+                            <SearchFreeAdScreen
+                              key={ad.id}
+                              selectedCountry={selectedCountry}
+                              selectedState={selectedState}
+                              selectedCity={selectedCity}
+                            />
+                          ))
+                        ) : (
+                          <></>
+                        )}
+                      </div>
                     ) : (
                       <></>
                     )}
