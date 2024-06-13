@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Table, Button, Container, ListGroup } from "react-bootstrap";
 import {
   clearUserSupportMsgCounter,
-  listSupportTicket,
+  listSupportTicket, 
 } from "../../actions/supportActions";
 import Message from "../Message";
 import Loader from "../Loader";

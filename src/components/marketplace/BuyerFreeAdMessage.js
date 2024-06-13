@@ -6,7 +6,7 @@ import { Form, Button, Row, Col, ListGroup, Container } from "react-bootstrap";
 import {
   buyerCreateFreeAdMessage,
   listFreeAdMessages,
-} from "../../actions/marketplaceSellerActions";
+} from "../../actions/marketplaceSellerActions"; 
 import Loader from "../Loader";
 import Message from "../Message";
 import RatingSeller from "../RatingSeller";
@@ -91,30 +91,25 @@ function BuyerFreeAdMessage() {
     });
   };
 
-  // Function to determine if a message is the first of the day
   const isFirstMessageOfDay = (currentIndex, messages) => {
     if (currentIndex === 0) return true;
 
     const currentDate = new Date(messages[currentIndex].timestamp);
     const prevDate = new Date(messages[currentIndex - 1].timestamp);
 
-    // Check if the messages were sent on different dates
     if (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
       const today = new Date();
       const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
 
-      // Check if the current message was sent today
       if (currentDate.toLocaleDateString() === today.toLocaleDateString()) {
         return "Today";
       }
-      // Check if the current message was sent yesterday
       else if (
         currentDate.toLocaleDateString() === yesterday.toLocaleDateString()
       ) {
         return "Yesterday";
       } else {
-        // If it's beyond yesterday, return the full date
         return currentDate.toLocaleDateString("en-US", {
           weekday: "long",
           year: "numeric",

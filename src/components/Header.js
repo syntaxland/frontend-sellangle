@@ -28,9 +28,6 @@ function Header() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  // const cart = useSelector((state) => state.cart);
-  // const { cartItems } = cart;
-
   const userProfile = useSelector((state) => state.userProfile);
   const { profile } = userProfile;
 
@@ -38,9 +35,7 @@ function Header() {
     (state) => state.getUserMessagesState
   );
   const { messages } = getUserMessagesState;
-  // console.log("messages:", messages);
 
-  // const [keyword, setKeyword] = useState("");
   const [greeting, setGreeting] = useState("");
   const history = useHistory();
 
@@ -48,15 +43,6 @@ function Header() {
   const logoutHandler = () => {
     dispatch(logout());
   };
-
-  // const searchHandler = (e) => {
-  //   e.preventDefault();
-  //   if (keyword.trim()) {
-  //     history.push(`/products/search/${keyword}`);
-  //   } else {
-  //     history.push("/");
-  //   }
-  // };
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -117,9 +103,6 @@ function Header() {
     0
   );
 
-  // console.log("msgFreeAdCounted header:", msgFreeAdCounted);
-  // console.log("msgPaidAdCounted header:", msgPaidAdCounted);
-
   const listSupportTicketState = useSelector(
     (state) => state.listSupportTicketState
   );
@@ -138,7 +121,6 @@ function Header() {
       dispatch(GetActiveBuyerPaidAdMessages());
       dispatch(listBuyerFreeAdMessages());
       dispatch(listBuyerPaidAdMessages());
-
       dispatch(listSupportTicket());
     }
   }, [dispatch, userInfo]);

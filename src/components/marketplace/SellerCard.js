@@ -1,21 +1,19 @@
-// SellerSearchCard.js
+// SellerCard.js
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Row, Col, ListGroup, Button, Container } from "react-bootstrap";
 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-
-function SellerSearchCard({ serachResults, sellerAvatarUrl }) {
+function SellerCard({ serachResults, sellerAvatarUrl }) {
   const history = useHistory();
 
-  // const userLogin = useSelector((state) => state.userLogin);
-  // const { userInfo } = userLogin;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-  // useEffect(() => {
-  //   if (!userInfo) {
-  //     window.location.href = "/login";
-  //   }
-  // }, [userInfo]);
+  useEffect(() => {
+    if (!userInfo) {
+      window.location.href = "/login";
+    }
+  }, [userInfo]);
 
   function calculateDuration(joinedTimestamp) {
     const now = new Date();
@@ -152,4 +150,4 @@ function SellerSearchCard({ serachResults, sellerAvatarUrl }) {
   );
 }
 
-export default SellerSearchCard;
+export default SellerCard;

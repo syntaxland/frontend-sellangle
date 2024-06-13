@@ -202,7 +202,16 @@ GET_ACTIVE_BUYER_PAID_AD_MESSAGES_REQUEST,
 GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS,
 GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL,
 
+GET_SELLER_AD_STATISTICS_REQUEST,
+GET_SELLER_AD_STATISTICS_SUCCESS,
+GET_SELLER_AD_STATISTICS_FAIL,
+TOGGLE_FOLLOW_SELLER_REQUEST,
+TOGGLE_FOLLOW_SELLER_SUCCESS,
+TOGGLE_FOLLOW_SELLER_FAIL,
 
+GET_FOLLOWED_SELLER_REQUEST,
+GET_FOLLOWED_SELLER_SUCCESS,
+GET_FOLLOWED_SELLER_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -242,6 +251,69 @@ const initialState = {
 
   activeBuyerFreeAdMessages: [],
   activeBuyerPaidAdMessages: [],
+
+  totalSellerAdsViews: [],
+  totalSellerAdSaved: [],
+  totalFollwersCount: [],
+
+  follwedSellers: [],
+
+};
+
+
+export const getFollowedSellersReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_FOLLOWED_SELLER_REQUEST:
+      return { loading: true };
+    case GET_FOLLOWED_SELLER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        follwedSellers: action.payload,
+      };
+    case GET_FOLLOWED_SELLER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const toggleFollowSellerReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case TOGGLE_FOLLOW_SELLER_REQUEST:
+      return { loading: true };
+    case TOGGLE_FOLLOW_SELLER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case TOGGLE_FOLLOW_SELLER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getSellerAdStatisticsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_SELLER_AD_STATISTICS_REQUEST:
+      return { loading: true };
+    case GET_SELLER_AD_STATISTICS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        totalSellerAdsViews: action.payload.totalSellerAdsViews,
+        totalSellerAdSaved: action.payload.totalSellerAdSaved,
+        totalFollwersCount: action.payload.totalFollwersCount,
+      };
+    case GET_SELLER_AD_STATISTICS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 

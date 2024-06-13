@@ -1,30 +1,20 @@
 // GetSellerDetail.js
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-import {
-  Row,
-  Col,
-  // Image,
-  ListGroup,
-  Button,
-  // Card,
-  Container,
-} from "react-bootstrap";
+import { Row, Col, ListGroup, Button, Container } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
 import Message from "../Message";
 import { useDispatch, useSelector } from "react-redux";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import {
   getSellerAccount,
-  getPaidAdDetail,
   getSellerDetail,
 } from "../../actions/marketplaceSellerActions";
-// import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-// import Paysofter from "../MarketplacePayment/Paysofter";
-// import PromoTimer from "../PromoTimer";
+import ToggleFollowSeller from "./ToggleFollowSeller";
 
-function GetSellerDetail({ match, history, seller_username }) {
+function GetSellerDetail({ match, seller_username }) {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -36,11 +26,6 @@ function GetSellerDetail({ match, history, seller_username }) {
     }
   }, [userInfo]);
 
-  // const getSellerAccountState = useSelector(
-  //   (state) => state.getSellerAccountState
-  // );
-  // const { sellerDetail } = getSellerAccountState;
-
   const getSellerDetailState = useSelector(
     (state) => state.getSellerDetailState
   );
@@ -48,16 +33,9 @@ function GetSellerDetail({ match, history, seller_username }) {
     loading,
     error,
     sellerAvatarUrl,
-
     sellerDetail,
   } = getSellerDetailState;
   console.log("sellerDetail", sellerDetail);
-
-  // const [showPaysofterOption, setShowPaysofterOption] = useState(false);
-
-  // const handlePaysofterOption = () => {
-  //   setShowPaysofterOption(!showPaysofterOption);
-  // };
 
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
@@ -65,37 +43,11 @@ function GetSellerDetail({ match, history, seller_username }) {
     setShowPhoneNumber(!showPhoneNumber);
   };
 
-  // const getPaidAdDetailState = useSelector(
-  //   (state) => state.getPaidAdDetailState
-  // );
-  // const {
-  //   // loading,
-  //   // error,
-  //   // sellerDetail,
-  //   // sellerApiKey,
-  //   sellerAvatarUrl,
-  // } = getPaidAdDetailState;
-  // console.log("sellerAvatarUrl", sellerAvatarUrl);
-
   useEffect(() => {
-    dispatch(getPaidAdDetail(match?.params.id));
+    // dispatch(getPaidAdDetail(match?.params.id));
     dispatch(getSellerAccount());
     dispatch(getSellerDetail(seller_username));
   }, [dispatch, seller_username, match]);
-
-  // const images = [sellerDetail?.image1, sellerDetail?.image2, sellerDetail?.image3].filter(Boolean);
-
-  // function formatCount(viewCount) {
-  //   if (viewCount >= 1000000) {
-  //     // Format as million
-  //     return (viewCount / 1000000).toFixed(1) + "m";
-  //   } else if (viewCount >= 1000) {
-  //     // Format as thousand
-  //     return (viewCount / 1000).toFixed(1) + "k";
-  //   } else {
-  //     return viewCount?.toString();
-  //   }
-  // }
 
   function calculateDuration(joinedTimestamp) {
     const now = new Date();
@@ -136,7 +88,7 @@ function GetSellerDetail({ match, history, seller_username }) {
     const weeks = Math.floor(days / 7);
     const months = Math.floor(days / 30);
 
-    console.log("days:", days,);
+    console.log("days:", days);
 
     if (days < 3) {
       return "Last seen recently";
@@ -150,61 +102,6 @@ function GetSellerDetail({ match, history, seller_username }) {
       return "Last seen a long time ago";
     }
   }
-
-  // function calculateDuration(joinedTimestamp) {
-  //   const now = new Date();
-  //   const joinedDate = new Date(joinedTimestamp);
-  //   const duration = now - joinedDate;
-
-  //   const days = Math.floor(duration / (24 * 60 * 60 * 1000));
-  //   const hours = Math.floor(
-  //     (duration % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000)
-  //   );
-  //   const minutes = Math.floor((duration % (60 * 60 * 1000)) / (60 * 1000));
-  //   const seconds = Math.floor((duration % (60 * 1000)) / 1000);
-
-  //   const parts = [];
-
-  //   if (days > 0) {
-  //     parts.push(`${days} days`);
-  //   }
-
-  //   if (hours > 0) {
-  //     parts.push(`${hours} hours`);
-  //   }
-
-  //   if (minutes > 0) {
-  //     parts.push(`${minutes} minutes`);
-  //   }
-
-  //   if (seconds > 0) {
-  //     parts.push(`${seconds} seconds`);
-  //   }
-
-  //   return parts.join(", ");
-  // }
-
-  // const handleClickMessageSeller = () => {
-  //   const queryParams = {
-  //     id: sellerDetail.id,
-  //     image1: sellerDetail.image1,
-  //     ad_name: sellerDetail.ad_name,
-  //     price: sellerDetail.price,
-  //     sellerAvatarUrl,
-  //     seller_username: sellerDetail.seller_username,
-  //     expiration_date: sellerDetail.expiration_date,
-  //     rating: sellerDetail.rating,
-  //   };
-
-  //   history.push({
-  //     pathname: `/paid/ad/message/${sellerDetail.id}`,
-  //     search: `?${new URLSearchParams(queryParams).toString()}`,
-  //   });
-  // };
-
-  // const handleSellerShopFront = () => {
-  //   history.push(`/seller-shop-front/${sellerDetail?.seller_username}/`);
-  // };
 
   return (
     <Container>
@@ -227,9 +124,6 @@ function GetSellerDetail({ match, history, seller_username }) {
                   <ListGroup.Item>
                     <Row>
                       <Col md={4}>
-                        {/* <Link
-                          to={`/seller-shop-front/${sellerDetail?.seller_username}/`}
-                        > */}
                         <span className="d-flex justify-content-between py-2">
                           {sellerAvatarUrl && (
                             <img
@@ -244,9 +138,9 @@ function GetSellerDetail({ match, history, seller_username }) {
                           )}
                           {sellerDetail?.seller_username}
                         </span>
-                        {/* </Link> */}
+                        <ToggleFollowSeller sellerDetail={sellerDetail} />
                         {calculateLastSeen(sellerDetail?.user_last_login)}
-                      </Col> 
+                      </Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>

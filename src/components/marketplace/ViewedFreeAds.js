@@ -50,7 +50,7 @@ function ViewedFreeAds() {
                 {currentItems.map((product) => (
                   <Col key={product._id} xs={12} sm={12} md={6} lg={4} xl={3}>
                     <AllFreeAdCard product={product} />
-                  </Col>
+                  </Col> 
                 ))}
               </Row>
               )}

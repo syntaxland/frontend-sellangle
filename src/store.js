@@ -86,6 +86,10 @@ import {
   clearBuyerPaidAdMsgCounterReducer,
   GetActiveBuyerFreeAdMessagesReducer,
   GetActiveBuyerPaidAdMessagesReducer,
+
+  toggleFollowSellerReducer,
+  getSellerAdStatisticsReducer,
+  getFollowedSellersReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 // import {
@@ -410,12 +414,14 @@ const reducer = combineReducers({
   GetActiveBuyerFreeAdMessageState: GetActiveBuyerFreeAdMessagesReducer,
   GetActiveBuyerPaidAdMessageState: GetActiveBuyerPaidAdMessagesReducer,
 
-  applyPomoCodeState: applyPomoCodeReducer,
-});
+  toggleFollowSellerState: toggleFollowSellerReducer,
+  getSellerAdStatState: getSellerAdStatisticsReducer,
+  getFollowedSellersState: getFollowedSellersReducer,
 
-// const cartItemsFromStorage = localStorage.getItem("cartItems")
-//   ? JSON.parse(localStorage.getItem("cartItems"))
-//   : [];
+  applyPomoCodeState: applyPomoCodeReducer,
+}); 
+
+
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))

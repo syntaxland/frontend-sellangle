@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import { getUserProfile } from "../../actions/userProfileActions";
 
+import { getUserProfile } from "../../actions/userProfileActions";
 import SellerActiveFreeAdScreen from "./SellerActiveFreeAdScreen";
 import SellerActivePaidAdScreen from "./SellerActivePaidAdScreen";
 import GetSellerDetail from "./GetSellerDetail";
@@ -18,11 +18,13 @@ function SellerShopFront() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  
+
   useEffect(() => {
     if (!userInfo) {
       window.location.href = "/login";
     } else {
-      dispatch(getUserProfile());
+      dispatch(getUserProfile()); 
     }
   }, [dispatch, userInfo]);
 

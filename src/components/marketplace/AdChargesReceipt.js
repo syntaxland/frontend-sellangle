@@ -124,7 +124,7 @@ function AdChargesReceipt({ adChargesReceiptMonth, billingPeriodLoading }) {
                       </p>
                       <Button onClick={downloadAdChargesReceipt}>
                         {" "}
-                        <i className="fas fa-file-download"></i> Download
+                        <i className="fas fa-file-download"></i> Download Now
                       </Button>
                     </p>
                   </>

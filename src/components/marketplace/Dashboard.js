@@ -3,11 +3,17 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
-import Message from "../Message";
-import Loader from "../Loader";
-import { getCreditPointBalance } from "../../actions/creditPointActions";
-// import { listPayments } from "../../actions/paymentActions";
-// import { getOrders } from "../../actions/orderActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDashboard,
+  faEye,
+  faHeart,
+  faPeopleGroup,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  getSellerAdStatistics,
+  getSellerDetail,
+} from "../../actions/marketplaceSellerActions";
 // import { Line, Pie } from "react-chartjs-2";
 
 // import {
@@ -34,6 +40,8 @@ import { getCreditPointBalance } from "../../actions/creditPointActions";
 //   Title,
 //   PointElement
 // );
+import Message from "../Message";
+import Loader from "../Loader";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -46,16 +54,29 @@ function Dashboard() {
     }
   }, [userInfo]);
 
-  const creditPointBal = useSelector((state) => state.creditPointBal);
-  const { loading, error, creditPointBalance } = creditPointBal;
-  console.log("creditPointBalance:", creditPointBalance);
+  const getSellerAdStatState = useSelector(
+    (state) => state.getSellerAdStatState
+  );
+  const {
+    loading,
+    error,
+    totalSellerAdsViews,
+    totalSellerAdSaved,
+    totalFollwersCount,
+  } = getSellerAdStatState;
+
+  // const getSellerDetailState = useSelector(
+  //   (state) => state.getSellerDetailState
+  // );
+  // const { sellerDetail } = getSellerDetailState;
 
   useEffect(() => {
-    dispatch(getCreditPointBalance());
+    dispatch(getSellerAdStatistics());
+    dispatch(getSellerDetail());
   }, [dispatch]);
 
   return (
-    <div className="justify-content-center text-center">
+    <div className="d-flex justify-content-center text-center">
       <Row>
         <Col>
           {loading ? (
@@ -65,8 +86,24 @@ function Dashboard() {
           ) : (
             <>
               <h2 className="py-3">
-                <i className="fas fa-dashboard"></i> Dashboard (Seller)
+                <FontAwesomeIcon icon={faDashboard} /> Dashboard (Seller)
               </h2>
+              <div>
+                <div>
+                  <div>
+                    <FontAwesomeIcon icon={faEye} /> Total Views:{" "}
+                    {totalSellerAdsViews}
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faHeart} /> Total Likes:{" "}
+                    {totalSellerAdSaved}
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faPeopleGroup} /> Total Followers:{" "}
+                    {totalFollwersCount}
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </Col>

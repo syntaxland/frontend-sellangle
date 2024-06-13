@@ -201,10 +201,129 @@ GET_ACTIVE_BUYER_FREE_AD_MESSAGES_FAIL,
 GET_ACTIVE_BUYER_PAID_AD_MESSAGES_REQUEST,
 GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS,
 GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL,
+
+GET_SELLER_AD_STATISTICS_REQUEST,
+GET_SELLER_AD_STATISTICS_SUCCESS,
+GET_SELLER_AD_STATISTICS_FAIL,
+TOGGLE_FOLLOW_SELLER_REQUEST,
+TOGGLE_FOLLOW_SELLER_SUCCESS,
+TOGGLE_FOLLOW_SELLER_FAIL,
+
+GET_FOLLOWED_SELLER_REQUEST,
+GET_FOLLOWED_SELLER_SUCCESS,
+GET_FOLLOWED_SELLER_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 import { API_URL } from "../config/apiConfig";
 // const API_URL = process.env.REACT_APP_API_URL;
+
+export const getFollowedSellers = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_FOLLOWED_SELLER_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-followed-sellers/`,
+      config
+    );
+
+    dispatch({
+      type: GET_FOLLOWED_SELLER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_FOLLOWED_SELLER_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const toggleFollowSeller =
+  (toggleData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TOGGLE_FOLLOW_SELLER_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.access}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${API_URL}/api/toggle-follow-seller/`,
+        toggleData,
+        config
+      );
+
+      dispatch({
+        type: TOGGLE_FOLLOW_SELLER_SUCCESS,
+        payload: data,
+      });
+      return data;
+    } catch (error) {
+      dispatch({
+        type: TOGGLE_FOLLOW_SELLER_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+export const getSellerAdStatistics = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_SELLER_AD_STATISTICS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-seller-ad-statistics/`,
+      config
+    );
+
+    dispatch({
+      type: GET_SELLER_AD_STATISTICS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SELLER_AD_STATISTICS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const GetActiveBuyerFreeAdMessages = () => async (dispatch, getState) => {
   try {
@@ -445,7 +564,7 @@ export const getAdChargesReceipt = (adData) => async (
     };
 
     const { ad_charges_receipt_month } = adData;
-    const url = `${API_URL}/api/get-ad-charges-receipt/?ad_charges_receipt_month=${ad_charges_receipt_month}`;
+    const url = `${API_URL}/api/get-ad-charges-receipt/?ad_charges_receipt_month=${ad_charges_receipt_month}/`;
     const { data } = await axios.get(url, config);
 
     dispatch({
@@ -593,7 +712,7 @@ export const getFreeAdSellerReviews = (reviewData) => async (
     };
 
     const { ad_id } = reviewData;
-    const url = `${API_URL}/api/get-seller-free-ad-reviews/?ad_id=${ad_id}`;
+    const url = `${API_URL}/api/get-seller-free-ad-reviews/?ad_id=${ad_id}/`;
     const { data } = await axios.get(url, config);
 
     // const { data } = await axios.get(
@@ -637,7 +756,7 @@ export const getPaidAdSellerReviews = (reviewData) => async (
     };
 
     const { ad_id } = reviewData;
-    const url = `${API_URL}/api/get-seller-paid-ad-reviews/?ad_id=${ad_id}`;
+    const url = `${API_URL}/api/get-seller-paid-ad-reviews/?ad_id=${ad_id}/`;
     const { data } = await axios.get(url, config);
 
     // const { data } = await axios.get(
@@ -1390,7 +1509,7 @@ export const searchAds = (searchData) => async (dispatch, getState) => {
       selected_state,
       selected_city,
     } = searchData;
-    const url = `${API_URL}/api/search-ads/?search_term=${search_term}&country=${selected_country}&state=${selected_state}&city=${selected_city}`;
+    const url = `${API_URL}/api/search-ads/?search_term=${search_term}&country=${selected_country}&state=${selected_state}&city=${selected_city}/`;
     const { data } = await axios.get(url, config);
 
     // const { data } = await axios.get(
@@ -1852,7 +1971,7 @@ export const listPaidAdMessages = (messageData) => async (
     // ); 
 
     const { ad_id, paid_ad_message_id } = messageData;
-    const url = `${API_URL}/api/list-paid-ad-messages/?ad_id=${ad_id}&paid_ad_message_id=${paid_ad_message_id}`;
+    const url = `${API_URL}/api/list-paid-ad-messages/?ad_id=${ad_id}&paid_ad_message_id=${paid_ad_message_id}/`;
     const { data } = await axios.get(url, config);
 
     dispatch({
@@ -1934,7 +2053,7 @@ export const listFreeAdMessages = (messageData) => async (
     // );
 
     const { ad_id, free_ad_message_id } = messageData;
-    const url = `${API_URL}/api/list-free-ad-messages/?ad_id=${ad_id}&free_ad_message_id=${free_ad_message_id}`;
+    const url = `${API_URL}/api/list-free-ad-messages/?ad_id=${ad_id}&free_ad_message_id=${free_ad_message_id}/`;
     const { data } = await axios.get(url, config);
 
     dispatch({
@@ -2117,7 +2236,7 @@ export const getAllFreeAd = (adData) => async (dispatch, getState) => {
     };
 
     const { selected_country, selected_state, selected_city } = adData;
-    const url = `${API_URL}/api/get-all-free-ad/?country=${selected_country}&state=${selected_state}&city=${selected_city}`;
+    const url = `${API_URL}/api/get-all-free-ad/?country=${selected_country}&state=${selected_state}&city=${selected_city}/`;
     const { data } = await axios.get(url, config);
 
     // const { data } = await axios.get(
@@ -2307,7 +2426,7 @@ export const getAllPaidAd = (adData) => async (dispatch, getState) => {
     };
 
     const { selected_country, selected_state, selected_city } = adData;
-    const url = `${API_URL}/api/get-all-paid-ad/?country=${selected_country}&state=${selected_state}&city=${selected_city}`;
+    const url = `${API_URL}/api/get-all-paid-ad/?country=${selected_country}&state=${selected_state}&city=${selected_city}/`;
     const { data } = await axios.get(url, config);
 
     // const { data } = await axios.get(
