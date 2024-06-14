@@ -3,17 +3,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Row, Col, ListGroup, Button, Container } from "react-bootstrap";
 
-function SellerCard({ serachResults, sellerAvatarUrl }) {
+function SellerCard({ followedSeller }) {
   const history = useHistory();
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    }
-  }, [userInfo]);
 
   function calculateDuration(joinedTimestamp) {
     const now = new Date();
@@ -46,7 +37,7 @@ function SellerCard({ serachResults, sellerAvatarUrl }) {
   }
 
   const handleSellerShopFront = () => {
-    history.push(`/seller-shop-front/${serachResults?.seller_username}/`);
+    history.push(`/seller-shop-front/${followedSeller?.seller_username}/`);
   };
 
   return (
@@ -61,9 +52,9 @@ function SellerCard({ serachResults, sellerAvatarUrl }) {
                   <Row>
                     <Col md={6}>
                       <span className="d-flex justify-content-between py-2">
-                        {sellerAvatarUrl && (
+                        {followedSeller?.seller_avatar_url && (
                           <img
-                            src={sellerAvatarUrl}
+                            src={followedSeller?.seller_avatar_url}
                             alt="Seller"
                             style={{
                               maxWidth: "80px",
@@ -72,13 +63,13 @@ function SellerCard({ serachResults, sellerAvatarUrl }) {
                             }}
                           />
                         )}
-                        {serachResults?.seller_username}
+                        {followedSeller?.seller_username}
                       </span>
                     </Col>
                     <Col md={6}>
                       <div>
                         <span>
-                          {serachResults?.is_seller_verified ? (
+                          {followedSeller?.is_seller_verified ? (
                             <>
                               <Button
                                 variant="outline-success"
@@ -120,14 +111,14 @@ function SellerCard({ serachResults, sellerAvatarUrl }) {
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  Business Name: {serachResults?.business_name}
+                  Business Name: {followedSeller?.business_name}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
                   <span className="d-flex justify-content-between py-2">
                     <ListGroup.Item>
                       Joined since{" "}
-                      {calculateDuration(serachResults?.seller_joined_since)}
+                      {calculateDuration(followedSeller?.seller_joined_since)}
                     </ListGroup.Item>
                     <Button
                       variant="primary"

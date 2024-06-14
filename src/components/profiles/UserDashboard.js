@@ -29,6 +29,7 @@ import PromoProduct from "./Offers";
 import SavedAds from "./SavedAds";
 import ViewedAds from "./ViewedAds";
 import RecommendedAds from "../recommender/RecommendedAds";
+import FollowedSellers from "./FollowedSellers";
 import Inbox from "./Inbox";
 import Referrals from "./Referrals";
 import SupportTicket from "../support/SupportTicket";
@@ -182,6 +183,9 @@ function UserDashboard() {
 
       case "recommended-ads":
         return <RecommendedAds />;
+
+      case "followed-sellers":
+        return <FollowedSellers />;
 
       case "offers":
         return <PromoProduct />;
@@ -396,15 +400,15 @@ function UserDashboard() {
                 </Button>
               </div>
 
-              {/* <div>
+              <div>
                 <Button
-                  variant={activeTab === "billing" ? "primary" : "outline-primary"}
+                  variant={activeTab === "followed-sellers" ? "primary" : "outline-primary"}
                   className="sidebar-link"
-                  onClick={() => handleTabChange("billing")}
+                  onClick={() => handleTabChange("followed-sellers")}
                 >
-                  <i className="fa fa-gift"></i> Billing
+                  <i className="fa fa-user-check"></i> Followed Sellers
                 </Button>
-              </div> */}
+              </div>
 
               <div>
                 <Button

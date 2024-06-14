@@ -7,7 +7,7 @@ import Message from "../Message";
 import Loader from "../Loader";
 import Pagination from "../Pagination";
 import SellerCard from "./SellerCard";
- 
+
 function GetFollowedSellers() {
   const dispatch = useDispatch();
 
@@ -18,14 +18,23 @@ function GetFollowedSellers() {
   const getFollowedSellersState = useSelector(
     (state) => state.getFollowedSellersState
   );
-  const { loading, error, follwedSellers } = getFollowedSellersState;
+  const {
+    loading,
+    error,
+    followedSellers,
+    // sellerAvatarUrl,
+  } = getFollowedSellersState;
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = follwedSellers?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = followedSellers?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  console.log("followedSellers:", followedSellers);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -44,13 +53,23 @@ function GetFollowedSellers() {
             <>
               {currentItems.length === 0 ? (
                 <div className="text-center py-3">
-                  Saved running ads appear here.
+                  No followed sellers found.
                 </div>
               ) : (
                 <Row>
-                  {currentItems.map((follwedSeller) => (
-                    <Col key={follwedSeller.id} xs={12} sm={12} md={6} lg={4} xl={3}>
-                      <SellerCard follwedSeller={follwedSeller} />
+                  {currentItems.map((followedSeller) => (
+                    <Col
+                      key={followedSeller.id}
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                    >
+                      <SellerCard
+                        followedSeller={followedSeller}
+                        // sellerAvatarUrl={sellerAvatarUrl}
+                      />
                     </Col>
                   ))}
                 </Row>
@@ -58,7 +77,7 @@ function GetFollowedSellers() {
 
               <Pagination
                 itemsPerPage={itemsPerPage}
-                totalItems={follwedSellers?.length}
+                totalItems={followedSellers?.length}
                 currentPage={currentPage}
                 paginate={paginate}
               />

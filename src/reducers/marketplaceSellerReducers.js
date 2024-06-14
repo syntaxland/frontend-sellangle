@@ -256,7 +256,7 @@ const initialState = {
   totalSellerAdSaved: [],
   totalFollwersCount: [],
 
-  follwedSellers: [],
+  followedSellers: [],
 
 };
 
@@ -272,7 +272,7 @@ export const getFollowedSellersReducer = (
       return {
         loading: false,
         success: true,
-        follwedSellers: action.payload,
+        followedSellers: action.payload.data,
       };
     case GET_FOLLOWED_SELLER_FAIL:
       return { loading: false, error: action.payload };
