@@ -6,13 +6,19 @@ import { getPaymentApiKeys } from "../../actions/paymentActions";
 import PaymentScreen from "./payment/PaymentScreen";
 // import Select from "react-select";
 
-function BuyCreditPoint({ currency }) { 
-  const dispatch = useDispatch(); 
+function BuyCreditPoint({ currency }) {
+  const dispatch = useDispatch();
 
   const getPaymentApiKeysState = useSelector(
     (state) => state.getPaymentApiKeysState
   );
   const { paystackPublicKey, paysofterPublicKey } = getPaymentApiKeysState;
+  console.log(
+    "paystackPublicKey",
+    paystackPublicKey,
+    "paysofterPublicKey",
+    paysofterPublicKey
+  );
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -108,4 +114,4 @@ function BuyCreditPoint({ currency }) {
   );
 }
 
-export default BuyCreditPoint; 
+export default BuyCreditPoint;

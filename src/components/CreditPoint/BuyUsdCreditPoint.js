@@ -7,12 +7,18 @@ import PaymentScreen from "./payment/PaymentScreen";
 // import Select from "react-select";
 
 function BuyUsdCreditPoint({ currency }) {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const getPaymentApiKeysState = useSelector(
     (state) => state.getPaymentApiKeysState
   );
   const { paystackPublicKey, paysofterPublicKey } = getPaymentApiKeysState;
+  console.log(
+    "paystackPublicKey",
+    paystackPublicKey,
+    "paysofterPublicKey",
+    paysofterPublicKey
+  );
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,9 +38,9 @@ function BuyUsdCreditPoint({ currency }) {
   const handleShowPaymentScreen = () => {
     setShowPaymentScreen(true);
   };
- 
+
   const USD_CPS_CHOICES = [
-    ["1", "1,000 cps for 1 USD"], 
+    ["1", "1,000 cps for 1 USD"],
     ["5", "5,200 cps for 5 USD"],
     ["10", "10,800 cps for 10 USD"],
     ["15", "16,500 cps for 15 USD"],
@@ -47,7 +53,7 @@ function BuyUsdCreditPoint({ currency }) {
   ];
 
   console.log("amount:", currency, amount);
-  
+
   return (
     <Container>
       {showPaymentScreen ? (
@@ -90,7 +96,7 @@ function BuyUsdCreditPoint({ currency }) {
                 /> */}
               </Form.Group>
             </Form>
-            
+
             <div className="py-2">
               <Button
                 variant="primary"

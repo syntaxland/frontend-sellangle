@@ -8,7 +8,7 @@ import {
 
 import AllFreeAdCard from "./AllFreeAdCard";
 import Message from "../Message";
-import Loader from "../Loader";
+import Loader from "../Loader"; 
 
 function SellerActiveFreeAdScreen({seller_username}) {
   const dispatch = useDispatch();

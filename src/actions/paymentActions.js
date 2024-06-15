@@ -36,9 +36,7 @@ import {
   VERIFY_USD_OTP_FAIL,
 } from "../constants/accountFundOtpConstants";
 
-// const API_URL = process.env.REACT_APP_API_URL;
 import { API_URL, PAYSOFTER_API_URL } from "../config/apiConfig";
-
 
 export const debitPaysofterUsdAccountFund = (debitUsdAccountData) => async (
   dispatch
@@ -174,7 +172,7 @@ export const createPayment = (paymentData) => async (dispatch, getState) => {
     const { data } = await axios.post(
       `${API_URL}/api/create-payment/`,
       paymentData,
-      config 
+      config
     );
 
     dispatch({
@@ -194,7 +192,7 @@ export const createPayment = (paymentData) => async (dispatch, getState) => {
   }
 };
 
-export const createPaysofterPayment = (paysofterPaymentData) => async ( 
+export const createPaysofterPayment = (paysofterPaymentData) => async (
   dispatch
 ) => {
   try {

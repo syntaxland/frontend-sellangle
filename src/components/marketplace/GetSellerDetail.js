@@ -17,14 +17,14 @@ import ToggleFollowSeller from "./ToggleFollowSeller";
 function GetSellerDetail({ match, seller_username }) {
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  // const userLogin = useSelector((state) => state.userLogin);
+  // const { userInfo } = userLogin;
 
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (!userInfo) {
+  //     window.location.href = "/login";
+  //   }
+  // }, [userInfo]);
 
   const getSellerDetailState = useSelector(
     (state) => state.getSellerDetailState

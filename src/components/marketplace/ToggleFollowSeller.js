@@ -16,11 +16,17 @@ function ToggleFollowSeller({ sellerDetail }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  // useEffect(() => {
+  //   if (!userInfo) {
+  //     window.location.href = "/login";
+  //   }
+  //   dispatch(getUserProfile());
+  // }, [dispatch, userInfo]);
+
   useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    }
+    if (userInfo) {
     dispatch(getUserProfile());
+    }
   }, [dispatch, userInfo]);
 
   const userProfile = useSelector((state) => state.userProfile);

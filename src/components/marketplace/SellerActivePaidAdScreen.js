@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { getSellerActivePaidAds } from "../../actions/marketplaceSellerActions";
+import { getSellerActivePaidAds } from "../../actions/marketplaceSellerActions"; 
 
 import AllPaidAdCard from "./AllPaidAdCard";
 import Message from "../Message";

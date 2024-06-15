@@ -1,32 +1,38 @@
 // SellerShopFront.js
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {
+  //  useEffect
+ } from "react";
+// import { useDispatch, 
+//  useSelector
+//  } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-
-import { getUserProfile } from "../../actions/userProfileActions";
+// import { getUserProfile } from "../../actions/userProfileActions";
 import SellerActiveFreeAdScreen from "./SellerActiveFreeAdScreen";
 import SellerActivePaidAdScreen from "./SellerActivePaidAdScreen";
 import GetSellerDetail from "./GetSellerDetail";
 
 function SellerShopFront() {
-  const dispatch = useDispatch();
-
+  // const dispatch = useDispatch();
   const { seller_username } = useParams();
   console.log("seller_username:", seller_username);
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  // const userLogin = useSelector((state) => state.userLogin);
+  // const { userInfo } = userLogin;
 
-  
+  // useEffect(() => {
+  //   if (!userInfo) {
+  //     window.location.href = "/login";
+  //   } else {
+  //     dispatch(getUserProfile());
+  //   }
+  // }, [dispatch, userInfo]);
 
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    } else {
-      dispatch(getUserProfile()); 
-    }
-  }, [dispatch, userInfo]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //   dispatch(getUserProfile());
+  //   }
+  // }, [dispatch, userInfo]);
 
   return (
     <div>
@@ -49,7 +55,7 @@ function SellerShopFront() {
           <div>
             <SellerActivePaidAdScreen seller_username={seller_username} />
           </div>
-        
+
           <hr />
         </Col>
       </Row>

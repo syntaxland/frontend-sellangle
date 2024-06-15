@@ -4,12 +4,12 @@ import { Form, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../../actions/cartActions";
+// import { clearCart } from "../../actions/cartActions";
 import {
   createPayment,
   createPaysofterPayment,
 } from "../../actions/paymentActions";
-import Message from "../Message";
+import Message from "../Message"; 
 import Loader from "../Loader";
 
 function CardPayment({
@@ -93,15 +93,12 @@ function CardPayment({
   useEffect(() => {
     if (success) {
       dispatch(createPayment(paymentData));
-      dispatch(clearCart());
       const timer = setTimeout(() => {
         window.location.reload();
-        // history.push("/dashboard");
         window.location.href = "/dashboard";
       }, 5000);
       return () => clearTimeout(timer);
     }
-    // console.log('// eslint-disable-next-line')
     // eslint-disable-next-line
   }, [dispatch, success, history]);
 
