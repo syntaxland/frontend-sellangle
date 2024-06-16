@@ -1,9 +1,9 @@
 // VerifyAccountFundPromiseOtp.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../../actions/cartActions";
+// import { clearCart } from "../../actions/cartActions";
 import {
-  createPayment,
+  // createPayment,
   // createPaysofterPayment,
   debitPaysofterAccountFund,
   verifyOtp,
@@ -143,9 +143,9 @@ const VerifyAccountFundPromiseOtp = ({
     if (success) {
       dispatch(createPaysofterPromise(paysofterPromiseData));
       setShowConfirmPaysofterPromise(true);
-      dispatch(createPayment(paymentData));
+      // dispatch(createPayment(paymentData));
       localStorage.removeItem("debitAccountData");
-      dispatch(clearCart());
+      // dispatch(clearCart());
       setShowSuccessMessage(true);
       setTimeout(() => {
         // history.push("/login");

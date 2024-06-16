@@ -241,7 +241,6 @@ export const createPaysofterPromise = (paysofterPromiseData) => async (
     const config = {
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${userInfo.access}`,
       },
     };
 
