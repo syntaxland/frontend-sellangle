@@ -122,9 +122,9 @@ const VerifyUsdAccountFundOtp = ({
       dispatch(buyCreditPoint(creditPointData));
       localStorage.removeItem("debitUsdAccountData");
       setShowSuccessMessage(true);
-      setTimeout(() => {
-        // window.location.reload();
-      }, 5000);
+      // setTimeout(() => {
+      //   // window.location.reload();
+      // }, 5000);
     }
     // eslint-disable-next-line
   }, [dispatch, success, history]);
@@ -133,7 +133,7 @@ const VerifyUsdAccountFundOtp = ({
     if (buyCreditPointSuccess) {
       const timer = setTimeout(() => {
         window.location.reload();
-      }, 5000);
+      }, 5000); 
       return () => clearTimeout(timer);
     }
   }, [buyCreditPointSuccess, history]);

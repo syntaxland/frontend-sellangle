@@ -12,7 +12,7 @@ import Pagination from "../Pagination";
 function Feedback() {
   const dispatch = useDispatch();
   // const history = useHistory();
-
+ 
   const feedbackList = useSelector((state) => state.feedbackList);
   const { loading, feedbacks, error } = feedbackList;
   console.log("feedbacks:", feedbacks);

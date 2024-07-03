@@ -8,7 +8,7 @@ import {
   adminReplySupportTicket,
   getTicketDetail,
   listSupportTicketReply,
-} from "../../actions/supportActions";
+} from "../../actions/supportActions"; 
 import Loader from "../Loader";
 import Message from "../Message";
 import LoaderButton from "../LoaderButton";

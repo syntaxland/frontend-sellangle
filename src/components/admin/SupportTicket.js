@@ -12,7 +12,7 @@ import {
 } from "../../actions/supportActions";
 import Message from "../Message";
 import Loader from "../Loader"; 
-import Pagination from "../Pagination";
+import Pagination from "../Pagination"; 
 
 function SupportTicket() {
   const dispatch = useDispatch();

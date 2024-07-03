@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
-import { Col, Row, Modal, Button } from "react-bootstrap";
+import { Col, Row, Modal, Button } from "react-bootstrap"; 
 import Message from "../Message";
 import Loader from "../Loader";
 import { getCreditPointBalance } from "../../actions/creditPointActions";
@@ -308,7 +308,7 @@ function Dashboard() {
                             className="py-2 rounded"
                             onClick={handleSellCreditPointOpen}
                           >
-                            Sell/Share CPS
+                            Sell CPS
                           </Button>
                         </span>
                       </div>

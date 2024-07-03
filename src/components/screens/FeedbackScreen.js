@@ -10,7 +10,7 @@ import Message from "../Message";
 
 function FeedbackScreen() {
   const dispatch = useDispatch();   
-      const history = useHistory();
+      const history = useHistory(); 
 
   const [subject, setSubject] = useState("");
   const [category, setCategory] = useState("");

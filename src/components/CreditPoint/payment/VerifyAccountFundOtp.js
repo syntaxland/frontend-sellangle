@@ -7,8 +7,7 @@ import {
   createPaysofterPayment,
   debitPaysofterAccountFund,
   verifyOtp,
-} from "../../../actions/paymentActions";
-
+} from "../../../actions/paymentActions"; 
 import { buyCreditPoint } from "../../../actions/creditPointActions";
 import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";

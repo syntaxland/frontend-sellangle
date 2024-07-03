@@ -5,7 +5,34 @@ import { Row, Col, Container, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faTimes,
+  // faDashboard,
+  // faUser,
+  // faUserLock,
+  // faUserShield,
+  // faHandPeace,
+  // faUserPlus,
+  // faSackDollar,
+  // faMessage,
+  // faHeart,
+  // faEye,
+  // faThumbsUp,
+  // faComments,
+  // faTicket,
+  // faGear,
+  // faAd,
+  // faLink,
+  // faMoneyBill,
+  // faSignIn,
+  // faSignInAlt,
+  // faSignOut,
+  // faCaretDown,
+  // faUserCheck,
+  // faCodeCompare,
+  faBullhorn,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   listBuyerFreeAdMessages,
   listBuyerPaidAdMessages,
@@ -19,18 +46,6 @@ import CurrentAds from "./CurrentAds";
 // import Favorites from "./SavedItems";
 import ShopFrontLink from "./ShopFrontLink";
 import Billing from "./Billing";
-// import Reviews from "./Reviews";
-// import MessageInbox from "./MessageInbox";
-// import PostAds from "./PostFreeAd";
-// import PromoProduct from "./Offers";
-// import RecommendedProducts from "./RecommendedProducts";
-// import ViewedItems from "./ViewedItems";
-// import LiveChat from "./LiveChat";
-// import Referrals from "./Referrals";
-// import SupportTicket from "./SupportTicket";
-// import Feedback from "./Feedback";
-// import Settings from "./Settings";
-// import SellerInbox from "./SellerInbox";
 
 function MarketplaceDashboard() {
   const dispatch = useDispatch();
@@ -179,7 +194,6 @@ function MarketplaceDashboard() {
             className="sidebar-toggle-button"
             onClick={handleSidebarToggle}
           >
-            {/* <FontAwesomeIcon icon={sidebarOpen ? faBars : faBars} /> */}
             <FontAwesomeIcon icon={sidebarOpen ? faTimes : faBars} />
           </Button>
 
@@ -190,7 +204,7 @@ function MarketplaceDashboard() {
                   variant={
                     activeTab === "user-dashboard" ? "info" : "outline-info"
                   }
-                  className="sidebar-link" 
+                  className="sidebar-link"
                   // activeClassName="active-link"
                   onClick={() => handleTabChange("user-dashboard")}
                 >
@@ -291,7 +305,7 @@ function MarketplaceDashboard() {
                   className="sidebar-link"
                   onClick={() => handleTabChange("post-paid-ad")}
                 >
-                  <i className="fas fa-ad"></i> Post Paid Ads 
+                  <i className="fas fa-ad"></i> Post Paid Ads
                 </Button>
               </div>
 
@@ -326,7 +340,7 @@ function MarketplaceDashboard() {
                   onClick={handleCurrentAds}
                   // onClick={() => handleTabChange("ads")}
                 >
-                  <i className="fas fa-ad"></i> Current Ads
+                  <FontAwesomeIcon icon={faBullhorn} /> Current Ads
                 </Button>
               </div>
 
