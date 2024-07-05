@@ -16,7 +16,6 @@ import Time from "./components/Time";
 // import OrderSuccessPage from "./components/OrderSuccessPage";
 // import HomeScreen from "./components/screens/HomeScreen";
 // import ProductScreen from "./components/screens/ProductScreen";
-// import SearchScreen from "./components/screens/SearchScreen";
 import RegisterScreen from "./components/screens/RegisterScreen";
 import LoginScreen from "./components/screens/LoginScreen";
 // import CartScreen from "./components/screens/CartScreen";
@@ -33,6 +32,7 @@ import DarkModeScreen from "./components/screens/DarkModeScreen";
 import TermsAndConditionScreen from "./components/screens/TermsAndConditionScreen";
 import PrivacyPolicyScreen from "./components/screens/PrivacyPolicyScreen";
 import DeleteAccountGuideScreen from "./components/screens/DeleteAccountGuideScreen";
+import AppVersionScreen from "./components/screens/AppVersionScreen";
 
 import SendEmailOtp from "./components/emailOtp/SendEmailOtp";
 import VerifyEmailOtp from "./components/emailOtp/VerifyEmailOtp";
@@ -116,6 +116,7 @@ function App() {
 
           <Route path="/privacy-policy" component={PrivacyPolicyScreen} />
           <Route path="/account-deletion-guide" component={DeleteAccountGuideScreen} />
+          <Route path="/apps/" component={AppVersionScreen} />
 
           <Route path="/user/profile" component={UserProfile} />
           <Route path="/delete-account" component={DeleteAccount} />
