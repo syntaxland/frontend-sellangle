@@ -26,7 +26,7 @@ function AppVersionScreen() {
     <Container Fluid>
       <Row>
         <h2 className="text-center py-3">
-          <FontAwesomeIcon icon={faMobileAndroidAlt} /> Mobile App Versions
+          <FontAwesomeIcon icon={faMobileAndroidAlt} /> Mobile App Versions (Beta)
         </h2>
 
         {/* {loading && <Loader />}
