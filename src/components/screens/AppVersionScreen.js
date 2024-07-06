@@ -26,7 +26,8 @@ function AppVersionScreen() {
     <Container Fluid>
       <Row>
         <h2 className="text-center py-3">
-          <FontAwesomeIcon icon={faMobileAndroidAlt} /> Mobile App Versions (Beta)
+          <FontAwesomeIcon icon={faMobileAndroidAlt} /> Mobile App Versions
+          (Beta)
         </h2>
 
         {/* {loading && <Loader />}
@@ -69,11 +70,11 @@ function AppVersionScreen() {
 
                 <div className="d-flex justify-content-between py-2">
                   <p>
-                    <FontAwesomeIcon icon={faMobileAndroid} /> Sellangle (v2.0.8
+                    <FontAwesomeIcon icon={faMobileAndroid} /> Sellangle (
                     Latest)
                   </p>
 
-                  <Button className="rounded" variant="success">
+                  <Button className="rounded" variant="success" disabled>
                     <FontAwesomeIcon icon={faDownload} /> Download APK{" "}
                   </Button>
                 </div>
@@ -84,7 +85,7 @@ function AppVersionScreen() {
                     (v2.0.7)
                   </p>
 
-                  <Button className="rounded" variant="success">
+                  <Button className="rounded" variant="success" disabled>
                     <FontAwesomeIcon icon={faDownload} /> Download APK
                   </Button>
                 </div>
@@ -100,8 +101,7 @@ function AppVersionScreen() {
 
                 <Row className="d-flex justify-content-between py-2">
                   <Col>
-                    <FontAwesomeIcon icon={faAppleAlt} /> Sellangle (v2.0.8
-                    Latest)
+                    <FontAwesomeIcon icon={faAppleAlt} /> Sellangle (Latest)
                   </Col>
 
                   <Col
@@ -126,11 +126,10 @@ function AppVersionScreen() {
 
                 <div className="d-flex justify-content-between py-2">
                   <p>
-                    <FontAwesomeIcon icon={faAppleAlt} /> Sellangle (v2.0.8
-                    Latest)
+                    <FontAwesomeIcon icon={faAppleAlt} /> Sellangle (Latest)
                   </p>
 
-                  <Button className="rounded" variant="success">
+                  <Button className="rounded" variant="success" disabled>
                     <FontAwesomeIcon icon={faDownload} /> Download APK{" "}
                   </Button>
                 </div>
@@ -139,7 +138,7 @@ function AppVersionScreen() {
                     <FontAwesomeIcon icon={faAppleAlt} /> Sellangle (v2.0.7)
                   </p>
 
-                  <Button className="rounded" variant="success">
+                  <Button className="rounded" variant="success" disabled>
                     <FontAwesomeIcon icon={faDownload} /> Download APK{" "}
                   </Button>
                 </div>

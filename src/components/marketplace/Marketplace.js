@@ -3,8 +3,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Button, Form, Container, Card } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getUserProfile } from "../../actions/userProfileActions";
 import AllPaidAdScreen from "./AllPaidAdScreen";
 import AllFreeAdScreen from "./AllFreeAdScreen";
@@ -293,23 +293,26 @@ function Marketplace() {
     <Container>
       <Row>
         <Col>
-          <div className="d-flex justify-content-end">
-            <div className="d-flex justify-content-between">
-              <span>Download at </span>
+          <div className="d-flex justify-content-center">
+            <Row className="d-flex justify-content-between">
+              <Col style={{ fontSize: "12px" }} className="text-center">
+                Download Sellangle mobile app at {" => "}
+              </Col>
 
-              <span
+              <Col
                 onClick={() => history.push("/apps/")}
                 style={{ cursor: "pointer" }}
               >
                 <Card className="rounded">
                   <Card.Img
                     src={AndriodIosImage}
-                    style={{ width: 160, height: 40 }}
+                    style={{ width: 120, height: 30 }}
                   />
                 </Card>
-              </span>
-            </div>
+              </Col>
+            </Row>
           </div>
+
           <hr />
           <h1 className="text-center py-2">
             <i className="fas fa-shopping-cart"></i> Sell Angle
@@ -688,16 +691,7 @@ function Marketplace() {
           </div>
 
           <hr />
-
-          <div className="d-flex justify-content-center py-2">
-            <Button
-              variant="primary"
-              className="rounded"
-              onClick={() => history.push("/apps/")}
-            >
-              <FontAwesomeIcon icon={faDownload} /> Download Mobile Version
-            </Button>
-          </div>
+          
         </Col>
       </Row>
     </Container>
