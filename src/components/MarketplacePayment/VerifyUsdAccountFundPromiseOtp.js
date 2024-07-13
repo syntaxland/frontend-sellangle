@@ -137,24 +137,23 @@ const VerifyUsdAccountFundPromiseOtp = ({
     if (promiseSuccess) {
       if (onSuccess) {
         onSuccess();
-        setShowSuccessMessage(true);
-        setTimeout(() => {
-          dispatch(resetDebitPaysofterUsdState());
-          dispatch(resetVerifyUsdOtpState());
-          dispatch(resetCreatePaysofterPromiseState());
-          localStorage.removeItem("debitAccountData");
-          setShowConfirmPaysofterPromise(true);
-          setShowSuccessMessage(false);
-        }, 3000);
+        console.log("onSuccess dispatched");
       }
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowConfirmPaysofterPromise(true);
+        setShowSuccessMessage(false);
+        dispatch(resetDebitPaysofterUsdState());
+        dispatch(resetVerifyUsdOtpState());
+        dispatch(resetCreatePaysofterPromiseState());
+        localStorage.removeItem("debitAccountData");
+      }, 3000);
     } else if (promiseError) {
       if (onFailure) {
         onFailure();
       }
     }
   }, [dispatch, promiseSuccess, promiseError, onSuccess, onFailure]);
-
-
 
   return (
     <Container>

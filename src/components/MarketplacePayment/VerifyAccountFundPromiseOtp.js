@@ -135,17 +135,18 @@ const VerifyAccountFundPromiseOtp = ({
     if (promiseSuccess) {
       if (onSuccess) {
         onSuccess();
-        setShowSuccessMessage(true);
-        setTimeout(() => {
-          dispatch(resetCreatePaysofterPromiseState());
-          dispatch(resetDebitPaysofterNgnState());
-          dispatch(resetVerifyOtpState());
-          localStorage.removeItem("debitAccountData");
-          setShowConfirmPaysofterPromise(true);
-          setShowSuccessMessage(false);
-        }, 3000);
-        console.log("onSuccess");
+        console.log("onSuccess dispatched");
       }
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowConfirmPaysofterPromise(true);
+        setShowSuccessMessage(false);
+        dispatch(resetCreatePaysofterPromiseState());
+        dispatch(resetDebitPaysofterNgnState());
+        dispatch(resetVerifyOtpState());
+        localStorage.removeItem("debitAccountData");
+      }, 3000);
+      
     } else if (promiseError) {
       if (onFailure) {
         onFailure();
