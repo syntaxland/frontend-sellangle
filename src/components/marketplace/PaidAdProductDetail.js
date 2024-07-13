@@ -9,7 +9,7 @@ import {
   Button,
   Card,
   Container,
-  Modal, 
+  Modal,
 } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getSellerAccount,
   getPaidAdDetail,
+  resetApplyPromoCode,
 } from "../../actions/marketplaceSellerActions";
 // import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
 import { Carousel } from "react-responsive-carousel";
@@ -29,6 +30,8 @@ import ReportPaidAd from "./ReportPaidAd";
 import { formatAmount } from "../FormatAmount";
 import TogglePaidAdSave from "./TogglePaidAdSave";
 import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
+import ApplyPromoCode from "./ApplyPromoCode";
+import Select from "react-select";
 
 function PaidAdProductDetail({ match }) {
   const dispatch = useDispatch();
@@ -74,6 +77,22 @@ function PaidAdProductDetail({ match }) {
   } = getPaidAdDetailState;
   console.log("isSellerVerified:", isSellerVerified);
   console.log("promo_code:", ads?.promo_code);
+
+  const applyPomoCodeState = useSelector((state) => state.applyPomoCodeState);
+  const { discountPercentage, promoDiscount } = applyPomoCodeState;
+
+  const [selectedQty, setSelectedQty] = useState(1);
+
+  const handleQtyChange = (selectedOption) => {
+    setSelectedQty(selectedOption.value);
+  };
+
+  const calculateTotalPrice = () => {
+    return selectedQty * ads?.price;
+  };
+
+  const promoTotalPrice = calculateTotalPrice() - promoDiscount;
+  console.log("promoTotalPrice", promoTotalPrice);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -147,7 +166,7 @@ function PaidAdProductDetail({ match }) {
     const weeks = Math.floor(days / 7);
     const months = Math.floor(days / 30);
 
-    console.log('days:', days, 'ads?.user_last_login', ads?.user_last_login)
+    console.log("days:", days, "ads?.user_last_login", ads?.user_last_login);
 
     if (days < 3) {
       return "Last seen recently";
@@ -155,8 +174,8 @@ function PaidAdProductDetail({ match }) {
       return "Last seen within a week";
     } else if (months < 1) {
       return "Last seen within a month";
-    // } else if (months > 1) {
-    //   return "Last seen a long time ago";
+      // } else if (months > 1) {
+      //   return "Last seen a long time ago";
     } else {
       return "Last seen a long time ago";
     }
@@ -184,6 +203,23 @@ function PaidAdProductDetail({ match }) {
 
   const handleSellerShopFront = () => {
     history.push(`/seller-shop-front/${ads?.seller_username}/`);
+  };
+
+  const handleOnSuccess = () => {
+    console.log("handling onSuccess...");
+    dispatch(resetApplyPromoCode());
+  };
+
+  const onSuccess = () => {
+    handleOnSuccess();
+  };
+
+  const handleOnFailure = () => {
+    console.log("handling onFailure...");
+  };
+
+  const onFailure = () => {
+    handleOnFailure();
   };
 
   return (
@@ -451,6 +487,89 @@ function PaidAdProductDetail({ match }) {
                     Joined since {calculateDuration(ads?.seller_joined_since)}
                   </ListGroup.Item>
                 </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Ads in Stock Count:</Col>
+                      <Col>
+                        {ads?.count_in_stock > 0 ? (
+                          <span>{ads?.count_in_stock}</span>
+                        ) : (
+                          <span>Out of Stock</span>
+                        )}
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Selected Ad Quantity:</Col>
+                      <Col>
+                        <Select
+                          value={{
+                            value: selectedQty,
+                            label: selectedQty.toString(),
+                          }}
+                          onChange={handleQtyChange}
+                          options={Array.from(
+                            { length: ads?.count_in_stock },
+                            (_, i) => ({
+                              value: i + 1,
+                              label: (i + 1).toString(),
+                            })
+                          )}
+                        />
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Total Price: </Col>
+                      <Col>
+                        <strong>
+                          {ads?.currency} {formatAmount(calculateTotalPrice())}
+                        </strong>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  {ads?.promo_code && (
+                    <div className="py-2">
+                      <ListGroup.Item>
+                        <ApplyPromoCode
+                          adId={ads?.id}
+                          selectedQty={selectedQty}
+                        />
+                      </ListGroup.Item>
+
+                      <ListGroup.Item>
+                        Promo Discount Amount:{" "}
+                        {promoDiscount ? (
+                          <span>
+                            {ads?.currency} {formatAmount(promoDiscount)} (
+                            {discountPercentage}%)
+                          </span>
+                        ) : (
+                          <span>
+                            {ads?.currency} {formatAmount(0)}
+                          </span>
+                        )}
+                      </ListGroup.Item>
+
+                      <ListGroup.Item>
+                        Final Total Amount: {ads?.currency}{" "}
+                        {promoTotalPrice ? (
+                          <span>{formatAmount(promoTotalPrice)}</span>
+                        ) : (
+                          <span>{formatAmount(calculateTotalPrice())}</span>
+                        )}
+                      </ListGroup.Item>
+                    </div>
+                  )}
+                </ListGroup.Item>
+
                 <Row className="d-flex justify-content-center py-2">
                   <Col md={6}>
                     <ListGroup.Item>
@@ -473,13 +592,12 @@ function PaidAdProductDetail({ match }) {
             <Col>
               {showPaysofterOption && (
                 <Paysofter
-                  promoCode={ads?.promo_code}
-                  adId={ads?.id}
-                  buyerEmail={userInfo?.email}
+                  amount={promoTotalPrice}
                   currency={ads?.currency}
-                  usdPrice={ads?.usd_price}
-                  amount={ads?.price}
-                  sellerApiKey={sellerApiKey}
+                  email={userInfo?.email}
+                  paysofterPublicKey={sellerApiKey}
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
                 />
               )}
             </Col>

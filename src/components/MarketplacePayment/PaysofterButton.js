@@ -3,30 +3,23 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import CardPayment from "./CardPayment";
+// import CardPayment from "./CardPayment";
 import UssdPayment from "./UssdPayment";
 import BankPayment from "./BankPayment";
 import TransferPayment from "./TransferPayment";
-import PaysofterAccountFund from "./PaysofterAccountFund";
+// import PaysofterAccountFund from "./PaysofterAccountFund";
 import PaysofterPromise from "./PaysofterPromise";
 import QrPayment from "./QrPayment";
 import "./Paysofter.css";
-import {formatAmount} from "../FormatAmount";
+import { formatAmount } from "../FormatAmount";
 
 function PaysofterButton({
-  showPaymentModal,
-  buyerEmail,
   amount,
-  sellerApiKey,
-  setShowPaymentModal,
   currency,
-  usdPrice,
-  reference,
-  paymentDetails,
-  handlePaymentDetailsChange,
-  // handlePaymentSubmit,
-  paymentData,
-  paysofterPaymentData,
+  email,
+  paysofterPublicKey,
+  onSuccess,
+  onFailure,
 }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -37,12 +30,13 @@ function PaysofterButton({
     }
   }, [userInfo]);
 
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("promise");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const handlePaymentOptionChange = (option) => {
     setSelectedPaymentOption(option);
-  }; 
+  };
 
   const handleMoreOptions = () => {
     setShowMoreOptions(!showMoreOptions);
@@ -56,7 +50,7 @@ function PaysofterButton({
           variant="outline-primary"
           onClick={() => setShowPaymentModal(true)}
         >
-          <span>Pay Now</span> 
+          <span>Pay Now</span>
         </Button>
       </div>
 
@@ -64,10 +58,10 @@ function PaysofterButton({
         <Modal.Header closeButton>
           <div className="text-center w-100 py-2">
             <Modal.Title>Mock Payment (Test)</Modal.Title>
-            <div>{buyerEmail}</div>
+            <div>{email}</div>
             <div>
               {formatAmount(amount)
-              
+
               // ?.toLocaleString(undefined, {
               //   minimumFractionDigits: 2,
               //   maximumFractionDigits: 2,
@@ -109,7 +103,7 @@ function PaysofterButton({
                     Fund
                   </Button>
                 </div>
-                
+
                 <div className="py-1">
                   <Button
                     variant="primary"
@@ -201,36 +195,37 @@ function PaysofterButton({
               </div>
             </Col>
             <Col md={9}>
-              {selectedPaymentOption === "card" && (
+              {/* {selectedPaymentOption === "card" && (
                 <CardPayment
-                  paymentDetails={paymentDetails}
-                  handlePaymentDetailsChange={handlePaymentDetailsChange}
                   amount={amount}
-                  paymentData={paymentData}
-                  reference={reference}
-                  buyerEmail={buyerEmail}
-                  sellerApiKey={sellerApiKey}
-                  paysofterPaymentData={paysofterPaymentData}
-                />
-              )}
+                  currency={currency}
+                  email={email}
+                  paysofterPublicKey={paysofterPublicKey}
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
 
-              {selectedPaymentOption === "account-fund" && (
+                />
+              )} */}
+
+              {/* {selectedPaymentOption === "account-fund" && (
                 <PaysofterAccountFund
                   amount={amount}
-                  paymentData={paymentData}
-                  reference={reference}
-                  buyerEmail={buyerEmail}
-                  sellerApiKey={sellerApiKey}
+                  currency={currency}
+                  email={email}
+                  paysofterPublicKey={paysofterPublicKey}
+                  onSuccess={onSuccess}
+                onFailure={onFailure}
                 />
-              )}
+              )} */}
 
               {selectedPaymentOption === "promise" && (
                 <PaysofterPromise
-                  buyerEmail={buyerEmail}
                   amount={amount}
-                  sellerApiKey={sellerApiKey}
                   currency={currency}
-                  usdPrice={usdPrice}
+                  email={email}
+                  paysofterPublicKey={paysofterPublicKey}
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
                 />
               )}
               {selectedPaymentOption === "bank" && <BankPayment />}

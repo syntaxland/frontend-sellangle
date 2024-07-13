@@ -2,26 +2,20 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-// import { clearCart } from "../../actions/cartActions";
-// import {
-//   createPayment,
-//   createPaysofterPayment,
-//   debitPaysofterAccountFundPromise,
-// } from "../../actions/paymentActions";
 import Message from "../Message";
-import Loader from "../Loader"; 
+import Loader from "../Loader";
 import PaysofterAccountFundPromise from "./PaysofterAccountFundPromise";
 import PaysofterUsdAccountFundPromise from "./PaysofterUsdAccountFundPromise";
 import Select from "react-select";
 
 const PaysofterPromise = ({
   history,
-  buyerEmail,
+  email,
   currency,
   amount,
-  sellerApiKey,
-  paymentData,
-  reference,
+  paysofterPublicKey,
+  onSuccess,
+  onFailure,
 }) => {
   const dispatch = useDispatch();
 
@@ -39,16 +33,7 @@ const PaysofterPromise = ({
   );
   const { loading, success, error } = debitPaysofterAccountState;
 
-  // const CURRENCY_CHOICES = [
-  //   ["NGN", "NGN"],
-  //   ["USD", "USD"],
-  // ];
-
   const [duration, setDuration] = useState("Within 1 day");
-  // const [currency, setCurrency] = useState("");
-  // const [paymenthMethod, setPaymenthMethod] = useState("Paysofter Promise");
-  // const [paymentProvider, setPaymentProvider] = useState("Paysofter");
-  // const createdAt = new Date().toISOString();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [
     showPaysofterAccountFundPromise,
@@ -67,27 +52,8 @@ const PaysofterPromise = ({
     setShowInfoModal(false);
   };
 
-  // const paysofterPaymentData = {
-  //   payment_id: reference,
-  //   email: buyerEmail,
-  //   amount: amount,
-  //   public_api_key: sellerApiKey,
-  //   created_at: createdAt,
-  // };
-
-  // const debitAccountData = {
-  //   currency: currency,
-  //   amount: amount,
-  //   // account_id: accountId,
-  // };
-
   const submitHandler = (e) => {
     e.preventDefault();
-    // try {
-    //   // dispatch(debitPaysofterAccountFundPromise(debitAccountData));
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   useEffect(() => {
@@ -112,14 +78,12 @@ const PaysofterPromise = ({
         <>
           {currency === "USD" ? (
             <>
-              <PaysofterUsdAccountFundPromise 
+              <PaysofterUsdAccountFundPromise
                 currency={currency}
                 amount={amount}
-                buyerEmail={buyerEmail}
-                sellerApiKey={sellerApiKey}
-                paymentData={paymentData}
-                reference={reference}
+                email={email}
                 duration={duration}
+                paysofterPublicKey={paysofterPublicKey}
               />
             </>
           ) : (
@@ -127,11 +91,11 @@ const PaysofterPromise = ({
               <PaysofterAccountFundPromise
                 currency={currency}
                 amount={amount}
-                buyerEmail={buyerEmail}
-                sellerApiKey={sellerApiKey}
-                paymentData={paymentData}
-                reference={reference}
+                email={email}
                 duration={duration}
+                paysofterPublicKey={paysofterPublicKey}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
               />
             </>
           )}
@@ -140,8 +104,8 @@ const PaysofterPromise = ({
             <PaysofterUsdAccountFundPromise
               currency={currency}
               amount={amount}
-              buyerEmail={buyerEmail}
-              sellerApiKey={sellerApiKey}
+              email={email}
+              paysofterPublicKey={paysofterPublicKey}
               paymentData={paymentData}
               reference={reference}
               duration={duration}
@@ -149,11 +113,11 @@ const PaysofterPromise = ({
           )} */}
 
           {/* {currency === "NGN" && (
-            <PaysofterAccountFundPromise
+            <PaysofterAccountFundPromise 
               currency={currency}
               amount={amount}
-              buyerEmail={buyerEmail}
-              sellerApiKey={sellerApiKey}
+              email={email}
+              paysofterPublicKey={paysofterPublicKey}
               paymentData={paymentData}
               reference={reference}
               duration={duration}

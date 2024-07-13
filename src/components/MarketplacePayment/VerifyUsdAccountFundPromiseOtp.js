@@ -1,15 +1,14 @@
 // VerifyUsdAccountFundPromiseOtp.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../../actions/cartActions";
 import {
-  createPayment,
-  // createPaysofterPayment,
   debitPaysofterUsdAccountFund,
   verifyUsdPromiseOtp,
   createPaysofterPromise,
+  resetDebitPaysofterUsdState,
+  resetVerifyUsdOtpState,
+  resetCreatePaysofterPromiseState,
 } from "../../actions/paymentActions";
-
 import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Loader from "../Loader";
@@ -17,16 +16,14 @@ import Message from "../Message";
 import ConfirmPaysofterPromise from "./ConfirmPaysofterPromise";
 
 const VerifyUsdAccountFundPromiseOtp = ({
-  buyerEmail,
+  email,
   amount,
-  sellerApiKey,
-  paymentData,
-  reference,
+  paysofterPublicKey,
   formattedPayerEmail,
   currency,
   duration,
-  // paymenthMethod,
-  // paymentProvider,
+  onSuccess,
+  onFailure,
 }) => {
   const [otp, setOtp] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
@@ -52,7 +49,9 @@ const VerifyUsdAccountFundPromiseOtp = ({
     }
   }, [userInfo]);
 
-  const otpVerifyUsdPromiseState = useSelector((state) => state.otpVerifyUsdPromiseState);
+  const otpVerifyUsdPromiseState = useSelector(
+    (state) => state.otpVerifyUsdPromiseState
+  );
   const { loading, success, error } = otpVerifyUsdPromiseState;
 
   const createPaysofterPromiseState = useSelector(
@@ -60,7 +59,7 @@ const VerifyUsdAccountFundPromiseOtp = ({
   );
   const {
     loading: promiseLoading,
-    // success: promiseSuccess,
+    success: promiseSuccess,
     error: promiseError,
   } = createPaysofterPromiseState;
 
@@ -70,20 +69,12 @@ const VerifyUsdAccountFundPromiseOtp = ({
     JSON.parse(localStorage.getItem("debitUsdAccountData")) || [];
   console.log("sendOtpData:", sendOtpData, sendOtpData.account_id);
 
-  // const paysofterPaymentData = {
-  //   payment_id: reference,
-  //   email: buyerEmail,
-  //   amount: amount,
-  //   public_api_key: sellerApiKey,
-  //   created_at: createdAt,
-  // };
-
   const otpData = {
     otp: otp,
-    account_id: sendOtpData.account_id, 
+    account_id: sendOtpData.account_id,
     amount: amount,
     currency: currency,
-    public_api_key: sellerApiKey,
+    public_api_key: paysofterPublicKey,
   };
 
   const debitUsdAccountData = {
@@ -93,30 +84,26 @@ const VerifyUsdAccountFundPromiseOtp = ({
   };
 
   const paysofterPromiseData = {
-    payment_id: reference,
-    email: buyerEmail,
+    email: email,
     amount: amount,
-    public_api_key: sellerApiKey,
+    public_api_key: paysofterPublicKey,
     account_id: sendOtpData.account_id,
     currency: currency,
     duration: duration,
-    // payment_method: paymenthMethod,
-    // payment_provider: paymentProvider,
     created_at: createdAt,
   };
-  console.log("paysofterPromiseData:", paysofterPromiseData);
 
   const handleVerifyEmailOtp = () => {
     dispatch(verifyUsdPromiseOtp(otpData));
-
-    // dispatch(createPaysofterPromise(paysofterPromiseData));
   };
 
   const handleResendEmailOtp = () => {
     setResendLoading(true);
     setResendMessage("");
     try {
-      dispatch(debitPaysofterUsdAccountFund(JSON.stringify(debitUsdAccountData)));
+      dispatch(
+        debitPaysofterUsdAccountFund(JSON.stringify(debitUsdAccountData))
+      );
       setResendMessage(`OTP resent to ${formattedPayerEmail} successfully.`);
       setResendDisabled(true);
     } catch (error) {
@@ -142,36 +129,42 @@ const VerifyUsdAccountFundPromiseOtp = ({
   useEffect(() => {
     if (success) {
       dispatch(createPaysofterPromise(paysofterPromiseData));
-      setShowConfirmPaysofterPromise(true);
-      dispatch(createPayment(paymentData));
-      localStorage.removeItem("debitUsdAccountData");
-      dispatch(clearCart());
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        // history.push("/login");
-      }, 5000);
     }
     // eslint-disable-next-line
   }, [dispatch, success, history]);
 
+  useEffect(() => {
+    if (promiseSuccess) {
+      if (onSuccess) {
+        onSuccess();
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+          dispatch(resetDebitPaysofterUsdState());
+          dispatch(resetVerifyUsdOtpState());
+          dispatch(resetCreatePaysofterPromiseState());
+          localStorage.removeItem("debitAccountData");
+          setShowConfirmPaysofterPromise(true);
+          setShowSuccessMessage(false);
+        }, 3000);
+      }
+    } else if (promiseError) {
+      if (onFailure) {
+        onFailure();
+      }
+    }
+  }, [dispatch, promiseSuccess, promiseError, onSuccess, onFailure]);
+
+
+
   return (
     <Container>
       {showConfirmPaysofterPromise ? (
-        <ConfirmPaysofterPromise
-          amount={amount}
-          paymentData={paymentData}
-          reference={reference}
-          buyerEmail={buyerEmail}
-          sellerApiKey={sellerApiKey}
-          currency={currency}
-          duration={duration}
-          // paymenthMethod={paymenthMethod}
-        />
+        <ConfirmPaysofterPromise />
       ) : (
         <Row className="justify-content-center text-center mt-5">
           <Col>
             <div className="border rounded p-4 py-2">
-              <h1 className="py-2">Verify OTP (USD)</h1>
+              <h1 className="py-2 text-center">Verify OTP ({currency})</h1>
               {showSuccessMessage && (
                 <Message variant="success">Promise sent successfully!</Message>
               )}

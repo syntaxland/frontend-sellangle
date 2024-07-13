@@ -6,16 +6,18 @@ import { debitPaysofterUsdAccountFund } from "../../actions/paymentActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import VerifyUsdAccountFundPromiseOtp from "./VerifyUsdAccountFundPromiseOtp";
-import {formatAmount} from "../FormatAmount";
+import { formatAmount } from "../FormatAmount";
 
 const PaysofterUsdAccountFundPromise = ({
-  buyerEmail,
+  email,
   amount,
-  sellerApiKey,
+  paysofterPublicKey,
   paymentData,
   reference,
   duration,
   currency,
+  onSuccess,
+  onFailure,
 }) => {
   const dispatch = useDispatch();
 
@@ -37,10 +39,7 @@ const PaysofterUsdAccountFundPromise = ({
     formattedPayerEmail,
     error,
   } = debitPaysofterUsdAccountState;
-  console.log(
-    "formattedPayerEmail:",
-    formattedPayerEmail
-  );
+  console.log("formattedPayerEmail:", formattedPayerEmail);
 
   const [accountId, setAccountId] = useState("");
   const [accountIdError, setAccountIdError] = useState("");
@@ -110,7 +109,7 @@ const PaysofterUsdAccountFundPromise = ({
     account_id: accountId,
     security_code: securityCode,
     amount: amount,
-    public_api_key: sellerApiKey,
+    public_api_key: paysofterPublicKey,
   };
 
   const submitHandler = (e) => {
@@ -157,8 +156,8 @@ const PaysofterUsdAccountFundPromise = ({
       {showVerifyUsdAccountFundPromiseOtp ? (
         <VerifyUsdAccountFundPromiseOtp
           amount={amount}
-          sellerApiKey={sellerApiKey}
-          buyerEmail={buyerEmail}
+          paysofterPublicKey={paysofterPublicKey}
+          email={email}
           paymentData={paymentData}
           reference={reference}
           securityCode={securityCode}
@@ -166,15 +165,17 @@ const PaysofterUsdAccountFundPromise = ({
           formattedPayerEmail={formattedPayerEmail}
           currency={currency}
           duration={duration}
-          // paymenthMethod={paymenthMethod}
-          // paymentProvider={paymentProvider}
+          onSuccess={onSuccess}
+          onFailure={onFailure}
         />
       ) : (
         <Row className="justify-content-center">
           <Col>
             <Row className="text-center py-2">
               <Col md={10}>
-                <h2 className="py-2 text-center">Paysofter Account Fund (USD)</h2>
+                <h2 className="py-2 text-center">
+                  Paysofter Account Fund (USD)
+                </h2>
               </Col>
               <Col md={2}>
                 <Button
@@ -409,14 +410,13 @@ const PaysofterUsdAccountFundPromise = ({
                   <span>
                     (
                     {formatAmount(amount)
-                    
+
                     // ?.toLocaleString(undefined, {
                     //   minimumFractionDigits: 2,
                     //   maximumFractionDigits: 2,
                     // })
-                    
-                    }{" "}{currency}
-                    )
+                    }{" "}
+                    {currency})
                   </span>
                 </Button>
               </div>

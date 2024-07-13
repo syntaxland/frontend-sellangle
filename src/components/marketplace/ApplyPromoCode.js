@@ -8,16 +8,24 @@ import {
   Col,
   // ListGroup
 } from "react-bootstrap";
-import { applyPromoCode } from "../../actions/marketplaceSellerActions";
+import {
+  applyPromoCode,
+  // resetApplyPromoCode,
+} from "../../actions/marketplaceSellerActions";
 import Message from "../Message";
 import Loader from "../Loader";
-// import { formatAmount } from "../FormatAmount";
 
-const ApplyPromoCode = ({
-  adId,
-  //  currency, totalPrice, promoTotalPrice
-}) => {
+const ApplyPromoCode = ({ adId, selectedQty }) => {
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      window.location.href = "/login";
+    }
+  }, [userInfo]);
 
   const applyPomoCodeState = useSelector((state) => state.applyPomoCodeState);
   const {
@@ -35,6 +43,7 @@ const ApplyPromoCode = ({
 
     const promoData = {
       ad_id: adId,
+      selected_qty: selectedQty,
       promo_code: promoCode.trim(),
     };
     // console.log("promoData:", promoData);
@@ -42,18 +51,10 @@ const ApplyPromoCode = ({
     dispatch(applyPromoCode(promoData));
   };
 
-  // console.log("promoCode:", promoCode, "adId:", adId);
-  // console.log(
-  //   "promoDiscount:",
-  //   promoDiscount,
-  //   "discountPercentage:",
-  //   discountPercentage
-  // );
-
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        // window.location.reload();
+        // dispatch(resetApplyPromoCode());
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -95,10 +96,7 @@ const ApplyPromoCode = ({
                     variant="danger"
                     type="submit"
                     // size="sm"
-                    disabled={
-                      loading || 
-                      success || 
-                      promoCode === ""}
+                    disabled={loading || success || promoCode === ""}
                   >
                     Apply
                   </Button>

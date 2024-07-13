@@ -171,47 +171,43 @@ import {
   APPLY_PROMO_CODE_REQUEST,
   APPLY_PROMO_CODE_SUCCESS,
   APPLY_PROMO_CODE_FAIL,
+  RESET_APPLY_PROMO_CODE_STATE,
   GET_SELLER_PAID_ADS_CHARGES_REQUEST,
   GET_SELLER_PAID_ADS_CHARGES_SUCCESS,
   GET_SELLER_PAID_ADS_CHARGES_FAIL,
   PAY_ADS_CHARGES_REQUEST,
-PAY_ADS_CHARGES_SUCCESS,
-PAY_ADS_CHARGES_FAIL,
-
-GET_PAID_ADS_CHARGES_RECEIPT_REQUEST,
-GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS,
-GET_PAID_ADS_CHARGES_RECEIPT_FAIL,
-
-CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_REQUEST,
-CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_SUCCESS,
-CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_FAIL,
-CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_REQUEST,
-CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_SUCCESS,
-CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_FAIL,
-CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_REQUEST,
-CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
-CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_FAIL,
-CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_REQUEST,
-CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
-CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_FAIL,
-
-GET_ACTIVE_BUYER_FREE_AD_MESSAGES_REQUEST,
-GET_ACTIVE_BUYER_FREE_AD_MESSAGES_SUCCESS,
-GET_ACTIVE_BUYER_FREE_AD_MESSAGES_FAIL,
-GET_ACTIVE_BUYER_PAID_AD_MESSAGES_REQUEST,
-GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS,
-GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL,
-
-GET_SELLER_AD_STATISTICS_REQUEST,
-GET_SELLER_AD_STATISTICS_SUCCESS,
-GET_SELLER_AD_STATISTICS_FAIL,
-TOGGLE_FOLLOW_SELLER_REQUEST,
-TOGGLE_FOLLOW_SELLER_SUCCESS,
-TOGGLE_FOLLOW_SELLER_FAIL,
-
-GET_FOLLOWED_SELLER_REQUEST,
-GET_FOLLOWED_SELLER_SUCCESS,
-GET_FOLLOWED_SELLER_FAIL,
+  PAY_ADS_CHARGES_SUCCESS,
+  PAY_ADS_CHARGES_FAIL,
+  GET_PAID_ADS_CHARGES_RECEIPT_REQUEST,
+  GET_PAID_ADS_CHARGES_RECEIPT_SUCCESS,
+  GET_PAID_ADS_CHARGES_RECEIPT_FAIL,
+  CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_REQUEST,
+  CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_SUCCESS,
+  CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_FAIL,
+  CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_REQUEST,
+  CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_SUCCESS,
+  CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_FAIL,
+  CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_REQUEST,
+  CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
+  CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_FAIL,
+  CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_REQUEST,
+  CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_SUCCESS,
+  CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_FAIL,
+  GET_ACTIVE_BUYER_FREE_AD_MESSAGES_REQUEST,
+  GET_ACTIVE_BUYER_FREE_AD_MESSAGES_SUCCESS,
+  GET_ACTIVE_BUYER_FREE_AD_MESSAGES_FAIL,
+  GET_ACTIVE_BUYER_PAID_AD_MESSAGES_REQUEST,
+  GET_ACTIVE_BUYER_PAID_AD_MESSAGES_SUCCESS,
+  GET_ACTIVE_BUYER_PAID_AD_MESSAGES_FAIL,
+  GET_SELLER_AD_STATISTICS_REQUEST,
+  GET_SELLER_AD_STATISTICS_SUCCESS,
+  GET_SELLER_AD_STATISTICS_FAIL,
+  TOGGLE_FOLLOW_SELLER_REQUEST,
+  TOGGLE_FOLLOW_SELLER_SUCCESS,
+  TOGGLE_FOLLOW_SELLER_FAIL,
+  GET_FOLLOWED_SELLER_REQUEST,
+  GET_FOLLOWED_SELLER_SUCCESS,
+  GET_FOLLOWED_SELLER_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
@@ -257,14 +253,9 @@ const initialState = {
   totalFollwersCount: [],
 
   followedSellers: [],
-
 };
 
-
-export const getFollowedSellersReducer = (
-  state = initialState,
-  action
-) => {
+export const getFollowedSellersReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_FOLLOWED_SELLER_REQUEST:
       return { loading: true };
@@ -316,7 +307,6 @@ export const getSellerAdStatisticsReducer = (state = initialState, action) => {
   }
 };
 
-
 export const GetActiveBuyerFreeAdMessagesReducer = (
   state = initialState,
   action
@@ -359,7 +349,10 @@ export const GetActiveBuyerPaidAdMessagesReducer = (
   }
 };
 
-export const clearSellerFreeAdMsgCounterReducer = (state = initialState, action) => {
+export const clearSellerFreeAdMsgCounterReducer = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
     case CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_REQUEST:
       return { loading: true };
@@ -367,7 +360,6 @@ export const clearSellerFreeAdMsgCounterReducer = (state = initialState, action)
       return {
         loading: false,
         success: true,
-        
       };
     case CLEAR_SELLER_FREE_AD_MESSAGE_COUNTER_FAIL:
       return { loading: false, error: action.payload };
@@ -376,7 +368,10 @@ export const clearSellerFreeAdMsgCounterReducer = (state = initialState, action)
   }
 };
 
-export const clearBuyerFreeAdMsgCounterReducer = (state = initialState, action) => {
+export const clearBuyerFreeAdMsgCounterReducer = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
     case CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_REQUEST:
       return { loading: true };
@@ -384,7 +379,6 @@ export const clearBuyerFreeAdMsgCounterReducer = (state = initialState, action) 
       return {
         loading: false,
         success: true,
-        
       };
     case CLEAR_BUYER_FREE_AD_MESSAGE_COUNTER_FAIL:
       return { loading: false, error: action.payload };
@@ -393,7 +387,10 @@ export const clearBuyerFreeAdMsgCounterReducer = (state = initialState, action) 
   }
 };
 
-export const clearSellerPaidAdMsgCounterReducer = (state = initialState, action) => {
+export const clearSellerPaidAdMsgCounterReducer = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
     case CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_REQUEST:
       return { loading: true };
@@ -401,7 +398,6 @@ export const clearSellerPaidAdMsgCounterReducer = (state = initialState, action)
       return {
         loading: false,
         success: true,
-        
       };
     case CLEAR_SELLER_PAID_AD_MESSAGE_COUNTER_FAIL:
       return { loading: false, error: action.payload };
@@ -410,7 +406,10 @@ export const clearSellerPaidAdMsgCounterReducer = (state = initialState, action)
   }
 };
 
-export const clearBuyerPaidAdMsgCounterReducer = (state = initialState, action) => {
+export const clearBuyerPaidAdMsgCounterReducer = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
     case CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_REQUEST:
       return { loading: true };
@@ -418,7 +417,6 @@ export const clearBuyerPaidAdMsgCounterReducer = (state = initialState, action) 
       return {
         loading: false,
         success: true,
-        
       };
     case CLEAR_BUYER_PAID_AD_MESSAGE_COUNTER_FAIL:
       return { loading: false, error: action.payload };
@@ -453,7 +451,6 @@ export const payAdChargesReducer = (state = initialState, action) => {
       return {
         loading: false,
         success: true,
-        
       };
     case PAY_ADS_CHARGES_FAIL:
       return { loading: false, error: action.payload };
@@ -496,6 +493,8 @@ export const applyPomoCodeReducer = (state = initialState, action) => {
       };
     case APPLY_PROMO_CODE_FAIL:
       return { loading: false, error: action.payload };
+    case RESET_APPLY_PROMO_CODE_STATE:
+      return {};
     default:
       return state;
   }

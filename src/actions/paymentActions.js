@@ -13,27 +13,33 @@ import {
   PAYSOFTER_PAYMENT_CREATE_REQUEST,
   PAYSOFTER_PAYMENT_CREATE_SUCCESS,
   PAYSOFTER_PAYMENT_CREATE_FAIL,
+  RESET_PAYSOFTER_PAYMENT_STATE,
   DEBIT_PAYSOFTER_ACCOUNT_REQUEST,
   DEBIT_PAYSOFTER_ACCOUNT_SUCCESS,
   DEBIT_PAYSOFTER_ACCOUNT_FAIL,
+  RESET_DEBIT_PAYSOFTER_NGN_STATE,
   CREATE_PAYSOFTER_PROMISE_REQUEST,
   CREATE_PAYSOFTER_PROMISE_SUCCESS,
   CREATE_PAYSOFTER_PROMISE_FAIL,
+  RESET_CREATE_PAYSOFTER_PROMISE_STATE,
   GET_PAYMENT_API_KEYS_REQUEST,
   GET_PAYMENT_API_KEYS_SUCCESS,
   GET_PAYMENT_API_KEYS_FAIL,
   DEBIT_PAYSOFTER_USD_ACCOUNT_REQUEST,
   DEBIT_PAYSOFTER_USD_ACCOUNT_SUCCESS,
   DEBIT_PAYSOFTER_USD_ACCOUNT_FAIL,
+  RESET_DEBIT_PAYSOFTER_USD_STATE,
 } from "../constants/paymentConstants";
 
 import {
   VERIFY_OTP_REQUEST,
   VERIFY_OTP_SUCCESS,
   VERIFY_OTP_FAIL,
+  RESET_VERIFY_OTP_STATE,
   VERIFY_USD_OTP_REQUEST,
   VERIFY_USD_OTP_SUCCESS,
   VERIFY_USD_OTP_FAIL,
+  RESET_VERIFY_USD_OTP_STATE,
 } from "../constants/accountFundOtpConstants";
 
 import { API_URL, PAYSOFTER_API_URL } from "../config/apiConfig";
@@ -81,6 +87,10 @@ export const debitPaysofterUsdAccountFund = (debitUsdAccountData) => async (
   }
 };
 
+export const resetDebitPaysofterUsdState = () => (dispatch) => {
+  dispatch({ type: RESET_DEBIT_PAYSOFTER_USD_STATE });
+};
+
 export const verifyUsdPromiseOtp = (otpData) => async (dispatch) => {
   try {
     dispatch({
@@ -114,6 +124,10 @@ export const verifyUsdPromiseOtp = (otpData) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const resetVerifyUsdOtpState = () => (dispatch) => {
+  dispatch({ type: RESET_VERIFY_USD_OTP_STATE });
 };
 
 export const getPaymentApiKeys = () => async (dispatch, getState) => {
@@ -230,6 +244,10 @@ export const createPaysofterPayment = (paysofterPaymentData) => async (
   }
 };
 
+export const resetCreatePaysofterPaymentState = () => (dispatch) => {
+  dispatch({ type: RESET_PAYSOFTER_PAYMENT_STATE });
+};
+
 export const createPaysofterPromise = (paysofterPromiseData) => async (
   dispatch
 ) => {
@@ -265,6 +283,9 @@ export const createPaysofterPromise = (paysofterPromiseData) => async (
           : error.message,
     });
   }
+};
+export const resetCreatePaysofterPromiseState = () => (dispatch) => {
+  dispatch({ type: RESET_CREATE_PAYSOFTER_PROMISE_STATE });
 };
 
 export const debitPaysofterAccountFund = (debitAccountData) => async (
@@ -310,6 +331,10 @@ export const debitPaysofterAccountFund = (debitAccountData) => async (
   }
 };
 
+export const resetDebitPaysofterNgnState = () => (dispatch) => {
+  dispatch({ type: RESET_DEBIT_PAYSOFTER_NGN_STATE });
+};
+
 export const verifyOtp = (otpData) => async (dispatch) => {
   try {
     dispatch({
@@ -343,6 +368,10 @@ export const verifyOtp = (otpData) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const resetVerifyOtpState = () => (dispatch) => {
+  dispatch({ type: RESET_VERIFY_OTP_STATE });
 };
 
 export const listPayments = () => async (dispatch, getState) => {
