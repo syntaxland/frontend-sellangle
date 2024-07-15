@@ -1,19 +1,19 @@
 // Paysofter.js
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, ListGroup } from "react-bootstrap";
-// import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "react-datepicker/dist/react-datepicker.css";
 import PaysofterButton from "./PaysofterButton";
-// import LoaderPaysofter from "../../LoaderPaysofter";
-// import Message from "../../Message";
 import "./Paysofter.css";
 import { formatAmount } from "../../FormatAmount";
 
-function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
-  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);  
-  // const { success, error, loading } = buyCreditPointState;
-
+function Paysofter({
+  currency,
+  amount,
+  paysofterPublicKey,
+  email,
+  onSuccess,
+  onClose,
+}) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -23,16 +23,12 @@ function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
     }
   }, [userInfo]);
 
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-
   return (
     <>
       <Row>
         <div className="d-flex justify-content-center ">
           <Col>
             <h1 className="text-center py-3">Paysofter Payment Option</h1>
-            {/* {loading && <LoaderPaysofter />}
-            {error && <Message variant="danger">{error}</Message>} */}
 
             <ListGroup variant="flush" className="text-center py-2">
               <ListGroup.Item>
@@ -42,12 +38,12 @@ function Paysofter({ currency, amount, paysofterPublicKey, userEmail }) {
 
             <div>
               <PaysofterButton
-                showPaymentModal={showPaymentModal}
-                setShowPaymentModal={setShowPaymentModal}
-                userEmail={userEmail}
+                email={email}
                 currency={currency}
                 amount={amount}
                 paysofterPublicKey={paysofterPublicKey}
+                onSuccess={onSuccess}
+                onClose={onClose}
               />
             </div>
           </Col>

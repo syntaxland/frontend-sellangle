@@ -15,7 +15,7 @@ const PaysofterPromise = ({
   amount,
   paysofterPublicKey,
   onSuccess,
-  onFailure,
+  onClose,
 }) => {
   const dispatch = useDispatch();
 
@@ -84,6 +84,8 @@ const PaysofterPromise = ({
                 email={email}
                 duration={duration}
                 paysofterPublicKey={paysofterPublicKey}
+                onSuccess={onSuccess}
+                onClose={onClose}
               />
             </>
           ) : (
@@ -95,7 +97,7 @@ const PaysofterPromise = ({
                 duration={duration}
                 paysofterPublicKey={paysofterPublicKey}
                 onSuccess={onSuccess}
-                onFailure={onFailure}
+                onClose={onClose}
               />
             </>
           )}

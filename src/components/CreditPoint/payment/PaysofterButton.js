@@ -9,24 +9,19 @@ import UssdPayment from "./UssdPayment";
 import BankPayment from "./BankPayment";
 import TransferPayment from "./TransferPayment";
 import PaysofterAccountFund from "./PaysofterAccountFund";
-import PaysofterUsdAccountFund from "./PaysofterUsdAccountFund"; 
+import PaysofterUsdAccountFund from "./PaysofterUsdAccountFund";
 import QrPayment from "./QrPayment";
 import { formatAmount } from "../../FormatAmount";
 
 import "./Paysofter.css";
 
 function PaysofterButton({
-  showPaymentModal,
-  setShowPaymentModal,
-  reference,
-  userEmail,
+  email,
   amount,
   currency,
   paysofterPublicKey,
-  // handlePaymentDetailsChange,
-  // handlePaymentSubmit,
-  // paymentData,
-  // paysofterPaymentData,
+  onSuccess,
+  onClose,
 }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -37,6 +32,7 @@ function PaysofterButton({
     }
   }, [userInfo]);
 
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("card");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
@@ -46,6 +42,12 @@ function PaysofterButton({
 
   const handleMoreOptions = () => {
     setShowMoreOptions(!showMoreOptions);
+  };
+
+  const handleOnClosePayment = () => {
+    console.log("onClose called!");
+    setShowPaymentModal(false);
+    onClose();
   };
 
   return (
@@ -60,11 +62,16 @@ function PaysofterButton({
         </Button>
       </div>
 
-      <Modal show={showPaymentModal} onHide={() => setShowPaymentModal(false)}>
+      <Modal
+        show={showPaymentModal}
+        // onHide={() => setShowPaymentModal(false)}
+
+        onHide={handleOnClosePayment}
+      >
         <Modal.Header closeButton>
           <div className="text-center w-100 py-2">
-            <Modal.Title>Mock Payment (Test)</Modal.Title>
-            <div>{userEmail}</div>
+            <Modal.Title>Paysofter (Mock Payment)</Modal.Title>
+            <div>{email}</div>
             <div>
               {formatAmount(amount)} {currency}
             </div>
@@ -276,9 +283,10 @@ function PaysofterButton({
                     <CardPayment
                       amount={amount}
                       currency={currency}
-                      reference={reference}
-                      userEmail={userEmail}
+                      email={email}
                       paysofterPublicKey={paysofterPublicKey}
+                      onSuccess={onSuccess}
+                      onClose={handleOnClosePayment}
                     />
                   )}
                 </div>
@@ -290,9 +298,10 @@ function PaysofterButton({
                     <UsdCardPayment
                       amount={amount}
                       currency={currency}
-                      reference={reference}
-                      userEmail={userEmail}
+                      email={email}
                       paysofterPublicKey={paysofterPublicKey}
+                      onSuccess={onSuccess}
+                      onClose={handleOnClosePayment}
                     />
                   )}
                 </div>
@@ -302,9 +311,10 @@ function PaysofterButton({
                 <PaysofterAccountFund
                   currency={currency}
                   amount={amount}
-                  reference={reference}
-                  userEmail={userEmail}
+                  email={email}
                   paysofterPublicKey={paysofterPublicKey}
+                  onSuccess={onSuccess}
+                  onClose={handleOnClosePayment}
                 />
               )}
 
@@ -312,9 +322,10 @@ function PaysofterButton({
                 <PaysofterUsdAccountFund
                   currency={currency}
                   amount={amount}
-                  reference={reference}
-                  userEmail={userEmail}
+                  email={email}
                   paysofterPublicKey={paysofterPublicKey}
+                  onSuccess={onSuccess}
+                  onClose={handleOnClosePayment}
                 />
               )}
 
@@ -322,11 +333,10 @@ function PaysofterButton({
               {selectedPaymentOption === "promise" && (
                 <PaysofterPromise
                   amount={amount}
-                  userEmail={userEmail}
+                  email={email}
                   paysofterPublicKey={paysofterPublicKey}
                   
                   paymentData={paymentData}
-                  reference={reference}
                 />
               )} */}
 
@@ -339,7 +349,7 @@ function PaysofterButton({
         </Modal.Body>
       </Modal>
     </div>
-  ); 
+  );
 }
 
 export default PaysofterButton;

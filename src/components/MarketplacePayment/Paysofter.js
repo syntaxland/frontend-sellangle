@@ -12,7 +12,7 @@ function Paysofter({
   email,
   paysofterPublicKey,
   onSuccess,
-  onFailure,
+  onClose,
 }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -47,7 +47,7 @@ function Paysofter({
                 currency={currency}
                 paysofterPublicKey={paysofterPublicKey}
                 onSuccess={onSuccess}
-                onFailure={onFailure}
+                onClose={onClose}
               />
             </div>
           </Col>

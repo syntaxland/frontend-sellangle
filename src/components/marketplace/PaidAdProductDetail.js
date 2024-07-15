@@ -214,12 +214,14 @@ function PaidAdProductDetail({ match }) {
     handleOnSuccess();
   };
 
-  const handleOnFailure = () => {
-    console.log("handling onFailure...");
+  const handleOnClose= () => {
+    console.log("handling onClose...");
+    window.location.reload();
+    window.location.href = "/";
   };
 
-  const onFailure = () => {
-    handleOnFailure();
+  const onClose = () => {
+    handleOnClose();
   };
 
   return (
@@ -597,7 +599,7 @@ function PaidAdProductDetail({ match }) {
                   email={userInfo?.email}
                   paysofterPublicKey={sellerApiKey}
                   onSuccess={onSuccess}
-                  onFailure={onFailure}
+                  onClose={onClose}
                 />
               )}
             </Col>

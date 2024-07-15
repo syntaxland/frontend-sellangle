@@ -25,6 +25,7 @@ import {
   BUY_CREDIT_POINT_REQUEST,
   BUY_CREDIT_POINT_SUCCESS,
   BUY_CREDIT_POINT_FAIL,
+  RESET_BUY_CREDIT_POINT_STATE,
   SELL_CREDIT_POINT_REQUEST,
   SELL_CREDIT_POINT_SUCCESS,
   SELL_CREDIT_POINT_FAIL,
@@ -40,6 +41,7 @@ import {
   BUY_USD_CREDIT_POINT_REQUEST,
   BUY_USD_CREDIT_POINT_SUCCESS,
   BUY_USD_CREDIT_POINT_FAIL,
+  RESET_BUY_USD_CREDIT_POINT_STATE,
   GET_USD_BUY_CREDIT_POINT_REQUEST,
   GET_USD_BUY_CREDIT_POINT_SUCCESS,
   GET_USD_BUY_CREDIT_POINT_FAIL,
@@ -274,7 +276,7 @@ export const buyCreditPoint = (creditPointData) => async (
     );
 
     dispatch({ type: BUY_CREDIT_POINT_SUCCESS, payload: data });
-    window.location.reload();
+    // window.location.reload();
     // window.location.href = "/dashboard/users";
   } catch (error) {
     dispatch({
@@ -285,6 +287,10 @@ export const buyCreditPoint = (creditPointData) => async (
           : error.message,
     });
   }
+};
+
+export const resetbuyCreditPointState = () => (dispatch) => {
+  dispatch({ type: RESET_BUY_CREDIT_POINT_STATE });
 };
 
 export const buyUsdCreditPoint = (creditPointData) => async (
@@ -312,7 +318,7 @@ export const buyUsdCreditPoint = (creditPointData) => async (
     );
 
     dispatch({ type: BUY_USD_CREDIT_POINT_SUCCESS, payload: data });
-    window.location.reload();
+    // window.location.reload();
     // window.location.href = "/dashboard/users";
   } catch (error) {
     dispatch({
@@ -323,6 +329,10 @@ export const buyUsdCreditPoint = (creditPointData) => async (
           : error.message,
     });
   }
+};
+
+export const resetbuyUsdCreditPointState = () => (dispatch) => {
+  dispatch({ type: RESET_BUY_USD_CREDIT_POINT_STATE });
 };
 
 export const sellCreditPoint = (creditPointData) => async (
@@ -350,8 +360,8 @@ export const sellCreditPoint = (creditPointData) => async (
     );
 
     dispatch({ type: SELL_CREDIT_POINT_SUCCESS, payload: data });
-    window.location.reload();
-    window.location.href = "/dashboard/users";
+    // window.location.reload();
+    // window.location.href = "/dashboard/users";
   } catch (error) {
     dispatch({
       type: SELL_CREDIT_POINT_FAIL,

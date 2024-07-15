@@ -8,16 +8,14 @@ import Loader from "../../Loader";
 import VerifyAccountFundOtp from "./VerifyAccountFundOtp";
 import { formatAmount } from "../../FormatAmount";
 
-const PaysofterAccountFund = ({ 
-  history,
+const PaysofterAccountFund = ({
   amount,
-  paymentData,
-  reference,
-  userEmail,
+  email,
   paysofterPublicKey,
   duration,
-  paymenthMethod,
   currency,
+  onSuccess,
+  onClose,
 }) => {
   const dispatch = useDispatch();
 
@@ -107,27 +105,23 @@ const PaysofterAccountFund = ({
         setShowVerifyAccountFundOtp(true);
       }, 1000);
       return () => clearTimeout(timer);
-    } else {
-      console.error("Error verifying account");
     }
-    // eslint-disable-next-line
-  }, [dispatch, success, history, error]);
+  }, [dispatch, success]);
 
   return (
     <>
       {showVerifyAccountFundOtp ? (
         <VerifyAccountFundOtp
           amount={amount}
-          paymentData={paymentData}
-          reference={reference}
           currency={currency}
-          userEmail={userEmail}
+          email={email}
           paysofterPublicKey={paysofterPublicKey}
           securityCode={securityCode}
           accountId={accountId}
           formattedPayerEmail={formattedPayerEmail}
           duration={duration}
-          paymenthMethod={paymenthMethod}
+          onSuccess={onSuccess}
+          onClose={onClose}
         />
       ) : (
         <Row className="justify-content-center">

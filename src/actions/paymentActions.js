@@ -126,6 +126,41 @@ export const verifyUsdPromiseOtp = (otpData) => async (dispatch) => {
   }
 };
 
+export const verifyUsdOtp = (otpData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: VERIFY_USD_OTP_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      `${PAYSOFTER_API_URL}/api/verify-usd-account-debit-email-otp/`,
+      { otpData },
+      config
+    );
+
+    dispatch({
+      type: VERIFY_USD_OTP_SUCCESS,
+      payload: data,
+    });
+    // window.location.reload();
+    // window.location.href = "/dashboard/users";
+  } catch (error) {
+    dispatch({
+      type: VERIFY_USD_OTP_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
 export const resetVerifyUsdOtpState = () => (dispatch) => {
   dispatch({ type: RESET_VERIFY_USD_OTP_STATE });
 };

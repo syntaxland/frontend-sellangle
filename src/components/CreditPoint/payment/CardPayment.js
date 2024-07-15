@@ -1,27 +1,26 @@
 // CardPayment.js
-import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { buyCreditPoint } from "../../../actions/creditPointActions";
 import {
-  // createPayment,
   createPaysofterPayment,
+  resetCreatePaysofterPaymentState,
 } from "../../../actions/paymentActions";
 import Message from "../../Message";
 import Loader from "../../Loader";
 import { formatAmount } from "../../FormatAmount";
+import Select from "react-select";
+import { MONTH_CHOICES, YEAR_CHOICES } from "./payment-constants";
 
 function CardPayment({
   amount,
   currency,
-  reference,
-  userEmail,
+  email,
   paysofterPublicKey,
+  onSuccess,
+  onClose
 }) {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -35,11 +34,16 @@ function CardPayment({
   const paysofterPayment = useSelector((state) => state.paysofterPayment);
   const { loading, success, error } = paysofterPayment;
 
-  const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
-  const {
-    success: buyCreditPointSuccess,
-    error: buyCreditPointError,
-  } = buyCreditPointState;
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
+
+  const [monthChoices, setMonthChoices] = useState([]);
+  const [yearChoices, setYearChoices] = useState([]);
+
+  useEffect(() => {
+    setMonthChoices(MONTH_CHOICES);
+    setYearChoices(YEAR_CHOICES);
+  }, []);
 
   const [cardType, setCardType] = useState("");
   const [paymentDetails, setPaymentDetails] = useState({
@@ -50,29 +54,35 @@ function CardPayment({
     cvv: "",
   });
 
-  const [
-    isExpirationMonthYearSelected,
-    setIsExpirationMonthYearSelected,
-  ] = useState(false);
+  const formatCard = (value) => {
+    return value
+      .replace(/\s?/g, "")
+      .replace(/(\d{4})/g, "$1 ")
+      .trim();
+  };
 
-  const handlePaymentDetailsChange = (e) => {
-    const { name, value } = e.target;
-
-    // Detect card type based on the card number prefix
-    let detectedCardType = "";
-    if (/^4/.test(value)) {
-      detectedCardType = "Visa";
-    } else if (/^5[1-5]/.test(value)) {
-      detectedCardType = "Mastercard";
+  const handlePaymentDetailsChange = (name, value) => {
+    if (name === "cardNumber") {
+      value = formatCard(value);
+      let detectedCardType = "";
+      if (/^4/.test(value)) {
+        detectedCardType = "Visa";
+      } else if (/^5[1-5]/.test(value)) {
+        detectedCardType = "Mastercard";
+      }
+      setCardType(detectedCardType);
     }
-    setCardType(detectedCardType);
+
     setPaymentDetails({ ...paymentDetails, [name]: value });
   };
 
+
+
   const isFormValid = () => {
     return (
-      isExpirationMonthYearSelected &&
       paymentDetails.cardNumber &&
+      paymentDetails.expirationMonth &&
+      paymentDetails.expirationYear &&
       paymentDetails.cvv
     );
   };
@@ -83,68 +93,53 @@ function CardPayment({
     e.preventDefault();
 
     const paysofterPaymentData = {
-      payment_id: reference,
-      email: userEmail,
+      email: email,
       currency: currency,
       amount: amount,
       public_api_key: paysofterPublicKey,
       created_at: createdAt,
 
       card_number: paymentDetails.cardNumber,
-      expiration_month_year: paymentDetails.expirationMonthYear,
+      expiration_month: paymentDetails.expirationMonth,
+      expiration_year: paymentDetails.expirationYear,
       cvv: paymentDetails.cvv,
     };
 
     dispatch(createPaysofterPayment(paysofterPaymentData));
   };
 
-  const creditPointData = {
-    amount: amount,
-  };
+  const handleOnSuccess = useCallback(() => {
+    onSuccess();
+  }, [onSuccess]);
+
+const handleOnClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   useEffect(() => {
-    if (success) {
-      dispatch(buyCreditPoint(creditPointData));
-
-      const timer = setTimeout(() => {
-        // window.location.reload();
-        // window.location.href = "/dashboard/users";
-      }, 5000);
-      return () => clearTimeout(timer);
+    if (success && !hasHandledSuccess) {
+      setShowSuccessMessage(true);
+      setHasHandledSuccess(true);
+      handleOnSuccess();
+      console.log("onSuccess dispatched2");
+      setTimeout(() => {
+                handleOnClose();
+        setShowSuccessMessage(false);
+        dispatch(resetCreatePaysofterPaymentState());
+      }, 3000);
     }
-    // console.log('// eslint-disable-next-line')
-    // eslint-disable-next-line
-  }, [dispatch, success, history]);
-
-  useEffect(() => {
-    if (buyCreditPointSuccess) {
-      const timer = setTimeout(() => {
-        window.location.reload();
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [buyCreditPointSuccess, history]);
+  }, [dispatch, success, hasHandledSuccess, handleOnSuccess, handleOnClose]);
 
   return (
     <div>
       <h2 className="py-2 text-center">Debit Card</h2>
-      {success && (
+
+      {showSuccessMessage && (
         <Message variant="success">Payment made successfully.</Message>
       )}
 
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
-
-      {buyCreditPointSuccess && (
-        <Message variant="success">
-          Your account has been credited with the CPS purchased for {amount}{" "}
-          {currency}.
-        </Message>
-      )}
-
-      {buyCreditPointError && (
-        <Message variant="danger">{buyCreditPointError}</Message>
-      )}
 
       <Form onSubmit={submitHandler}>
         <Form.Group>
@@ -153,10 +148,12 @@ function CardPayment({
             type="text"
             name="cardNumber"
             value={paymentDetails.cardNumber}
-            onChange={handlePaymentDetailsChange}
+            onChange={(e) =>
+              handlePaymentDetailsChange("cardNumber", e.target.value)
+            }
             required
             placeholder="1234 5678 9012 3456"
-            maxLength="16"
+            maxLength="19"
           />
         </Form.Group>
         {cardType && (
@@ -170,46 +167,66 @@ function CardPayment({
         )}
         <i className="fab fa-cc-mastercard"></i>{" "}
         <i className="fab fa-cc-visa"></i>
-        <Form.Group>
-          <Form.Label>Expiration Month/Year</Form.Label>
-          {/*<Form.Control
-            type="text" // You can change this to 'date' for separate month and year fields
-            name="expirationMonthYear"
-            value={paymentDetails.expirationMonthYear}
-            onChange={handlePaymentDetailsChange}
-            required
-            placeholder="MM/YY"
-          /> */}
-          <DatePicker
-            selected={paymentDetails.expirationMonthYear}
-            onChange={(date) => {
-              setPaymentDetails({
-                ...paymentDetails,
-                expirationMonthYear: date,
-              });
-              setIsExpirationMonthYearSelected(!!date);
-            }}
-            dateFormat="MM/yy"
-            showMonthYearPicker
-            isClearable
-            placeholderText="Select month/year"
-            className="rounded-select"
-          />
-        </Form.Group>
+        <Row>
+          <Col>
+            <Form.Group>
+              <Form.Label>Expiration Month</Form.Label>
+              <Select
+                options={monthChoices?.map(([value, label]) => ({
+                  value,
+                  label,
+                }))}
+                onChange={(selectedOption) =>
+                  handlePaymentDetailsChange(
+                    "expirationMonth",
+                    selectedOption.value
+                  )
+                }
+                value={{
+                  value: paymentDetails.expirationMonth,
+                  label: paymentDetails.expirationMonth,
+                }}
+                placeholder="Select Month"
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label>Expiration Year</Form.Label>
+              <Select
+                options={yearChoices?.map(([value, label]) => ({
+                  value,
+                  label,
+                }))}
+                value={{
+                  value: paymentDetails.expirationYear,
+                  label: paymentDetails.expirationYear,
+                }}
+                onChange={(selectedOption) =>
+                  handlePaymentDetailsChange(
+                    "expirationYear",
+                    selectedOption.value
+                  )
+                }
+                placeholder="Select Year"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
         <Form.Group>
           <Form.Label>CVV</Form.Label>
           <Form.Control
             type="password"
             name="cvv"
             value={paymentDetails.cvv}
-            onChange={handlePaymentDetailsChange}
+            onChange={(e) => handlePaymentDetailsChange("cvv", e.target.value)}
             required
             maxLength="3"
             placeholder="123"
           />
         </Form.Group>
         <div className="text-center w-100 py-2">
-          <Button variant="primary" type="submit" disabled={!isFormValid()}>
+          <Button variant="primary" type="submit" disabled={!isFormValid() || loading}>
             Pay{" "}
             <span>
               ({formatAmount(amount)} {currency})

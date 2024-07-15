@@ -17,7 +17,7 @@ const PaysofterUsdAccountFundPromise = ({
   duration,
   currency,
   onSuccess,
-  onFailure,
+  onClose,
 }) => {
   const dispatch = useDispatch();
 
@@ -166,7 +166,7 @@ const PaysofterUsdAccountFundPromise = ({
           currency={currency}
           duration={duration}
           onSuccess={onSuccess}
-          onFailure={onFailure}
+          onClose={onClose}
         />
       ) : (
         <Row className="justify-content-center">

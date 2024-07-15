@@ -1,28 +1,30 @@
 // VerifyAccountFundOtp.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { clearCart } from "../../../actions/cartActions";
 import {
-  // createPayment,
   createPaysofterPayment,
+  resetCreatePaysofterPaymentState,
   debitPaysofterAccountFund,
+  resetDebitPaysofterNgnState,
   verifyOtp,
-} from "../../../actions/paymentActions"; 
-import { buyCreditPoint } from "../../../actions/creditPointActions";
-import { useHistory } from "react-router-dom";
+  resetVerifyOtpState,
+} from "../../../actions/paymentActions";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Loader from "../../Loader";
 import Message from "../../Message";
 
 const VerifyAccountFundOtp = ({
   amount,
-  paymentData,
   reference,
-  userEmail,
+  email,
   currency,
   paysofterPublicKey,
   formattedPayerEmail,
+  onSuccess,
+  onClose,
 }) => {
+  const dispatch = useDispatch();
+
   const [otp, setOtp] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -30,9 +32,7 @@ const VerifyAccountFundOtp = ({
   const [countdown, setCountdown] = useState(60);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const createdAt = new Date().toISOString();
-
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -46,11 +46,12 @@ const VerifyAccountFundOtp = ({
   const otpVerifyState = useSelector((state) => state.otpVerifyState);
   const { loading, success, error } = otpVerifyState;
 
-  const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
+  const paysofterPayment = useSelector((state) => state.paysofterPayment);
   const {
-    success: buyCreditPointSuccess,
-    error: buyCreditPointError,
-  } = buyCreditPointState;
+    success: paysofterPaymentSuccess,
+    error: paysofterPaymentError,
+    loading: paysofterPaymentLoading,
+  } = paysofterPayment;
 
   console.log("formattedPayerEmail:", formattedPayerEmail);
 
@@ -60,7 +61,7 @@ const VerifyAccountFundOtp = ({
 
   const paysofterPaymentData = {
     payment_id: reference,
-    email: userEmail,
+    email: email,
     amount: amount,
     public_api_key: paysofterPublicKey,
     created_at: createdAt,
@@ -110,31 +111,43 @@ const VerifyAccountFundOtp = ({
     };
   }, [countdown, resendDisabled]);
 
-  const creditPointData = {
-    amount: amount,
-  };
-
   useEffect(() => {
     if (success) {
       dispatch(createPaysofterPayment(paysofterPaymentData));
-      dispatch(buyCreditPoint(creditPointData));
-      localStorage.removeItem("debitAccountData");
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        // window.location.reload();
-      }, 5000);
     }
     // eslint-disable-next-line
-  }, [dispatch, success, history]);
+  }, [dispatch, success]);
+
+  const handleOnSuccess = useCallback(() => {
+    onSuccess();
+  }, [onSuccess]);
+
+  const handleOnClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   useEffect(() => {
-    if (buyCreditPointSuccess) {
-      const timer = setTimeout(() => {
-        window.location.reload();
-      }, 5000);
-      return () => clearTimeout(timer);
+    if (paysofterPaymentSuccess && !hasHandledSuccess) {
+      setHasHandledSuccess(true);
+      setShowSuccessMessage(true);
+      handleOnSuccess();
+      console.log("onSuccess dispatched2");
+      localStorage.removeItem("debitAccountData");
+      dispatch(resetCreatePaysofterPaymentState());
+      dispatch(resetDebitPaysofterNgnState());
+      dispatch(resetVerifyOtpState());
+      setTimeout(() => {
+        handleOnClose();
+        setShowSuccessMessage(false);
+      }, 3000);
     }
-  }, [buyCreditPointSuccess, history]);
+  }, [
+    dispatch,
+    paysofterPaymentSuccess,
+    handleOnSuccess,
+    hasHandledSuccess,
+    handleOnClose,
+  ]);
 
   return (
     <Container>
@@ -147,13 +160,19 @@ const VerifyAccountFundOtp = ({
             )}
             {loading && <Loader />}
             {error && <Message variant="danger">{error}</Message>}
+
+            {paysofterPaymentLoading && <Loader />}
+            {paysofterPaymentError && (
+              <Message variant="danger">{error}</Message>
+            )}
+
             {resendMessage && (
               <Message variant={resendLoading ? "info" : "success"}>
                 {resendMessage}
               </Message>
             )}
 
-            {buyCreditPointSuccess && (
+            {/* {buyCreditPointSuccess && (
               <Message variant="success">
                 Your account has been credited with the credit points purchased
                 for {amount} {currency}.
@@ -162,7 +181,7 @@ const VerifyAccountFundOtp = ({
 
             {buyCreditPointError && (
               <Message variant="danger">{buyCreditPointError}</Message>
-            )}
+            )} */}
 
             <Form className="py-2">
               <Form.Group controlId="otp">
@@ -177,7 +196,7 @@ const VerifyAccountFundOtp = ({
               <div className="py-3">
                 <Button
                   onClick={handleVerifyEmailOtp}
-                  disabled={loading || success}
+                  disabled={otp === "" || loading || success}
                   variant="success"
                   type="submit"
                   className="rounded"

@@ -1,17 +1,24 @@
 // // Paystack.js
 import React, { useEffect } from "react";
 import { Button, Row, Col, ListGroup } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { PaystackButton } from "react-paystack";
-import { useDispatch, useSelector } from "react-redux";
-import { buyCreditPoint } from "../../../actions/creditPointActions";
-import Loader from "../../Loader";
-import Message from "../../Message";
+import { useSelector } from "react-redux";
+// import { buyCreditPoint } from "../../../actions/creditPointActions";
+// import Loader from "../../Loader";
+// import Message from "../../Message";
 import { formatAmount } from "../../FormatAmount";
 
-function Paystack({ currency, amount, paystackPublicKey, userEmail }) {
-  const history = useHistory();
-  const dispatch = useDispatch();
+function Paystack({
+  currency,
+  amount,
+  paystackPublicKey,
+  email,
+  onSuccess,
+  onClose,
+}) {
+  // const history = useHistory();
+  // const dispatch = useDispatch();
 
   // console.log("amount:", amount);
 
@@ -22,40 +29,40 @@ function Paystack({ currency, amount, paystackPublicKey, userEmail }) {
     if (!userInfo) {
       window.location.href = "/login";
     }
-  }, [userInfo, dispatch]);
+  }, [userInfo]);
 
-  const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
-  const { success, error, loading } = buyCreditPointState;
+  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
+  // const { success, error, loading } = buyCreditPointState;
 
-  useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        window.location.reload();
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [success, history]);
+  // useEffect(() => {
+  //   if (success) {
+  //     const timer = setTimeout(() => {
+  //       window.location.reload();
+  //     }, 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [success, history]);
 
-  const creditPointData = {
-    amount: amount,
-  };
+  // const creditPointData = {
+  //   amount: amount,
+  // };
 
-  const handlePayment = () => {
-    dispatch(buyCreditPoint(creditPointData));
-  };
+  // const handlePayment = () => {
+  //   dispatch(buyCreditPoint(creditPointData));
+  // };
 
-  const onSuccess = () => {
-    handlePayment();
-  };
+  // const onSuccess = () => {
+  //   handlePayment();
+  // };
 
   const paymentObject = {
     publicKey: paystackPublicKey,
-    email: userEmail,
+    email: email,
     // reference: reference,
     amount: amount * 100,
     currency: "NGN",
     onSuccess: onSuccess,
-    // onClose: onClose,
+    onClose: onClose,
   };
 
   return (
@@ -65,14 +72,14 @@ function Paystack({ currency, amount, paystackPublicKey, userEmail }) {
           <Col>
             <h1 className="text-center py-3">Paystack Payment Option</h1>
 
-            {loading && <Loader />}
+            {/* {loading && <Loader />}
             {error && <Message variant="danger">{error}</Message>}
 
             {success && (
               <Message variant="success">
                 You have received {amount} credit points.
               </Message>
-            )}
+            )} */}
 
             <ListGroup variant="flush" className="text-center py-2">
               <ListGroup.Item>
@@ -85,7 +92,7 @@ function Paystack({ currency, amount, paystackPublicKey, userEmail }) {
                 <Button className="w-100 rounded" variant="dark">
                   Pay Now
                 </Button>
-              </PaystackButton> 
+              </PaystackButton>
             </div>
           </Col>
         </div>

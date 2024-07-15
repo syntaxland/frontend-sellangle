@@ -3,8 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { getPaymentApiKeys } from "../../actions/paymentActions";
+import {
+  buyUsdCreditPoint,
+  resetbuyUsdCreditPointState,
+} from "../../actions/creditPointActions";
+import Message from "../Message";
+import Loader from "../Loader";
 import PaymentScreen from "./payment/PaymentScreen";
-// import Select from "react-select";
 
 function BuyUsdCreditPoint({ currency }) {
   const dispatch = useDispatch();
@@ -32,6 +37,16 @@ function BuyUsdCreditPoint({ currency }) {
     }
   }, [userInfo, dispatch]);
 
+  const buyUsdCreditPointState = useSelector(
+    (state) => state.buyUsdCreditPointState
+  );
+  const {
+    loading: buyCreditPointLoading,
+    success: buyCreditPointSuccess,
+    error: buyCreditPointError,
+  } = buyUsdCreditPointState;
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [amount, setAmount] = useState("");
   const [showPaymentScreen, setShowPaymentScreen] = useState(false);
 
@@ -52,17 +67,65 @@ function BuyUsdCreditPoint({ currency }) {
     ["1000", "1,500,000 cps for 1,000 USD"],
   ];
 
+  const handleOnSuccess = () => {
+    console.log("handling onSuccess...");
+    const creditPointData = {
+      amount: amount,
+    };
+    dispatch(buyUsdCreditPoint(creditPointData));
+  };
+
+  const onSuccess = () => {
+    handleOnSuccess();
+  };
+
+  const handleOnClose = () => {
+    console.log("handling onClose...");
+    window.location.reload();
+    window.location.href = "/";
+  };
+
+  const onClose = () => {
+    handleOnClose();
+  };
+
+  useEffect(() => {
+    if (buyCreditPointSuccess) {
+      setShowSuccessMessage(true);
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+        dispatch(resetbuyUsdCreditPointState());
+        window.location.reload();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [dispatch, buyCreditPointSuccess]);
+
   console.log("amount:", currency, amount);
 
   return (
     <Container>
+      {showSuccessMessage && (
+        <Message variant="success" fixed>
+          Your account has been credited with the CPS purchased for {amount}{" "}
+          {currency}.
+        </Message>
+      )}
+      {buyCreditPointLoading && <Loader />}
+      {buyCreditPointError && (
+        <Message variant="danger" fixed>
+          {buyCreditPointError}
+        </Message>
+      )}
       {showPaymentScreen ? (
         <PaymentScreen
           currency={currency}
           amount={amount}
           paysofterPublicKey={paysofterPublicKey}
           paystackPublicKey={paystackPublicKey}
-          userEmail={userEmail}
+          email={userEmail}
+          onSuccess={onSuccess}
+          onClose={onClose}
         />
       ) : (
         <Row className="justify-content-center py-2">

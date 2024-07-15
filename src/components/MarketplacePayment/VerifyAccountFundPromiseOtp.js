@@ -1,5 +1,5 @@
 // VerifyAccountFundPromiseOtp.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   debitPaysofterAccountFund,
@@ -9,7 +9,6 @@ import {
   resetVerifyOtpState,
   resetCreatePaysofterPromiseState,
 } from "../../actions/paymentActions";
-// import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Loader from "../Loader";
 import Message from "../Message";
@@ -23,8 +22,11 @@ const VerifyAccountFundPromiseOtp = ({
   currency,
   duration,
   onSuccess,
-  onFailure,
+  // onClose,
 }) => {
+  const dispatch = useDispatch();
+  // const history = useHistory();
+
   const [otp, setOtp] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -36,9 +38,7 @@ const VerifyAccountFundPromiseOtp = ({
     showConfirmPaysofterPromise,
     setShowConfirmPaysofterPromise,
   ] = useState(false);
-
-  const dispatch = useDispatch();
-  // const history = useHistory();
+  const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -61,11 +61,11 @@ const VerifyAccountFundPromiseOtp = ({
     error: promiseError,
   } = createPaysofterPromiseState;
 
-  console.log("formattedPayerEmail:", formattedPayerEmail);
+  // console.log("formattedPayerEmail:", formattedPayerEmail);
 
   const sendOtpData =
     JSON.parse(localStorage.getItem("debitAccountData")) || [];
-  console.log("sendOtpData:", sendOtpData, sendOtpData.account_id);
+  // console.log("sendOtpData:", sendOtpData, sendOtpData.account_id);
 
   const otpData = {
     otp: otp,
@@ -91,7 +91,7 @@ const VerifyAccountFundPromiseOtp = ({
 
     created_at: createdAt,
   };
-  console.log("paysofterPromiseData:", paysofterPromiseData);
+  // console.log("paysofterPromiseData:", paysofterPromiseData);
 
   const handleVerifyEmailOtp = () => {
     dispatch(verifyOtp(otpData));
@@ -124,6 +124,10 @@ const VerifyAccountFundPromiseOtp = ({
     };
   }, [countdown, resendDisabled]);
 
+  const handleOnSuccess = useCallback(() => {
+    onSuccess();
+  }, [onSuccess]);
+
   useEffect(() => {
     if (success) {
       dispatch(createPaysofterPromise(paysofterPromiseData));
@@ -132,12 +136,11 @@ const VerifyAccountFundPromiseOtp = ({
   }, [dispatch, success]);
 
   useEffect(() => {
-    if (promiseSuccess) {
-      if (onSuccess) {
-        onSuccess();
-        console.log("onSuccess dispatched");
-      }
+    if (promiseSuccess && !hasHandledSuccess) {
+      setHasHandledSuccess(true);
       setShowSuccessMessage(true);
+      handleOnSuccess();
+      console.log("onSuccess dispatched2");
       setTimeout(() => {
         setShowConfirmPaysofterPromise(true);
         setShowSuccessMessage(false);
@@ -146,14 +149,14 @@ const VerifyAccountFundPromiseOtp = ({
         dispatch(resetVerifyOtpState());
         localStorage.removeItem("debitAccountData");
       }, 3000);
-      
-    } else if (promiseError) {
-      if (onFailure) {
-        onFailure();
-        console.log("onFailure");
-      }
     }
-  }, [dispatch, promiseSuccess, promiseError, onSuccess, onFailure]);
+  }, [
+    dispatch,
+    promiseSuccess,
+    promiseError,
+    handleOnSuccess,
+    hasHandledSuccess,
+  ]);
 
   return (
     <Container>
@@ -194,7 +197,7 @@ const VerifyAccountFundPromiseOtp = ({
                 <div className="py-3">
                   <Button
                     onClick={handleVerifyEmailOtp}
-                    disabled={loading || success}
+                    disabled={otp === "" || loading || success}
                     variant="success"
                     type="submit"
                     className="rounded"

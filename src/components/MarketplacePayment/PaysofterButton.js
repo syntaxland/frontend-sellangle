@@ -19,7 +19,7 @@ function PaysofterButton({
   email,
   paysofterPublicKey,
   onSuccess,
-  onFailure,
+  onClose,
 }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -42,6 +42,12 @@ function PaysofterButton({
     setShowMoreOptions(!showMoreOptions);
   };
 
+  const handleOnClosePayment = () => {
+    console.log("onClose called!");
+    setShowPaymentModal(false);
+    onClose();
+  };
+
   return (
     <div>
       <div className="text-center">
@@ -54,20 +60,17 @@ function PaysofterButton({
         </Button>
       </div>
 
-      <Modal show={showPaymentModal} onHide={() => setShowPaymentModal(false)}>
+      <Modal
+        show={showPaymentModal}
+        // onHide={() => setShowPaymentModal(false)}
+        onHide={handleOnClosePayment}
+      >
         <Modal.Header closeButton>
           <div className="text-center w-100 py-2">
             <Modal.Title>Mock Payment (Test)</Modal.Title>
             <div>{email}</div>
             <div>
-              {formatAmount(amount)
-
-              // ?.toLocaleString(undefined, {
-              //   minimumFractionDigits: 2,
-              //   maximumFractionDigits: 2,
-              // })
-              }{" "}
-              {currency}
+              {formatAmount(amount)} {currency}
             </div>
           </div>
         </Modal.Header>
@@ -202,7 +205,6 @@ function PaysofterButton({
                   email={email}
                   paysofterPublicKey={paysofterPublicKey}
                   onSuccess={onSuccess}
-                  onFailure={onFailure}
 
                 />
               )} */}
@@ -214,7 +216,6 @@ function PaysofterButton({
                   email={email}
                   paysofterPublicKey={paysofterPublicKey}
                   onSuccess={onSuccess}
-                onFailure={onFailure}
                 />
               )} */}
 
@@ -225,8 +226,8 @@ function PaysofterButton({
                   email={email}
                   paysofterPublicKey={paysofterPublicKey}
                   onSuccess={onSuccess}
-                  onFailure={onFailure}
-                />
+                  onClose={handleOnClosePayment}
+                  />
               )}
               {selectedPaymentOption === "bank" && <BankPayment />}
               {selectedPaymentOption === "transfer" && <TransferPayment />}

@@ -1,18 +1,30 @@
 // PaymentScreen.js
 import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Modal } from "react-bootstrap";
+// import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Paystack from "./Paystack";
 import PaystackUsd from "./PaystackUsd";
 import Paysofter from "./Paysofter";
- 
+// import {
+//   buyCreditPoint,
+//   resetbuyCreditPointState,
+// } from "../../../actions/creditPointActions";
+// import Message from "../../Message";
+// import Loader from "../../Loader";
+
 function PaymentScreen({
   amount,
   currency,
   paysofterPublicKey,
   paystackPublicKey,
-  userEmail,
+  email,
+  onSuccess,
+  onClose,
 }) {
+  // const history = useHistory();
+  // const dispatch = useDispatch();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -22,6 +34,14 @@ function PaymentScreen({
     }
   }, [userInfo]);
 
+  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
+  // const {
+  //   loading: buyCreditPointLoading,
+  //   success: buyCreditPointSuccess,
+  //   error: buyCreditPointError,
+  // } = buyCreditPointState;
+
+  // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [selectedPaymentGateway, setSelectedPaymentGateway] = useState(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
 
@@ -37,6 +57,40 @@ function PaymentScreen({
     setSelectedPaymentGateway(paymentGateway);
   };
 
+  // const handleOnSuccess = () => {
+  //   console.log("handling onSuccess...");
+  //   const creditPointData = {
+  //     amount: amount,
+  //   };
+  //   dispatch(buyCreditPoint(creditPointData));
+  // };
+
+  // const onSuccess = () => {
+  //   handleOnSuccess();
+  // };
+
+  // const handleOnClose = () => {
+  //   console.log("handling onClose...");
+  // };
+
+  // const onClose = () => {
+  //   handleOnClose();
+  // };
+
+  // useEffect(() => {
+  //   if (buyCreditPointSuccess) {
+  //     setShowSuccessMessage(true);
+
+  //     const timer = setTimeout(() => {
+  //       setShowSuccessMessage(false);
+  //       dispatch(resetbuyCreditPointState());
+  //       window.location.reload();
+  //     }, 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+
+  // }, [dispatch, buyCreditPointSuccess, history]);
+
   console.log("amount:", currency, amount);
 
   return (
@@ -45,6 +99,19 @@ function PaymentScreen({
         <div className="d-flex justify-content-center ">
           <Col>
             <h1 className="text-center py-2">Payment Page</h1>
+
+            {/* {showSuccessMessage && (
+              <Message variant="success" fixed>
+                Your account has been credited with the CPS purchased for{" "}
+                {amount} {currency}.
+              </Message>
+            )}
+            {buyCreditPointLoading && <Loader />}
+            {buyCreditPointError && (
+              <Message variant="danger" fixed>
+                {buyCreditPointError}
+              </Message>
+            )} */}
 
             <div className="text-center py-2">
               <Row className="text-center py-2">
@@ -123,7 +190,7 @@ function PaymentScreen({
                   <Paystack
                     currency={currency}
                     amount={amount}
-                    userEmail={userEmail}
+                    email={email}
                     paystackPublicKey={paystackPublicKey}
                   />
                 )}
@@ -136,7 +203,7 @@ function PaymentScreen({
                   <PaystackUsd
                     currency={currency}
                     amount={amount}
-                    userEmail={userEmail}
+                    email={email}
                     paystackPublicKey={paystackPublicKey}
                   />
                 )}
@@ -145,10 +212,12 @@ function PaymentScreen({
 
             {selectedPaymentGateway === "paysofter" && (
               <Paysofter
-                userEmail={userEmail}
+                email={email}
                 currency={currency}
                 amount={amount}
                 paysofterPublicKey={paysofterPublicKey}
+                onSuccess={onSuccess}
+                onClose={onClose}
               />
             )}
           </Col>
