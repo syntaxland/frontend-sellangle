@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import {
   editPaidAd,
   getPaidAdDetail,
@@ -11,7 +11,7 @@ import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
 import Select from "react-select";
-import { Country, State, City } from "country-state-city"; 
+import { Country, State, City } from "country-state-city";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -21,11 +21,12 @@ import {
   AD_CATEGORY_CHOICES,
   AD_TYPE_CHOICES,
   CURRENCY_CHOICES,
-  MAIN_CURRENCY_CHOICES
+  MAIN_CURRENCY_CHOICES,
 } from "../constants";
 
-function EditPaidAd({ history, match }) {
+function EditPaidAd({ match }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [durationChoices, setDurationChoices] = useState([]);
   const [adConditionChoices, setAdConditionChoices] = useState([]);

@@ -22,6 +22,7 @@ import {
 
 function PostFreeAd() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [durationChoices, setDurationChoices] = useState([]);
   const [adConditionChoices, setAdConditionChoices] = useState([]);
@@ -37,7 +38,6 @@ function PostFreeAd() {
     setCurrencyChoices(CURRENCY_CHOICES);
   }, []);
 
-  const history = useHistory();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -51,11 +51,12 @@ function PostFreeAd() {
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
-    } else if (userInfo && !profile.is_marketplace_seller) {
-      history.push("/create-marketplace-seller");
-    } else {
-      history.push("/ad/free");
-    }
+    } 
+    // else if (userInfo && !profile.is_marketplace_seller) {
+    //   history.push("/create-marketplace-seller");
+    // } else {
+    //   history.push("/ad/free");
+    // }
   }, [userInfo, history, profile.is_marketplace_seller]);
 
   const postFreeAdState = useSelector((state) => state.postFreeAdState);
@@ -295,7 +296,6 @@ function PostFreeAd() {
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        // history.push("/seller/bank");
         window.location.reload();
       }, 5000);
       return () => clearTimeout(timer);
@@ -696,19 +696,7 @@ function PostFreeAd() {
 
             <Form.Group>
               <Form.Label>Description</Form.Label>
-              {/* <Form.Control
-                // type="text"
-                as="textarea"
-                rows={2}
-                value={description}
-                onChange={(e) =>
-                  handleFieldChange("description", e.target.value)
-                }
-                placeholder="Enter ad description"
-                className="rounded py-2 mb-2"
-                required
-                maxLength={2000}
-              /> */}
+           
 
               <ReactQuill
                 value={description}

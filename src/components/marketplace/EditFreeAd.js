@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import {
   editFreeAd,
   getFreeAdDetail,
@@ -22,8 +22,9 @@ import {
   CURRENCY_CHOICES,
 } from "../constants";
 
-function EditFreeAd({ history, match }) {
+function EditFreeAd({ match }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [durationChoices, setDurationChoices] = useState([]);
   const [adConditionChoices, setAdConditionChoices] = useState([]);
@@ -505,7 +506,7 @@ function EditFreeAd({ history, match }) {
               />
             </Form.Group>
 
-            <Form.Group>
+            {/* <Form.Group>
               <Form.Label>Promo Code</Form.Label>
               <Form.Control
                 type="text"
@@ -529,7 +530,7 @@ function EditFreeAd({ history, match }) {
                 className="rounded py-2 mb-2"
                 maxLength={4}
               />
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group>
               <Form.Label>Number In Stock</Form.Label>

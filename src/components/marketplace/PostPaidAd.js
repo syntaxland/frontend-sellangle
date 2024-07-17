@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
-import { postPaidAd } from "../../actions/marketplaceSellerActions";import { getUserProfile } from "../../actions/userProfileActions";
+import { useHistory } from "react-router-dom";
+import { postPaidAd } from "../../actions/marketplaceSellerActions";
+import { getUserProfile } from "../../actions/userProfileActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import LoaderButton from "../LoaderButton";
@@ -16,11 +18,12 @@ import {
   AD_CATEGORY_CHOICES,
   AD_TYPE_CHOICES,
   CURRENCY_CHOICES,
-  MAIN_CURRENCY_CHOICES
+  MAIN_CURRENCY_CHOICES,
 } from "../constants";
 
-function PostPaidAd({ history }) {
+function PostPaidAd() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [durationChoices, setDurationChoices] = useState([]);
   const [adConditionChoices, setAdConditionChoices] = useState([]);
@@ -51,11 +54,12 @@ function PostPaidAd({ history }) {
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
-    } else if (userInfo && !profile.is_marketplace_seller) {
-      history.push("/create-marketplace-seller");
-    } else {
-      history.push("/ad/paid");
-    }
+    } 
+    // else if (userInfo && !profile.is_marketplace_seller) {
+    //   history.push("/create-marketplace-seller");
+    // } else {
+    //   history.push("/ad/paid");
+    // }
   }, [userInfo, history, profile.is_marketplace_seller]);
 
   const postPaidAdState = useSelector((state) => state.postPaidAdState);
@@ -172,7 +176,7 @@ function PostPaidAd({ history }) {
   const [
     showLineThrougPriceInfoModal,
     setShowLineThrougPriceInfoModal,
-  ] = useState(false); 
+  ] = useState(false);
 
   const handleMainCurrencyInfoModalShow = () => {
     setShowMainCurrencyInfoModal(true);
@@ -549,12 +553,10 @@ function PostPaidAd({ history }) {
               <Form.Group>
                 <Form.Label>Ad Type*</Form.Label>
                 <Select
-                  options={adTypeChoices[adCategory]?.map(
-                    ([value, label]) => ({
-                      value,
-                      label,
-                    })
-                  )}
+                  options={adTypeChoices[adCategory]?.map(([value, label]) => ({
+                    value,
+                    label,
+                  }))}
                   value={{ value: adType, label: adType }}
                   onChange={handleTypeChange}
                   placeholder="Select Type"
