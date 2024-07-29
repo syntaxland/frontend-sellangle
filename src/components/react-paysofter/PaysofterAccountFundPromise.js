@@ -1,55 +1,43 @@
-// PaysofterAccountFund.js
+// PaysofterAccountFundPromise.js
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { debitPaysofterAccountFund } from "../../actions/paymentActions";
-import Message from "../Message";
-import Loader from "../Loader";
-import VerifyAccountFundOtp from "./VerifyAccountFundOtp";
+import VerifyAccountFundPromiseOtp from "./VerifyAccountFundPromiseOtp";
+import Message from "./Message";
+import MessageFixed from "./MessageFixed";
+import Loader from "./Loader";
+import { formatAmount } from "./FormatAmount";
+import { PAYSOFTER_API_URL } from "./config/apiConfig";
+import axios from "axios";
 
-const PaysofterAccountFund = ({
-  history,
-  promoTotalPrice,
-  paymentData,
-  reference,
-  userEmail,
-  publicApiKey,
+const PaysofterAccountFundPromise = ({
+  email,
+  amount,
+  paysofterPublicKey,
   duration,
-paymenthMethod,
-currency
+  currency,
+  onSuccess,
+  onClose,
 }) => {
-  const dispatch = useDispatch();
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    }
-  }, [userInfo]);
-
-  const debitPaysofterAccountState = useSelector(
-    (state) => state.debitPaysofterAccountState
-  );
-  const {
-    loading,
-    success,
-    formattedPayerEmail,
-    error,
-  } = debitPaysofterAccountState;
-  console.log("formattedPayerEmail:", formattedPayerEmail);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [formattedPayerEmail, setFormattedPayerEmail] = useState("");
+  const [error, setError] = useState("");
 
   const [accountId, setAccountId] = useState("");
+  const [accountIdError, setAccountIdError] = useState("");
+
   const [securityCode, setSecurityCode] = useState("");
-  // const [currency, setCurrency] = useState("");
+  const [securityCodeError, setSecurityCodeError] = useState("");
+
+  // const [formError, setFormError] = useState("");
 
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showAccountInfoModal, setShowAccountInfoModal] = useState(false);
   const [showSecurityCodeModal, setShowSecurityCodeModal] = useState(false);
-  const [showVerifyAccountFundOtp, setShowVerifyAccountFundOtp] = useState(
-    false
-  );
+  const [
+    showVerifyAccountFundPromiseOtp,
+    setShowVerifyAccountFundPromiseOtp,
+  ] = useState(false);
   const [securityCodeVisible, setSecurityCodeVisible] = useState(false);
 
   const handleAccountInfoModalShow = () => {
@@ -63,7 +51,7 @@ currency
   const handleSecurityCodeModalShow = () => {
     setShowSecurityCodeModal(true);
   };
-  
+
   const handleSecurityCodeModalClose = () => {
     setShowSecurityCodeModal(false);
   };
@@ -71,8 +59,6 @@ currency
   const toggleSecurityCodeVisibility = () => {
     setSecurityCodeVisible(!securityCodeVisible);
   };
-
-  
 
   const handleInfoModalShow = () => {
     setShowInfoModal(true);
@@ -82,60 +68,103 @@ currency
     setShowInfoModal(false);
   };
 
-  const debitAccountData = {
-    account_id: accountId,
-    security_code: securityCode,
-    amount: promoTotalPrice, 
+  const handleFieldChange = (fieldName, value) => {
+    switch (fieldName) {
+      case "accountId":
+        setAccountId(value);
+        setAccountIdError("");
+        break;
+
+      case "securityCode":
+        setSecurityCode(value);
+        setSecurityCodeError("");
+        break;
+
+      default:
+        break;
+    }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!accountId) {
+      setAccountIdError("Please enter Account ID.");
+      return;
+    }
+
+    if (!securityCode) {
+      setSecurityCodeError("Please enter Security Code.");
+      return;
+    }
+
+    const debitAccountData = {
+      account_id: accountId,
+      security_code: securityCode,
+      amount: amount,
+      currency: currency,
+      public_api_key: paysofterPublicKey,
+    };
+
+    setLoading(true);
+    setError("");
+
     try {
+      const { data } = await axios.post(
+        `${PAYSOFTER_API_URL}/api/send-debit-fund-account-otp/`,
+        debitAccountData
+      );
+
+      setSuccess(true);
+      setFormattedPayerEmail(data.formattedPayerEmail);
+
       localStorage.setItem(
         "debitAccountData",
         JSON.stringify(debitAccountData)
       );
-      dispatch(debitPaysofterAccountFund(debitAccountData));
     } catch (error) {
-      console.log(error);
+      setError(
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        setShowVerifyAccountFundOtp(true);
+        setShowVerifyAccountFundPromiseOtp(true);
       }, 1000);
       return () => clearTimeout(timer);
     }
-    else {
-      console.error("Error verifying account")
-    }
-    // eslint-disable-next-line
-  }, [dispatch, success, history, error]);
+  }, [success]);
 
   return (
     <>
-      {showVerifyAccountFundOtp ? (
-        <VerifyAccountFundOtp
-          promoTotalPrice={promoTotalPrice}
-          paymentData={paymentData}
-          reference={reference}
-          currency={currency}
-          userEmail={userEmail}
-          publicApiKey={publicApiKey}
+      {showVerifyAccountFundPromiseOtp ? (
+        <VerifyAccountFundPromiseOtp
+          amount={amount}
+          paysofterPublicKey={paysofterPublicKey}
+          email={email}
           securityCode={securityCode}
           accountId={accountId}
           formattedPayerEmail={formattedPayerEmail}
+          currency={currency}
           duration={duration}
-          paymenthMethod={paymenthMethod}
+          onSuccess={onSuccess}
+          onClose={onClose}
         />
       ) : (
         <Row className="justify-content-center">
           <Col>
             <Row className="text-center py-2">
               <Col md={10}>
-                <h2 className="py-2 text-center">Paysofter Account Fund</h2>
+                <h2 className="py-2 text-center">
+                  Paysofter Account Fund (NGN)
+                </h2>
               </Col>
               <Col md={2}>
                 <Button
@@ -192,20 +221,9 @@ currency
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
 
-            <Form onSubmit={submitHandler}>
-              {/* <Form.Group controlId="currency">
-                <Form.Label>Currency</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  disabled
-                >
-                  <option value="NGN">NGN</option>
-                  <option value="USD">USD</option>
-                </Form.Control>
-              </Form.Group> */}
+            {/* {formError && <Message variant="danger">{formError}</Message>} */}
 
+            <Form>
               <Form.Group controlId="accountId">
                 <Form.Label>Account ID</Form.Label>
 
@@ -215,8 +233,9 @@ currency
                       type="text"
                       placeholder="Enter Paysofter Account ID"
                       value={accountId}
-                      onChange={(e) => setAccountId(e.target.value)}
-                      required
+                      onChange={(e) =>
+                        handleFieldChange("accountId", e.target.value)
+                      }
                       maxLength={12}
                     />
                   </Col>
@@ -226,7 +245,7 @@ currency
                       onClick={handleInfoModalShow}
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="A unqiuely assigned 12-digit Paysofter Account ID. Don't have a Paysofter account? Click here."
+                      title="A uniquely assigned 12-digit Paysofter Account ID. Don't have a Paysofter account? Click here."
                     >
                       <i className="fa fa-info-circle"> </i>
                     </Button>
@@ -239,7 +258,7 @@ currency
                       </Modal.Header>
                       <Modal.Body>
                         <p className="text-center">
-                          A unqiuely assigned 12-digit Paysofter Account ID.
+                          A uniquely assigned 12-digit Paysofter Account ID.
                           Don't have a Paysofter account? You're just about 3
                           minutes away!{" "}
                           <a
@@ -263,6 +282,7 @@ currency
                     </Modal>
                   </Col>
                 </Row>
+                <Form.Text className="text-danger">{accountIdError}</Form.Text>
               </Form.Group>
 
               <Form.Group controlId="securityCode">
@@ -270,12 +290,12 @@ currency
                 <Row className="text-center py-2">
                   <Col md={10}>
                     <Form.Control
-                      // type="password"
                       type={securityCodeVisible ? "text" : "password"}
                       placeholder="Enter Account Security Code"
                       value={securityCode}
-                      onChange={(e) => setSecurityCode(e.target.value)}
-                      required
+                      onChange={(e) =>
+                        handleFieldChange("securityCode", e.target.value)
+                      }
                       maxLength={4}
                     />
                   </Col>
@@ -285,7 +305,7 @@ currency
                       onClick={handleSecurityCodeModalShow}
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="A 4-digit randomly generated Paysofter Account Security Code that expires at a given time  (e.g. every minute, hour or day). Having issue applying the security code? Refresh your paysofter account page, logout and login or clear browsing data."
+                      title="A 4-digit randomly generated Paysofter Account Security Code that expires at a given time  (e.g. every hour). Having issue applying the security code? Refresh your paysofter account page, logout and login or clear browsing data."
                     >
                       <i className="fa fa-info-circle"> </i>
                     </Button>
@@ -301,10 +321,11 @@ currency
                       </Modal.Header>
                       <Modal.Body>
                         <p className="text-center">
-                          A 4-digit randomly generated Paysofter Account Security Code that expires
-                          at a given time (e.g. every hour). Having issue
-                          applying the security code? Refresh your paysofter
-                          account page, logout and login or clear browsing data.{" "}
+                          A 4-digit randomly generated Paysofter Account
+                          Security Code that expires at a given time (e.g. every
+                          hour). Having issue applying the security code?
+                          Refresh your paysofter account page, logout and login
+                          or clear browsing data.{" "}
                           <a
                             href="https://paysofter.com/"
                             target="_blank"
@@ -344,6 +365,9 @@ currency
                     </Button>
                   </span>
                 </Row>
+                <Form.Text className="text-danger">
+                  {securityCodeError}
+                </Form.Text>
               </Form.Group>
 
               <div className="py-3 text-center">
@@ -351,17 +375,17 @@ currency
                   className="w-100 rounded"
                   type="submit"
                   variant="primary"
+                  onClick={submitHandler}
+                  disabled={loading}
                 >
                   Pay{" "}
                   <span>
-                    (NGN{" "}
-                    {promoTotalPrice?.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                    )
+                    ({formatAmount(amount)} {currency})
                   </span>
                 </Button>
+              </div>
+              <div className="py-2 d-flex justify-content-center">
+                {error && <MessageFixed variant="danger">{error}</MessageFixed>}
               </div>
             </Form>
           </Col>
@@ -371,4 +395,4 @@ currency
   );
 };
 
-export default PaysofterAccountFund;
+export default PaysofterAccountFundPromise;

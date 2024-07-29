@@ -1,9 +1,5 @@
-// Message.js
 import React, { useState, useEffect } from "react";
-import {
-  Alert,
-  CloseButton
-} from "react-bootstrap";
+import { Alert, CloseButton } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
@@ -12,13 +8,13 @@ import {
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Message = ({ variant, children, fixed }) => {
+const MessageFixed = ({ variant, children, fixed }) => {
   const [showMessage, setShowMessage] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowMessage(false);
-    }, 5000);
+    }, 50000);
 
     return () => {
       clearTimeout(timer);
@@ -67,4 +63,4 @@ const Message = ({ variant, children, fixed }) => {
   ) : null;
 };
 
-export default Message;
+export default MessageFixed;

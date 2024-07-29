@@ -1,20 +1,15 @@
-// VerifyAccountFundPromiseOtp.js
+// VerifyPromiseFundOtpTest.js
 import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  debitPaysofterAccountFund,
-  verifyOtp,
-  createPaysofterPromise,
-  resetDebitPaysofterNgnState,
-  resetVerifyOtpState,
-  resetCreatePaysofterPromiseState,
-} from "../../actions/paymentActions";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Loader from "../Loader";
-import Message from "../Message";
-import ConfirmPaysofterPromise from "./ConfirmPaysofterPromise";
+import Loader from "./Loader";
+import Message from "./Message";
+import MessageFixed from "./MessageFixed";
+import ConfirmPaysofterPromiseTest from "./ConfirmPaysofterPromiseTest";
+import { generateRandomNum } from "./GenerateRandomNum";
+import { PAYSOFTER_API_URL } from "./config/apiConfig";
+import axios from "axios";
 
-const VerifyAccountFundPromiseOtp = ({
+const VerifyPromiseFundOtpTest = ({
   email,
   amount,
   paysofterPublicKey,
@@ -22,86 +17,87 @@ const VerifyAccountFundPromiseOtp = ({
   currency,
   duration,
   onSuccess,
-  // onClose,
 }) => {
-  const dispatch = useDispatch();
-  // const history = useHistory();
-
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(generateRandomNum(6));
   const [resendDisabled, setResendDisabled] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [resendMessage, setResendMessage] = useState("");
   const [countdown, setCountdown] = useState(60);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const createdAt = new Date().toISOString();
   const [
-    showConfirmPaysofterPromise,
-    setShowConfirmPaysofterPromise,
+    showConfirmPaysofterPromiseTest,
+    setShowConfirmPaysofterPromiseTest,
   ] = useState(false);
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    }
-  }, [userInfo]);
-
-  const otpVerifyState = useSelector((state) => state.otpVerifyState);
-  const { loading, success, error } = otpVerifyState;
-
-  const createPaysofterPromiseState = useSelector(
-    (state) => state.createPaysofterPromiseState
-  );
-  const {
-    loading: promiseLoading,
-    success: promiseSuccess,
-    error: promiseError,
-  } = createPaysofterPromiseState;
-
-  // console.log("formattedPayerEmail:", formattedPayerEmail);
+  const createdAt = new Date().toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+    timeZoneName: "short",
+  });
+  const paymentMethod = "Paysofter Promise";
 
   const sendOtpData =
     JSON.parse(localStorage.getItem("debitAccountData")) || [];
-  // console.log("sendOtpData:", sendOtpData, sendOtpData.account_id);
-
-  const otpData = {
-    otp: otp,
-    account_id: sendOtpData.account_id,
-    amount: amount,
-    currency: currency,
-    public_api_key: paysofterPublicKey,
-  };
-
-  const debitAccountData = {
-    account_id: sendOtpData.account_id,
-    security_code: sendOtpData.security_code,
-    amount: amount,
-  };
 
   const paysofterPromiseData = {
     email: email,
     amount: amount,
     public_api_key: paysofterPublicKey,
     account_id: sendOtpData.account_id,
+    buyer_email: email,
     currency: currency,
     duration: duration,
-
     created_at: createdAt,
+    payment_method: paymentMethod,
   };
-  // console.log("paysofterPromiseData:", paysofterPromiseData);
 
-  const handleVerifyEmailOtp = () => {
-    dispatch(verifyOtp(otpData));
+  const handleCreatePromise = async (paysofterPromiseData) => {
+    try {
+      const response = await axios.post(
+        `${PAYSOFTER_API_URL}/api/create-promise/`,
+        paysofterPromiseData
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleVerifyEmailOtp = async () => {
+    console.log("handleVerifyEmailOtp test...");
+    setLoading(true);
+    setError(null);
+    try {
+      await handleCreatePromise(paysofterPromiseData);
+      setShowSuccessMessage(true);
+      setHasHandledSuccess(true);
+      handleOnSuccess();
+
+      localStorage.removeItem("debitAccountData");
+    } catch (error) {
+      setError(
+        error.response?.data?.detail ||
+          error.message ||
+          "Error creating promise"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResendEmailOtp = () => {
     setResendLoading(true);
     setResendMessage("");
     try {
-      dispatch(debitPaysofterAccountFund(JSON.stringify(debitAccountData)));
       setResendMessage(`OTP resent to ${formattedPayerEmail} successfully.`);
       setResendDisabled(true);
     } catch (error) {
@@ -129,55 +125,31 @@ const VerifyAccountFundPromiseOtp = ({
   }, [onSuccess]);
 
   useEffect(() => {
-    if (success) {
-      dispatch(createPaysofterPromise(paysofterPromiseData));
-    }
-    // eslint-disable-next-line
-  }, [dispatch, success]);
-
-  useEffect(() => {
-    if (promiseSuccess && !hasHandledSuccess) {
-      setHasHandledSuccess(true);
-      setShowSuccessMessage(true);
-      handleOnSuccess();
-      console.log("onSuccess dispatched2");
+    if (hasHandledSuccess) {
       setTimeout(() => {
-        setShowConfirmPaysofterPromise(true);
+        setShowConfirmPaysofterPromiseTest(true);
         setShowSuccessMessage(false);
-        dispatch(resetCreatePaysofterPromiseState());
-        dispatch(resetDebitPaysofterNgnState());
-        dispatch(resetVerifyOtpState());
-        localStorage.removeItem("debitAccountData");
       }, 3000);
     }
-  }, [
-    dispatch,
-    promiseSuccess,
-    promiseError,
-    handleOnSuccess,
-    hasHandledSuccess,
-  ]);
+  }, [hasHandledSuccess]);
 
   return (
     <Container>
-      {showConfirmPaysofterPromise ? (
-        <ConfirmPaysofterPromise />
+      {showConfirmPaysofterPromiseTest ? (
+        <ConfirmPaysofterPromiseTest />
       ) : (
         <Row className="justify-content-center text-center mt-5">
           <Col>
             <div className="border rounded p-4 py-2">
               <h1 className="py-2 text-center">Verify OTP ({currency})</h1>
               {showSuccessMessage && (
-                <Message variant="success">Promise sent successfully!</Message>
+                <Message variant="success">
+                  A test Promise transaction has been created successfully!
+                </Message>
               )}
 
               {loading && <Loader />}
               {error && <Message variant="danger">{error}</Message>}
-
-              {promiseLoading && <Loader />}
-              {promiseError && (
-                <Message variant="danger">{promiseError}</Message>
-              )}
 
               {resendMessage && (
                 <Message variant={resendLoading ? "info" : "success"}>
@@ -192,12 +164,13 @@ const VerifyAccountFundPromiseOtp = ({
                     onChange={(e) => setOtp(e.target.value)}
                     placeholder="Enter OTP"
                     required
+                    disabled
                   />
                 </Form.Group>
                 <div className="py-3">
                   <Button
                     onClick={handleVerifyEmailOtp}
-                    disabled={otp === "" || loading || success}
+                    disabled={otp === "" || loading}
                     variant="success"
                     type="submit"
                     className="rounded"
@@ -205,17 +178,18 @@ const VerifyAccountFundPromiseOtp = ({
                     Verify OTP
                   </Button>
                 </div>
+                <div className="py-2 d-flex justify-content-center">
+                  {error && (
+                    <MessageFixed variant="danger">{error}</MessageFixed>
+                  )}
+                </div>
               </Form>
-              <p>
-                OTP has been sent to your email {formattedPayerEmail} for
-                Paysofter Account ID: {sendOtpData.account_id} and expires in 10
-                minutes. It might take a few seconds to deliver.
-              </p>
+              <p>OTP has been automatically generated for testing purposes.</p>
               <Button
                 variant="link"
                 type="submit"
-                disabled={resendDisabled || resendLoading}
                 onClick={handleResendEmailOtp}
+                disabled
               >
                 {resendLoading
                   ? "Resending OTP..."
@@ -231,4 +205,4 @@ const VerifyAccountFundPromiseOtp = ({
   );
 };
 
-export default VerifyAccountFundPromiseOtp;
+export default VerifyPromiseFundOtpTest;

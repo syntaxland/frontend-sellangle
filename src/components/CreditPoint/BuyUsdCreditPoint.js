@@ -9,7 +9,7 @@ import {
 } from "../../actions/creditPointActions";
 import Message from "../Message";
 import Loader from "../Loader";
-import PaymentScreen from "./payment/PaymentScreen";
+import PaymentScreen from "./PaymentScreen";
 
 function BuyUsdCreditPoint({ currency }) {
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ function BuyUsdCreditPoint({ currency }) {
         setShowSuccessMessage(false);
         dispatch(resetbuyUsdCreditPointState());
         window.location.reload();
-      }, 3000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [dispatch, buyCreditPointSuccess]);

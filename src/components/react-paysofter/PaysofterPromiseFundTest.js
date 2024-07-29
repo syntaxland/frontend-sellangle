@@ -1,61 +1,27 @@
-// PaysofterAccountFundPromise.js
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// PaysofterPromiseFundTest.js
+import React, { useState } from "react";
+// import { useSelector } from "react-redux";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { debitPaysofterAccountFund } from "../../actions/paymentActions";
-import Message from "../Message";
-import Loader from "../Loader";
-import VerifyAccountFundPromiseOtp from "./VerifyAccountFundPromiseOtp";
-import { formatAmount } from "../FormatAmount";
+import Message from "./Message";
+// import Loader from "./Loader";
+import VerifyPromiseFundOtpTest from "./VerifyPromiseFundOtpTest";
+import { formatAmount } from "./FormatAmount";
+import { generateRandomNum } from "./GenerateRandomNum";
 
-const PaysofterAccountFundPromise = ({
+const PaysofterPromiseFundTest = ({
   email,
   amount,
   paysofterPublicKey,
-  paymentData,
-  reference,
   duration,
   currency,
   onSuccess,
   onClose,
 }) => {
-  const dispatch = useDispatch();
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login";
-    }
-  }, [userInfo]);
-
-  const debitPaysofterAccountState = useSelector(
-    (state) => state.debitPaysofterAccountState
-  );
-  const {
-    loading,
-    success,
-    formattedPayerEmail,
-    error,
-  } = debitPaysofterAccountState;
-  console.log(
-    "formattedPayerEmail:",
-    formattedPayerEmail
-    // "paymenthMethod:",
-    // paymenthMethod
-  );
-
-  const [accountId, setAccountId] = useState("");
-  const [accountIdError, setAccountIdError] = useState("");
-
-  const [securityCode, setSecurityCode] = useState("");
+  const [accountId, setAccountId] = useState(generateRandomNum(12));
+  const [accountIdError, setAccountIdError] = useState();
+  const [securityCode, setSecurityCode] = useState(generateRandomNum(4));
   const [securityCodeError, setSecurityCodeError] = useState("");
-
   const [formError, setFormError] = useState("");
-
-  // const [currency, setCurrency] = useState("");
-
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showAccountInfoModal, setShowAccountInfoModal] = useState(false);
   const [showSecurityCodeModal, setShowSecurityCodeModal] = useState(false);
@@ -114,6 +80,7 @@ const PaysofterAccountFundPromise = ({
     account_id: accountId,
     security_code: securityCode,
     amount: amount,
+    currency: currency,
     public_api_key: paysofterPublicKey,
   };
 
@@ -138,43 +105,25 @@ const PaysofterAccountFundPromise = ({
       setFormError("Please attend to the errors within the form.");
       return;
     } else {
-      dispatch(debitPaysofterAccountFund(debitAccountData));
       localStorage.setItem(
         "debitAccountData",
         JSON.stringify(debitAccountData)
       );
     }
 
-    // try {
-    //   localStorage.setItem("debitAccountData", JSON.stringify(debitAccountData));
-    //   dispatch(debitPaysofterAccountFund(debitAccountData));
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    setShowVerifyAccountFundPromiseOtp(true);
   };
-
-  useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        setShowVerifyAccountFundPromiseOtp(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-    // eslint-disable-next-line
-  }, [dispatch, success]);
 
   return (
     <>
       {showVerifyAccountFundPromiseOtp ? (
-        <VerifyAccountFundPromiseOtp
+        <VerifyPromiseFundOtpTest
           amount={amount}
           paysofterPublicKey={paysofterPublicKey}
           email={email}
-          paymentData={paymentData}
-          reference={reference}
           securityCode={securityCode}
           accountId={accountId}
-          formattedPayerEmail={formattedPayerEmail}
+          // formattedPayerEmail={formattedPayerEmail}
           currency={currency}
           duration={duration}
           onSuccess={onSuccess}
@@ -235,31 +184,18 @@ const PaysofterAccountFundPromise = ({
               </Col>
             </Row>
 
-            {success && (
+            {/* {success && (
               <Message variant="success">
                 OTP sent to your email {formattedPayerEmail} successfully.
               </Message>
-            )}
+            )} */}
 
-            {error && <Message variant="danger">{error}</Message>}
-            {loading && <Loader />}
+            {/* {error && <Message variant="danger">{error}</Message>}
+            {loading && <Loader />} */}
 
             {formError && <Message variant="danger">{formError}</Message>}
 
             <Form>
-              {/* <Form.Group controlId="currency">
-                <Form.Label>Currency</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  disabled
-                >
-                  <option value="NGN">NGN</option>
-                  <option value="USD">USD</option>
-                </Form.Control>
-              </Form.Group> */}
-
               <Form.Group controlId="accountId">
                 <Form.Label>Account ID</Form.Label>
 
@@ -275,6 +211,7 @@ const PaysofterAccountFundPromise = ({
                       }
                       // required
                       maxLength={12}
+                      disabled
                     />
                   </Col>
                   <Col md={2}>
@@ -328,16 +265,14 @@ const PaysofterAccountFundPromise = ({
                 <Row className="text-center py-2">
                   <Col md={10}>
                     <Form.Control
-                      // type="password"
                       type={securityCodeVisible ? "text" : "password"}
                       placeholder="Enter Account Security Code"
                       value={securityCode}
-                      // onChange={(e) => setSecurityCode(e.target.value)}
                       onChange={(e) =>
                         handleFieldChange("securityCode", e.target.value)
                       }
-                      // required
                       maxLength={4}
+                      disabled
                     />
                   </Col>
                   <Col md={2}>
@@ -420,17 +355,12 @@ const PaysofterAccountFundPromise = ({
                 >
                   Pay{" "}
                   <span>
-                    (
-                    {formatAmount(amount)?.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}{" "}
-                    {currency})
+                    ({formatAmount(amount)} {currency})
                   </span>
                 </Button>
               </div>
               <div className="py-2 d-flex justify-content-center">
-                <Form.Text className="text-danger">{error}</Form.Text>
+                {/* <Form.Text className="text-danger">{error}</Form.Text> */}
               </div>
             </Form>
           </Col>
@@ -440,4 +370,4 @@ const PaysofterAccountFundPromise = ({
   );
 };
 
-export default PaysofterAccountFundPromise;
+export default PaysofterPromiseFundTest;

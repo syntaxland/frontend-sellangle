@@ -23,7 +23,6 @@ import {
 // import { getPaidAdDetail } from "../../actions/marketplaceSellerActions";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Paysofter from "../MarketplacePayment/Paysofter";
 import PromoTimer from "../PromoTimer";
 import DOMPurify from "dompurify";
 import ReportPaidAd from "./ReportPaidAd";
@@ -32,6 +31,7 @@ import TogglePaidAdSave from "./TogglePaidAdSave";
 import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
 import ApplyPromoCode from "./ApplyPromoCode";
 import Select from "react-select";
+import { Paysofter } from "../react-paysofter/Paysofter";
 
 function PaidAdProductDetail({ match }) {
   const dispatch = useDispatch();
@@ -75,8 +75,7 @@ function PaidAdProductDetail({ match }) {
     sellerRating,
     sellerReviewCount,
   } = getPaidAdDetailState;
-  console.log("isSellerVerified:", isSellerVerified);
-  console.log("promo_code:", ads?.promo_code);
+  console.log("sellerApiKey:", sellerApiKey);
 
   const applyPomoCodeState = useSelector((state) => state.applyPomoCodeState);
   const { discountPercentage, promoDiscount } = applyPomoCodeState;
@@ -214,10 +213,10 @@ function PaidAdProductDetail({ match }) {
     handleOnSuccess();
   };
 
-  const handleOnClose= () => {
+  const handleOnClose = () => {
     console.log("handling onClose...");
     window.location.reload();
-    window.location.href = "/";
+    // window.location.href = "/";
   };
 
   const onClose = () => {
@@ -600,6 +599,12 @@ function PaidAdProductDetail({ match }) {
                   paysofterPublicKey={sellerApiKey}
                   onSuccess={onSuccess}
                   onClose={onClose}
+                  payment_id={`PID${Math.floor(
+                    Math.random() * 100000000000000
+                  )}`}
+                  showPromiseOption={true}
+                  showFundOption={true}
+                  showCardOption={true}
                 />
               )}
             </Col>

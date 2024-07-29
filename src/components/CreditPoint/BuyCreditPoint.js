@@ -6,10 +6,10 @@ import { getPaymentApiKeys } from "../../actions/paymentActions";
 import {
   buyCreditPoint,
   resetbuyCreditPointState,
-} from "../../actions/creditPointActions";
+} from "../../actions/creditPointActions"; 
 import Message from "../Message";
 import Loader from "../Loader";
-import PaymentScreen from "./payment/PaymentScreen";
+import PaymentScreen from "./PaymentScreen";
 
 function BuyCreditPoint({ currency }) {
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ function BuyCreditPoint({ currency }) {
         setShowSuccessMessage(false);
         dispatch(resetbuyCreditPointState());
         window.location.reload();
-      }, 3000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [dispatch, buyCreditPointSuccess]);

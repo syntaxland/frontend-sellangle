@@ -1,4 +1,4 @@
-// SellCreditPoint.js
+// SellCpsToSellangle.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
@@ -7,7 +7,39 @@ import { useHistory } from "react-router-dom";
 import Message from "../Message";
 import Loader from "../Loader";
 
-function SellCreditPoint() { 
+// const USD_CPS_CHOICES = [
+//   ["1000", "2,000,000 cps for 1,000 USD"],
+//   ["2500", "5,000,000 cps for 2,500 USD"],
+//   ["5000", "10,000,000 cps for 5,000 USD"],
+//   ["7500", "15,000,000 cps for 7,500 USD"],
+//   ["10000", "20,000,000 cps for 10,000 USD"],
+// ];
+
+// const NGN_CPS_CHOICES = [
+//   ["1000000", "2,000,000 cps for 1,000,000 NGN"],
+//   ["2500000", "5,000,000 cps for 2,500,000 NGN"],
+//   ["5000000", "10,000,000 cps for 5,000,000 NGN"],
+//   ["7500000", "15,000,000 cps for 7,500,000 NGN"],
+//   ["1000000", "20,000,000 cps for 10,000,000 NGN"],
+// ];
+
+const USD_CPS_CHOICES = [
+  ["2000000", "2,000,000 cps for 1,000 USD"],
+  ["5000000", "5,000,000 cps for 2,500 USD"],
+  ["10000000", "10,000,000 cps for 5,000 USD"],
+  ["15000000", "15,000,000 cps for 7,500 USD"],
+  ["20000000", "20,000,000 cps for 10,000 USD"],
+];
+
+const NGN_CPS_CHOICES = [
+  ["2000000", "2,000,000 cps for 1,000,000 NGN"],
+  ["5000000", "5,000,000 cps for 2,500,000 NGN"],
+  ["10000000", "10,000,000 cps for 5,000,000 NGN"],
+  ["15000000", "15,000,000 cps for 7,500,000 NGN"],
+  ["20000000", "20,000,000 cps for 10,000,000 NGN"],
+];
+
+function SellCpsToSellangle() { 
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -46,6 +78,7 @@ function SellCreditPoint() {
     // username: username,
     username: lowerCaseUsername,
     amount: amount,
+    // cps_amount: cps_amount,
     password: password,
   };
   console.log("creditPointData:", creditPointData);
@@ -140,4 +173,4 @@ function SellCreditPoint() {
   );
 }
 
-export default SellCreditPoint;
+export default SellCpsToSellangle;

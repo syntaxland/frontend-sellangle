@@ -3,15 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Modal } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Paystack from "./Paystack";
-import PaystackUsd from "./PaystackUsd";
-import Paysofter from "./Paysofter";
-// import {
-//   buyCreditPoint,
-//   resetbuyCreditPointState,
-// } from "../../../actions/creditPointActions";
-// import Message from "../../Message";
-// import Loader from "../../Loader";
+import Paystack from "./payment/Paystack";
+import PaystackUsd from "./payment/PaystackUsd";
+import { Paysofter } from "../react-paysofter/Paysofter";
 
 function PaymentScreen({
   amount,
@@ -218,8 +212,15 @@ function PaymentScreen({
                 paysofterPublicKey={paysofterPublicKey}
                 onSuccess={onSuccess}
                 onClose={onClose}
-              />
+                payment_id={`PID${Math.floor(
+                  Math.random() * 100000000000000
+                )}`}
+                showPromiseOption={true}
+                showFundOption={true}
+                showCardOption={true}
+              /> 
             )}
+
           </Col>
         </div>
       </Row>
