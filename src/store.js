@@ -1,22 +1,9 @@
 // store.js
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-// import {
-//   productListReducers,
-//   productDetailsReducers,
-//   // productTrackSaveReducer,
-//   saveProductReducer,
-//   userFavoriteProductsReducer,
-//   userViewedProductsReducer,
-//   removeProductReducer,
-//   updateProductSaveCountReducer,
-//   viewedProductReducer,
-//   recommendedProductsReducer,
-//   productSearchReducer,
-// } from "./reducers/productReducers";
+import { thunk } from "redux-thunk";
+// import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
-// import { cartReducer } from "./reducers/cartReducers";
 import { userLoginReducers } from "./reducers/userReducers";
 import { userRegisterReducers } from "./reducers/userReducers";
 import {
@@ -86,7 +73,6 @@ import {
   clearBuyerPaidAdMsgCounterReducer,
   GetActiveBuyerFreeAdMessagesReducer,
   GetActiveBuyerPaidAdMessagesReducer,
-
   toggleFollowSellerReducer,
   getSellerAdStatisticsReducer,
   getFollowedSellersReducer,
@@ -128,8 +114,8 @@ import {
   listSupportTicketReducer,
   listSupportMessageReducer,
   replySupportTicketReducer,
-  adminReplySupportTicketReducer, 
-  listSupportTicketReplyReducer, 
+  adminReplySupportTicketReducer,
+  listSupportTicketReplyReducer,
   ticketDetailListReducer,
   allTicketListReducer,
   allTicketResponseReducer,
@@ -237,7 +223,7 @@ const reducer = combineReducers({
   // recommendedProducts: recommendedProductsReducer,
   // productSearch: productSearchReducer,
 
-  // cart: cartReducer, 
+  // cart: cartReducer,
   userLogin: userLoginReducers,
   userRegister: userRegisterReducers,
 
@@ -419,9 +405,7 @@ const reducer = combineReducers({
   getFollowedSellersState: getFollowedSellersReducer,
 
   applyPomoCodeState: applyPomoCodeReducer,
-}); 
-
-
+});
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))

@@ -1,22 +1,8 @@
 // ConfirmPaysofterPromise.js
-import React, { useEffect } from "react";
-import { 
-  // useDispatch, 
-  useSelector } from "react-redux";
+import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-// import { clearCart } from "../../actions/cartActions";
 
 const ConfirmPaysofterPromise = () => {
-  // const dispatch = useDispatch();
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.href = "/login"; 
-    }
-  }, [userInfo]);
 
   const handleConfirmPromise = () => {
     // dispatch(clearCart());

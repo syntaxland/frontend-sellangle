@@ -31,7 +31,8 @@ import TogglePaidAdSave from "./TogglePaidAdSave";
 import ReviewPaidAdSeller from "./ReviewPaidAdSeller";
 import ApplyPromoCode from "./ApplyPromoCode";
 import Select from "react-select";
-import { Paysofter } from "../react-paysofter/Paysofter";
+// import { Paysofter } from "../react-paysofter/src/index"; 
+import { Paysofter } from "react-paysofter"; 
 
 function PaidAdProductDetail({ match }) {
   const dispatch = useDispatch();
@@ -599,8 +600,8 @@ function PaidAdProductDetail({ match }) {
                   paysofterPublicKey={sellerApiKey}
                   onSuccess={onSuccess}
                   onClose={onClose}
-                  payment_id={`PID${Math.floor(
-                    Math.random() * 100000000000000
+                  paymentRef={`PID${Math.floor(
+                    Math.random() * 10000000000000000
                   )}`}
                   showPromiseOption={true}
                   showFundOption={true}

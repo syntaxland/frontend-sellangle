@@ -736,11 +736,11 @@ function SellerProfile() {
             </Accordion.Item>
 
             <Accordion.Item eventKey="2">
-              <Accordion.Header>Paysofter API Key</Accordion.Header>
+              <Accordion.Header>Seller API Key</Accordion.Header>
               <Accordion.Body>
                 <Form>
                   <Form.Group>
-                    <Form.Label>API Key</Form.Label>
+                    <Form.Label>Paysofter API Key</Form.Label>
                     <Form.Control
                       type="text"
                       name="live_api_key"
