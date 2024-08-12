@@ -5,9 +5,9 @@ import { Button, Row, Col, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Paystack from "./payment/Paystack";
 import PaystackUsd from "./payment/PaystackUsd";
-// import { Paysofter } from "../react-paysofter/src/index";
-import { Paysofter } from "react-paysofter";
-
+import { Paysofter } from "../react-paysofter/src/index";
+// import { Paysofter } from "react-paysofter";
+ 
 function PaymentScreen({
   amount,
   currency,
@@ -216,7 +216,7 @@ function PaymentScreen({
                 paymentRef={`PID${Math.floor(
                   Math.random() * 100000000000000
                 )}`}
-                showPromiseOption={true}
+                showPromiseOption={false}
                 showFundOption={true}
                 showCardOption={true}
               /> 

@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
-import { Col, Row, Modal, Button } from "react-bootstrap"; 
+import { Col, Row, Modal, Button } from "react-bootstrap";
 import Message from "../Message";
 import Loader from "../Loader";
 import { getCreditPointBalance } from "../../actions/creditPointActions";
 // import { listPayments } from "../../actions/paymentActions";
 // import { getOrders } from "../../actions/orderActions";
 // import { Line, Pie } from "react-chartjs-2";
-import SellCreditPoint from "../CreditPoint/SellCreditPoint";
-import SelectCurrency from "../CreditPoint/SelectCurrency"; 
+import SellCps from "../CreditPoint/SellCps";
+import BuyCreditPoint from "../CreditPoint/BuyCreditPoint";
 
 import {
   Chart as ChartJS,
@@ -44,7 +44,7 @@ function Dashboard() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   useEffect(() => {
-    if (!userInfo) { 
+    if (!userInfo) {
       window.location.href = "/login";
     }
   }, [userInfo]);
@@ -87,7 +87,6 @@ function Dashboard() {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
   }
-  
 
   useEffect(() => {
     dispatch(getCreditPointBalance());
@@ -229,14 +228,12 @@ function Dashboard() {
   // };
 
   return (
-    <div className="justify-content-center text-center"> 
+    <div className="justify-content-center text-center">
       <div>
-        {loading? (
+        {loading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">
-            {error}
-          </Message>
+          <Message variant="danger">{error}</Message>
         ) : (
           <div>
             <Row>
@@ -278,13 +275,13 @@ function Dashboard() {
                       </h2>
                       <p>
                         Balance:{" "}
-                        {formatNumber(creditPointsFormatted)
-                        
-                        // .toLocaleString(undefined, {
-                        //   minimumFractionDigits: 2,
-                        //   maximumFractionDigits: 2,
-                        // })
+                        {
+                          formatNumber(creditPointsFormatted)
 
+                          // .toLocaleString(undefined, {
+                          //   minimumFractionDigits: 2,
+                          //   maximumFractionDigits: 2,
+                          // })
                         }{" "}
                         CPS
                       </p>
@@ -367,7 +364,7 @@ function Dashboard() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="py-2 d-flex justify-content-center">
-          {buyCreditPointModal && <SelectCurrency />}
+          {buyCreditPointModal && <BuyCreditPoint />}
         </Modal.Body>
       </Modal>
 
@@ -378,7 +375,7 @@ function Dashboard() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="py-2 d-flex justify-content-center">
-          {sellCreditPointModal && <SellCreditPoint />}
+          {sellCreditPointModal && <SellCps />}
         </Modal.Body>
       </Modal>
     </div>

@@ -1,7 +1,7 @@
 // SearchPaidAdCard.js
 import React, { useState, useEffect } from "react";
 import { Card, Button, Modal, Row, Col } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
 import {
@@ -116,16 +116,16 @@ function SearchPaidAdCard({ paidSearchAd }) {
       <Col>
         <Card className="my-3 p-3 rounded">
          
-          <Link onClick={viewProductHandler}>
+          <div style={{ cursor: "pointer" }} onClick={viewProductHandler}>
             <Card.Img src={paidSearchAd.image1} />
-          </Link>
+          </div>
 
           <Card.Body>
-            <Link onClick={viewProductHandler} className="py-2">
+            <div style={{ cursor: "pointer" }} onClick={viewProductHandler} className="py-2">
               <Card.Title as="div">
                 <strong>{paidSearchAd.ad_name}</strong>
               </Card.Title>
-            </Link>
+            </div>
 
             <div className="d-flex justify-content-between py-2">
               <span>

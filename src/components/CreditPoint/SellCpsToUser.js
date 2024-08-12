@@ -1,4 +1,4 @@
-// SellCreditPoint.js
+// SellCpsToUser.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import Message from "../Message";
 import Loader from "../Loader";
 
-function SellCreditPoint() { 
+function SellCpsToUser() {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -84,7 +84,7 @@ function SellCreditPoint() {
 
           <Form>
             <Form.Group>
-              <Form.Label>Receiver's Username</Form.Label>
+              <Form.Label>Buyer</Form.Label>
               <Form.Control
                 type="text"
                 value={username}
@@ -140,4 +140,4 @@ function SellCreditPoint() {
   );
 }
 
-export default SellCreditPoint;
+export default SellCpsToUser;

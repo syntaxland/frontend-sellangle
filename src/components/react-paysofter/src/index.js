@@ -1,4 +1,4 @@
-// Paysofter.js
+// index.js
 import React, { useEffect, useState } from "react";
 import { Row, Col, Modal } from "react-bootstrap";
 import axios from "axios";
@@ -54,7 +54,7 @@ export function Paysofter({
         setError(
           error.response?.data?.detail ||
             error.MessageFixed ||
-            "Error fetching API key status"
+            "Error fetching API key status. Check your network connectivity and try again."
         );
       } finally {
         setLoading(false);

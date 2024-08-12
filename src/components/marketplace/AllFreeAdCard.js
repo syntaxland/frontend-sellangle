@@ -1,7 +1,7 @@
 // AllFreeAdCard.js
 import React, { useState, useEffect } from "react";
 import { Card, Button, Modal, Row, Col } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RatingSeller from "../RatingSeller";
 // import {
@@ -133,17 +133,17 @@ function AllFreeAdCard({ product }) {
     <Row className="d-flex justify-content-center">
       <Col>
         <Card className="my-3 p-3 rounded">
-          <Link onClick={viewProductHandler}>
+          <div style={{ cursor: "pointer" }} onClick={viewProductHandler}>
             <Card.Img src={product.image1} />
-          </Link>
+          </div>
 
           <Card.Body>
             <div className="d-flex justify-content-between py-2">
-              <Link onClick={viewProductHandler}>
+              <div style={{ cursor: "pointer" }} onClick={viewProductHandler}>
                 <Card.Title as="div">
                   <strong>{product.ad_name}</strong>
                 </Card.Title>
-              </Link>
+              </div>
 
               {/* <div>
                 <span>

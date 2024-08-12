@@ -273,12 +273,12 @@ function Product({ product }) {
       {productLoading.productSaveLoading && <Loader />}
       {productLoading.productRemoveLoading && <Loader />}
 
-      <Link onClick={viewProductHandler}>
+      <Link to="" onClick={viewProductHandler}>
         <Card.Img src={product.image} />
       </Link>
 
       <Card.Body>
-        <Link onClick={viewProductHandler}>
+        <Link to="" onClick={viewProductHandler}>
           <Card.Title as="div">
             <strong>{product.name}</strong>
           </Card.Title>
@@ -302,9 +302,9 @@ function Product({ product }) {
             {userInfo ? (
               <Link to={`/review-list/${product._id}`}>(Verified Ratings)</Link>
             ) : (
-              <Link onClick={() => history.push("/login")}>
+              <Link to="" onClick={() => history.push("/login")}>
                 (Verified Ratings)
-              </Link>
+              </Link> 
             )}
           </div>
         </div>

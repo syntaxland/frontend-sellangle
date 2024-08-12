@@ -216,7 +216,7 @@ function PaidAdProductDetail({ match }) {
 
   const handleOnClose = () => {
     console.log("handling onClose...");
-    window.location.reload();
+    // window.location.reload();
     // window.location.href = "/";
   };
 

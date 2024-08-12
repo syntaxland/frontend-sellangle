@@ -6,24 +6,23 @@ import { getPaymentApiKeys } from "../../actions/paymentActions";
 import {
   buyCreditPoint,
   resetbuyCreditPointState,
-} from "../../actions/creditPointActions"; 
+} from "../../actions/creditPointActions";
 import Message from "../Message";
 import Loader from "../Loader";
 import PaymentScreen from "./PaymentScreen";
+import SelectCurrency from "./SelectCurrency";
 
-function BuyCreditPoint({ currency }) {
+function BuyCreditPoint() {
   const dispatch = useDispatch();
 
   const getPaymentApiKeysState = useSelector(
     (state) => state.getPaymentApiKeysState
   );
-  const { paystackPublicKey, paysofterPublicKey } = getPaymentApiKeysState;
-  console.log(
-    "paystackPublicKey",
+  const {
+    loading: publicKeyLoading,
     paystackPublicKey,
-    "paysofterPublicKey",
-    paysofterPublicKey
-  );
+    paysofterPublicKey,
+  } = getPaymentApiKeysState;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -45,16 +44,38 @@ function BuyCreditPoint({ currency }) {
   } = buyCreditPointState;
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
   const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("USD");
+  // const [cpsAmount, setCpsAmount] = useState("");
   const [showPaymentScreen, setShowPaymentScreen] = useState(false);
 
-  const handleShowPaymentScreen = () => {
-    setShowPaymentScreen(true);
-  };
+  // const BUY_CPS_CHOICES = [
+  //   ["1000", "1,000 cps for 1,000 NGN"],
+  //   ["5200", "5,200 cps for 5,000 NGN"],
+  //   ["10800", "10,800 cps for 10,000 NGN"],
+  //   ["16500", "16,500 cps for 15,000 NGN"],
+  //   ["24000", "24,000 cps for 20,000 NGN"],
+  //   ["60000", "60,000 cps for 50,000 NGN"],
+  //   ["125000", "125,000 cps for 100,000 NGN"],
+  //   ["2250000", "255,000 cps for 200,000 NGN"],
+  //   ["700000", "700,000 cps for 500,000 NGN"],
+  //   ["1200000", "1,500,000 cps for 1,000,000 NGN"],
+  // ];
 
-  const BUY_CPS_CHOICES = [
-    ["500", "500 cps for 500 NGN"],
+  // const USD_CPS_CHOICES = [
+  //   ["1000", "1,000 cps for 1 USD"],
+  //   ["5200", "5,200 cps for 5 USD"],
+  //   ["10800", "10,800 cps for 10 USD"],
+  //   ["16500", "16,500 cps for 15 USD"],
+  //   ["24000", "24,000 cps for 20 USD"],
+  //   ["60000", "60,000 cps for 50 USD"],
+  //   ["125000", "125,000 cps for 100 USD"],
+  //   ["2250000", "255,000 cps for 200 USD"],
+  //   ["700000", "700,000 cps for 500 USD"],
+  //   ["1500000", "1,500,000 cps for 1,000 USD"],
+  // ];
+
+  const NGN_CPS_CHOICES = [
     ["1000", "1,000 cps for 1,000 NGN"],
     ["5000", "5,200 cps for 5,000 NGN"],
     ["10000", "10,800 cps for 10,000 NGN"],
@@ -67,11 +88,25 @@ function BuyCreditPoint({ currency }) {
     ["1000000", "1,500,000 cps for 1,000,000 NGN"],
   ];
 
+  const USD_CPS_CHOICES = [
+    ["1", "1,000 cps for 1 USD"],
+    ["5", "5,200 cps for 5 USD"],
+    ["10", "10,800 cps for 10 USD"],
+    ["15", "16,500 cps for 15 USD"],
+    ["20", "24,000 cps for 20 USD"],
+    ["50", "60,000 cps for 50 USD"],
+    ["100", "125,000 cps for 100 USD"],
+    ["200", "255,000 cps for 200 USD"],
+    ["500", "700,000 cps for 500 USD"],
+    ["1000", "1,500,000 cps for 1,000 USD"],
+  ];
+
   const handleOnSuccess = () => {
-    console.log("handling onSuccess...");
     const creditPointData = {
       amount: amount,
+      // cps_amount: cpsAmount,
     };
+
     dispatch(buyCreditPoint(creditPointData));
   };
 
@@ -81,8 +116,8 @@ function BuyCreditPoint({ currency }) {
 
   const handleOnClose = () => {
     console.log("handling onClose...");
-    window.location.reload();
-    window.location.href = "/";
+    // window.location.reload();
+    // window.location.href = "/";
   };
 
   const onClose = () => {
@@ -101,22 +136,39 @@ function BuyCreditPoint({ currency }) {
     }
   }, [dispatch, buyCreditPointSuccess]);
 
-  console.log("amount:", currency, amount);
+  useEffect(() => {
+    setAmount("");
+    setShowPaymentScreen(false);
+  }, [currency]);
+
+  const handleCurrencyChange = (selectedOption) => {
+    setCurrency(selectedOption.value);
+  };
+
+  console.log(
+    "cps, amt:",
+    // cpsAmount,
+    amount,
+    currency
+  );
 
   return (
     <Container>
       {showSuccessMessage && (
         <Message variant="success" fixed>
-          Your account has been credited with the CPS purchased for {amount}{" "}
-          {currency}.
+          Your account has been credited with the
+          {/* {cpsAmount}  */}
+          CPS purchased for {amount} {currency}.
         </Message>
       )}
+      {publicKeyLoading && <Loader />}
       {buyCreditPointLoading && <Loader />}
       {buyCreditPointError && (
         <Message variant="danger" fixed>
           {buyCreditPointError}
         </Message>
       )}
+
       {showPaymentScreen ? (
         <PaymentScreen
           currency={currency}
@@ -128,45 +180,66 @@ function BuyCreditPoint({ currency }) {
           onClose={onClose}
         />
       ) : (
-        <Row className="justify-content-center py-2">
+        <Row className="d-flex justify-content-center py-2">
           <Col>
+            <div className="d-flex justify-content-center">
+              <SelectCurrency
+                selectedCurrency={currency}
+                onCurrencyChange={handleCurrencyChange}
+              />
+            </div>
             <Form>
-              <Form.Group>
-                {/* <Form.Label>Amount</Form.Label> */}
-                <Form.Control
-                  as="select"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="rounded py-2 mb-2"
-                  required
-                >
-                  <option value="">Select CPS Amount</option>
-                  {BUY_CPS_CHOICES.map((type) => (
-                    <option key={type[0]} value={type[0]}>
-                      {type[1]}
-                    </option>
-                  ))}
-                </Form.Control>
-                {/* <Select
-                  value={amount}
-                  onChange={(selectedOption) => setAmount(selectedOption)}
-                  options={BUY_CPS_CHOICES.map((type) => ({
-                    value: type[0],
-                    label: type[1],
-                  }))}
-                  placeholder="Select CPS Amount"
-                /> */}
-              </Form.Group>
+              {currency === "NGN" && (
+                <div>
+                  <Form.Group>
+                    <Form.Control
+                      as="select"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="rounded py-2 mb-2"
+                      required
+                    >
+                      <option value="">Select CPS Amount</option>
+                      {NGN_CPS_CHOICES.map((type) => (
+                        <option key={type[0]} value={type[0]}>
+                          {type[1]}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </div>
+              )}
+
+              {currency === "USD" && (
+                <div>
+                  <Form.Group>
+                    <Form.Control
+                      as="select"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="rounded py-2 mb-2"
+                      required
+                    >
+                      <option value="">Select CPS Amount</option>
+                      {USD_CPS_CHOICES.map((type) => (
+                        <option key={type[0]} value={type[0]}>
+                          {type[1]}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </div>
+              )}
             </Form>
 
             <div className="py-2">
               <Button
                 variant="primary"
-                onClick={handleShowPaymentScreen}
+                onClick={() => setShowPaymentScreen(true)}
                 className="rounded mt-2 text-center w-100"
-                disabled={amount === ""}
+                disabled={amount === "" || buyCreditPointLoading}
               >
-                Buy Credit Point (NGN)
+                Buy CPS ({amount} {currency})
               </Button>
             </div>
           </Col>
