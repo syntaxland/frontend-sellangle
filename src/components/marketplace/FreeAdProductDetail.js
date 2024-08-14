@@ -208,7 +208,7 @@ function FreeAdProductDetail({ match }) {
   };
 
   const handleSellerShopFront = () => {
-    history.push(`/seller-shop-front/${ads?.seller_username}/`);
+    history.push(`/shopfront/${ads?.seller_username}/`);
   };
 
   return (

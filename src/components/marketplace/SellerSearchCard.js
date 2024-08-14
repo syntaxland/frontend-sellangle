@@ -48,7 +48,7 @@ function SellerSearchCard({ serachResults, sellerAvatarUrl }) {
   }
 
   const handleSellerShopFront = () => {
-    history.push(`/seller-shop-front/${serachResults?.seller_username}/`);
+    history.push(`/shopfront/${serachResults?.seller_username}/`);
   };
 
   return (
