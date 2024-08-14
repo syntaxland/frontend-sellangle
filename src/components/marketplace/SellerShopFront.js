@@ -10,7 +10,7 @@ import { Row, Col } from "react-bootstrap";
 // import { getUserProfile } from "../../actions/userProfileActions";
 import SellerActiveFreeAdScreen from "./SellerActiveFreeAdScreen";
 import SellerActivePaidAdScreen from "./SellerActivePaidAdScreen";
-import GetSellerDetail from "./GetSellerDetail";
+import GetSellerDetail from "./GetSellerDetail"; 
 
 function SellerShopFront() {
   // const dispatch = useDispatch();

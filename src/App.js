@@ -192,7 +192,7 @@ function App() {
           <Route path="/edit/paid/ad/:id" component={EditPaidAd} />
           <Route path="/edit/free/ad/:id" component={EditFreeAd} />
           <Route
-            path="/seller-shop-front/:seller_username"
+            path="/shopfront/:seller_username"
             component={SellerShopFront}
           />
           <Route path="/current-ads" component={CurrentAds} />
