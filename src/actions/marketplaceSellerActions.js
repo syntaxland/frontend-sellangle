@@ -1270,7 +1270,7 @@ export const listSellerFreeAdMessages = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-free-ad-messages/${pk}`,
+      `${API_URL}/api/list-seller-free-ad-messages/${pk}/`,
 
       config
     );
@@ -1306,7 +1306,7 @@ export const listSellerPaidAdMessages = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/list-seller-paid-ad-messages/${pk}`,
+      `${API_URL}/api/list-seller-paid-ad-messages/${pk}/`,
 
       config
     );
@@ -1831,7 +1831,6 @@ export const editPaidAd = (adData) => async (dispatch, getState) => {
     const { data } = await axios.put(
       `${API_URL}/api/edit-paid-ad/`,
       adData,
-
       config
     );
 
@@ -2140,7 +2139,7 @@ export const getFreeAdDetail = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/get-free-ad-detail/${pk}`,
+      `${API_URL}/api/get-free-ad-detail/${pk}/`,
 
       config
     );
@@ -2256,7 +2255,7 @@ export const getAllFreeAd = (adData) => async (dispatch, getState) => {
     const { data } = await axios.get(url, config);
 
     // const { data } = await axios.get(
-    //   `${API_URL}/api/get-all-free-ad/`,
+    //   `${API_URL}/api/get-all-free-ad/`, 
     //   adData,
     //   config
     // );
@@ -2306,7 +2305,7 @@ export const getPaidAd = () => async (dispatch, getState) => {
     dispatch({
       type: GET_PAID_AD_FAIL,
       payload:
-        error.response && error.response.data.detail
+        error.response && error.response.data.detail 
           ? error.response.data.detail
           : error.message,
     });
@@ -2330,7 +2329,7 @@ export const getPaidAdDetail = (pk) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${API_URL}/api/get-paid-ad-detail/${pk}`,
+      `${API_URL}/api/get-paid-ad-detail/${pk}/`,
 
       config
     );

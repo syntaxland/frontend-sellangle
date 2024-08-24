@@ -51,9 +51,47 @@ import {
   GET_USER_CPS_BONUSES_REQUEST,
   GET_USER_CPS_BONUSES_SUCCESS,
   GET_USER_CPS_BONUSES_FAIL,
+  SELL_CPS_TO_SELLANGLE_REQUEST,
+  SELL_CPS_TO_SELLANGLE_SUCCESS,
+  SELL_CPS_TO_SELLANGLE_FAIL,
 } from "../constants/creditPointConstants";
 
 import { API_URL } from "../config/apiConfig";
+
+export const sellCpsToSellangle = (cpsData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: SELL_CPS_TO_SELLANGLE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/sell-cps-to-sellangle/`,
+      cpsData,
+      config
+    );
+
+    dispatch({ type: SELL_CPS_TO_SELLANGLE_SUCCESS, payload: data });
+    // window.location.reload();
+    // window.location.href = "/dashboard/users";
+  } catch (error) {
+    dispatch({
+      type: SELL_CPS_TO_SELLANGLE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const getUserCpsBonuses = () => async (dispatch, getState) => {
   try {
@@ -108,7 +146,6 @@ export const getAdCpsCharges = () => async (dispatch, getState) => {
 
     const { data } = await axios.get(
       `${API_URL}/api/get-ad-charges-cps/`,
-
       config
     );
 
@@ -251,127 +288,121 @@ export const getUserSellCreditPoint = () => async (dispatch, getState) => {
   }
 };
 
-export const buyCreditPoint = (creditPointData) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: BUY_CREDIT_POINT_REQUEST });
+export const buyCreditPoint =
+  (creditPointData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: BUY_CREDIT_POINT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.access}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.access}`,
+        },
+      };
 
-    const { data } = await axios.post(
-      `${API_URL}/api/buy-credit-point/`,
-      creditPointData,
-      config
-    );
+      const { data } = await axios.post(
+        `${API_URL}/api/buy-credit-point/`,
+        creditPointData,
+        config
+      );
 
-    dispatch({ type: BUY_CREDIT_POINT_SUCCESS, payload: data });
-    // window.location.reload();
-    // window.location.href = "/dashboard/users";
-  } catch (error) {
-    dispatch({
-      type: BUY_CREDIT_POINT_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
-    });
-  }
-};
+      dispatch({ type: BUY_CREDIT_POINT_SUCCESS, payload: data });
+      // window.location.reload();
+      // window.location.href = "/dashboard/users";
+    } catch (error) {
+      dispatch({
+        type: BUY_CREDIT_POINT_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
 
 export const resetbuyCreditPointState = () => (dispatch) => {
   dispatch({ type: RESET_BUY_CREDIT_POINT_STATE });
 };
 
-export const buyUsdCreditPoint = (creditPointData) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: BUY_USD_CREDIT_POINT_REQUEST });
+export const buyUsdCreditPoint =
+  (creditPointData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: BUY_USD_CREDIT_POINT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.access}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.access}`,
+        },
+      };
 
-    const { data } = await axios.post(
-      `${API_URL}/api/buy-usd-credit-point/`,
-      creditPointData,
-      config
-    );
+      const { data } = await axios.post(
+        `${API_URL}/api/buy-usd-credit-point/`,
+        creditPointData,
+        config
+      );
 
-    dispatch({ type: BUY_USD_CREDIT_POINT_SUCCESS, payload: data });
-    // window.location.reload();
-    // window.location.href = "/dashboard/users";
-  } catch (error) {
-    dispatch({
-      type: BUY_USD_CREDIT_POINT_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
-    });
-  }
-};
+      dispatch({ type: BUY_USD_CREDIT_POINT_SUCCESS, payload: data });
+      // window.location.reload();
+      // window.location.href = "/dashboard/users";
+    } catch (error) {
+      dispatch({
+        type: BUY_USD_CREDIT_POINT_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
 
 export const resetbuyUsdCreditPointState = () => (dispatch) => {
   dispatch({ type: RESET_BUY_USD_CREDIT_POINT_STATE });
 };
 
-export const sellCreditPoint = (creditPointData) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: SELL_CREDIT_POINT_REQUEST });
+export const sellCreditPoint =
+  (creditPointData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: SELL_CREDIT_POINT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.access}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.access}`,
+        },
+      };
 
-    const { data } = await axios.post(
-      `${API_URL}/api/sell-credit-point/`,
-      creditPointData,
-      config
-    );
+      const { data } = await axios.post(
+        `${API_URL}/api/sell-credit-point/`,
+        creditPointData,
+        config
+      );
 
-    dispatch({ type: SELL_CREDIT_POINT_SUCCESS, payload: data });
-    // window.location.reload();
-    // window.location.href = "/dashboard/users";
-  } catch (error) {
-    dispatch({
-      type: SELL_CREDIT_POINT_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
-    });
-  }
-};
+      dispatch({ type: SELL_CREDIT_POINT_SUCCESS, payload: data });
+      // window.location.reload();
+      // window.location.href = "/dashboard/users";
+    } catch (error) {
+      dispatch({
+        type: SELL_CREDIT_POINT_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
 
 // export const createCreditPointRequest = (creditPointRequest) => async (
 //   dispatch,

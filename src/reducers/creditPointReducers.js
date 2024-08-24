@@ -50,6 +50,9 @@ import {
   GET_USER_CPS_BONUSES_REQUEST,
   GET_USER_CPS_BONUSES_SUCCESS,
   GET_USER_CPS_BONUSES_FAIL,
+  SELL_CPS_TO_SELLANGLE_REQUEST,
+  SELL_CPS_TO_SELLANGLE_SUCCESS,
+  SELL_CPS_TO_SELLANGLE_FAIL,
 } from "../constants/creditPointConstants";
 
 const initialState = {
@@ -67,6 +70,21 @@ const initialState = {
   creditPoints: [],
 
   adCpsCharges: [],
+};
+
+export const sellCpsToSellangleReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SELL_CPS_TO_SELLANGLE_REQUEST:
+      return { ...state, loading: true };
+    case SELL_CPS_TO_SELLANGLE_SUCCESS:
+      return { ...state, loading: false, success: true };
+    case SELL_CPS_TO_SELLANGLE_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    // case RESET_SELL_CPS_TO_SELLANGLE_STATE:
+    //   return {};
+    default:
+      return state;
+  }
 };
 
 export const getUserCpsBonusesReducer = (state = initialState, action) => {

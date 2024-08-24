@@ -1,13 +1,14 @@
 // PaymentScreen.js
 import React, { useEffect, useState } from "react";
-import { Button, Row, Col, Modal } from "react-bootstrap";
+import { Button, Row, Col, Modal, ListGroup } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { formatAmount } from "../FormatAmount";
 import Paystack from "./payment/Paystack";
 import PaystackUsd from "./payment/PaystackUsd";
-import { Paysofter } from "../react-paysofter/src/index";
-// import { Paysofter } from "react-paysofter";
- 
+// import { Paysofter } from "../react-paysofter/src/index";
+import { Paysofter } from "react-paysofter";
+
 function PaymentScreen({
   amount,
   currency,
@@ -92,8 +93,18 @@ function PaymentScreen({
     <>
       <Row>
         <div className="d-flex justify-content-center ">
-          <Col>
+          <Col md={8}>
             <h1 className="text-center py-2">Payment Page</h1>
+
+            <div className="text-center py-2">
+              <ListGroup>
+                <ListGroup.Item>
+                  <strong>
+                    Amount: {formatAmount(amount)} {currency}
+                  </strong>
+                </ListGroup.Item>
+              </ListGroup>
+            </div>
 
             {/* {showSuccessMessage && (
               <Message variant="success" fixed>
@@ -213,15 +224,14 @@ function PaymentScreen({
                 paysofterPublicKey={paysofterPublicKey}
                 onSuccess={onSuccess}
                 onClose={onClose}
-                paymentRef={`PID${Math.floor(
-                  Math.random() * 100000000000000
+                referenceId={`RID${Math.floor(
+                  Math.random() * 10000000000000000
                 )}`}
                 showPromiseOption={false}
                 showFundOption={true}
                 showCardOption={true}
-              /> 
+              />
             )}
-
           </Col>
         </div>
       </Row>

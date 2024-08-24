@@ -181,7 +181,7 @@ function BuyCreditPoint() {
         />
       ) : (
         <Row className="d-flex justify-content-center py-2">
-          <Col>
+          <Col md={8}>
             <div className="d-flex justify-content-center">
               <SelectCurrency
                 selectedCurrency={currency}

@@ -600,9 +600,7 @@ function PaidAdProductDetail({ match }) {
                   paysofterPublicKey={sellerApiKey}
                   onSuccess={onSuccess}
                   onClose={onClose}
-                  paymentRef={`PID${Math.floor(
-                    Math.random() * 10000000000000000
-                  )}`}
+                  referenceId={`RID${Math.floor(Math.random() * 10000000000000000)}`}
                   showPromiseOption={true}
                   showFundOption={true}
                   showCardOption={true}

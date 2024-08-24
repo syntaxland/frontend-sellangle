@@ -1,10 +1,10 @@
 // PaysofterAccountFund.js
 import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
-import VerifyAccountFundOtp from "./VerifyAccountFundOtp";
 import Message from "./Message";
-import MessageFixed from "./MessageFixed";
 import Loader from "./Loader";
+import MessageFixed from "./MessageFixed";
+import VerifyAccountFundOtp from "./VerifyAccountFundOtp";
 import { formatAmount } from "./FormatAmount";
 import { PAYSOFTER_API_URL } from "./config/apiConfig";
 import axios from "axios";
@@ -27,9 +27,7 @@ const PaysofterAccountFund = ({
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showAccountInfoModal, setShowAccountInfoModal] = useState(false);
   const [showSecurityCodeModal, setShowSecurityCodeModal] = useState(false);
-  const [showVerifyAccountFundOtp, setShowVerifyAccountFundOtp] = useState(
-    false
-  );
+  
   const [securityCodeVisible, setSecurityCodeVisible] = useState(false);
   const handleAccountInfoModalShow = () => setShowAccountInfoModal(true);
   const handleAccountInfoModalClose = () => setShowAccountInfoModal(false);
@@ -39,6 +37,9 @@ const PaysofterAccountFund = ({
     setSecurityCodeVisible(!securityCodeVisible);
   const handleInfoModalShow = () => setShowInfoModal(true);
   const handleInfoModalClose = () => setShowInfoModal(false);
+  const [showVerifyAccountFundOtp, setShowVerifyAccountFundOtp] = useState(
+    false
+  );
 
   const submitHandler = async (e) => {
     e.preventDefault();

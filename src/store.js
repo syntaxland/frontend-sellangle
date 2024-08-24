@@ -161,6 +161,7 @@ import {
   getUsdBuyCreditPointReducer,
   getAdCpsChargesReducer,
   getUserCpsBonusesReducer,
+  sellCpsToSellangleReducer
 } from "./reducers/creditPointReducers";
 
 import {
@@ -247,6 +248,7 @@ const reducer = combineReducers({
   getUsdBuyCreditPointState: getUsdBuyCreditPointReducer,
   getAdCpsChargesState: getAdCpsChargesReducer,
   getUserCpsBonusesState: getUserCpsBonusesReducer,
+  sellCpsToSellangleState: sellCpsToSellangleReducer,
 
   getSellCreditPointState: getSellCreditPointReducer,
   // creditPointRequestCreate: creditPointRequestCreateReducer,

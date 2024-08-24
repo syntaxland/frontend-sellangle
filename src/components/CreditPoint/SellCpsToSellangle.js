@@ -1,15 +1,16 @@
 // SellCpsToSellangle.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { sellCreditPoint } from "../../actions/creditPointActions";
+import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
 import { getPaymentApiKeys } from "../../actions/paymentActions";
-import { useHistory } from "react-router-dom";
 import Message from "../Message";
 import Loader from "../Loader";
+import MessageFixed from "../MessageFixed";
+// import { formatAmount } from "../FormatAmount";
 import SelectCurrency from "./SelectCurrency";
-import { Paysofter } from "../react-paysofter/src/index";
-// import { Paysofter } from "react-paysofter";
+import VerifyPaysofterSellerId from "./VerifyPaysofterSellerId";
+import { PAYSOFTER_API_URL } from "../../config/apiConfig";
+import axios from "axios";
 
 const NGN_CPS_CHOICES = [
   ["1000000", "2m CPS for 1m NGN"],
@@ -29,7 +30,6 @@ const USD_CPS_CHOICES = [
 
 function SellCpsToSellangle() {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -42,219 +42,265 @@ function SellCpsToSellangle() {
     }
   }, [userInfo, dispatch]);
 
-  const sellCreditPointState = useSelector(
-    (state) => state.sellCreditPointState
-  );
-  const { success, error, loading } = sellCreditPointState;
-
-  const getPaymentApiKeysState = useSelector(
-    (state) => state.getPaymentApiKeysState
-  );
-  const { loading: publicKeyLoading, paysofterPublicKey } =
-    getPaymentApiKeysState;
-
   const [username, setUsername] = useState("sellangle");
   const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState("USD");
-  const [password, setPassword] = useState("");
-  // const [messsage, setMesssage] = useState("");
-  const [showPayment, setShowPayment] = useState(false);
-  const email = userInfo.email;
+  const [paysofterSellerId, setPaysofterSellerId] = useState("");
+  const [paysofterAccountId, setPaysofterAccountId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [showVerifyPaysofterSellerId, setShowVerifyPaysofterSellerId] =
+    useState(false);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const sellerData = {
+      seller_id: paysofterSellerId,
+    };
+
+    try {
+      const { data } = await axios.post(
+        `${PAYSOFTER_API_URL}/api/get-paysofter-account-id/`,
+        sellerData
+      );
+      console.log("data:", data);
+      setPaysofterAccountId(data?.formatted_account_id);
+      setSuccess(true);
+    } catch (error) {
+      setError(
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        window.location.reload();
-      }, 5000);
+        setShowVerifyPaysofterSellerId(true);
+      }, 500);
       return () => clearTimeout(timer);
     }
-  }, [success, history]);
+  }, [success]);
 
   const lowerCaseUsername = username.toLowerCase().trim();
-  const creditPointData = {
-    username: lowerCaseUsername,
-    amount: amount,
-    // cps_amount: cps_amount,
-    password: password,
-  };
-  console.log("creditPointData:", creditPointData);
-
-  const handleSellCreditPoint = () => {
-    setShowPayment(true);
-  };
+  const upperCasePaysofterSellerId = paysofterSellerId.toUpperCase().trim();
+  // const creditPointData = {
+  //   username: lowerCaseUsername,
+  //   amount: amount,
+  //   // cps_amount: cps_amount,
+  //   // paysofterSellerId: paysofterSellerId,
+  // };
+  // console.log("creditPointData:", creditPointData);
 
   useEffect(() => {
     setAmount("");
-    setShowPayment(false);
+    setShowVerifyPaysofterSellerId(false);
   }, [currency]);
 
   const handleCurrencyChange = (selectedOption) => {
     setCurrency(selectedOption.value);
   };
 
-  const handleOnSuccess = () => {
-    console.log("handling onSuccess...");
-    const creditPointData = {
-      amount: amount,
-    };
-    dispatch(sellCreditPoint(creditPointData));
+  const [showPaysofterSellerIdModal, setShowPaysofterSellerIdModal] =
+    useState(false);
+  const handlePaysofterSellerIdModalShow = () => {
+    setShowPaysofterSellerIdModal(true);
+  };
+  const handlePaysofterSellerIdModalClose = () => {
+    setShowPaysofterSellerIdModal(false);
   };
 
-  const onSuccess = () => {
-    handleOnSuccess();
+  const handlePaysofter = () => {
+    // window.location.href = "https://paysofter.com/register";
+    window.open("https://paysofter.com/", "_blank");
   };
 
-  const handleOnClose = () => {
-    console.log("handling onClose...");
-    setShowPayment(false);
-  };
-
-  const onClose = () => {
-    handleOnClose();
-  };
-
-  useEffect(() => {
-    if (success) {
-      // setShowSuccessMessage(true);
-      const timer = setTimeout(() => {
-        // setShowSuccessMessage(false);
-        window.location.reload();
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [dispatch, success]);
-
-  console.log("cps, amt, key:", amount, currency, paysofterPublicKey);
+  console.log(
+    "cps, amt, key, seller_id, acc_id:",
+    amount,
+    currency,
+    upperCasePaysofterSellerId,
+    paysofterAccountId
+  );
 
   return (
     <Container>
-      <Row className="justify-content-center py-2">
-        <Col md={10}>
-          {!showPayment && (
-            <div>
-              <div className="d-flex justify-content-center">
-                <SelectCurrency
-                  selectedCurrency={currency}
-                  onCurrencyChange={handleCurrencyChange}
-                />
+      <>
+        {showVerifyPaysofterSellerId ? (
+          <VerifyPaysofterSellerId
+            paysofterSellerId={upperCasePaysofterSellerId}
+            paysofterAccountId={paysofterAccountId}
+            username={lowerCaseUsername}
+            amount={amount}
+            currency={currency}
+          />
+        ) : (
+          <Row className="justify-content-center py-2">
+            <Col md={10}>
+              <div>
+                <div className="d-flex justify-content-center">
+                  <SelectCurrency
+                    selectedCurrency={currency}
+                    onCurrencyChange={handleCurrencyChange}
+                  />
+                </div>
+                {loading && <Loader />}
+                {/* {success && (
+                  <Message variant="success">
+                    Request sent successfully.
+                  </Message>
+                )} */}
+                {error && <Message variant="danger">{error}</Message>}
+
+                <Form>
+                  {currency === "NGN" && (
+                    <div>
+                      <Form.Group className="py-1">
+                        <Form.Label>Amount (CPS)</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
+                          className="rounded py-2 mb-2"
+                          required
+                        >
+                          <option value="">Select CPS Amount</option>
+                          {NGN_CPS_CHOICES.map((type) => (
+                            <option key={type[0]} value={type[0]}>
+                              {type[1]}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
+                    </div>
+                  )}
+
+                  {currency === "USD" && (
+                    <div>
+                      <Form.Group className="py-1">
+                        <Form.Label>Amount (CPS)</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
+                          className="rounded py-2 mb-2"
+                          required
+                        >
+                          <option value="">Select CPS Amount</option>
+                          {USD_CPS_CHOICES.map((type) => (
+                            <option key={type[0]} value={type[0]}>
+                              {type[1]}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
+                    </div>
+                  )}
+
+                  <Form.Group className="py-1">
+                    <Form.Label>Buyer</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      // placeholder="Enter cps receiver's username"
+                      className="rounded"
+                      required
+                      maxLength={12}
+                      disabled
+                    />
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Row className="py-1">
+                      <Col md={10}>
+                        <Form.Label>Paysofter Seller ID</Form.Label>
+                      </Col>
+                      <Col md={2}>
+                        <Button
+                          variant="outline"
+                          onClick={handlePaysofterSellerIdModalShow}
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Paysofter Seller ID is a 10-digit alphanumeric with format SIDxxxxxxx"
+                        >
+                          <i className="fa fa-info-circle"> </i>
+                        </Button>
+
+                        <Modal
+                          show={showPaysofterSellerIdModal}
+                          onHide={handlePaysofterSellerIdModalClose}
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title className="text-center w-100 py-2">
+                              Paysofter Seller ID Info
+                            </Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <p className="text-center">
+                              Paysofter Seller ID is a 10-digit alphanumeric
+                              with format SIDxxxxxxx issued to verified
+                              Paysofter sellers. Don't have Paysofter account?
+                              <span className="text-center py-2">
+                                <Button
+                                  className="rounded"
+                                  type="button"
+                                  size="sm"
+                                  variant="primary"
+                                  onClick={handlePaysofter}
+                                >
+                                  Sign up
+                                </Button>
+                              </span>
+                            </p>
+                          </Modal.Body>
+                        </Modal>
+                      </Col>
+                    </Row>
+                    <Form.Control
+                      type="text"
+                      value={paysofterSellerId}
+                      onChange={(e) => setPaysofterSellerId(e.target.value)}
+                      placeholder="Enter Paysofter Seller ID"
+                      className="rounded"
+                      required
+                      maxLength={10}
+                    />
+                  </Form.Group>
+
+                  <div className="py-4 mt-2">
+                    <Button
+                      variant="success"
+                      onClick={submitHandler}
+                      className="rounded text-center w-100"
+                      disabled={
+                        paysofterSellerId === "" ||
+                        username === "" ||
+                        amount === ""
+                      }
+                    >
+                      Sell CPS
+                    </Button>
+                  </div>
+                  <div className="py-2 d-flex justify-content-center text-center">
+                    {error && (
+                      <MessageFixed variant="danger">{error}</MessageFixed>
+                    )}
+                  </div>
+                </Form>
               </div>
-              {publicKeyLoading && <Loader />}
-              {loading && <Loader />}
-              {success && (
-                <Message variant="success">
-                  You have transferred {amount} credit points to {username}{" "}
-                  successfully.
-                </Message>
-              )}
-              {error && <Message variant="danger">{error}</Message>}
-              {/* {messsage && <Message variant="danger">{messsage}</Message>} */}
-
-              <Form>
-                {currency === "NGN" && (
-                  <div>
-                    <Form.Group className="py-1">
-                      <Form.Control
-                        as="select"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className="rounded py-2 mb-2"
-                        required
-                      >
-                        <option value="">Select CPS Amount</option>
-                        {NGN_CPS_CHOICES.map((type) => (
-                          <option key={type[0]} value={type[0]}>
-                            {type[1]}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
-                  </div>
-                )}
-
-                {currency === "USD" && (
-                  <div>
-                    <Form.Group className="py-1">
-                      <Form.Control
-                        as="select"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className="rounded py-2 mb-2"
-                        required
-                      >
-                        <option value="">Select CPS Amount</option>
-                        {USD_CPS_CHOICES.map((type) => (
-                          <option key={type[0]} value={type[0]}>
-                            {type[1]}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
-                  </div>
-                )}
-
-                <Form.Group className="py-1">
-                  <Form.Label>Buyer</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    // placeholder="Enter cps receiver's username"
-                    className="rounded"
-                    required
-                    maxLength={12}
-                    disabled
-                  />
-                </Form.Group>
-
-                <Form.Group className="py-1">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    className="rounded"
-                    required
-                    maxLength={100}
-                  />
-                </Form.Group>
-                <div className="py-2">
-                  <Button
-                    variant="success"
-                    onClick={handleSellCreditPoint}
-                    className="rounded text-center w-100"
-                    disabled={
-                      password === "" || username === "" || amount === ""
-                    }
-                  >
-                    Sell CPS
-                  </Button>
-                </div>
-                <div className="py-2 d-flex justify-content-center text-center">
-                  <Form.Text className="text-danger">{error}</Form.Text>
-                </div>
-              </Form>
-            </div>
-          )}
-
-          <div>
-            {showPayment && (
-              <Paysofter
-                amount={amount}
-                currency={currency}
-                email={email}
-                paysofterPublicKey={paysofterPublicKey}
-                onSuccess={onSuccess}
-                onClose={onClose}
-                paymentRef={`RID${Math.floor(Math.random() * 100000000000000)}`}
-                showPromiseOption={true}
-                showFundOption={false}
-                showCardOption={false}
-              />
-            )}
-          </div>
-        </Col>
-      </Row>
+            </Col>
+          </Row>
+        )}
+      </>
     </Container>
   );
 }

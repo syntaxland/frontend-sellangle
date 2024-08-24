@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { clearCart } from "../../actions/cartActions";
+import { clearCart } from "../../../actions/cartActions";
 
 const ConfirmPaysofterPromise = () => {
   const dispatch = useDispatch();
