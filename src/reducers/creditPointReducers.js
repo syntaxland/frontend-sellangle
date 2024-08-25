@@ -53,6 +53,18 @@ import {
   SELL_CPS_TO_SELLANGLE_REQUEST,
   SELL_CPS_TO_SELLANGLE_SUCCESS,
   SELL_CPS_TO_SELLANGLE_FAIL,
+  SELLANGLE_FULFILLED_CPS_REQUEST,
+  SELLANGLE_FULFILLED_CPS_SUCCESS,
+  SELLANGLE_FULFILLED_CPS_FAIL,
+  GET_SELLER_SELL_CPS_TO_SELLANGLE_REQUEST,
+  GET_SELLER_SELL_CPS_TO_SELLANGLE_SUCCESS,
+  GET_SELLER_SELL_CPS_TO_SELLANGLE_FAIL,
+  UPDATE_CPS_CHECKOUT_LINK_REQUEST,
+  UPDATE_CPS_CHECKOUT_LINK_SUCCESS,
+  UPDATE_CPS_CHECKOUT_LINK_FAIL,
+  GET_ALL_SELL_CPS_TO_SELLANGLE_REQUEST,
+  GET_ALL_SELL_CPS_TO_SELLANGLE_SUCCESS,
+  GET_ALL_SELL_CPS_TO_SELLANGLE_FAIL,
 } from "../constants/creditPointConstants";
 
 const initialState = {
@@ -70,6 +82,68 @@ const initialState = {
   creditPoints: [],
 
   adCpsCharges: [],
+};
+
+export const sellangleFulfilledCpsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SELLANGLE_FULFILLED_CPS_REQUEST:
+      return { ...state, loading: true };
+    case SELLANGLE_FULFILLED_CPS_SUCCESS:
+      return { ...state, loading: false, success: true };
+    case SELLANGLE_FULFILLED_CPS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    // case RESET_SELL_CPS_TO_SELLANGLE_STATE:
+    //   return {};
+    default:
+      return state;
+  }
+};
+
+export const getSellerSellCpsToSellangleReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_SELLER_SELL_CPS_TO_SELLANGLE_REQUEST:
+      return { loading: true };
+    case GET_SELLER_SELL_CPS_TO_SELLANGLE_SUCCESS:
+      return { loading: false, success: true, creditPoints: action.payload };
+    case GET_SELLER_SELL_CPS_TO_SELLANGLE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const updateCpsCheckoutLinkReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATE_CPS_CHECKOUT_LINK_REQUEST:
+      return { ...state, loading: true };
+    case UPDATE_CPS_CHECKOUT_LINK_SUCCESS:
+      return { ...state, loading: false, success: true };
+    case UPDATE_CPS_CHECKOUT_LINK_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    // case RESET_SELL_CPS_TO_SELLANGLE_STATE:
+    //   return {};
+    default:
+      return state;
+  }
+};
+
+export const getAllSellCpsToSellangleReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case GET_ALL_SELL_CPS_TO_SELLANGLE_REQUEST:
+      return { loading: true };
+    case GET_ALL_SELL_CPS_TO_SELLANGLE_SUCCESS:
+      return { loading: false, success: true, creditPoints: action.payload };
+    case GET_ALL_SELL_CPS_TO_SELLANGLE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const sellCpsToSellangleReducer = (state = initialState, action) => {

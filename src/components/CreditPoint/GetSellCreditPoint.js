@@ -8,7 +8,7 @@ import Loader from "../Loader";
 import Pagination from "../Pagination";
 import { formatAmount } from "../FormatAmount";
 
-function GetSellCreditPoint() {
+function GetSellCreditPoint() { 
   const dispatch = useDispatch();
 
   const getSellCreditPointState = useSelector(

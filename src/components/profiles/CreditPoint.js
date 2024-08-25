@@ -4,13 +4,14 @@ import {
   // useDispatch,
   useSelector,
 } from "react-redux";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import GetBuyCreditPoint from "../CreditPoint/GetBuyCreditPoint";
 import GetUsdBuyCreditPoint from "../CreditPoint/GetUsdBuyCreditPoint";
 import GetSellCreditPoint from "../CreditPoint/GetSellCreditPoint";
 import GetBuyerCreditPoint from "../CreditPoint/GetBuyerCreditPoint";
 import GetAdCpsCharges from "../CreditPoint/GetAdCpsCharges";
-import GetUserCpsBonuses from "../CreditPoint/GetUserCpsBonuses"; 
+import GetUserCpsBonuses from "../CreditPoint/GetUserCpsBonuses";
+import GetSellCpsToSellangle from "../CreditPoint/GetSellCpsToSellangle";
 
 const CreditPoint = () => {
   // const dispatch = useDispatch();
@@ -25,14 +26,14 @@ const CreditPoint = () => {
   }, [userInfo]);
 
   return (
-    <>
+    <Container>
       <Row>
         <div className="d-flex justify-content-center">
           <Col>
-          <div>
+            <div>
               <GetUserCpsBonuses />
             </div>
-            
+
             <div>
               <GetAdCpsCharges />
             </div>
@@ -53,11 +54,15 @@ const CreditPoint = () => {
               <GetBuyerCreditPoint />
             </div>
 
+            <div>
+              <GetSellCpsToSellangle />
+            </div>
+
             <hr />
           </Col>
         </div>
       </Row>
-    </>
+    </Container>
   );
 };
 

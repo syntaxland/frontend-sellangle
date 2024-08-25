@@ -50,8 +50,11 @@ import Payments from "./components/profiles/Payments";
 import Inbox from "./components/profiles/Inbox";
 
 import UserDashboard from "./components/profiles/UserDashboard";
+import CreditPoint from "./components/profiles/CreditPoint";
 import EcommerceDashboard from "./components/ecommerce/EcommerceDashboard";
+
 import AdminDashboard from "./components/admin/AdminDashboard";
+import CreditPointAdmin from "./components/admin/CreditPointAdmin";
 
 import MarketplaceDashboard from "./components/marketplace/MarketplaceDashboard";
 import Marketplace from "./components/marketplace/Marketplace";
@@ -137,8 +140,8 @@ function App() {
           />
           <Route path="/dashboard/admin" component={AdminDashboard} />
 
-          {/* <Route path="/review-list/:productId" component={ReviewScreen} /> */}
-          {/* <Route path="/add-review/" component={AddReviewScreen} /> */}
+          <Route path="/user/cps/" component={CreditPoint} />
+          <Route path="/admin/cps/" component={CreditPointAdmin} />
           {/* <Route path="/add-review/:orderItemId" component={AddReviewScreen} /> */}
           {/* <Route path="/edit-review/" component={EditReviewScreen} /> */}
           {/* <Route path="/credit-point/" component={CreditPointScreen} /> */}
@@ -168,7 +171,7 @@ function App() {
           <Route path="/" component={Marketplace} exact />
           <Route path="/ad/free" component={PostFreeAd} />
           <Route path="/ad/paid" component={PostPaidAd} />
-          <Route path="/paid-ad-detail/:id" component={PaidAdProductDetail} />
+          <Route path="/promoted-ad-detail/:id" component={PaidAdProductDetail} />
           <Route path="/free-ad-detail/:id" component={FreeAdProductDetail} />
           <Route path="/paid-ad-screen" component={PaidAdScreen} />
 

@@ -54,9 +54,165 @@ import {
   SELL_CPS_TO_SELLANGLE_REQUEST,
   SELL_CPS_TO_SELLANGLE_SUCCESS,
   SELL_CPS_TO_SELLANGLE_FAIL,
+  SELLANGLE_FULFILLED_CPS_REQUEST,
+  SELLANGLE_FULFILLED_CPS_SUCCESS,
+  SELLANGLE_FULFILLED_CPS_FAIL,
+  GET_SELLER_SELL_CPS_TO_SELLANGLE_REQUEST,
+  GET_SELLER_SELL_CPS_TO_SELLANGLE_SUCCESS,
+  GET_SELLER_SELL_CPS_TO_SELLANGLE_FAIL,
+  UPDATE_CPS_CHECKOUT_LINK_REQUEST,
+  UPDATE_CPS_CHECKOUT_LINK_SUCCESS,
+  UPDATE_CPS_CHECKOUT_LINK_FAIL,
+  GET_ALL_SELL_CPS_TO_SELLANGLE_REQUEST,
+  GET_ALL_SELL_CPS_TO_SELLANGLE_SUCCESS,
+  GET_ALL_SELL_CPS_TO_SELLANGLE_FAIL,
 } from "../constants/creditPointConstants";
 
 import { API_URL } from "../config/apiConfig";
+
+export const sellangleFulfilledCps =
+  (cpsData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: SELLANGLE_FULFILLED_CPS_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.access}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${API_URL}/api/sellangle-fulfilled-cps/`,
+        cpsData,
+        config
+      );
+
+      dispatch({ type: SELLANGLE_FULFILLED_CPS_SUCCESS, payload: data });
+      // window.location.reload();
+      // window.location.href = "/dashboard/users";
+    } catch (error) {
+      dispatch({
+        type: SELLANGLE_FULFILLED_CPS_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+export const getSellerSellCpsToSellangle = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_SELLER_SELL_CPS_TO_SELLANGLE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-seller-sell-cps-to-sellangle/`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_SELLER_SELL_CPS_TO_SELLANGLE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SELLER_SELL_CPS_TO_SELLANGLE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const updateCpsCheckoutLink =
+  (cpsData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: UPDATE_CPS_CHECKOUT_LINK_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.access}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `${API_URL}/api/update-cps-checkout-link/`,
+        cpsData,
+        config
+      );
+
+      dispatch({ type: UPDATE_CPS_CHECKOUT_LINK_SUCCESS, payload: data });
+      // window.location.reload();
+      // window.location.href = "/dashboard/users";
+    } catch (error) {
+      dispatch({
+        type: UPDATE_CPS_CHECKOUT_LINK_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+export const getAllSellCpsToSellangle = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_ALL_SELL_CPS_TO_SELLANGLE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-all-sell-cps-to-sellangle/`,
+
+      config
+    );
+
+    dispatch({
+      type: GET_ALL_SELL_CPS_TO_SELLANGLE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_SELL_CPS_TO_SELLANGLE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const sellCpsToSellangle = (cpsData) => async (dispatch, getState) => {
   try {

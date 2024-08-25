@@ -142,6 +142,10 @@ function UserDashboard() {
     history.push("/dashboard/marketplace/sellers");
   };
 
+  const handleCps = () => {
+    history.push("/user/cps/");
+  };
+
   useEffect(() => {
     dispatch(getUserProfile());
     dispatch(getUserMessages());
@@ -326,7 +330,8 @@ function UserDashboard() {
                     activeTab === "credit-point" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
-                  onClick={() => handleTabChange("credit-point")}
+                  // onClick={() => handleTabChange("credit-point")}
+                  onClick={handleCps}
                 >
                   <i className="fas fa-sack-dollar"></i> Credit Point
                 </Button>

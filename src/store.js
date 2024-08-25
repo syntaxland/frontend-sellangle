@@ -161,7 +161,11 @@ import {
   getUsdBuyCreditPointReducer,
   getAdCpsChargesReducer,
   getUserCpsBonusesReducer,
-  sellCpsToSellangleReducer
+  sellCpsToSellangleReducer,
+  sellangleFulfilledCpsReducer,
+  getSellerSellCpsToSellangleReducer,
+  updateCpsCheckoutLinkReducer,
+  getAllSellCpsToSellangleReducer,
 } from "./reducers/creditPointReducers";
 
 import {
@@ -249,6 +253,10 @@ const reducer = combineReducers({
   getAdCpsChargesState: getAdCpsChargesReducer,
   getUserCpsBonusesState: getUserCpsBonusesReducer,
   sellCpsToSellangleState: sellCpsToSellangleReducer,
+  sellangleFulfilledCpsState: sellangleFulfilledCpsReducer,
+  getSellerSellCpsToSellangleState: getSellerSellCpsToSellangleReducer,
+  updateCpsCheckoutLinkState: updateCpsCheckoutLinkReducer,
+  getAllSellCpsToSellangleState: getAllSellCpsToSellangleReducer,
 
   getSellCreditPointState: getSellCreditPointReducer,
   // creditPointRequestCreate: creditPointRequestCreateReducer,

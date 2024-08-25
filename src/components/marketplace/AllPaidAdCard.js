@@ -88,7 +88,7 @@ function AllPaidAdCard({ product }) {
       history.push("/login");
     } else {
       dispatch(trackPaidAdView(adData));
-      history.push(`/paid-ad-detail/${product.id}`);
+      history.push(`/promoted-ad-detail/${product.id}`);
     }
   };
 

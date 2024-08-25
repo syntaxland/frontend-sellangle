@@ -14,7 +14,7 @@ import SendMessage from "./SendMessage";
 import MessageInbox from "./MessageInbox";
 import SendEmail from "./SendEmail";
 import Dashboard from "./Dashboard";
-import CreditPoint from "./CreditPoint";
+import CreditPointAdmin from "./CreditPointAdmin";
 import SetPromoCode from "./SetPromoCode";
 import PromoTimer from "./ApplyPromoCode";
 // import LiveChat from "./LiveChat";
@@ -39,9 +39,7 @@ function AdminDashboard() {
     }
   }, [userInfo]);
 
-  const allTicketList = useSelector(
-    (state) => state.allTicketList
-  );
+  const allTicketList = useSelector((state) => state.allTicketList);
   const { tickets } = allTicketList;
 
   const supportMsgCounted = tickets?.reduce(
@@ -70,6 +68,10 @@ function AdminDashboard() {
     history.push("/dashboard/users");
   };
 
+  const handleCps = () => {
+    history.push("/admin/cps/");
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "orders":
@@ -91,7 +93,7 @@ function AdminDashboard() {
         return <SendEmail />;
 
       case "credit-point-requests":
-        return <CreditPoint />;
+        return <CreditPointAdmin />;
 
       case "promo-code":
         return <PromoTimer />;
@@ -220,7 +222,9 @@ function AdminDashboard() {
                       : "outline-primary"
                   }
                   className="sidebar-link"
-                  onClick={() => handleTabChange("credit-point-requests")}
+                  // onClick={() => handleTabChange("credit-point-requests")}
+
+                  onClick={handleCps}
                 >
                   <i className="fas fa-sack-dollar"></i> Credit Point
                 </Button>

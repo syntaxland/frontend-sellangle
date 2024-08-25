@@ -1,6 +1,7 @@
 // SellCpsToSellangle.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
 import { getPaymentApiKeys } from "../../actions/paymentActions";
 import Message from "../Message";
@@ -30,6 +31,7 @@ const USD_CPS_CHOICES = [
 
 function SellCpsToSellangle() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -118,9 +120,22 @@ function SellCpsToSellangle() {
     setShowPaysofterSellerIdModal(false);
   };
 
+  const [showCheckoutLinkModal, setShowCheckoutLinkModal] = useState(false);
+  const handleCheckoutLinkModalShow = () => {
+    setShowCheckoutLinkModal(true);
+  };
+  const handleCheckoutLinkModalClose = () => {
+    setShowCheckoutLinkModal(false);
+  };
+
   const handlePaysofter = () => {
     // window.location.href = "https://paysofter.com/register";
     window.open("https://paysofter.com/", "_blank");
+  };
+
+  const handleCheckoutLink = () => {
+    // window.open("https://paysofter.com/", "_blank");
+    history.push("/ad/paid");
   };
 
   console.log(
@@ -204,6 +219,69 @@ function SellCpsToSellangle() {
                       </Form.Group>
                     </div>
                   )}
+
+                  <Form.Group>
+                    <Row className="py-1">
+                      <Col md={10}>
+                        <Form.Label>CPS Checkout Link</Form.Label>
+                      </Col>
+                      <Col md={2}>
+                        <Button
+                          variant="outline"
+                          onClick={handleCheckoutLinkModalShow}
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="CPS Checkout Link format: 'https://sellangle.com/promoted-ad-detail/xxxx'."
+                        >
+                          <i className="fa fa-info-circle"> </i>
+                        </Button>
+
+                        <Modal
+                          show={showCheckoutLinkModal}
+                          onHide={handleCheckoutLinkModalClose}
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title className="text-center w-100 py-2">
+                              CPS Checkout Link Info
+                            </Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <p className="text-center">
+                              This is the seller's promoted ad checkout link for
+                              the cps being sold to Sellangle. This will be used
+                              by Sellangle to pay for chosen CPS amount via
+                              Paysofter Promise. It will look like
+                              "https://sellangle.com/promoted-ad-detail/xxxx".
+                              For instance, to sell 1000 USD worth of CPS to
+                              Sellangle, you will need to post it as a promoted
+                              ad at Sellangle with the price of the CPS as 1000
+                              USD.
+                              <span className="text-center py-2">
+                                <Button
+                                  className="rounded"
+                                  type="button"
+                                  size="sm"
+                                  variant="primary"
+                                  onClick={handleCheckoutLink}
+                                >
+                                  Create CPS promoted ad link?
+                                </Button>
+                              </span>
+                            </p>
+                          </Modal.Body>
+                        </Modal>
+                      </Col>
+                    </Row>
+                    <Form.Control
+                      type="text"
+                      value={paysofterSellerId}
+                      onChange={(e) => setPaysofterSellerId(e.target.value)}
+                      placeholder="Enter Checkout Link"
+                      className="rounded"
+                      required
+                      maxLength={10}
+                    />
+                  </Form.Group>
 
                   <Form.Group className="py-1">
                     <Form.Label>Buyer</Form.Label>
