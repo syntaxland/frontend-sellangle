@@ -40,7 +40,7 @@ function ConfirmSellCpsToSellangle({
     if (success) {
       const timer = setTimeout(() => {
         window.location.reload();
-        history.push("/user/cps/");
+        window.location.href = "/user/cps/";
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -53,6 +53,7 @@ function ConfirmSellCpsToSellangle({
     username: username,
     amount: amount,
     currency: currency,
+    cps_checkout_link: link,
   };
   console.log("SellerId,amt,currency:", paysofterSellerId, amount, currency);
 
@@ -90,9 +91,9 @@ function ConfirmSellCpsToSellangle({
                 <strong>
                   {formatAmount(amount)} {currency}
                 </strong>{" "}
-                to Sellangle and this link <strong>"{link}"</strong> will be used to
-                process the checkout. Are you sure you want to continue? Please
-                enter the password for your account email{" "}
+                to Sellangle and this link: <strong>"{link}"</strong> will be
+                used to process the checkout. Are you sure you want to continue?
+                Please enter the password for your account email{" "}
                 <strong>({userInfo.email}</strong>):{" "}
               </p>
             </ListGroup.Item>

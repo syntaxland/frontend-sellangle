@@ -279,8 +279,9 @@ function SellCpsToSellangle() {
                                   Create CPS promoted ad link?
                                 </Button>
                               </span>
-                              Alternatively, you can use Paysofter Link usually
-                              in this format:{" "}
+                              Alternatively, you can use Paysofter Link setting
+                              <b>"Paysofter Promise"</b> as the payment option.
+                              It is usually in this format:{" "}
                               <b>
                                 "https://paysofter.com/link?ref=user&pk=xxxx"
                               </b>

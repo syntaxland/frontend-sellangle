@@ -78,6 +78,7 @@ function SoldCpsToSellangle() {
                       <th>Amount</th>
                       <th>CPS Amount</th>
                       <th>Paysofter Seller ID</th>
+                      <th>Paysofter Account ID</th>
                       <th>Old Balance</th>
                       <th>New Balance</th>
                       <th>Success</th>
@@ -138,6 +139,7 @@ function SoldCpsToSellangle() {
                           {formatAmount(cps.cps_amount)}
                         </td>
                         <td>{cps.paysofter_seller_id}</td>
+                        <td>{cps.paysofter_account_id}</td>
                         <td>{formatAmount(cps.seller_old_bal)}</td>
                         <td>{formatAmount(cps.seller_new_bal)}</td>
                         <td>
