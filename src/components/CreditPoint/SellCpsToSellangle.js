@@ -258,26 +258,33 @@ function SellCpsToSellangle() {
                             <p className="text-center">
                               This is the seller's promoted ad checkout link for
                               the cps being sold to Sellangle. This will be used
-                              by Sellangle to pay for chosen CPS amount via
-                              Paysofter Promise. It will look like
-                              "https://sellangle.com/promoted-ad-detail/xxxx".
-                              For instance, to sell 1000 USD worth of CPS to
+                              by Sellangle to process the payment of the chosen
+                              CPS amount via Paysofter Promise. The checkout
+                              link will look like:{" "}
+                              <b>
+                                "https://sellangle.com/promoted-ad-detail/xxxx"
+                              </b>
+                              . For instance, to sell 1,000 USD worth of CPS to
                               Sellangle, you will need to post it as a promoted
-                              ad at Sellangle with the price of the CPS as 1000
+                              ad at Sellangle with the price of the CPS as 1,000
                               USD.
                               <span className="text-center py-2">
                                 <Button
                                   className="rounded"
                                   type="button"
                                   size="sm"
-                                  variant="primary"
+                                  variant="outline-primary"
                                   onClick={handleCheckoutLink}
                                 >
                                   Create CPS promoted ad link?
                                 </Button>
                               </span>
-                              Alternatively, you can use Paysofter Link. Learn
-                              more? See{" "}
+                              Alternatively, you can use Paysofter Link usually
+                              in this format:{" "}
+                              <b>
+                                "https://paysofter.com/link?ref=user&pk=xxxx"
+                              </b>
+                              . Learn more? See{" "}
                               <a
                                 href="https://paysofter.com/"
                                 target="_blank"
@@ -286,7 +293,7 @@ function SellCpsToSellangle() {
                                 {" "}
                                 <span>
                                   <Button
-                                    variant="primary"
+                                    variant="outline-primary"
                                     size="sm"
                                     className="text-center py-2"
                                   >

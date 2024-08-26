@@ -90,7 +90,7 @@ function ConfirmSellCpsToSellangle({
                 <strong>
                   {formatAmount(amount)} {currency}
                 </strong>{" "}
-                to Sellangle and <strong>"{link}"</strong> will be used to
+                to Sellangle and this link <strong>"{link}"</strong> will be used to
                 process the checkout. Are you sure you want to continue? Please
                 enter the password for your account email{" "}
                 <strong>({userInfo.email}</strong>):{" "}

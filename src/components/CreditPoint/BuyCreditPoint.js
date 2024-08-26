@@ -104,7 +104,7 @@ function BuyCreditPoint() {
   const handleOnSuccess = () => {
     const creditPointData = {
       amount: amount,
-      // cps_amount: cpsAmount,
+      currency: currency,
     };
 
     dispatch(buyCreditPoint(creditPointData));
@@ -116,7 +116,7 @@ function BuyCreditPoint() {
 
   const handleOnClose = () => {
     console.log("handling onClose...");
-    // window.location.reload();
+    window.location.reload();
     // window.location.href = "/";
   };
 
@@ -130,8 +130,7 @@ function BuyCreditPoint() {
       const timer = setTimeout(() => {
         setShowSuccessMessage(false);
         dispatch(resetbuyCreditPointState());
-        window.location.reload();
-      }, 5000);
+      }, 600000);
       return () => clearTimeout(timer);
     }
   }, [dispatch, buyCreditPointSuccess]);
