@@ -1,7 +1,15 @@
 // VerifyPaysofterSellerId.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Modal,
+  ListGroup,
+} from "react-bootstrap";
 import { getPaymentApiKeys } from "../../actions/paymentActions";
 import Message from "../Message";
 import Loader from "../Loader";
@@ -83,8 +91,12 @@ function VerifyPaysofterSellerId({
     }
   }, [success]);
 
-
-  console.log("cps, amt, key, seller_id, acc_id:", amount, currency, paysofterAccountId);
+  console.log(
+    "cps, amt, key, seller_id, acc_id:",
+    amount,
+    currency,
+    paysofterAccountId
+  );
 
   return (
     <Container>
@@ -109,6 +121,18 @@ function VerifyPaysofterSellerId({
                 )} */}
                 {error && <Message variant="danger">{error}</Message>}
 
+                <ListGroup className="text-center py-2">
+                  <ListGroup.Item>
+                    <p className="text-center">
+                      Enter Paysofter Account Security Code for Paysofter
+                      Account ID ending in:{" "}
+                      <strong>"{paysofterAccountId}"</strong> to confirm your
+                      Paysofter Seller ID:{" "}
+                      <strong>"{paysofterSellerId}"</strong>
+                    </p>
+                  </ListGroup.Item>
+                </ListGroup>
+                
                 <Form>
                   <Form.Group controlId="securityCode">
                     <Form.Label>Paysofter Security Code</Form.Label>

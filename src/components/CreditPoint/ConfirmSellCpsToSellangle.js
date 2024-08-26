@@ -5,7 +5,9 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { sellCpsToSellangle } from "../../actions/creditPointActions";
 import { useHistory } from "react-router-dom";
 import Message from "../Message";
+import MessageFixed from "../MessageFixed";
 import Loader from "../Loader";
+import { formatAmount } from "../FormatAmount";
 
 function ConfirmSellCpsToSellangle({
   paysofterSellerId,
@@ -60,12 +62,13 @@ function ConfirmSellCpsToSellangle({
   return (
     <Container>
       <Row className="d-flex justify-content-center py-2">
-        <Col md={6}>
+        <Col md={10}>
           {/* <h2 className="mb-4">Verify Seller</h2> */}
           {loading && <Loader />}
           {success && (
             <Message variant="success">
-              CPS amount {amount} {currency} sold to Sellangle successfully.
+              CPS amount {formatAmount(amount)} {currency} sold to Sellangle
+              successfully.
             </Message>
           )}
           {error && <Message variant="danger">{error}</Message>}
@@ -95,15 +98,18 @@ function ConfirmSellCpsToSellangle({
                 maxLength={100}
               />
             </Form.Group>
-            <Button
-              variant="primary"
-              onClick={handleConfirmSellCpsToSellangle}
-              className="rounded mt-2 text-center w-100"
-              disabled={password === "" || loading || success}
-            >
-              Submit
-            </Button>
+            <div className="mt-2 py-2">
+              <Button
+                variant="primary"
+                onClick={handleConfirmSellCpsToSellangle}
+                className="rounded mt-2 text-center w-100"
+                disabled={password === "" || loading || success}
+              >
+                Submit
+              </Button>
+            </div>
           </Form>
+          {error && <MessageFixed variant="danger">{error}</MessageFixed>}
         </Col>
       </Row>
     </Container>

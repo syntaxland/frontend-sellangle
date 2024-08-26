@@ -49,6 +49,7 @@ function SellCpsToSellangle() {
   const [currency, setCurrency] = useState("USD");
   const [paysofterSellerId, setPaysofterSellerId] = useState("");
   const [paysofterAccountId, setPaysofterAccountId] = useState("");
+  const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -274,12 +275,12 @@ function SellCpsToSellangle() {
                     </Row>
                     <Form.Control
                       type="text"
-                      value={paysofterSellerId}
-                      onChange={(e) => setPaysofterSellerId(e.target.value)}
+                      value={link}
+                      onChange={(e) => setLink(e.target.value)}
                       placeholder="Enter Checkout Link"
                       className="rounded"
                       required
-                      maxLength={10}
+                      maxLength={225}
                     />
                   </Form.Group>
 
