@@ -1,7 +1,7 @@
 // ConfirmSellCpsToSellangle.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { sellCpsToSellangle } from "../../actions/creditPointActions";
 import { useHistory } from "react-router-dom";
 import Message from "../Message";
@@ -15,6 +15,7 @@ function ConfirmSellCpsToSellangle({
   username,
   amount,
   currency,
+  link,
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -67,25 +68,35 @@ function ConfirmSellCpsToSellangle({
           {loading && <Loader />}
           {success && (
             <Message variant="success">
-              CPS amount {formatAmount(amount)} {currency} sold to Sellangle
-              successfully.
+              CPS amount{" "}
+              <strong>
+                {formatAmount(amount)} {currency}
+              </strong>{" "}
+              sold to Sellangle successfully.
             </Message>
           )}
           {error && <Message variant="danger">{error}</Message>}
-
-          <p className="rounded mt-2 py-1 text-center">
-            <i
-              className="fa fa-warning text-warning"
-              style={{
-                fontSize: "18px",
-                // color: "orange"
-              }}
-            ></i>{" "}
-            Warning! This action will transfer the CPS amount to Sellangle.
-            Please enter the password for your account email{" "}
-            <strong>({userInfo.email}</strong>):{" "}
-          </p>
-
+          <ListGroup className="text-center py-2">
+            <ListGroup.Item>
+              <p className="rounded mt-2 py-1 text-center">
+                <i
+                  className="fa fa-warning text-warning"
+                  style={{
+                    fontSize: "18px",
+                    // color: "orange"
+                  }}
+                ></i>{" "}
+                Warning! This action will transfer the CPS amount of{" "}
+                <strong>
+                  {formatAmount(amount)} {currency}
+                </strong>{" "}
+                to Sellangle and <strong>"{link}"</strong> will be used to
+                process the checkout. Are you sure you want to continue? Please
+                enter the password for your account email{" "}
+                <strong>({userInfo.email}</strong>):{" "}
+              </p>
+            </ListGroup.Item>
+          </ListGroup>
           <Form>
             <Form.Group>
               <Form.Control

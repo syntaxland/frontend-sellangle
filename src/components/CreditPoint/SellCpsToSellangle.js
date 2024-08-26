@@ -84,24 +84,8 @@ function SellCpsToSellangle() {
     }
   };
 
-  useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        setShowVerifyPaysofterSellerId(true);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [success]);
-
   const lowerCaseUsername = username.toLowerCase().trim();
   const upperCasePaysofterSellerId = paysofterSellerId.toUpperCase().trim();
-  // const creditPointData = {
-  //   username: lowerCaseUsername,
-  //   amount: amount,
-  //   // cps_amount: cps_amount,
-  //   // paysofterSellerId: paysofterSellerId,
-  // };
-  // console.log("creditPointData:", creditPointData);
 
   useEffect(() => {
     setAmount("");
@@ -147,6 +131,15 @@ function SellCpsToSellangle() {
     paysofterAccountId
   );
 
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setShowVerifyPaysofterSellerId(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
   return (
     <Container>
       <>
@@ -157,6 +150,7 @@ function SellCpsToSellangle() {
             username={lowerCaseUsername}
             amount={amount}
             currency={currency}
+            link={link}
           />
         ) : (
           <Row className="justify-content-center py-2">
@@ -169,11 +163,11 @@ function SellCpsToSellangle() {
                   />
                 </div>
                 {loading && <Loader />}
-                {/* {success && (
+                {success && (
                   <Message variant="success">
                     Request sent successfully.
                   </Message>
-                )} */}
+                )}
                 {error && <Message variant="danger">{error}</Message>}
 
                 <Form>
@@ -363,6 +357,8 @@ function SellCpsToSellangle() {
                       disabled={
                         paysofterSellerId === "" ||
                         username === "" ||
+                        link === "" ||
+                        currency === "" ||
                         amount === ""
                       }
                     >

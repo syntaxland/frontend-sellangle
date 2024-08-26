@@ -1,7 +1,7 @@
 // SellangleFulfilledCps.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { sellangleFulfilledCps } from "../../actions/creditPointActions";
 import { useHistory } from "react-router-dom";
 import Message from "../Message";
@@ -34,6 +34,8 @@ function SellangleFulfilledCps({
 
   const [promiseId, setPromiseId] = useState("");
 
+  const [password, setPassword] = useState("");
+
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
@@ -48,6 +50,7 @@ function SellangleFulfilledCps({
     seller_username: seller_username,
     cps_id: cpsId,
     paysofter_promise_id: promiseId,
+    password: password,
   };
   console.log("cpsId:", cpsId);
 
@@ -65,23 +68,27 @@ function SellangleFulfilledCps({
             <Message variant="success">CPS Fulfilled successfully.</Message>
           )}
           {error && <Message variant="danger">{error}</Message>}
-
-          <p className="rounded mt-2 py-1 text-center">
-            <i
-              className="fa fa-warning text-warning"
-              style={{
-                fontSize: "18px",
-                // color: "orange"
-              }}
-            ></i>{" "}
-            Warning! This action will fulfil the{" "}
-            <i>
-              {formatAmount(amount)} {currency}
-            </i>{" "}
-            for <i>{formatAmount(cps_amount)}</i> CPS of seller with username{" "}
-            <i>{seller_username}</i>. Are you sure you want to continue?
-          </p>
-
+          <ListGroup className="text-center py-2">
+            <ListGroup.Item>
+              <p className="rounded mt-2 py-1 text-center">
+                <i
+                  className="fa fa-warning text-warning"
+                  style={{
+                    fontSize: "18px",
+                    // color: "orange"
+                  }}
+                ></i>{" "}
+                Warning! This action will fulfil the{" "}
+                <i>
+                  {formatAmount(amount)} {currency}
+                </i>{" "}
+                for <i>{formatAmount(cps_amount)}</i> CPS of seller with
+                username <i>{seller_username}</i>. Are you sure you want to
+                continue? Please enter the password for your account email{" "}
+                <strong>({userInfo.email}</strong>):{" "}
+              </p>
+            </ListGroup.Item>
+          </ListGroup>
           <Form>
             <Form.Group>
               <Form.Control
@@ -92,6 +99,18 @@ function SellangleFulfilledCps({
                 className="rounded mt-2"
                 required
                 maxLength={20}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="rounded mt-2"
+                required
+                maxLength={100}
               />
             </Form.Group>
             <Button

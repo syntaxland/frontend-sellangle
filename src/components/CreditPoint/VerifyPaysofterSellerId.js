@@ -26,6 +26,7 @@ function VerifyPaysofterSellerId({
   username,
   amount,
   currency,
+  link,
 }) {
   const dispatch = useDispatch();
 
@@ -108,23 +109,20 @@ function VerifyPaysofterSellerId({
             username={username}
             amount={amount}
             currency={currency}
+            link={link}
           />
         ) : (
           <Row className="d-flex justify-content-center py-2">
             <Col md={10}>
               <div>
                 {loading && <Loader />}
-                {/* {success && (
-                  <Message variant="success">
-                    Request sent successfully.
-                  </Message>
-                )} */}
+                {success && <Message variant="success">Successful!</Message>}
                 {error && <Message variant="danger">{error}</Message>}
 
                 <ListGroup className="text-center py-2">
                   <ListGroup.Item>
                     <p className="text-center">
-                      Enter Paysofter Account Security Code for Paysofter
+                      Please enter Paysofter Account Security Code for Paysofter
                       Account ID ending in:{" "}
                       <strong>"{paysofterAccountId}"</strong> to confirm your
                       Paysofter Seller ID:{" "}
@@ -132,7 +130,7 @@ function VerifyPaysofterSellerId({
                     </p>
                   </ListGroup.Item>
                 </ListGroup>
-                
+
                 <Form>
                   <Form.Group controlId="securityCode">
                     <Form.Label>Paysofter Security Code</Form.Label>
