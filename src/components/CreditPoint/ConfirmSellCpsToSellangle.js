@@ -40,7 +40,7 @@ function ConfirmSellCpsToSellangle({
     if (success) {
       const timer = setTimeout(() => {
         window.location.reload();
-        // history.push("/dashboard");
+        history.push("/user/cps/");
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -68,7 +68,7 @@ function ConfirmSellCpsToSellangle({
           {loading && <Loader />}
           {success && (
             <Message variant="success">
-              CPS amount{" "}
+              CPS amount:{" "}
               <strong>
                 {formatAmount(amount)} {currency}
               </strong>{" "}

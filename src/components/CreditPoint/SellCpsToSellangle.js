@@ -171,6 +171,20 @@ function SellCpsToSellangle() {
                 {error && <Message variant="danger">{error}</Message>}
 
                 <Form>
+                  <Form.Group className="py-1">
+                    <Form.Label>Buyer</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      // placeholder="Enter cps receiver's username"
+                      className="rounded"
+                      required
+                      maxLength={12}
+                      disabled
+                    />
+                  </Form.Group>
+
                   {currency === "NGN" && (
                     <div>
                       <Form.Group className="py-1">
@@ -262,6 +276,24 @@ function SellCpsToSellangle() {
                                   Create CPS promoted ad link?
                                 </Button>
                               </span>
+                              Alternatively, you can use Paysofter Link. Learn
+                              more? See{" "}
+                              <a
+                                href="https://paysofter.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {" "}
+                                <span>
+                                  <Button
+                                    variant="primary"
+                                    size="sm"
+                                    className="text-center py-2"
+                                  >
+                                    Paysofter Link
+                                  </Button>
+                                </span>
+                              </a>
                             </p>
                           </Modal.Body>
                         </Modal>
@@ -275,20 +307,6 @@ function SellCpsToSellangle() {
                       className="rounded"
                       required
                       maxLength={225}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="py-1">
-                    <Form.Label>Buyer</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      // placeholder="Enter cps receiver's username"
-                      className="rounded"
-                      required
-                      maxLength={12}
-                      disabled
                     />
                   </Form.Group>
 

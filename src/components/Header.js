@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { logout } from "../actions/userActions";
 
-import { getUserProfile } from "../actions/userProfileActions"; 
+import { getUserProfile } from "../actions/userProfileActions";
 import { getUserMessages } from "../actions/messagingActions";
 import {
   GetActiveBuyerFreeAdMessages,
@@ -299,6 +299,17 @@ function Header() {
                         <></>
                       )}
                     </div>
+                    <NavDropdown.Divider />
+
+                    {userInfo && (
+                      <Nav.Link as={Link} to="/user/cps/">
+                        <i
+                          className="fas fa-sack-dollar"
+                          style={{ fontSize: "16px" }}
+                        ></i>{" "}
+                        Credit Point{" "}
+                      </Nav.Link>
+                    )}
                     <NavDropdown.Divider />
 
                     <div>

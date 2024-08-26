@@ -14,6 +14,7 @@ function SellangleFulfilledCps({
   cps_amount,
   seller_username,
   currency,
+  cps_checkout_link,
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -84,8 +85,10 @@ function SellangleFulfilledCps({
                 </i>{" "}
                 for <i>{formatAmount(cps_amount)}</i> CPS of seller with
                 username <i>{seller_username}</i>. Are you sure you want to
-                continue? Please enter the password for your account email{" "}
-                <strong>({userInfo.email}</strong>):{" "}
+                continue? Please enter the 20-digit Paysofter Promise ID used in
+                checking out the seller's CPS order via this link:{" "}
+                <strong>"{cps_checkout_link}"</strong> and password for your
+                account email <strong>({userInfo.email}</strong>):{" "}
               </p>
             </ListGroup.Item>
           </ListGroup>
@@ -110,16 +113,18 @@ function SellangleFulfilledCps({
                 placeholder="Enter your password"
                 className="rounded mt-2"
                 required
-                maxLength={100}
+                maxLength={225}
               />
             </Form.Group>
             <Button
               variant="primary"
               onClick={handlesellangleFulfilledCps}
               className="rounded mt-2 text-center w-100"
-              disabled={promiseId === "" || loading || success}
+              disabled={
+                promiseId === "" || password === "" || loading || success
+              }
             >
-              Fulfil CPS
+              Fulfill CPS
             </Button>
           </Form>
         </Col>

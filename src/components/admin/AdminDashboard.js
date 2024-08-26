@@ -7,16 +7,16 @@ import { useHistory } from "react-router-dom";
 import { listAllSupportTickets } from "../../actions/supportActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import Orders from "./Orders";
-import Payments from "./Payments";
-import OrderShipment from "./OrderShipment";
+// import Orders from "./Orders";
+// import Payments from "./Payments";
+// import OrderShipment from "./OrderShipment";
 import SendMessage from "./SendMessage";
 import MessageInbox from "./MessageInbox";
 import SendEmail from "./SendEmail";
 import Dashboard from "./Dashboard";
 import CreditPointAdmin from "./CreditPointAdmin";
-import SetPromoCode from "./SetPromoCode";
-import PromoTimer from "./ApplyPromoCode";
+// import SetPromoCode from "./SetPromoCode";
+// import PromoTimer from "./ApplyPromoCode";
 // import LiveChat from "./LiveChat";
 import SupportTicket from "./SupportTicket";
 import Feedback from "./Feedback";
@@ -74,14 +74,14 @@ function AdminDashboard() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "orders":
-        return <Orders />;
+      // case "orders":
+      //   return <Orders />;
 
-      case "payments":
-        return <Payments />;
+      // case "payments":
+      //   return <Payments />;
 
-      case "order-shipment":
-        return <OrderShipment />;
+      // case "order-shipment":
+      //   return <OrderShipment />;
 
       case "send-message":
         return <SendMessage />;
@@ -95,11 +95,11 @@ function AdminDashboard() {
       case "credit-point-requests":
         return <CreditPointAdmin />;
 
-      case "promo-code":
-        return <PromoTimer />;
+      // case "promo-code":
+      //   return <PromoTimer />;
 
-      case "set-promo-code":
-        return <SetPromoCode />;
+      // case "set-promo-code":
+      //   return <SetPromoCode />;
 
       case "support-ticket":
         return <SupportTicket />;
@@ -140,7 +140,8 @@ function AdminDashboard() {
                   <i className="fa fa-dashboard"></i> Admin Dashboard
                 </Button>
               </div>
-              <div>
+
+              {/* <div>
                 <Button
                   variant={
                     activeTab === "orders" ? "primary" : "outline-primary"
@@ -174,7 +175,7 @@ function AdminDashboard() {
                 >
                   <i className="fas fa-shipping-fast"></i> Shipments
                 </Button>
-              </div>
+              </div> */}
 
               <div>
                 <Button
@@ -229,7 +230,7 @@ function AdminDashboard() {
                   <i className="fas fa-sack-dollar"></i> Credit Point
                 </Button>
               </div>
-
+{/* 
               <div>
                 <Button
                   variant={
@@ -242,7 +243,7 @@ function AdminDashboard() {
                 >
                   <i className="fas fa-gift"></i> Create Promo Code
                 </Button>
-              </div>
+              </div> */}
 
               {/* <div>
                 <Button
