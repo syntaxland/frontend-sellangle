@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { getPaymentApiKeys } from "../../actions/paymentActions";
-import {
-  buyCreditPoint,
-  resetbuyCreditPointState,
-} from "../../actions/creditPointActions";
-import Message from "../Message";
+// import {
+//   buyCreditPoint,
+//   resetbuyCreditPointState,
+// } from "../../actions/creditPointActions";
+// import Message from "../Message";
 import Loader from "../Loader";
 import PaymentScreen from "./PaymentScreen";
 import SelectCurrency from "./SelectCurrency";
@@ -36,44 +36,18 @@ function BuyCreditPoint() {
     }
   }, [userInfo, dispatch]);
 
-  const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
-  const {
-    loading: buyCreditPointLoading,
-    success: buyCreditPointSuccess,
-    error: buyCreditPointError,
-  } = buyCreditPointState;
+  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
+  // const {
+  //   loading: buyCreditPointLoading,
+  //   success: buyCreditPointSuccess,
+  //   error: buyCreditPointError,
+  // } = buyCreditPointState;
 
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("USD");
   // const [cpsAmount, setCpsAmount] = useState("");
   const [showPaymentScreen, setShowPaymentScreen] = useState(false);
-
-  // const BUY_CPS_CHOICES = [
-  //   ["1000", "1,000 cps for 1,000 NGN"],
-  //   ["5200", "5,200 cps for 5,000 NGN"],
-  //   ["10800", "10,800 cps for 10,000 NGN"],
-  //   ["16500", "16,500 cps for 15,000 NGN"],
-  //   ["24000", "24,000 cps for 20,000 NGN"],
-  //   ["60000", "60,000 cps for 50,000 NGN"],
-  //   ["125000", "125,000 cps for 100,000 NGN"],
-  //   ["2250000", "255,000 cps for 200,000 NGN"],
-  //   ["700000", "700,000 cps for 500,000 NGN"],
-  //   ["1200000", "1,500,000 cps for 1,000,000 NGN"],
-  // ];
-
-  // const USD_CPS_CHOICES = [
-  //   ["1000", "1,000 cps for 1 USD"],
-  //   ["5200", "5,200 cps for 5 USD"],
-  //   ["10800", "10,800 cps for 10 USD"],
-  //   ["16500", "16,500 cps for 15 USD"],
-  //   ["24000", "24,000 cps for 20 USD"],
-  //   ["60000", "60,000 cps for 50 USD"],
-  //   ["125000", "125,000 cps for 100 USD"],
-  //   ["2250000", "255,000 cps for 200 USD"],
-  //   ["700000", "700,000 cps for 500 USD"],
-  //   ["1500000", "1,500,000 cps for 1,000 USD"],
-  // ];
 
   const NGN_CPS_CHOICES = [
     ["1000", "1,000 cps for 1,000 NGN"],
@@ -101,39 +75,43 @@ function BuyCreditPoint() {
     ["1000", "1,500,000 cps for 1,000 USD"],
   ];
 
-  const handleOnSuccess = () => {
-    const creditPointData = {
-      amount: amount,
-      currency: currency,
-    };
+  // const handleOnSuccess = () => {
+  //   const creditPointData = {
+  //     amount: amount,
+  //     currency: currency,
+  //   };
 
-    dispatch(buyCreditPoint(creditPointData));
-  };
+  //   dispatch(buyCreditPoint(creditPointData));
+  // };
 
-  const onSuccess = () => {
-    handleOnSuccess();
-  };
+  // const [successTriggered, setSuccessTriggered] = useState(false);
+  // const onSuccess = () => {
+  //   if (!successTriggered) {
+  //     handleOnSuccess();
+  //     setSuccessTriggered(true);
+  //   }
+  // };
 
-  const handleOnClose = () => {
-    console.log("handling onClose...");
-    window.location.reload();
-    // window.location.href = "/";
-  };
+  // const handleOnClose = () => {
+  //   console.log("handling onClose...");
+  //   window.location.reload();
+  //   // window.location.href = "/";
+  // };
 
-  const onClose = () => {
-    handleOnClose();
-  };
+  // const onClose = () => {
+  //   handleOnClose();
+  // };
 
-  useEffect(() => {
-    if (buyCreditPointSuccess) {
-      setShowSuccessMessage(true);
-      const timer = setTimeout(() => {
-        setShowSuccessMessage(false);
-        dispatch(resetbuyCreditPointState());
-      }, 600000);
-      return () => clearTimeout(timer);
-    }
-  }, [dispatch, buyCreditPointSuccess]);
+  // useEffect(() => {
+  //   if (buyCreditPointSuccess) {
+  //     setShowSuccessMessage(true);
+  //     const timer = setTimeout(() => {
+  //       setShowSuccessMessage(false);
+  //       dispatch(resetbuyCreditPointState());
+  //     }, 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [dispatch, buyCreditPointSuccess]);
 
   useEffect(() => {
     setAmount("");
@@ -144,29 +122,25 @@ function BuyCreditPoint() {
     setCurrency(selectedOption.value);
   };
 
-  console.log(
-    "cps, amt:",
-    // cpsAmount,
-    amount,
-    currency
-  );
+  console.log("cps, amt:", amount, currency);
 
   return (
     <Container>
-      {showSuccessMessage && (
+      {/* {showSuccessMessage && (
         <Message variant="success" fixed>
           Your account has been credited with the
-          {/* {cpsAmount}  */}
+        
           CPS purchased for {amount} {currency}.
         </Message>
-      )}
-      {publicKeyLoading && <Loader />}
+      )} 
       {buyCreditPointLoading && <Loader />}
       {buyCreditPointError && (
         <Message variant="danger" fixed>
           {buyCreditPointError}
         </Message>
-      )}
+      )} */}
+
+      {publicKeyLoading && <Loader />}
 
       {showPaymentScreen ? (
         <PaymentScreen
@@ -175,8 +149,8 @@ function BuyCreditPoint() {
           paysofterPublicKey={paysofterPublicKey}
           paystackPublicKey={paystackPublicKey}
           email={userEmail}
-          onSuccess={onSuccess}
-          onClose={onClose}
+          // onSuccess={onSuccess}
+          // onClose={onClose}
         />
       ) : (
         <Row className="d-flex justify-content-center py-2">
@@ -236,7 +210,7 @@ function BuyCreditPoint() {
                 variant="primary"
                 onClick={() => setShowPaymentScreen(true)}
                 className="rounded mt-2 text-center w-100"
-                disabled={amount === "" || buyCreditPointLoading}
+                disabled={amount === ""}
               >
                 Buy CPS ({amount} {currency})
               </Button>

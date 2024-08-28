@@ -208,19 +208,26 @@ import {
   GET_FOLLOWED_SELLER_REQUEST,
   GET_FOLLOWED_SELLER_SUCCESS,
   GET_FOLLOWED_SELLER_FAIL,
+
+  GET_ALL_SELLERS_REQUEST,
+  GET_ALL_SELLERS_SUCCESS,
+  GET_ALL_SELLERS_FAIL,
+  GET_SELLER_ACCOUNT_DETAIL_REQUEST,
+  GET_SELLER_ACCOUNT_DETAIL_SUCCESS,
+  GET_SELLER_ACCOUNT_DETAIL_FAIL,
+  VERIFY_SELLER_REQUEST,
+  VERIFY_SELLER_SUCCESS,
+  VERIFY_SELLER_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 const initialState = {
   loading: false,
   success: false,
   error: null,
-  sellerAccount: [],
-  sellerPhoto: [],
   adMessages: [],
   sellerAdMessages: [],
   freeAdMessages: [],
   paidAdMessages: [],
-  sellerApiKey: [],
   sellerAvatarUrl: [],
   isSellerVerified: [],
   sellerRating: [],
@@ -253,6 +260,57 @@ const initialState = {
   totalFollwersCount: [],
 
   followedSellers: [],
+
+  sellerApiKey: [],
+  sellerAccount: [],
+  sellerPhoto: [],
+  sellers: [],
+};
+
+
+export const getAllSellersReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_ALL_SELLERS_REQUEST:
+      return { loading: true };
+    case GET_ALL_SELLERS_SUCCESS:
+      return { loading: false, success: true, sellers: action.payload };
+    case GET_ALL_SELLERS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getSellerAccountDetailReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_SELLER_ACCOUNT_DETAIL_REQUEST:
+      return { loading: true };
+    case GET_SELLER_ACCOUNT_DETAIL_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        sellerAccount: action.payload.seller_account, 
+        sellerApiKey: action.payload.seller_api_key,
+        sellerPhoto: action.payload.seller_photo_url, 
+      };
+    case GET_SELLER_ACCOUNT_DETAIL_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const verifySellerReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case VERIFY_SELLER_REQUEST:
+      return { loading: true };
+    case VERIFY_SELLER_SUCCESS:
+      return { loading: false, success: true };
+    case VERIFY_SELLER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const getFollowedSellersReducer = (state = initialState, action) => {

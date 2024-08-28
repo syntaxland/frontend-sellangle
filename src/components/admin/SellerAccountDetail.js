@@ -1,25 +1,22 @@
-// SellerProfile.js
+// SellerAccountDetail.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { getSellerAccountDetail } from "../../actions/marketplaceSellerActions";
 import {
-  getSellerAccount,
-  updateSellerAccount,
-  getSellerPhoto,
-  updateSellerPhoto,
-  getSellerPaysofterApiKey,
-  updateSellerPaysofterApiKey,
-} from "../../actions/marketplaceSellerActions";
-import { Form, Button, Row, Col, Container, Accordion } from "react-bootstrap";
+  Form,
+  Button,
+  Row,
+  Col,
+  Container,
+  Accordion,
+  Modal,
+} from "react-bootstrap";
 import Message from "../Message";
 import Loader from "../Loader";
-import LoaderButton from "../LoaderButton";
 import DatePicker from "react-datepicker";
-import { parseISO } from "date-fns";
+import VerifySeller from "./VerifySeller";
+
 import Select from "react-select";
-// import PhoneInput from "react-phone-number-input";
-// import "react-phone-number-input/style.css";
 import {
   ID_TYPE_CHOICES,
   COUNTRY_CHOICES,
@@ -29,9 +26,8 @@ import {
   BUSINESS_CATEGORY_CHOICES,
 } from "../constants";
 
-function SellerProfile() {
+function SellerAccountDetail({ seller_username }) {
   const dispatch = useDispatch();
-  // const [selectedCountry] = useState("US");
 
   const [idTypeChoices, setIdTypeChoices] = useState([]);
   const [countryChoices, setCountryChoices] = useState([]);
@@ -49,52 +45,17 @@ function SellerProfile() {
     setBusinessCategoryChoices(BUSINESS_CATEGORY_CHOICES);
   }, []);
 
-  const getSellerAccountState = useSelector(
-    (state) => state.getSellerAccountState
+  const getSellerAccountDetailState = useSelector(
+    (state) => state.getSellerAccountDetailState
   );
   const {
-    loading: getSellerAccountLoading,
-    error: getSellerAccountError,
+    loading,
+    error,
     sellerAccount,
-  } = getSellerAccountState;
-  // console.log("sellerAccount:", sellerAccount);
-
-  const updateSellerAccountState = useSelector(
-    (state) => state.updateSellerAccountState
-  );
-  const {
-    loading: updateSellerAccountLoading,
-    success: updateSellerAccountSuccess,
-    error: updateSellerAccountError,
-  } = updateSellerAccountState;
-
-  const getSellerPhotoState = useSelector((state) => state.getSellerPhotoState);
-  const { sellerPhoto } = getSellerPhotoState;
-  // console.log("sellerPhoto:", sellerPhoto);
-
-  const updateSellerPhotoState = useSelector(
-    (state) => state.updateSellerPhotoState
-  );
-  const {
-    loading: updateSellerPhotoLoading,
-    success: updateSellerPhotoSuccess,
-    error: updateSellerPhotoError,
-  } = updateSellerPhotoState;
-
-  const getSellerApiKeyState = useSelector(
-    (state) => state.getSellerApiKeyState
-  );
-  const { sellerApiKey } = getSellerApiKeyState;
-  // console.log("sellerApiKey:", sellerApiKey);
-
-  const updateSellerApiKeyState = useSelector(
-    (state) => state.updateSellerApiKeyState
-  );
-  const {
-    loading: updateSellerApiKeyLoading,
-    success: updateSellerApiKeySuccess,
-    error: updateSellerApiKeyError,
-  } = updateSellerApiKeyState;
+    sellerApiKey,
+    sellerPhoto,
+  } = getSellerAccountDetailState;
+  console.log("sellerAccount:", sellerAccount);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -105,11 +66,6 @@ function SellerProfile() {
     }
   }, [userInfo]);
 
-  const [businessDataChanges, setBusinessDataChanges] = useState(false);
-  const [photoDataChanges, setPhotoDataChanges] = useState(false);
-  const [sellerApiKeyDataChanges, setSellerApiKeyDataChanges] = useState(false);
-
-  const [successMessage, setSuccessMessage] = useState("");
   const [businessData, setBusinessData] = useState({
     business_name: "",
     business_status: "",
@@ -134,10 +90,6 @@ function SellerProfile() {
     photo: "",
   });
 
-  const [apiKeyData, setapiKeyData] = useState({
-    live_api_key: "",
-  });
-
   useEffect(() => {
     if (sellerAccount) {
       setBusinessData({
@@ -159,226 +111,59 @@ function SellerProfile() {
         dob: sellerAccount?.dob,
         home_address: sellerAccount?.home_address,
       });
-      setBusinessDataChanges(false);
     }
   }, [sellerAccount]);
 
-  const handleBusinessDataChanges = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === "dob" && typeof value === "string") {
-      const parsedDate = parseISO(value);
-      setBusinessData({ ...businessData, [name]: parsedDate });
-    } else {
-      if (files) {
-        setBusinessData({ ...businessData, [name]: files[0] });
-      } else {
-        setBusinessData({ ...businessData, [name]: value });
-      }
-    }
-
-    setBusinessDataChanges(true);
-  };
-
-  // const handleBusinessDataChanges = (e) => {
-  //   const { name, value, files } = e.target;
-
-  //   if (name === "dob" && typeof value === "string") {
-  //     const parsedDate = parseISO(value);
-  //     setBusinessData({ ...businessData, [name]: parsedDate });
-  //   } else {
-  //     if (files) {
-  //       setBusinessData({ ...businessData, [name]: files[0] });
-  //     } else {
-  //       // Check if the field is 'country', if yes, provide a default value ('US' in this case)
-  //       setBusinessData({
-  //         ...businessData,
-  //         [name]: name === "country" ? value || "US" : value,
-  //       });
-  //     }
-  //   }
-
-  //   if (name !== "country") {
-  //     setBusinessDataChanges(true);
-  //   }
-  // };
-
-  const handleUpdateBusinessAccount = () => {
-    const businessFormData = new FormData();
-    businessFormData.append("business_name", businessData.business_name);
-    businessFormData.append("business_reg_num", businessData.business_reg_num);
-    businessFormData.append("business_address", businessData.business_address);
-    businessFormData.append("business_status", businessData.business_status);
-    businessFormData.append("staff_size", businessData.staff_size);
-    businessFormData.append("id_type", businessData.id_type);
-    businessFormData.append("id_number", businessData.id_number);
-    businessFormData.append("dob", businessData.dob);
-    businessFormData.append("home_address", businessData.home_address);
-
-    businessFormData.append(
-      "business_industry",
-      businessData.business_industry
-    );
-    businessFormData.append(
-      "business_category",
-      businessData.business_category
-    );
-    businessFormData.append(
-      "business_description",
-      businessData.business_description
-    );
-    businessFormData.append("business_phone", businessData?.business_phone);
-    businessFormData.append("business_website", businessData.business_website);
-    businessFormData.append("country", businessData.country);
-
-    if (businessData.business_reg_cert instanceof File) {
-      businessFormData.append(
-        "business_reg_cert",
-        businessData.business_reg_cert
-      );
-    }
-
-    if (businessData.id_card_image instanceof File) {
-      businessFormData.append("id_card_image", businessData.id_card_image);
-    }
-
-    // console.log("business_reg_cert:", businessData.business_reg_cert);
-    // console.log("businessFormData:", businessFormData);
-
-    dispatch(updateSellerAccount(businessFormData));
-  };
-
-  const handlePhotoInputChange = (e) => {
-    const file = e.target.files[0];
-    setPhotoData({ photo: file });
-    setPhotoDataChanges(true);
-  };
-
-  useEffect(() => {
-    if (sellerPhoto) {
-      setPhotoData({
-        photo: sellerPhoto?.photo,
-      });
-      setPhotoDataChanges(false);
-    }
-  }, [sellerPhoto]);
-
-  const handleUpdatePhoto = () => {
-    const photoFormData = new FormData();
-
-    if (photoData.photo instanceof File) {
-      photoFormData.append("photo", photoData.photo);
-    }
-
-    // console.log("photoFormData:", photoFormData);
-    // console.log("photoData.photo:", photoData.photo);
-    // console.log("photoData:", photoData);
-
-    dispatch(updateSellerPhoto(photoFormData));
-  };
+  const [apiKeyData, setapiKeyData] = useState({
+    live_api_key: "",
+  });
 
   useEffect(() => {
     if (sellerApiKey) {
       setapiKeyData({
         live_api_key: sellerApiKey?.live_api_key,
       });
-      setSellerApiKeyDataChanges(false);
     }
   }, [sellerApiKey]);
 
-  const handleSellerApiKeyDataChanges = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setapiKeyData({ ...apiKeyData, [name]: files[0] });
-    } else {
-      setapiKeyData({ ...apiKeyData, [name]: value });
+  useEffect(() => {
+    if (sellerPhoto) {
+      setPhotoData({
+        photo: sellerPhoto?.photo,
+      });
+      // setPhotoDataChanges(false);
     }
-    setSellerApiKeyDataChanges(true);
-  };
-
-  const handleSellerApiKey = () => {
-    const apiKeyFormData = new FormData();
-    apiKeyFormData.append("live_api_key", apiKeyData.live_api_key);
-
-    dispatch(updateSellerPaysofterApiKey(apiKeyFormData));
-  };
+  }, [sellerPhoto]);
 
   useEffect(() => {
-    if (userInfo) {
-      dispatch(getSellerAccount());
-      dispatch(getSellerPaysofterApiKey());
-      dispatch(getSellerPhoto());
-    }
-  }, [dispatch, userInfo]);
+    dispatch(getSellerAccountDetail(seller_username));
+  }, [dispatch, seller_username]);
 
-  useEffect(() => {
-    let successMessage = "";
-
-    if (updateSellerAccountSuccess) {
-      successMessage = "Seller account updated successfully.";
-    } else if (updateSellerPhotoSuccess) {
-      successMessage = "Seller photo updated successfully.";
-    } else if (updateSellerApiKeySuccess) {
-      successMessage = "Seller API Key updated successfully.";
-    }
-
-    if (successMessage) {
-      setSuccessMessage(successMessage);
-      setTimeout(() => {
-        setSuccessMessage("");
-        window.location.reload();
-      }, 3000);
-    }
-  }, [
-    updateSellerAccountSuccess,
-    updateSellerPhotoSuccess,
-    updateSellerApiKeySuccess,
-  ]);
+  const [verifySellerModal, setVerifySellerModal] = useState(false);
+  const handleVerifySellerOpen = () => {
+    setVerifySellerModal(true);
+  };
+  const handleVerifySellerClose = () => {
+    setVerifySellerModal(false);
+  };
 
   return (
     <Container Fluid>
       <Row className="d-flex justify-content-center py-2">
         <h2 className="text-center py-2">
-          Seller Account<i className="fas fa-user"></i>
+          Seller Profile <i className="fas fa-user"></i>
         </h2>
 
         <div className="d-flex justify-content-center text-center py-2">
-          {successMessage && (
-            <Message variant="success" fixed>
-              {successMessage}
-            </Message>
-          )}
-
-          {getSellerAccountLoading && <Loader />}
-          {getSellerAccountError && (
+          {loading && <Loader />}
+          {error && (
             <Message variant="danger" fixed>
-              {getSellerAccountError}
-            </Message>
-          )}
-
-          {updateSellerAccountLoading && <Loader />}
-          {updateSellerAccountError && (
-            <Message variant="danger" fixed>
-              {updateSellerAccountError}
-            </Message>
-          )}
-
-          {updateSellerPhotoLoading && <Loader />}
-          {updateSellerPhotoError && (
-            <Message variant="danger" fixed>
-              {updateSellerPhotoError}
-            </Message>
-          )}
-
-          {updateSellerApiKeyLoading && <Loader />}
-          {updateSellerApiKeyError && (
-            <Message variant="danger" fixed>
-              {updateSellerApiKeyError}
+              {error}
             </Message>
           )}
         </div>
-        <p className="d-flex justify-content-left">
-          <i> Verified ID </i>
+        <p className="d-flex justify-content-end">
+          <i> Verified </i>
           {sellerAccount?.is_seller_verified ? (
             <i
               className="fas fa-check-circle"
@@ -404,7 +189,6 @@ function SellerProfile() {
                       type="text"
                       name="business_name"
                       value={businessData.business_name}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -414,7 +198,6 @@ function SellerProfile() {
                       as="select"
                       name="business_status"
                       value={businessData.business_status}
-                      onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Business Status</option>
                       {businessTypeChoices.map((type) => (
@@ -431,7 +214,6 @@ function SellerProfile() {
                       type="text"
                       name="business_reg_num"
                       value={businessData.business_reg_num}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -446,11 +228,7 @@ function SellerProfile() {
                         />
                       )}
                     </div>
-                    <Form.Control
-                      type="file"
-                      name="business_reg_cert"
-                      onChange={handleBusinessDataChanges}
-                    />
+                    <Form.Control type="file" name="business_reg_cert" />
                   </Form.Group>
 
                   <Form.Group>
@@ -459,7 +237,6 @@ function SellerProfile() {
                       as="select"
                       name="staff_size"
                       value={businessData?.staff_size}
-                      onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Staff Size</option>
                       {staffSizeChoices.map((size) => (
@@ -476,7 +253,6 @@ function SellerProfile() {
                       as="select"
                       name="business_industry"
                       value={businessData?.business_industry}
-                      onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Business Industry</option>
                       {industryChoices.map((industry) => (
@@ -493,7 +269,6 @@ function SellerProfile() {
                       as="select"
                       name="business_category"
                       value={businessData?.business_category}
-                      onChange={handleBusinessDataChanges}
                     >
                       <option value="">Select Business Category</option>
                       {businessCategoryChoices.map((category) => (
@@ -510,7 +285,6 @@ function SellerProfile() {
                       type="text"
                       name="business_description"
                       value={businessData?.business_description}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -537,7 +311,6 @@ function SellerProfile() {
                       type="text"
                       name="business_phone"
                       value={businessData.business_phone}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -547,7 +320,6 @@ function SellerProfile() {
                       type="text"
                       name="business_website"
                       value={businessData?.business_website}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -557,32 +329,17 @@ function SellerProfile() {
                       type="text"
                       name="business_address"
                       value={businessData?.business_address}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
                   <Form.Group>
                     <Form.Label>Country</Form.Label>
-                    {/* <Form.Control
-                      type="text"
-                      name="country"
-                      value={businessData.country}
-                      onChange={handleBusinessDataChanges}
-                    /> */}
 
                     <Select
                       value={{
                         value: businessData?.country,
                         label: businessData?.country,
                       }}
-                      onChange={(selectedOption) =>
-                        handleBusinessDataChanges({
-                          target: {
-                            name: "country",
-                            value: selectedOption.value,
-                          },
-                        })
-                      }
                       options={countryChoices?.map((type) => ({
                         value: type[0],
                         label: type[1],
@@ -596,7 +353,6 @@ function SellerProfile() {
                       as="select"
                       name="id_type"
                       value={businessData?.id_type}
-                      onChange={handleBusinessDataChanges}
                     >
                       <option value="">ID Type</option>
                       {idTypeChoices.map((type) => (
@@ -613,7 +369,7 @@ function SellerProfile() {
                       type="text"
                       name="id_number"
                       value={businessData?.id_number}
-                      onChange={handleBusinessDataChanges}
+                      // onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -632,7 +388,7 @@ function SellerProfile() {
                     <Form.Control
                       type="file"
                       name="id_card_image"
-                      onChange={handleBusinessDataChanges}
+                      // onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
@@ -644,11 +400,11 @@ function SellerProfile() {
                         selected={
                           businessData.dob ? new Date(businessData?.dob) : null
                         }
-                        onChange={(date) =>
-                          handleBusinessDataChanges({
-                            target: { name: "dob", value: date },
-                          })
-                        }
+                        // onChange={(date) =>
+                        //   handleBusinessDataChanges({
+                        //     target: { name: "dob", value: date },
+                        //   })
+                        // }
                         dateFormat="dd/MM/yyyy"
                         showYearDropdown
                         scrollableYearDropdown
@@ -666,11 +422,10 @@ function SellerProfile() {
                       type="text"
                       name="home_address"
                       value={businessData?.home_address}
-                      onChange={handleBusinessDataChanges}
                     />
                   </Form.Group>
 
-                  <div className="d-flex justify-content-end py-2">
+                  {/* <div className="d-flex justify-content-end py-2">
                     <Button
                       className="rounded"
                       variant="primary"
@@ -686,7 +441,7 @@ function SellerProfile() {
                         Update Business Account
                       </span>
                     </Button>{" "}
-                  </div>
+                  </div> */}
                 </Form>
               </Accordion.Body>
             </Accordion.Item>
@@ -698,40 +453,17 @@ function SellerProfile() {
                   <Form.Group>
                     {/* <Form.Label>Seller Photo</Form.Label> */}
                     <div className="py-2">
-                      {sellerPhoto?.photo && (
+                      {photoData?.photo && (
                         <img
-                          src={sellerPhoto?.photo}
+                          src={photoData.photo}
                           alt="Seller"
                           style={{ maxWidth: "100%", maxHeight: "100px" }}
                         />
                       )}
                     </div>
-
-                    <Form.Control
-                      type="file"
-                      name="photo"
-                      onChange={handlePhotoInputChange}
-                    />
+                    <Form.Control type="file" name="photo" />
                   </Form.Group>
                 </Form>
-
-                <div className="d-flex justify-content-end py-2">
-                  <Button
-                    className="rounded"
-                    variant="primary"
-                    onClick={handleUpdatePhoto}
-                    disabled={
-                      !photoDataChanges ||
-                      updateSellerPhotoLoading ||
-                      updateSellerPhotoSuccess
-                    }
-                  >
-                    <span className="d-flex justify-content-between">
-                      {updateSellerPhotoLoading && <LoaderButton />}
-                      Update Photo
-                    </span>
-                  </Button>
-                </div>
               </Accordion.Body>
             </Accordion.Item>
 
@@ -745,7 +477,6 @@ function SellerProfile() {
                       type="text"
                       name="live_api_key"
                       value={apiKeyData?.live_api_key}
-                      onChange={handleSellerApiKeyDataChanges}
                     />
                   </Form.Group>
                 </Form>
@@ -753,27 +484,43 @@ function SellerProfile() {
                   <Button
                     className="rounded"
                     variant="primary"
-                    onClick={handleSellerApiKey}
-                    disabled={
-                      !sellerApiKeyDataChanges ||
-                      updateSellerApiKeyLoading ||
-                      updateSellerApiKeySuccess
-                    }
-                  >
-                    <span className="d-flex justify-content-between">
-                      {updateSellerApiKeyLoading && <LoaderButton />}
-                      Save API Key
-                    </span>
-                  </Button>
+                    disabled
+                  ></Button>
                 </div>
               </Accordion.Body>
             </Accordion.Item>
-            
           </Accordion>
+
+          <div className="d-flex justify-content-center mt-5 py-3">
+            <Button
+              variant="primary"
+              onClick={handleVerifySellerOpen}
+              className="rounded"
+            >
+              Verify Seller
+            </Button>
+          </div>
+
+          <Row className="d-flex justify-content-center py-2">
+            <Col md={6}>
+              <Modal show={verifySellerModal} onHide={handleVerifySellerClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title className="text-center w-100 py-2">
+                    Verify Seller
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  {verifySellerModal && (
+                    <VerifySeller seller_username={seller_username} />
+                  )}
+                </Modal.Body>
+              </Modal>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
   );
 }
 
-export default SellerProfile;
+export default SellerAccountDetail;

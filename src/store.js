@@ -76,6 +76,9 @@ import {
   toggleFollowSellerReducer,
   getSellerAdStatisticsReducer,
   getFollowedSellersReducer,
+  getAllSellersReducer,
+  getSellerAccountDetailReducer,
+  verifySellerReducer,
 } from "./reducers/marketplaceSellerReducers";
 
 // import {
@@ -413,6 +416,10 @@ const reducer = combineReducers({
   toggleFollowSellerState: toggleFollowSellerReducer,
   getSellerAdStatState: getSellerAdStatisticsReducer,
   getFollowedSellersState: getFollowedSellersReducer,
+
+  getAllSellersState: getAllSellersReducer,
+  getSellerAccountDetailState: getSellerAccountDetailReducer,
+  verifySellerState: verifySellerReducer,
 
   applyPomoCodeState: applyPomoCodeReducer,
 });

@@ -8,8 +8,8 @@ import { Container } from "react-bootstrap";
 // This is a react-router-dom@5.3.4 app
 // import { useHistory  } from 'react-router'
 import { BrowserRouter as Router, Route } from "react-router-dom";
-// import styled, {  createGlobalStyle, ThemeProvider} from "styled-components"  
- 
+// import styled, {  createGlobalStyle, ThemeProvider} from "styled-components"
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Time from "./components/Time";
@@ -55,6 +55,7 @@ import EcommerceDashboard from "./components/ecommerce/EcommerceDashboard";
 
 import AdminDashboard from "./components/admin/AdminDashboard";
 import CreditPointAdmin from "./components/admin/CreditPointAdmin";
+import Sellers from "./components/admin/Sellers";
 
 import MarketplaceDashboard from "./components/marketplace/MarketplaceDashboard";
 import Marketplace from "./components/marketplace/Marketplace";
@@ -118,7 +119,10 @@ function App() {
           />
 
           <Route path="/privacy-policy" component={PrivacyPolicyScreen} />
-          <Route path="/account-deletion-guide" component={DeleteAccountGuideScreen} />
+          <Route
+            path="/account-deletion-guide"
+            component={DeleteAccountGuideScreen}
+          />
           <Route path="/apps/" component={AppVersionScreen} />
 
           <Route path="/user/profile" component={UserProfile} />
@@ -142,6 +146,7 @@ function App() {
 
           <Route path="/user/cps/" component={CreditPoint} />
           <Route path="/admin/cps/" component={CreditPointAdmin} />
+          <Route path="/admin/sellers/" component={Sellers} />
           {/* <Route path="/add-review/:orderItemId" component={AddReviewScreen} /> */}
           {/* <Route path="/edit-review/" component={EditReviewScreen} /> */}
           {/* <Route path="/credit-point/" component={CreditPointScreen} /> */}
@@ -171,7 +176,10 @@ function App() {
           <Route path="/" component={Marketplace} exact />
           <Route path="/ad/free" component={PostFreeAd} />
           <Route path="/ad/paid" component={PostPaidAd} />
-          <Route path="/promoted-ad-detail/:id" component={PaidAdProductDetail} />
+          <Route
+            path="/promoted-ad-detail/:id"
+            component={PaidAdProductDetail}
+          />
           <Route path="/free-ad-detail/:id" component={FreeAdProductDetail} />
           <Route path="/paid-ad-screen" component={PaidAdScreen} />
 

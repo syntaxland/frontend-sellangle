@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { listAllSupportTickets } from "../../actions/supportActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-// import Orders from "./Orders";
+import Sellers from "./Sellers";
 // import Payments from "./Payments";
 // import OrderShipment from "./OrderShipment";
 import SendMessage from "./SendMessage";
@@ -72,10 +72,14 @@ function AdminDashboard() {
     history.push("/admin/cps/");
   };
 
+  const handleSellers = () => {
+    history.push("/admin/sellers/");
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
-      // case "orders":
-      //   return <Orders />;
+      case "sellers":
+        return <Sellers />;
 
       // case "payments":
       //   return <Payments />;
@@ -230,20 +234,19 @@ function AdminDashboard() {
                   <i className="fas fa-sack-dollar"></i> Credit Point
                 </Button>
               </div>
-{/* 
+
               <div>
                 <Button
                   variant={
-                    activeTab === "set-promo-code"
-                      ? "primary"
-                      : "outline-primary"
+                    activeTab === "sellers" ? "primary" : "outline-primary"
                   }
                   className="sidebar-link"
-                  onClick={() => handleTabChange("set-promo-code")}
+                  // onClick={() => handleTabChange("sellers")}
+                  onClick={() => handleSellers()}
                 >
-                  <i className="fas fa-gift"></i> Create Promo Code
+                  <i className="fas fa-users"></i> Sellers
                 </Button>
-              </div> */}
+              </div>
 
               {/* <div>
                 <Button

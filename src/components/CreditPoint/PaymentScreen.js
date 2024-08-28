@@ -2,7 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Modal, ListGroup } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {
+  buyCreditPoint,
+  resetbuyCreditPointState,
+} from "../../actions/creditPointActions";
+import Message from "../Message";
+import Loader from "../Loader";
+import { useSelector, useDispatch } from "react-redux";
 import { formatAmount } from "../FormatAmount";
 import Paystack from "./payment/Paystack";
 import PaystackUsd from "./payment/PaystackUsd";
@@ -15,11 +21,9 @@ function PaymentScreen({
   paysofterPublicKey,
   paystackPublicKey,
   email,
-  onSuccess,
-  onClose,
 }) {
   // const history = useHistory();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -30,14 +34,14 @@ function PaymentScreen({
     }
   }, [userInfo]);
 
-  // const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
-  // const {
-  //   loading: buyCreditPointLoading,
-  //   success: buyCreditPointSuccess,
-  //   error: buyCreditPointError,
-  // } = buyCreditPointState;
+  const buyCreditPointState = useSelector((state) => state.buyCreditPointState);
+  const {
+    loading: buyCreditPointLoading,
+    success: buyCreditPointSuccess,
+    error: buyCreditPointError,
+  } = buyCreditPointState;
 
-  // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [selectedPaymentGateway, setSelectedPaymentGateway] = useState(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
 
@@ -53,39 +57,43 @@ function PaymentScreen({
     setSelectedPaymentGateway(paymentGateway);
   };
 
-  // const handleOnSuccess = () => {
-  //   console.log("handling onSuccess...");
-  //   const creditPointData = {
-  //     amount: amount,
-  //   };
-  //   dispatch(buyCreditPoint(creditPointData));
-  // };
+  const handleOnSuccess = () => {
+    const creditPointData = {
+      amount: amount,
+      currency: currency,
+    };
 
-  // const onSuccess = () => {
-  //   handleOnSuccess();
-  // };
+    dispatch(buyCreditPoint(creditPointData));
+  };
 
-  // const handleOnClose = () => {
-  //   console.log("handling onClose...");
-  // };
+  const [successTriggered, setSuccessTriggered] = useState(false);
+  const onSuccess = () => {
+    if (!successTriggered) {
+      handleOnSuccess();
+      setSuccessTriggered(true);
+    }
+  };
 
-  // const onClose = () => {
-  //   handleOnClose();
-  // };
+  const handleOnClose = () => {
+    console.log("handling onClose...");
+    window.location.reload();
+    // window.location.href = "/";
+  };
 
-  // useEffect(() => {
-  //   if (buyCreditPointSuccess) {
-  //     setShowSuccessMessage(true);
+  const onClose = () => {
+    handleOnClose();
+  };
 
-  //     const timer = setTimeout(() => {
-  //       setShowSuccessMessage(false);
-  //       dispatch(resetbuyCreditPointState());
-  //       window.location.reload();
-  //     }, 5000);
-  //     return () => clearTimeout(timer);
-  //   }
-
-  // }, [dispatch, buyCreditPointSuccess, history]);
+  useEffect(() => {
+    if (buyCreditPointSuccess) {
+      setShowSuccessMessage(true);
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+        dispatch(resetbuyCreditPointState());
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [dispatch, buyCreditPointSuccess]);
 
   console.log("amount:", currency, amount);
 
@@ -96,17 +104,7 @@ function PaymentScreen({
           <Col md={8}>
             <h1 className="text-center py-2">Payment Page</h1>
 
-            <div className="text-center py-2">
-              <ListGroup>
-                <ListGroup.Item>
-                  <strong>
-                    Amount: {formatAmount(amount)} {currency}
-                  </strong>
-                </ListGroup.Item>
-              </ListGroup>
-            </div>
-
-            {/* {showSuccessMessage && (
+            {showSuccessMessage && (
               <Message variant="success" fixed>
                 Your account has been credited with the CPS purchased for{" "}
                 {amount} {currency}.
@@ -117,7 +115,17 @@ function PaymentScreen({
               <Message variant="danger" fixed>
                 {buyCreditPointError}
               </Message>
-            )} */}
+            )}
+
+            <div className="text-center py-2">
+              <ListGroup>
+                <ListGroup.Item>
+                  <strong>
+                    Amount: {formatAmount(amount)} {currency}
+                  </strong>
+                </ListGroup.Item>
+              </ListGroup>
+            </div>
 
             <div className="text-center py-2">
               <Row className="text-center py-2">

@@ -209,9 +209,124 @@ import {
   GET_FOLLOWED_SELLER_REQUEST,
   GET_FOLLOWED_SELLER_SUCCESS,
   GET_FOLLOWED_SELLER_FAIL,
+
+  GET_ALL_SELLERS_REQUEST,
+  GET_ALL_SELLERS_SUCCESS,
+  GET_ALL_SELLERS_FAIL,
+  GET_SELLER_ACCOUNT_DETAIL_REQUEST,
+  GET_SELLER_ACCOUNT_DETAIL_SUCCESS,
+  GET_SELLER_ACCOUNT_DETAIL_FAIL,
+  VERIFY_SELLER_REQUEST,
+  VERIFY_SELLER_SUCCESS,
+  VERIFY_SELLER_FAIL,
 } from "../constants/marketplaceSellerConstants";
 
 import { API_URL } from "../config/apiConfig";
+
+
+export const getAllSellers = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_ALL_SELLERS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(`${API_URL}/api/get-all-sellers/`, config);
+
+    dispatch({
+      type: GET_ALL_SELLERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_SELLERS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const getSellerAccountDetail = (seller_username) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_SELLER_ACCOUNT_DETAIL_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${API_URL}/api/get-seller-account-detail/${seller_username}/`,
+      config
+    );
+
+    dispatch({
+      type: GET_SELLER_ACCOUNT_DETAIL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SELLER_ACCOUNT_DETAIL_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const verifySeller = (sellData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: VERIFY_SELLER_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${API_URL}/api/verify-seller/`,
+      sellData,
+      config
+    );
+
+    dispatch({
+      type: VERIFY_SELLER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: VERIFY_SELLER_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
 
 export const getFollowedSellers = () => async (dispatch, getState) => {
   try {
