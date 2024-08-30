@@ -28,8 +28,7 @@ const CreditPoint = () => {
   return (
     <Container>
       <Row>
-        <div className="d-flex justify-content-center">
-          <Col>
+        <Col>
             <div>
               <GetUserCpsBonuses />
             </div>
@@ -59,8 +58,7 @@ const CreditPoint = () => {
             </div>
 
             <hr />
-          </Col>
-        </div>
+        </Col>
       </Row>
     </Container>
   );

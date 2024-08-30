@@ -1,7 +1,7 @@
 // GetSellCpsToSellangle.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Button, Row, Col, Modal } from "react-bootstrap";
+import { Table, Button, Row, Col, Modal, Container } from "react-bootstrap";
 import { getSellerSellCpsToSellangle } from "../../actions/creditPointActions";
 import Message from "../Message";
 import Loader from "../Loader";
@@ -47,7 +47,7 @@ function GetSellCpsToSellangle() {
   };
 
   return (
-    <>
+    <Container>
       <Row>
         <Col>
           <hr />
@@ -200,7 +200,7 @@ function GetSellCpsToSellangle() {
           </Modal>
         </Col>
       </Row>
-    </>
+    </Container>
   );
 }
 
