@@ -6,7 +6,7 @@ import { getSellerShopfrontLink } from "../../actions/marketplaceSellerActions";
 import Loader from "../Loader";
 import Message from "../Message";
 import QRCode from "qrcode.react";
-
+ 
 function ShopFrontLink() {
   const dispatch = useDispatch();
 

@@ -1,5 +1,5 @@
 // GetSellerDetail.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, ListGroup, Button, Container } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
@@ -13,9 +13,11 @@ import {
 } from "../../actions/marketplaceSellerActions";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ToggleFollowSeller from "./ToggleFollowSeller";
+import QRCode from "qrcode.react";
 
 function GetSellerDetail({ match, seller_username }) {
   const dispatch = useDispatch();
+  const shopfrontRef = useRef(null);
 
   // const userLogin = useSelector((state) => state.userLogin);
   // const { userInfo } = userLogin;
@@ -29,13 +31,10 @@ function GetSellerDetail({ match, seller_username }) {
   const getSellerDetailState = useSelector(
     (state) => state.getSellerDetailState
   );
-  const {
-    loading,
-    error,
-    sellerAvatarUrl,
-    sellerDetail,
-  } = getSellerDetailState;
+  const { loading, error, sellerAvatarUrl, sellerDetail, shopfrontLink } =
+    getSellerDetailState;
   console.log("sellerDetail", sellerDetail);
+  console.log("shopfrontLink:", shopfrontLink);
 
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
@@ -122,8 +121,8 @@ function GetSellerDetail({ match, seller_username }) {
                 <ListGroup.Item>
                   <ListGroup.Item>Seller Details</ListGroup.Item>
                   <ListGroup.Item>
-                    <Row>
-                      <Col md={4}>
+                    <Row className="d-flex justify-content-between py-2">
+                      <Col md={6}>
                         <span className="d-flex justify-content-between py-2">
                           {sellerAvatarUrl && (
                             <img
@@ -136,10 +135,43 @@ function GetSellerDetail({ match, seller_username }) {
                               }}
                             />
                           )}
-                          {sellerDetail?.seller_username}
+                          <strong>{sellerDetail?.seller_username}</strong>
                         </span>
                         <ToggleFollowSeller sellerDetail={sellerDetail} />
                         {calculateLastSeen(sellerDetail?.user_last_login)}
+                      </Col>
+                      <Col md={6}>
+                        <strong className="py-1">
+                          {/* <p>{sellerDetail?.seller_username}'s </p> */}
+                          <p>Shopfront QR Code</p>
+                        </strong>
+                        <div
+                          ref={shopfrontRef}
+                          style={{
+                            padding: "20px",
+                            // backgroundColor: "white",
+                            backgroundColor: "#6c757d",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "190px",
+                            height: "190px",
+                            borderRadius: "10px",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                          }}
+                        >
+                          <QRCode
+                            value={shopfrontLink}
+                            size={150}
+                            // fgColor="#000000"
+                            // bgColor="#ffffff"
+                            // fgColor="#343a40"
+                            bgColor="#fff"
+                            fgColor="blue"
+                            // bgColor="green"
+                            level="L"
+                          />
+                        </div>
                       </Col>
                     </Row>
                   </ListGroup.Item>

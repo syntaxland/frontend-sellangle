@@ -991,6 +991,7 @@ export const getSellerDetailReducer = (state = initialState, action) => {
         success: true,
         sellerDetail: action.payload.data,
         sellerAvatarUrl: action.payload.seller_avatar_url,
+        shopfrontLink: action.payload.shopfront_link,
       };
 
     case GET_SELLER_DETAIL_FAIL:
