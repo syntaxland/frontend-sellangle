@@ -1,5 +1,6 @@
 // accountFundOtpActions.js
-import axios from "axios";
+// import axios from "axios";
+import axios from "../axiosConfig";
 import {
   SEND_OTP_REQUEST,
   SEND_OTP_SUCCESS,

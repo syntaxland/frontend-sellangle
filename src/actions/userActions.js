@@ -11,10 +11,9 @@ import {
   UPDATE_USER_LAST_LOGIN_SUCCESS,
   UPDATE_USER_LAST_LOGIN_FAIL,
 } from "../constants/userConstants";
-import axios from "axios";
-import axiosInstance from "../store";
+// import axios from "axios";
+import axios from "../axiosConfig";
 
-// const API_URL = process.env.REACT_APP_API_URL;
 import { API_URL } from "../config/apiConfig";
 
 export const login = (loginData) => async (dispatch) => {
@@ -28,8 +27,6 @@ export const login = (loginData) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-
-    // const lowerCaseEmail = identifier.toLowerCase();
 
     const { data } = await axios.post(
       `${API_URL}/api/users/login/`,
@@ -45,13 +42,6 @@ export const login = (loginData) => async (dispatch) => {
     // Set access token in Axios headers
     axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
     localStorage.setItem("userInfo", JSON.stringify(data));
-
-    // Set timer to refresh the access token after refreshTokenTime minutes (ms)
-    // let refreshTokenTime = 1000 * 60 * 900; // ms * hr * mins
-    let refreshTokenTime = 1000 * 60 * 60 * 24 * 7; // ms * hr * mins
-    setTimeout(() => {
-      dispatch(refreshToken(data.refresh));
-    }, refreshTokenTime);
 
     // window.location.href = "/dashboard/users";
   } catch (error) {
@@ -146,38 +136,37 @@ export const updateUserLastLogin = (loginData) => async (dispatch) => {
 //   }
 // };
 
-export const loginWithGoogle = (email, googleId, tokenId) => async (
-  dispatch
-) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+export const loginWithGoogle =
+  (email, googleId, tokenId) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
 
-    const { data } = await axios.post(
-      `${API_URL}/api/google-login/`,
-      { email, google_id: googleId, token_id: tokenId },
-      config
-    );
+      const { data } = await axios.post(
+        `${API_URL}/api/google-login/`,
+        { email, google_id: googleId, token_id: tokenId },
+        config
+      );
 
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    });
+      dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: data,
+      });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: USER_LOGIN_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
-    });
-  }
-};
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: USER_LOGIN_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
 
 export const register = (formData) => async (dispatch) => {
   try {
@@ -233,9 +222,9 @@ export const refreshToken = (refreshToken) => async (dispatch) => {
     // Update the access token in Axios headers
     // axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
     // Update the access token in Axios headers
-    axiosInstance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${data.access}`;
+    // axiosInstance.defaults.headers.common[
+    //   "Authorization"
+    // ] = `Bearer ${data.access}`;
 
     // Save the new access token in local storage
     localStorage.setItem("userInfo", JSON.stringify(data));

@@ -14,6 +14,15 @@ function Referrals() {
   const dispatch = useDispatch();
   const qrCodeRef = useRef(null);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      window.location.href = "/login";
+    }
+  }, [userInfo]);
+
   const referralState = useSelector((state) => state.referral);
   const { referralLink, referralCode, referralError, loading } = referralState;
 
@@ -52,7 +61,7 @@ function Referrals() {
       navigator
         .share({
           title: "Referral Link",
-          text: "Check out this referral link!",
+          text: `Check out ${userInfo.username}'s referral link!`,
           url: referralLink,
         })
         .then(() => console.log("Shared successfully"))
@@ -87,7 +96,7 @@ function Referrals() {
           .share({
             files: [file],
             title: "QR Code",
-            text: "Scan this QR code to use the referral link!",
+            text: `Scan ${userInfo.username}'s QR code to use the referral link!`,
           })
           .catch((error) => console.error("Share failed:", error));
       } else {

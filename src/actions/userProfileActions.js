@@ -1,5 +1,6 @@
 // userProfileActions.js
-import axios from "axios";
+// import axios from "axios";
+import axios from "../axiosConfig";
 import {
   GET_USER_PROFILE_REQUEST,
   GET_USER_PROFILE_SUCCESS,

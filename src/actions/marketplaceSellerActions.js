@@ -1,5 +1,5 @@
 // marketplaceSellerActions.js
-import axios from "axios";
+
 import {
   CREATE_MARKETPLACE_SELLER_REQUEST,
   CREATE_MARKETPLACE_SELLER_SUCCESS,
@@ -220,9 +220,10 @@ import {
   VERIFY_SELLER_SUCCESS,
   VERIFY_SELLER_FAIL,
 } from "../constants/marketplaceSellerConstants";
+// import axios from "axios";
+import axios from "../axiosConfig";
 
 import { API_URL } from "../config/apiConfig";
-
 
 export const getAllSellers = () => async (dispatch, getState) => {
   try {
