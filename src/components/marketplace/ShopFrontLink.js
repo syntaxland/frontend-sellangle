@@ -6,7 +6,7 @@ import { getSellerShopfrontLink } from "../../actions/marketplaceSellerActions";
 import Loader from "../Loader";
 import Message from "../Message";
 import QRCode from "qrcode.react";
- 
+
 function ShopFrontLink() {
   const dispatch = useDispatch();
 
@@ -86,7 +86,7 @@ function ShopFrontLink() {
           })
           .catch((error) => console.error("Share failed:", error));
       } else {
-        downloadQRCode(); 
+        downloadQRCode();
       }
     });
   };
@@ -133,8 +133,24 @@ function ShopFrontLink() {
               </div>
               <hr />
               <h5 className="pt-3">Your Shopfront QR Code:</h5>
-              <div ref={shopfrontRef}>
-                <QRCode value={shopfrontLink} size={150} />
+              <div
+                ref={shopfrontRef}
+                style={{
+                  padding: "20px",
+                  backgroundColor: "#6c757d",
+                  width: "190px",
+                  height: "190px",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                }}
+              >
+                <QRCode
+                  value={shopfrontLink}
+                  size={150}
+                  bgColor="#fff"
+                  fgColor="blue"
+                  level="L"
+                />
               </div>
               <Button
                 variant="link"

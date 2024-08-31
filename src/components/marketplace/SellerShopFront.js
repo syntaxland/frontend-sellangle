@@ -40,7 +40,7 @@ function SellerShopFront() {
         <Col>
           <hr />
           <h1 className="text-center py-3">
-            <i className="fas fa-shopping-cart"></i> Seller Shop Front
+            <i className="fas fa-shopping-cart"></i> Seller Shopfront
           </h1>
           <hr />
 

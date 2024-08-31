@@ -12,7 +12,7 @@ import QRCode from "qrcode.react";
 
 function Referrals() {
   const dispatch = useDispatch();
-  const qrCodeRef = useRef(null); 
+  const qrCodeRef = useRef(null);
 
   const referralState = useSelector((state) => state.referral);
   const { referralLink, referralCode, referralError, loading } = referralState;
@@ -184,8 +184,28 @@ function Referrals() {
               </div>
               <hr />
               <h5 className="pt-3">Your Referral QR Code:</h5>
-              <div ref={qrCodeRef}>
+              {/* <div ref={qrCodeRef}>
                 <QRCode value={referralLink} size={150} />
+              </div> */}
+
+              <div
+                ref={qrCodeRef}
+                style={{
+                  padding: "20px",
+                  backgroundColor: "#6c757d",
+                  width: "190px",
+                  height: "190px",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                }}
+              >
+                <QRCode
+                  value={referralLink}
+                  size={150}
+                  bgColor="#fff"
+                  fgColor="green"
+                  level="L"
+                />
               </div>
               <Button
                 variant="link"

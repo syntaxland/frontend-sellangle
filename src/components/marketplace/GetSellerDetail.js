@@ -137,8 +137,8 @@ function GetSellerDetail({ match, seller_username }) {
                           )}
                           <strong>{sellerDetail?.seller_username}</strong>
                         </span>
-                        <ToggleFollowSeller sellerDetail={sellerDetail} />
                         {calculateLastSeen(sellerDetail?.user_last_login)}
+                        <ToggleFollowSeller sellerDetail={sellerDetail} />
                       </Col>
                       <Col md={6}>
                         <strong className="py-1">
