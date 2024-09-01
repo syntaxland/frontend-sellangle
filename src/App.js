@@ -83,6 +83,8 @@ import UserReplySupportTicket from "./components/support/UserReplySupportTicket"
 import AdminReplySupportTicket from "./components/support/AdminReplySupportTicket";
 import SupportTicket from "./components/support/SupportTicket";
 
+import IdleLogout from "./IdleLogout";
+
 function App() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -90,6 +92,7 @@ function App() {
   return (
     <Router>
       {/* <Router forceRefresh={true}> */}
+      <IdleLogout />
       <Container fluid>
         {/* <section class="container-fliud"> */}
         <Header userInfo={userInfo} />
