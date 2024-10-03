@@ -9,7 +9,7 @@ import { userRegisterReducers } from "./reducers/userReducers";
 import {
   marketplaceSellerAccountReducer,
   marketplaceSellerPhotoReducer,
-  getSellerAccountReducer,
+  getSellerAccountReducer, 
   updateSellerAccountReducer,
   getSellerPhotoReducer,
   updateSellerPhotoReducer,

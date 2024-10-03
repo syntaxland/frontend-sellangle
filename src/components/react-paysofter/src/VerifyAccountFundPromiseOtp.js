@@ -8,7 +8,7 @@ import ConfirmPaysofterPromise from "./ConfirmPaysofterPromise";
 import { PAYSOFTER_API_URL } from "./config/apiConfig";
 import axios from "axios";
 
-const VerifyAccountFundPromiseOtp = ({
+const VerifyAccountFundPromiseOtp = ({ 
   email,
   amount,
   paysofterPublicKey,

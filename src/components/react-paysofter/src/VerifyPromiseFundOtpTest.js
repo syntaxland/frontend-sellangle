@@ -8,7 +8,7 @@ import ConfirmPaysofterPromiseTest from "./ConfirmPaysofterPromiseTest";
 import { generateRandomNum } from "./GenerateRandomNum";
 import { PAYSOFTER_API_URL } from "./config/apiConfig";
 import axios from "axios";
-
+ 
 const VerifyPromiseFundOtpTest = ({
   email,
   amount,

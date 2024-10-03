@@ -8,7 +8,7 @@ import Loader from "./Loader";
 import { PAYSOFTER_API_URL } from "./config/apiConfig";
 import { generateRandomNum } from "./GenerateRandomNum";
 import axios from "axios";
-import SuccessScreenTest from "./SuccessScreenTest";
+import SuccessScreenTest from "./SuccessScreenTest"; 
 
 const VerifyAccountFundOtpTest = ({
   amount,
@@ -160,14 +160,14 @@ const VerifyAccountFundOtpTest = ({
     if (paymentSuccess && !hasHandledSuccess) {
       setHasHandledSuccess(true);
       setShowSuccessMessage(true);
-      handleOnSuccess();
+      // handleOnSuccess();
       setTimeout(() => {
         setShowSuccessMessage(false);
         localStorage.removeItem("debitAccountData");
         setShowSuccessScreen(true);
       }, 3000);
     }
-  }, [paymentSuccess, handleOnSuccess, hasHandledSuccess]);
+  }, [paymentSuccess, hasHandledSuccess]);
 
   return (
     <Container>

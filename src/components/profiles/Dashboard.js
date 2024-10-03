@@ -10,7 +10,7 @@ import { getCreditPointBalance } from "../../actions/creditPointActions";
 // import { getOrders } from "../../actions/orderActions";
 // import { Line, Pie } from "react-chartjs-2";
 import SellCps from "../CreditPoint/SellCps";
-import BuyCreditPoint from "../CreditPoint/BuyCreditPoint";
+import BuyCreditPoint from "../CreditPoint/BuyCreditPoint"; 
 
 import {
   Chart as ChartJS,

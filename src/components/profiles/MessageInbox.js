@@ -10,7 +10,7 @@ import {
 import Message from "../Message";
 import Loader from "../Loader";
 import DOMPurify from "dompurify";
-import Pagination from "../Pagination";
+import Pagination from "../Pagination"; 
 
 const MessageInbox = () => {
   const dispatch = useDispatch();
@@ -86,7 +86,7 @@ const MessageInbox = () => {
             <Loader />
           ) : (
             <>
-              {currentItems.length === 0 ? (
+              {currentItems?.length === 0 ? (
                 <div className="text-center py-3">
                   Inbox messages appear here.
                 </div>

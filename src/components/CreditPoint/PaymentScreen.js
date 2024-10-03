@@ -58,6 +58,7 @@ function PaymentScreen({
   };
 
   const handleOnSuccess = () => {
+    console.log("handling onSuccess...");
     const creditPointData = {
       amount: amount,
       currency: currency,

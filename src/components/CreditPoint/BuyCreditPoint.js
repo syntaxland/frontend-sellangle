@@ -11,7 +11,7 @@ import { getPaymentApiKeys } from "../../actions/paymentActions";
 import Loader from "../Loader";
 import PaymentScreen from "./PaymentScreen";
 import SelectCurrency from "./SelectCurrency";
-
+ 
 function BuyCreditPoint() {
   const dispatch = useDispatch();
 

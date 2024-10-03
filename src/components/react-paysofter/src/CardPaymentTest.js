@@ -10,7 +10,7 @@ import Loader from "./Loader";
 import { formatAmount } from "./FormatAmount";
 import { PAYSOFTER_API_URL } from "./config/apiConfig";
 import axios from "axios";
-import { generateRandomNum } from "./GenerateRandomNum";
+import { generateRandomNum } from "./GenerateRandomNum"; 
 import SuccessScreenTest from "./SuccessScreenTest";
 
 function CardPaymentTest({
@@ -149,13 +149,13 @@ function CardPaymentTest({
     if (paymentSuccess && !hasHandledSuccess) {
       setHasHandledSuccess(true);
       setShowSuccessMessage(true);
-      handleOnSuccess();
+      // handleOnSuccess();
       setTimeout(() => {
         setShowSuccessMessage(false);
         setShowSuccessScreen(true);
       }, 3000);
     }
-  }, [paymentSuccess, handleOnSuccess, hasHandledSuccess]);
+  }, [paymentSuccess, hasHandledSuccess]);
 
   return (
     <div>

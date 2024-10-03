@@ -1,6 +1,6 @@
 {
   "name": "frontend-sellangle",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -19,6 +19,7 @@
     "dompurify": "^3.0.5",
     "file-saver": "^2.0.5",
     "jspdf": "^2.5.1",
+    "mime-db": "^1.53.0",
     "moment": "^2.29.4",
     "qrcode.react": "^3.1.0",
     "rc-slider": "^10.5.0",
@@ -30,7 +31,7 @@
     "react-dom": "^18.2.0",
     "react-flags-select": "^2.2.3",
     "react-horizontal-scrolling-menu": "^4.1.1",
-    "react-paysofter": "^1.1.5",
+    "react-paysofter": "^1.1.6",
     "react-paystack": "^4.0.3",
     "react-phone-number-input": "^3.3.9",
     "react-quill": "^2.0.0",
@@ -73,5 +74,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-scope": "^8.0.2",
+    "webpack": "^5.94.0",
+    "webpack-dev-server": "^5.1.0"
   }
 }

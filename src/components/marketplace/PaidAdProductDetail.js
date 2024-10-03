@@ -9,7 +9,7 @@ import {
   Button,
   Card,
   Container,
-  Modal,
+  Modal, 
 } from "react-bootstrap";
 import RatingSeller from "../RatingSeller";
 import Loader from "../Loader";
@@ -602,8 +602,8 @@ function PaidAdProductDetail({ match }) {
                   onClose={onClose}
                   referenceId={`RID${Math.floor(Math.random() * 10000000000000000)}`}
                   showPromiseOption={true}
-                  showFundOption={true}
-                  showCardOption={true}
+                  // showFundOption={true}
+                  // showCardOption={true}
                 />
               )}
             </Col>

@@ -10,7 +10,7 @@ import AllPaidAdScreen from "./AllPaidAdScreen";
 import AllFreeAdScreen from "./AllFreeAdScreen";
 import SellerSearchCard from "./SellerSearchCard";
 import FilterBar from "./FilterBar";
-import {
+import { 
   getSellerUsernameSearch,
   getAllPaidAd,
   getAllFreeAd,
