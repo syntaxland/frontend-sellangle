@@ -70,7 +70,7 @@ function GetUsdBuyCreditPoint() {
                     {currentItems.map((cps, index) => (
                       <tr key={cps.id}>
                         <td>{index + 1}</td>
-                        <td>{cps.cps_purchase_id}</td>
+                        <td>{cps.usd_cps_purchase_id}</td>
                         <td>{cps.username}</td>
                         <td>USD {formatAmount(cps.amount)}</td>
                         <td style={{ color: "green" }}>

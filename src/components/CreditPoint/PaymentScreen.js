@@ -207,6 +207,8 @@ function PaymentScreen({
                     amount={amount}
                     email={email}
                     paystackPublicKey={paystackPublicKey}
+                    onSuccess={onSuccess}
+                    onClose={onClose}
                   />
                 )}
               </div>

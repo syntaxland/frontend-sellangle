@@ -52,7 +52,7 @@ function Paystack({
   // };
 
   // const onSuccess = () => {
-  //   handlePayment();
+  //   handlePayment(); 
   // };
 
   const paymentObject = {
