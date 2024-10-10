@@ -17,6 +17,20 @@ function RegisterScreen({ location }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [successMessage, setSuccessMessage] = useState("");
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (userInfo && userInfo.is_verified) {
+      setSuccessMessage("You are already logged in.");
+      const timer = setTimeout(() => {
+        history.push("/");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [userInfo, history]);
+
   const [firstName, setFirstName] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
 
@@ -237,6 +251,10 @@ function RegisterScreen({ location }) {
       <Row className="justify-content-center">
         <Col md={6}>
           <h1 className="text-center">Register</h1>
+
+          {successMessage && (
+            <Message variant="success">{successMessage}</Message>
+          )}
 
           {success && (
             <Message fixed variant="success">

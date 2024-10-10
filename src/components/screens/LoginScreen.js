@@ -19,7 +19,7 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // const redirect = location.search ? location.search.split("=")[1] : "/";
+  // const redirect = location.search ? location.search.split("=")[1] : "/"; 
 
   const userLogin = useSelector((state) => state.userLogin);
   const {
@@ -32,6 +32,16 @@ function LoginScreen() {
   // const handleGoogleLoginClick = () => {
   //   setShowGoogleLogin(true);
   // };
+
+  useEffect(() => {
+    if (userInfo && userInfo.is_verified) {
+      setSuccessMessage("You are already logged in.");
+      const timer = setTimeout(() => {
+        history.push("/");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [userInfo, history]);
 
   useEffect(() => {
     if (userInfo) {
